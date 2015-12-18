@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.elements.MiniZincElement;
 
 /**
@@ -43,6 +44,13 @@ public class MiniZincModelBuilder implements IMiniZincModelBuilder {
   private IntSet createIntSet(IntSet is) {
     addElement(is);
     return is;
+  }
+
+  @Override
+  public IntVar createIntVar(String name, IntSet type) {
+    IntVar v = new IntVar(name, type);
+    addElement(v);
+    return v;
   }
 
   private void addElement(MiniZincElement element) {

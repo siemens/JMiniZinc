@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.elements.MiniZincElement;
 
 /**
@@ -44,6 +45,15 @@ public interface IMiniZincModelBuilder {
    * @return a reference to this set for future use.
    */
   IntSet createIntSet(String name, IntConstant lb, IntConstant ub);
+
+  /**
+   * Creates an integer variable in the MiniZinc model.
+   * 
+   * @param string
+   * @param allIntegers
+   * @return a reference to this constant for future use.
+   */
+  IntVar createIntVar(String string, IntSet allIntegers);
 
   /**
    * Streams the elements that have been built.
