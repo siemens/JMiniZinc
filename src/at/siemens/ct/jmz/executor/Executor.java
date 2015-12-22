@@ -24,6 +24,7 @@ public class Executor implements IExecutor {
   private Process runningProcess;
   private File temporaryModelFile;
   private String lastSolverOutput;
+  private String lastSolverErrors;
 
   public Executor(IModelWriter modelWriter) {
     super();
@@ -56,15 +57,18 @@ public class Executor implements IExecutor {
       throw new IllegalStateException("No running process.");
     }
 
-    BufferedReader reader = new BufferedReader(
+    BufferedReader outputReader = new BufferedReader(
         new InputStreamReader(runningProcess.getInputStream()));
+    BufferedReader errorReader = new BufferedReader(
+        new InputStreamReader(runningProcess.getErrorStream()));
 
     try {
       runningProcess.waitFor();
     } catch (InterruptedException e) {
     }
 
-    lastSolverOutput = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+    lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
+    lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
 
     removeCurrentModelFile();
   }
@@ -72,6 +76,11 @@ public class Executor implements IExecutor {
   @Override
   public String getLastSolverOutput() {
     return lastSolverOutput;
+  }
+
+  @Override
+  public String getLastSolverErrors() {
+    return lastSolverErrors;
   }
 
   private void removeCurrentModelFile() {

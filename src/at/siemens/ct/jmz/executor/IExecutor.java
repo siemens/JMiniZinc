@@ -38,4 +38,9 @@ public interface IExecutor {
    */
   String getLastSolverOutput();
 
+  /**
+   * @return the error messages generated during the last solver run.
+   */
+  String getLastSolverErrors();
+
 }
