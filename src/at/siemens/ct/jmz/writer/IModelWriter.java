@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
+
 public interface IModelWriter {
 
   /**
@@ -31,5 +33,9 @@ public interface IModelWriter {
    * Writes the element declarations to an {@link OutputStream}, each in a separate line.
    */
   void toOutputStream(OutputStream outputStream);
+
+  SolvingStrategy getSolvingStrategy();
+
+  void setSolvingStrategy(SolvingStrategy solvingStrategy);
 
 }

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.SolvingStrategy;
+import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
 /**
  * Provides methods that write models built by a {@link IModelBuilder} somewhere.
@@ -27,10 +27,18 @@ public class ModelWriter implements IModelWriter {
   private IModelBuilder modelBuilder;
   private SolvingStrategy solvingStrategy;
 
-  public ModelWriter(IModelBuilder modelBuilder,
-      SolvingStrategy solvingStrategy) {
+  public ModelWriter(IModelBuilder modelBuilder) {
     super();
     this.modelBuilder = modelBuilder;
+  }
+
+  @Override
+  public SolvingStrategy getSolvingStrategy() {
+    return solvingStrategy;
+  }
+
+  @Override
+  public void setSolvingStrategy(SolvingStrategy solvingStrategy) {
     this.solvingStrategy = solvingStrategy;
   }
 

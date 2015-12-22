@@ -46,4 +46,8 @@ public class IntVar implements Element {
     return new IntVar(name, IntSet.ALL_INTEGERS, new SumExpression(summands)); // TODO: tighter domain bounds?
   }
 
+  public String getName() {
+    return name;
+  }
+
 }

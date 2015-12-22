@@ -11,7 +11,7 @@ import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.SolvingStrategy;
+import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 
@@ -24,13 +24,13 @@ import at.siemens.ct.jmz.writer.ModelWriter;
 public class TestExecutor {
 
   private IModelBuilder modelBuilder = new ModelBuilder();
-  private IModelWriter modelWriter = new ModelWriter(modelBuilder,
-      SolvingStrategy.SOLVE_SATISFY);
+  private IModelWriter modelWriter = new ModelWriter(modelBuilder);
   private IExecutor executor = new Executor(modelWriter);
 
   @Before
   public void setUp() {
     modelBuilder.reset();
+    modelWriter.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
   }
 
   @Test

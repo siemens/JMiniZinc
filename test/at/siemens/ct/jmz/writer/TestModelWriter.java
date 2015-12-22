@@ -15,7 +15,9 @@ import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.elements.NullSolvingStrategy;
+import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.elements.solving.OptimizationType;
+import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
 /**
  * Tests {@link ModelWriter}
@@ -26,12 +28,12 @@ import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 public class TestModelWriter {
 
   private IModelBuilder modelBuilder = new ModelBuilder();
-  private IModelWriter modelWriter = new ModelWriter(modelBuilder,
-      new NullSolvingStrategy());
+  private IModelWriter modelWriter = new ModelWriter(modelBuilder);
 
   @Before
   public void setUp() {
     modelBuilder.reset();
+    modelWriter.setSolvingStrategy(SolvingStrategy.NULL);
   }
 
   /**
@@ -143,6 +145,45 @@ public class TestModelWriter {
     expectedOutput.append(
         "array[" + setRangeName + "] of var int: " + arrayName + ";");
     Assert.assertEquals(expectedOutput.toString(), output);
+  }
+
+  /**
+   * Creates one integer variable and a minimization statement, writes their declarations to a string and checks the
+   * result.
+   */
+  @Test
+  public void testMinimizeToString() {
+    testOptimizeToString(OptimizationType.MIN);
+  }
+
+  /**
+   * Creates one integer variable and a maximization statement, writes their declarations to a string and checks the
+   * result.
+   */
+  @Test
+  public void testMaximizeToString() {
+    testOptimizeToString(OptimizationType.MAX);
+  }
+
+  private void testOptimizeToString(OptimizationType type) {
+    IntVar i = modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    modelWriter.setSolvingStrategy(SolvingStrategy.optimize(type, i));
+
+    StringBuilder expectedOutput = new StringBuilder();
+    expectedOutput.append("var int: i;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append("solve ");
+
+    switch (type) {
+    case MIN:
+      expectedOutput.append("minimize");
+      break;
+    case MAX:
+      expectedOutput.append("maximize");
+    }
+
+    expectedOutput.append(" i;");
+    Assert.assertEquals(expectedOutput.toString(), modelWriter.toString());
   }
 
 }
