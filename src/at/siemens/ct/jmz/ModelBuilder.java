@@ -36,6 +36,13 @@ public class ModelBuilder implements IModelBuilder {
   }
 
   @Override
+  public IntArrayVar createIntArrayVar(String name, IntSet range, IntSet type) {
+    IntArrayVar iav = new IntArrayVar(name, range, type);
+    addElement(iav);
+    return iav;
+  }
+
+  @Override
   public IntSet createIntSet(String name, int lb, int ub) {
     return createIntSet(new IntSet(name, lb, ub));
   }
@@ -43,6 +50,13 @@ public class ModelBuilder implements IModelBuilder {
   @Override
   public IntSet createIntSet(String name, int lb, IntConstant ub) {
     return createIntSet(new IntSet(name, lb, ub));
+  }
+
+  @Override
+  public IntSet createIntSet(String name, int lb, String ubName, int ubValue) {
+    IntConstant constUB = new IntConstant(ubName, ubValue);
+    addElement(constUB);
+    return createIntSet(name, lb, constUB);
   }
 
   @Override

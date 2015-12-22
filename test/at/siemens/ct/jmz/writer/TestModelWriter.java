@@ -125,4 +125,23 @@ public class TestModelWriter {
     Assert.assertEquals(expectedOutput.toString(), output);
   }
 
+  /**
+   * Creates an array of integer variables, writes its declaration to a string and checks the result.
+   */
+  @Test
+  public void testCreateIntArrayVarToString() {
+    String setRangeName = "Range";
+    String arrayName = "a";
+    IntSet setRange = modelBuilder.createIntSet(setRangeName, 1, 3);
+    modelBuilder.createIntArrayVar(arrayName, setRange, IntSet.ALL_INTEGERS);
+    String output = modelWriter.toString();
+
+    StringBuilder expectedOutput = new StringBuilder();
+    expectedOutput.append("set of int: Range = 1..3;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append(
+        "array[" + setRangeName + "] of var int: " + arrayName + ";");
+    Assert.assertEquals(expectedOutput.toString(), output);
+  }
+
 }

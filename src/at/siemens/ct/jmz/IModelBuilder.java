@@ -20,6 +20,8 @@ public interface IModelBuilder {
    * Creates an integer constant in the MiniZinc model.
    * 
    * @return a reference to this constant for future use.
+   * 
+   * @see IntConstant#IntConstant(String, Integer)
    */
   IntConstant createIntConstant(String name, int value);
 
@@ -27,8 +29,19 @@ public interface IModelBuilder {
    * Creates an array of integer constants in the MiniZinc model.
    * 
    * @return a reference to this constant for future use.
+   * 
+   * @see IntArrayConstant#IntArrayConstant(String, IntSet, IntSet, int[])
    */
   IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type, int[] values);
+
+  /**
+   * Creates an array of integer variables in the MiniZinc model.
+   * 
+   * @return a reference to this constant for future use.
+   * 
+   * @see IntArrayVar#IntArrayVar(String, IntSet, IntSet)
+   */
+  IntArrayVar createIntArrayVar(String name, IntSet range, IntSet type);
 
   /**
    * @see this{@link #createIntSet(String, IntConstant, IntConstant)}
@@ -41,6 +54,20 @@ public interface IModelBuilder {
   IntSet createIntSet(String name, int lb, IntConstant ub);
 
   /**
+   * Creates a set of integers, using {@code lb} as the lower bound and a newly created {@link IntConstant} using
+   * {@code ubName} and {@code ubValue} as the upper bound.
+   * 
+   * @param name
+   * @param lb
+   * @param ubName
+   * @param ubValue
+   * @return a reference to this set for future use.
+   * 
+   * @see #createIntSet(String, IntConstant, IntConstant)
+   */
+  IntSet createIntSet(String name, int lb, String ubName, int ubValue);
+
+  /**
    * Creates a set of integers with the given bounds in the MiniZinc model.
    * 
    * @param name
@@ -49,6 +76,8 @@ public interface IModelBuilder {
    * @param ub
    *          the upper bound
    * @return a reference to this set for future use.
+   * 
+   * @see IntSet#IntSet(String, IntConstant, IntConstant)
    */
   IntSet createIntSet(String name, IntConstant lb, IntConstant ub);
 
@@ -56,6 +85,8 @@ public interface IModelBuilder {
    * Creates an integer variable in the MiniZinc model.
    * 
    * @return a reference to this constant for future use.
+   * 
+   * @see IntVar#IntVar(String, IntSet)
    */
   IntVar createIntVar(String string, IntSet type);
 
