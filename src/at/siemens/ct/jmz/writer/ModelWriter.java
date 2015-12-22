@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.writer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -42,18 +41,24 @@ public class ModelWriter implements IModelWriter {
   }
 
   @Override
-  public void toFile(File file) throws FileNotFoundException {
-    toOutputStream(new FileOutputStream(file));
+  public void toFile(File file) throws IOException {
+    FileOutputStream outputStream = new FileOutputStream(file);
+    try {
+      toOutputStream(outputStream);
+    } finally {
+      outputStream.close();
+    }
   }
 
+  /**
+   * {@inheritDoc}<br>
+   * Flushes the output stream after writing, but does not close it.
+   */
   @Override
   public void toOutputStream(OutputStream outputStream) {
     PrintWriter writer = new PrintWriter(outputStream);
-    try {
-      allElements().forEach(element -> writer.println(element.declare()));
-    } finally {
-      writer.close();
-    }
+    allElements().forEach(element -> writer.println(element.declare()));
+    writer.flush();
   }
 
   @Override

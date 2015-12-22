@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.writer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -15,8 +14,10 @@ public interface IModelWriter {
 
   /**
    * Writes the element declarations to a {@link File}, each in a separate line.
+   * 
+   * @throws IOException
    */
-  void toFile(File file) throws FileNotFoundException;
+  void toFile(File file) throws IOException;
 
   /**
    * Writes the element declarations to a temporary {@link File}, each in a separate line.
