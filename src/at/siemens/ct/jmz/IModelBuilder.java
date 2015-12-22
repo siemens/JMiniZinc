@@ -2,10 +2,11 @@ package at.siemens.ct.jmz;
 
 import java.util.stream.Stream;
 
+import at.siemens.ct.jmz.elements.Element;
+import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.Element;
 
 /**
  * An interface for MiniZinc model builders.
@@ -18,11 +19,16 @@ public interface IModelBuilder {
   /**
    * Creates an integer constant in the MiniZinc model.
    * 
-   * @param name
-   * @param value
    * @return a reference to this constant for future use.
    */
   IntConstant createIntConstant(String name, int value);
+
+  /**
+   * Creates an array of integer constants in the MiniZinc model.
+   * 
+   * @return a reference to this constant for future use.
+   */
+  IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type, int[] values);
 
   /**
    * @see this{@link #createIntSet(String, IntConstant, IntConstant)}
@@ -49,11 +55,9 @@ public interface IModelBuilder {
   /**
    * Creates an integer variable in the MiniZinc model.
    * 
-   * @param string
-   * @param allIntegers
    * @return a reference to this constant for future use.
    */
-  IntVar createIntVar(String string, IntSet allIntegers);
+  IntVar createIntVar(String string, IntSet type);
 
   /**
    * Streams the elements that have been built.

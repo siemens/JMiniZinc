@@ -3,6 +3,7 @@ package at.siemens.ct.jmz.writer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -101,6 +102,26 @@ public class TestModelWriter {
     expectedOutput.append(System.lineSeparator());
     expectedOutput.append("var OneTwoThree: i;");
 
+    Assert.assertEquals(expectedOutput.toString(), output);
+  }
+
+  /**
+   * Creates an array of integer constants, writes its declaration to a string and checks the result.
+   */
+  @Test
+  public void testCreateIntArrayConstantToString() {
+    String setRangeName = "Range";
+    String arrayName = "a";
+    IntSet setRange = modelBuilder.createIntSet(setRangeName, 1, 3);
+    int[] values = new int[] { 1, 2, 3 };
+    modelBuilder.createIntArrayConstant(arrayName, setRange, IntSet.ALL_INTEGERS, values);
+    String output = modelWriter.toString();
+
+    StringBuilder expectedOutput = new StringBuilder();
+    expectedOutput.append("set of int: Range = 1..3;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append(
+        "array[" + setRangeName + "] of int: " + arrayName + " = " + Arrays.toString(values) + ";");
     Assert.assertEquals(expectedOutput.toString(), output);
   }
 
