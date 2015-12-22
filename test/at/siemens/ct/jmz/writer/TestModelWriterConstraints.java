@@ -44,7 +44,7 @@ public class TestModelWriterConstraints {
     Set<Integer> allowedValues = new HashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);
-    modelBuilder.addConstraint(new ArrayElementInSet(arrayVar, 1, allowedValues));
+    modelBuilder.add(new ArrayElementInSet(arrayVar, 1, allowedValues));
     String output = modelWriter.toString();
 
     StringBuilder expectedOutput = new StringBuilder();

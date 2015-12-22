@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
-import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Represents an array of integer constants.
@@ -13,7 +13,7 @@ public class IntArrayConstant implements Element {
   private String name;
   private IntSet range;
   private IntSet type;
-  private int[] values;
+  private Collection<Integer> values;
 
   /**
    * Creates an array of integer constants.
@@ -25,9 +25,9 @@ public class IntArrayConstant implements Element {
    * @param type
    *          the type of each integer (may be infinite)
    * @param values
-   *          the array of actual values
+   *          the collection of actual values
    */
-  public IntArrayConstant(String name, IntSet range, IntSet type, int[] values) {
+  public IntArrayConstant(String name, IntSet range, IntSet type, Collection<Integer> values) {
     this.name = name;
     this.range = range;
     this.type = type;
@@ -37,7 +37,11 @@ public class IntArrayConstant implements Element {
   @Override
   public String declare() {
     return String.format("array[%s] of %s: %s = %s;", range.getName(), type.getName(), name,
-        Arrays.toString(values));
+        values.toString());
+  }
+
+  public String getName() {
+    return name;
   }
 
 }

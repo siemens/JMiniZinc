@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -9,7 +10,7 @@ import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
 /**
  * A MiniZinc model builder.
@@ -44,7 +45,7 @@ public class ModelBuilder implements IModelBuilder {
 
   @Override
   public IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type,
-      int[] values) {
+      Collection<Integer> values) {
     IntArrayConstant iac = new IntArrayConstant(name, range, type, values);
     addElement(iac);
     return iac;
@@ -53,6 +54,14 @@ public class ModelBuilder implements IModelBuilder {
   @Override
   public IntArrayVar createIntArrayVar(String name, IntSet range, IntSet type) {
     IntArrayVar iav = new IntArrayVar(name, range, type);
+    addElement(iav);
+    return iav;
+  }
+
+  @Override
+  public IntArrayVar createIntArrayVar(String name, IntSet range, IntSet type,
+      ListComprehension comprehension) {
+    IntArrayVar iav = new IntArrayVar(name, range, type, comprehension);
     addElement(iav);
     return iav;
   }
@@ -92,8 +101,10 @@ public class ModelBuilder implements IModelBuilder {
   }
 
   @Override
-  public void addConstraint(Constraint constraint) {
-    addElement(constraint);
+  public void add(Element... elements) {
+    for (Element element : elements) {
+      addElement(element);
+    }
   }
 
 }

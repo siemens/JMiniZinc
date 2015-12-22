@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -113,7 +114,7 @@ public class TestModelWriter {
     String setRangeName = "Range";
     String arrayName = "a";
     IntSet setRange = modelBuilder.createIntSet(setRangeName, 1, 3);
-    int[] values = new int[] { 1, 2, 3 };
+    List<Integer> values = Arrays.asList(1, 2, 3);
     modelBuilder.createIntArrayConstant(arrayName, setRange, IntSet.ALL_INTEGERS, values);
     String output = modelWriter.toString();
 
@@ -121,7 +122,7 @@ public class TestModelWriter {
     expectedOutput.append("set of int: Range = 1..3;");
     expectedOutput.append(System.lineSeparator());
     expectedOutput.append(
-        "array[" + setRangeName + "] of int: " + arrayName + " = " + Arrays.toString(values) + ";");
+        "array[" + setRangeName + "] of int: " + arrayName + " = " + values.toString() + ";");
     Assert.assertEquals(expectedOutput.toString(), output);
   }
 

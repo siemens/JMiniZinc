@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz;
 
+import java.util.Collection;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
@@ -7,7 +8,7 @@ import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
 /**
  * An interface for MiniZinc model builders.
@@ -43,7 +44,8 @@ public interface IModelBuilder {
    * 
    * @see IntArrayConstant#IntArrayConstant(String, IntSet, IntSet, int[])
    */
-  IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type, int[] values);
+  IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type,
+      Collection<Integer> values);
 
   /**
    * Creates an array of integer variables in the MiniZinc model.
@@ -53,6 +55,14 @@ public interface IModelBuilder {
    * @see IntArrayVar#IntArrayVar(String, IntSet, IntSet)
    */
   IntArrayVar createIntArrayVar(String name, IntSet range, IntSet type);
+
+  /**
+   * Creates an array of integer variables in the MiniZinc model and assigns a {@link ListComprehension} to it.
+   * 
+   * @see #createIntArrayVar(String, IntSet, IntSet)
+   */
+  IntArrayVar createIntArrayVar(String name, IntSet range, IntSet type,
+      ListComprehension comprehension);
 
   /**
    * @see this{@link #createIntSet(String, IntConstant, IntConstant)}
@@ -102,8 +112,8 @@ public interface IModelBuilder {
   IntVar createIntVar(String string, IntSet type);
 
   /**
-   * Adds the given constraint to the MiniZinc model.
+   * Adds the given elements to the MiniZinc model.
    */
-  void addConstraint(Constraint constraint);
+  void add(Element... elements);
 
 }

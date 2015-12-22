@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.elements;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class IntSet implements Element {
 
   /**
@@ -33,6 +36,17 @@ public class IntSet implements Element {
 
   public String getName() {
     return name;
+  }
+
+  /**
+   * Creates a set with the given name covering the given values ({@code min(possibleValues)..max(possibleValues)}).
+   * 
+   * @param name
+   * @param possibleValues
+   * @return a reference to the created set.
+   */
+  public static IntSet deriveRange(String name, Collection<Integer> possibleValues) {
+    return new IntSet(name, Collections.min(possibleValues), Collections.max(possibleValues));
   }
 
 }
