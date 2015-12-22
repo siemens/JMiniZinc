@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
-public class IntVar implements MiniZincElement {
+public class IntVar implements Element {
 
   private String name;
   private IntSet type;

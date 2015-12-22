@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.MiniZincElement;
+import at.siemens.ct.jmz.elements.Element;
 
 /**
  * A MiniZinc model builder.
@@ -15,9 +15,9 @@ import at.siemens.ct.jmz.elements.MiniZincElement;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class MiniZincModelBuilder implements IMiniZincModelBuilder {
+public class ModelBuilder implements IModelBuilder {
 
-  private List<MiniZincElement> elements = new LinkedList<>();
+  private List<Element> elements = new LinkedList<>();
 
   @Override
   public IntConstant createIntConstant(String name, int value) {
@@ -53,12 +53,12 @@ public class MiniZincModelBuilder implements IMiniZincModelBuilder {
     return v;
   }
 
-  private void addElement(MiniZincElement element) {
+  private void addElement(Element element) {
     elements.add(element);
   }
 
   @Override
-  public Stream<MiniZincElement> elements() {
+  public Stream<Element> elements() {
     return elements.stream();
   }
 

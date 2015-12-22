@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.MiniZincElement;
+import at.siemens.ct.jmz.elements.Element;
 
 /**
  * An interface for MiniZinc model builders.
@@ -13,7 +13,7 @@ import at.siemens.ct.jmz.elements.MiniZincElement;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public interface IMiniZincModelBuilder {
+public interface IModelBuilder {
 
   /**
    * Creates an integer constant in the MiniZinc model.
@@ -58,7 +58,7 @@ public interface IMiniZincModelBuilder {
   /**
    * Streams the elements that have been built.
    */
-  Stream<MiniZincElement> elements();
+  Stream<Element> elements();
 
   /**
    * Removes all created elements.

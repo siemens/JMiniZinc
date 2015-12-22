@@ -9,20 +9,23 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.IMiniZincModelBuilder;
-import at.siemens.ct.jmz.MiniZincModelBuilder;
+import at.siemens.ct.jmz.IModelBuilder;
+import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.IntConstant;
+import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 
 /**
- * Tests {@link MiniZincModelWriter}
+ * Tests {@link ModelWriter}
  * 
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class TestMiniZincModelWriter {
+public class TestModelWriter {
 
-  private IMiniZincModelBuilder modelBuilder = new MiniZincModelBuilder();
-  private IMiniZincModelWriter modelWriter = new MiniZincModelWriter(modelBuilder);
+  private IModelBuilder modelBuilder = new ModelBuilder();
+  private IModelWriter modelWriter = new ModelWriter(modelBuilder,
+      new NullSolvingStrategy());
 
   @Before
   public void setUp() {
@@ -70,6 +73,33 @@ public class TestMiniZincModelWriter {
     expectedOutput.append("int: i = 2;");
     expectedOutput.append(System.lineSeparator());
     expectedOutput.append("set of int: s = 1..i;");
+
+    Assert.assertEquals(expectedOutput.toString(), output);
+  }
+
+  /**
+   * Creates a variable whose type is the set of all integers, writes its declaration to a string and checks the result.
+   */
+  @Test
+  public void testCreateIntVarToString() {
+    modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    String output = modelWriter.toString();
+    Assert.assertEquals("var int: i;", output);
+  }
+
+  /**
+   * Creates a variable whose type is a set of integers, writes its declaration to a string and checks the result.
+   */
+  @Test
+  public void testCreateRestrictedIntVarToString() {
+    IntSet setOneTwoThree = modelBuilder.createIntSet("OneTwoThree", 1, 3);
+    modelBuilder.createIntVar("i", setOneTwoThree);
+    String output = modelWriter.toString();
+
+    StringBuilder expectedOutput = new StringBuilder();
+    expectedOutput.append("set of int: OneTwoThree = 1..3;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append("var OneTwoThree: i;");
 
     Assert.assertEquals(expectedOutput.toString(), output);
   }

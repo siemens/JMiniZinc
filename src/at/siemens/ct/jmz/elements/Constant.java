@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
-public abstract class Constant implements MiniZincElement {
+public abstract class Constant implements Element {
   protected String name;
   protected Number value;
 

@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
-public class IntSet implements MiniZincElement {
+public class IntSet implements Element {
 
   /**
    * Represents the set of all integers
