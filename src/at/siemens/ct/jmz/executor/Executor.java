@@ -44,9 +44,9 @@ public class Executor implements IExecutor {
   public Process startProcess() throws IOException {
     temporaryModelFile = modelWriter.toTempFile();
     String command = pathToExecutable; // TODO: add more parameters, abstract parameter adding
-    // TODO: use java.lang.ProcessBuilder.ProcessBuilder(List<String>)
-    command += " " + temporaryModelFile.getAbsolutePath();
-    runningProcess = Runtime.getRuntime().exec(command);
+    ProcessBuilder processBuilder = new ProcessBuilder(command,
+        temporaryModelFile.getAbsolutePath());
+    runningProcess = processBuilder.start();
     return runningProcess;
   }
 
