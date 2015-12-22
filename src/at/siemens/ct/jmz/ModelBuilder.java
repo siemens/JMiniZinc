@@ -9,6 +9,7 @@ import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
  * A MiniZinc model builder.
@@ -19,6 +20,20 @@ import at.siemens.ct.jmz.elements.IntVar;
 public class ModelBuilder implements IModelBuilder {
 
   private List<Element> elements = new LinkedList<>();
+
+  private void addElement(Element element) {
+    elements.add(element);
+  }
+
+  @Override
+  public Stream<Element> elements() {
+    return elements.stream();
+  }
+
+  @Override
+  public void reset() {
+    elements.clear();
+  }
 
   @Override
   public IntConstant createIntConstant(String name, int value) {
@@ -76,18 +91,9 @@ public class ModelBuilder implements IModelBuilder {
     return v;
   }
 
-  private void addElement(Element element) {
-    elements.add(element);
-  }
-
   @Override
-  public Stream<Element> elements() {
-    return elements.stream();
-  }
-
-  @Override
-  public void reset() {
-    elements.clear();
+  public void addConstraint(Constraint constraint) {
+    addElement(constraint);
   }
 
 }

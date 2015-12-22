@@ -30,4 +30,8 @@ public class IntArrayVar implements Element {
     return String.format("array[%s] of var %s: %s;", range.getName(), type.getName(), name);
   }
 
+  public String getName() {
+    return name;
+  }
+
 }

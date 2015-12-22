@@ -7,6 +7,7 @@ import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
  * An interface for MiniZinc model builders.
@@ -15,6 +16,16 @@ import at.siemens.ct.jmz.elements.IntVar;
  *
  */
 public interface IModelBuilder {
+
+  /**
+   * Streams the elements that have been built.
+   */
+  Stream<Element> elements();
+
+  /**
+   * Removes all created elements.
+   */
+  void reset();
 
   /**
    * Creates an integer constant in the MiniZinc model.
@@ -91,13 +102,8 @@ public interface IModelBuilder {
   IntVar createIntVar(String string, IntSet type);
 
   /**
-   * Streams the elements that have been built.
+   * Adds the given constraint to the MiniZinc model.
    */
-  Stream<Element> elements();
-
-  /**
-   * Removes all created elements.
-   */
-  void reset();
+  void addConstraint(Constraint constraint);
 
 }
