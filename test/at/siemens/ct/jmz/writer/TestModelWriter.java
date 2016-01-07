@@ -16,6 +16,7 @@ import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.elements.output.OutputAllVariables;
 import at.siemens.ct.jmz.elements.solving.OptimizationType;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
@@ -183,6 +184,41 @@ public class TestModelWriter {
     }
 
     expectedOutput.append(" i;");
+    Assert.assertEquals(expectedOutput.toString(), modelWriter.toString());
+  }
+
+  /**
+   * Creates a variable whose type is the set of all integers, writes its declaration and an {@link OutputAllVariables}
+   * output statement to a string and checks the result.
+   */
+  @Test
+  public void testCreateIntVarAndOutputStatementToString() {
+    modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    modelWriter.setOutputStatement(new OutputAllVariables(modelBuilder.elements()));
+
+    StringBuilder expectedOutput = new StringBuilder();
+    expectedOutput.append("var int: i;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append("output [\"i = \\(i);\\n\"];");
+    Assert.assertEquals(expectedOutput.toString(), modelWriter.toString());
+  }
+
+  /**
+   * Creates two integer variables, writes their declarations and an {@link OutputAllVariables} output statement to a
+   * string and checks the result.
+   */
+  @Test
+  public void testCreateTwoIntVarsAndOutputStatementToString() {
+    modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    modelBuilder.createIntVar("j", IntSet.ALL_INTEGERS);
+    modelWriter.setOutputStatement(new OutputAllVariables(modelBuilder.elements()));
+
+    StringBuilder expectedOutput = new StringBuilder();
+    expectedOutput.append("var int: i;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append("var int: j;");
+    expectedOutput.append(System.lineSeparator());
+    expectedOutput.append("output [\"i = \\(i);\\n\", \"j = \\(j);\\n\"];");
     Assert.assertEquals(expectedOutput.toString(), modelWriter.toString());
   }
 

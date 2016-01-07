@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
+import at.siemens.ct.jmz.elements.output.OutputStatement;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
 /**
@@ -26,6 +27,7 @@ public class ModelWriter implements IModelWriter {
 
   private IModelBuilder modelBuilder;
   private SolvingStrategy solvingStrategy;
+  private OutputStatement outputStatement;
 
   public ModelWriter(IModelBuilder modelBuilder) {
     super();
@@ -40,6 +42,16 @@ public class ModelWriter implements IModelWriter {
   @Override
   public void setSolvingStrategy(SolvingStrategy solvingStrategy) {
     this.solvingStrategy = solvingStrategy;
+  }
+
+  @Override
+  public OutputStatement getOutputStatement() {
+    return outputStatement;
+  }
+
+  @Override
+  public void setOutputStatement(OutputStatement outputStatement) {
+    this.outputStatement = outputStatement;
   }
 
   @Override
@@ -77,8 +89,8 @@ public class ModelWriter implements IModelWriter {
   }
 
   private Stream<Element> allElements() {
-    return Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy))
-        .filter(s -> s.declare() != null);
+    return Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement))
+        .filter(s -> s != null).filter(s -> s.declare() != null);
   }
 
 }
