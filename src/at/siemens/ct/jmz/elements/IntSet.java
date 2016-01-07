@@ -31,11 +31,18 @@ public class IntSet implements Element {
 
   @Override
   public String declare() {
-    return String.format("set of int: %s = %s..%s;", name, lb.nameOrValue(), ub.nameOrValue());
+    return String.format("set of int: %s = %s;", name, getRange());
   }
 
-  public String getName() {
-    return name;
+  /**
+   * @return the name of this set, if it is not {@code null}, or else its range in the form {@code lb..ub}.
+   */
+  public String nameOrRange() {
+    return name != null ? name : getRange();
+  }
+
+  private String getRange() {
+    return String.format("%s..%s", lb.nameOrValue(), ub.nameOrValue());
   }
 
   /**
@@ -52,6 +59,18 @@ public class IntSet implements Element {
   @Override
   public boolean isVariable() {
     return false;
+  }
+
+  protected String getName() {
+    return name;
+  }
+
+  protected IntConstant getLb() {
+    return lb;
+  }
+
+  protected IntConstant getUb() {
+    return ub;
   }
 
 }

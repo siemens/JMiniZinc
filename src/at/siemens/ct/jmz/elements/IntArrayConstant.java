@@ -36,7 +36,7 @@ public class IntArrayConstant implements Element {
 
   @Override
   public String declare() {
-    return String.format("array[%s] of %s: %s = %s;", range.getName(), type.getName(), name,
+    return String.format("array[%s] of %s: %s = %s;", range.nameOrRange(), type.nameOrRange(), name,
         values.toString());
   }
 

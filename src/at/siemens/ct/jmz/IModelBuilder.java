@@ -43,10 +43,15 @@ public interface IModelBuilder {
    * 
    * @return a reference to this constant for future use.
    * 
-   * @see IntArrayConstant#IntArrayConstant(String, IntSet, IntSet, int[])
+   * @see IntArrayConstant#IntArrayConstant(String, IntSet, IntSet, Collection)
    */
   IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type,
       Collection<Integer> values);
+
+  /**
+   * @see #createIntArrayConstant(String, IntSet, IntSet, Collection)
+   */
+  IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type, int[] values);
 
   /**
    * Creates an array of integer variables in the MiniZinc model.

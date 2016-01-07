@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntArrayVar;
@@ -50,6 +51,12 @@ public class ModelBuilder implements IModelBuilder {
     IntArrayConstant iac = new IntArrayConstant(name, range, type, values);
     addElement(iac);
     return iac;
+  }
+
+  @Override
+  public IntArrayConstant createIntArrayConstant(String name, IntSet range, IntSet type,
+      int[] values) {
+    return createIntArrayConstant(name, range, type, ListUtils.fromArray(values));
   }
 
   @Override

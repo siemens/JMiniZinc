@@ -21,7 +21,7 @@ public class IntVar extends Variable {
   @Override
   public String declare() {
     StringBuilder declaration = new StringBuilder();
-    declaration.append(String.format("var %s: %s", type.getName(), name));
+    declaration.append(String.format("var %s: %s", type.nameOrRange(), name));
 
     if (value != null) {
       declaration.append(" = ");
