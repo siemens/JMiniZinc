@@ -3,7 +3,7 @@ package at.siemens.ct.jmz.elements.constraints;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.IntArrayVar;
+import at.siemens.ct.jmz.elements.IntArrayVar;
 
 /**
  * Constrains the value of a specific array element to be an element of a specific set.

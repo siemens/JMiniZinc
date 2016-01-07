@@ -16,4 +16,9 @@ public abstract class Constant implements Element {
     this.name = name;
     this.value = value;
   }
+
+  @Override
+  public boolean isVariable() {
+    return false;
+  }
 }

@@ -27,4 +27,9 @@ public abstract class SolvingStrategy implements Element {
       throw new IllegalArgumentException("Unknown optimization type: " + type);
     }
   }
+
+  @Override
+  public boolean isVariable() {
+    return false;
+  }
 }

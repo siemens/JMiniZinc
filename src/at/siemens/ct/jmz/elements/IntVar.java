@@ -1,12 +1,10 @@
 package at.siemens.ct.jmz.elements;
 
-import at.siemens.ct.jmz.IntArrayVar;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.integer.SumExpression;
 
-public class IntVar implements Element {
+public class IntVar extends Variable {
 
-  private String name;
   private IntSet type;
   private IntExpression value;
 
@@ -15,8 +13,7 @@ public class IntVar implements Element {
   }
 
   public IntVar(String name, IntSet type, IntExpression value) {
-    super();
-    this.name = name;
+    super(name);
     this.type = type;
     this.value = value;
   }
@@ -44,10 +41,6 @@ public class IntVar implements Element {
    */
   public static IntVar createSum(String name, IntArrayVar summands) {
     return new IntVar(name, IntSet.ALL_INTEGERS, new SumExpression(summands)); // TODO: tighter domain bounds?
-  }
-
-  public String getName() {
-    return name;
   }
 
 }

@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
-import at.siemens.ct.jmz.IntArrayVar;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
+import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.constraints.ArrayElementInSet;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;

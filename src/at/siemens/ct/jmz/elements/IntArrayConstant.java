@@ -44,4 +44,9 @@ public class IntArrayConstant implements Element {
     return name;
   }
 
+  @Override
+  public boolean isVariable() {
+    return false;
+  }
+
 }

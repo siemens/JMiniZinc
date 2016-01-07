@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.IntArrayConstant;
+import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;

@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.expressions.integer;
 
-import at.siemens.ct.jmz.IntArrayVar;
+import at.siemens.ct.jmz.elements.IntArrayVar;
 
 /**
  * Represents the sum over an array of integers.

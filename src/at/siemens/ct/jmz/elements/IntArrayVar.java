@@ -1,12 +1,9 @@
-package at.siemens.ct.jmz;
+package at.siemens.ct.jmz.elements;
 
-import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.comprehension.Comprehension;
 
-public class IntArrayVar implements Element {
+public class IntArrayVar extends Variable {
 
-  private String name;
   private IntSet range;
   private IntSet type;
   private Comprehension values;
@@ -31,8 +28,7 @@ public class IntArrayVar implements Element {
    *          a list comprehension (may be {@code null})
    */
   public IntArrayVar(String name, IntSet range, IntSet type, Comprehension values) {
-    super();
-    this.name = name;
+    super(name);
     this.range = range;
     this.type = type;
     this.values = values;
@@ -51,10 +47,6 @@ public class IntArrayVar implements Element {
 
     declaration.append(";");
     return declaration.toString();
-  }
-
-  public String getName() {
-    return name;
   }
 
 }

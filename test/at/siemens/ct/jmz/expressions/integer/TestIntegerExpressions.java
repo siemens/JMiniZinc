@@ -3,7 +3,7 @@ package at.siemens.ct.jmz.expressions.integer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.IntArrayVar;
+import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.expressions.Expression;

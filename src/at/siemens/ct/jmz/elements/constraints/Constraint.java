@@ -15,4 +15,9 @@ public abstract class Constraint implements Element {
    */
   abstract String getExpression();
   
+  @Override
+  public boolean isVariable() {
+    return false;
+  }
+
 }
