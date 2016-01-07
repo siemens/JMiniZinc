@@ -35,8 +35,9 @@ public class TestExecutor {
 
   @Test
   public void testSingleVariableGetOutput() throws IOException {
-    IntSet setOneTwoThree = modelBuilder.createIntSet("OneTwoThree", 1, 3);
-    IntVar i = modelBuilder.createIntVar("i", setOneTwoThree);
+    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
+    IntVar i = new IntVar("i", setOneTwoThree);
+    modelBuilder.add(setOneTwoThree, i);
     executor.startProcess();
     executor.waitForSolution();
     String lastSolverOutput = executor.getLastSolverOutput();
@@ -52,8 +53,9 @@ public class TestExecutor {
   @Test
   @Ignore
   public void testSingleVariableGetSolution() throws IOException {
-    IntSet setOneTwoThree = modelBuilder.createIntSet("OneTwoThree", 1, 3);
-    IntVar i = modelBuilder.createIntVar("i", setOneTwoThree);
+    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
+    IntVar i = new IntVar("i", setOneTwoThree);
+    modelBuilder.add(setOneTwoThree, i);
     executor.startProcess();
     executor.waitForSolution();
     int solI = executor.getSolution(i);

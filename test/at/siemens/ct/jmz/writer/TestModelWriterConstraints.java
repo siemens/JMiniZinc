@@ -39,12 +39,13 @@ public class TestModelWriterConstraints {
   public void testCreateArrayElementInSetConstraintToString() {
     String setRangeName = "Range";
     String arrayName = "a";
-    IntSet setRange = modelBuilder.createIntSet(setRangeName, 1, 3);
-    IntArrayVar arrayVar = modelBuilder.createIntArrayVar(arrayName, setRange, IntSet.ALL_INTEGERS);
+    IntSet setRange = new IntSet(setRangeName, 1, 3);
+    IntArrayVar arrayVar = new IntArrayVar(arrayName, setRange, IntSet.ALL_INTEGERS);
     Set<Integer> allowedValues = new HashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);
-    modelBuilder.add(new ArrayElementInSet(arrayVar, 1, allowedValues));
+    ArrayElementInSet constraint = new ArrayElementInSet(arrayVar, 1, allowedValues);
+    modelBuilder.add(setRange, arrayVar, constraint);
     String output = modelWriter.toString();
 
     StringBuilder expectedOutput = new StringBuilder();

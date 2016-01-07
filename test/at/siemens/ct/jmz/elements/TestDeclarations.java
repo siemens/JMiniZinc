@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.IModelBuilder;
-import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
 /**
@@ -18,15 +16,12 @@ import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
  */
 public class TestDeclarations {
 
-  private IModelBuilder modelBuilder = new ModelBuilder();
-
   @Test
   public void testArrayWithListComprehension() {
     String generator = "i in 1..10";
     String expression = "10*i";
     ListComprehension comprehension = new ListComprehension(generator, expression);
-    IntArrayVar array = modelBuilder.createIntArrayVar("a", new IntSet(null, 1, 10),
-        IntSet.ALL_INTEGERS,
+    IntArrayVar array = new IntArrayVar("a", new IntSet(null, 1, 10), IntSet.ALL_INTEGERS,
         comprehension);
     Assert.assertEquals("array[1..10] of var int: a = [ 10*i | i in 1..10 ];", array.declare());
   }
@@ -34,8 +29,8 @@ public class TestDeclarations {
   @Test
   public void testTwoDimensionalArray() {
     String name = "a";
-    IntSet setOneTwoThree = modelBuilder.createIntSet("OneTwoThree", 1, 3);
-    IntSet setTwoThreeFour = modelBuilder.createIntSet("TwoThreeFour", 2, 4);
+    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
+    IntSet setTwoThreeFour = new IntSet("TwoThreeFour", 2, 4);
     Collection<IntSet> range = ListUtils.fromElements(setOneTwoThree, setTwoThreeFour);
     IntSet type = IntSet.ALL_INTEGERS;
     IntArrayVar array = new IntArrayVar(name, range, type);
@@ -45,9 +40,9 @@ public class TestDeclarations {
   @Test
   public void testThreeDimensionalArray() {
     String name = "a";
-    IntSet setOneTwoThree = modelBuilder.createIntSet("OneTwoThree", 1, 3);
-    IntSet setTwoThreeFour = modelBuilder.createIntSet("TwoThreeFour", 2, 4);
-    IntSet setThreeFourFive = modelBuilder.createIntSet("ThreeFourFive", 3, 5);
+    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
+    IntSet setTwoThreeFour = new IntSet("TwoThreeFour", 2, 4);
+    IntSet setThreeFourFive = new IntSet("ThreeFourFive", 3, 5);
     Collection<IntSet> range = ListUtils.fromElements(setOneTwoThree, setTwoThreeFour,
         setThreeFourFive);
     IntSet type = IntSet.ALL_INTEGERS;

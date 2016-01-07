@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
+import at.siemens.ct.jmz.elements.IntArrayConstant;
+import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
@@ -42,7 +44,7 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateSingleConstantToString() {
-    modelBuilder.createIntConstant("i", 1);
+    modelBuilder.add(new IntConstant("i", 1));
     String output = modelWriter.toString();
     Assert.assertEquals("int: i = 1;", output);
   }
@@ -54,7 +56,7 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateSingleSetTemporaryFile() throws IOException {
-    modelBuilder.createIntSet("s", 1, 99);
+    modelBuilder.add(new IntSet("s", 1, 99));
     File tempFile = File.createTempFile("jmz", null);
     try {
       modelWriter.toFile(tempFile);
@@ -70,8 +72,9 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateTwoLinesToString() {
-    IntConstant i = modelBuilder.createIntConstant("i", 2);
-    modelBuilder.createIntSet("s", 1, i);
+    IntConstant i = new IntConstant("i", 2);
+    IntSet s = new IntSet("s", 1, i);
+    modelBuilder.add(i, s);
     String output = modelWriter.toString();
 
     StringBuilder expectedOutput = new StringBuilder();
@@ -87,7 +90,7 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateIntVarToString() {
-    modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    modelBuilder.add(new IntVar("i", IntSet.ALL_INTEGERS));
     String output = modelWriter.toString();
     Assert.assertEquals("var int: i;", output);
   }
@@ -97,8 +100,9 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateRestrictedIntVarToString() {
-    IntSet setOneTwoThree = modelBuilder.createIntSet("OneTwoThree", 1, 3);
-    modelBuilder.createIntVar("i", setOneTwoThree);
+    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
+    IntVar i = new IntVar("i", setOneTwoThree);
+    modelBuilder.add(setOneTwoThree, i);
     String output = modelWriter.toString();
 
     StringBuilder expectedOutput = new StringBuilder();
@@ -116,9 +120,10 @@ public class TestModelWriter {
   public void testCreateIntArrayConstantToString() {
     String setRangeName = "Range";
     String arrayName = "a";
-    IntSet setRange = modelBuilder.createIntSet(setRangeName, 1, 3);
+    IntSet setRange = new IntSet(setRangeName, 1, 3);
     List<Integer> values = Arrays.asList(1, 2, 3);
-    modelBuilder.createIntArrayConstant(arrayName, setRange, IntSet.ALL_INTEGERS, values);
+    IntArrayConstant iac = new IntArrayConstant(arrayName, setRange, IntSet.ALL_INTEGERS, values);
+    modelBuilder.add(setRange, iac);
     String output = modelWriter.toString();
 
     StringBuilder expectedOutput = new StringBuilder();
@@ -136,8 +141,9 @@ public class TestModelWriter {
   public void testCreateIntArrayVarToString() {
     String setRangeName = "Range";
     String arrayName = "a";
-    IntSet setRange = modelBuilder.createIntSet(setRangeName, 1, 3);
-    modelBuilder.createIntArrayVar(arrayName, setRange, IntSet.ALL_INTEGERS);
+    IntSet setRange = new IntSet(setRangeName, 1, 3);
+    IntArrayVar iav = new IntArrayVar(arrayName, setRange, IntSet.ALL_INTEGERS);
+    modelBuilder.add(setRange, iav);
     String output = modelWriter.toString();
 
     StringBuilder expectedOutput = new StringBuilder();
@@ -167,7 +173,8 @@ public class TestModelWriter {
   }
 
   private void testOptimizeToString(OptimizationType type) {
-    IntVar i = modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    IntVar i = new IntVar("i", IntSet.ALL_INTEGERS);
+    modelBuilder.add(i);
     modelWriter.setSolvingStrategy(SolvingStrategy.optimize(type, i));
 
     StringBuilder expectedOutput = new StringBuilder();
@@ -193,7 +200,7 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateIntVarAndOutputStatementToString() {
-    modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
+    modelBuilder.add(new IntVar("i", IntSet.ALL_INTEGERS));
     modelWriter.setOutputStatement(new OutputAllVariables(modelBuilder.elements()));
 
     StringBuilder expectedOutput = new StringBuilder();
@@ -209,8 +216,8 @@ public class TestModelWriter {
    */
   @Test
   public void testCreateTwoIntVarsAndOutputStatementToString() {
-    modelBuilder.createIntVar("i", IntSet.ALL_INTEGERS);
-    modelBuilder.createIntVar("j", IntSet.ALL_INTEGERS);
+    modelBuilder.add(new IntVar("i", IntSet.ALL_INTEGERS));
+    modelBuilder.add(new IntVar("j", IntSet.ALL_INTEGERS));
     modelWriter.setOutputStatement(new OutputAllVariables(modelBuilder.elements()));
 
     StringBuilder expectedOutput = new StringBuilder();

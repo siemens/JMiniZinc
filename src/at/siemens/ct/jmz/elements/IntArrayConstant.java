@@ -2,6 +2,8 @@ package at.siemens.ct.jmz.elements;
 
 import java.util.Collection;
 
+import at.siemens.ct.common.utils.ListUtils;
+
 /**
  * Represents an array of integer constants.
  * 
@@ -32,6 +34,13 @@ public class IntArrayConstant implements Element {
     this.range = range;
     this.type = type;
     this.values = values;
+  }
+
+  /**
+   * @see #IntArrayConstant(String, IntSet, IntSet, Collection)
+   */
+  public IntArrayConstant(String name, IntSet range, IntSet type, int[] values) {
+    this(name, range, type, ListUtils.fromArray(values));
   }
 
   @Override
