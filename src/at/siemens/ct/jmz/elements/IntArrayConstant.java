@@ -1,7 +1,9 @@
 package at.siemens.ct.jmz.elements;
 
 import java.util.Collection;
+import java.util.List;
 
+import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
 
 /**
@@ -10,10 +12,10 @@ import at.siemens.ct.common.utils.ListUtils;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class IntArrayConstant implements Element {
+public class IntArrayConstant implements IntArray {
 
   private String name;
-  private IntSet range;
+  private Collection<IntSet> range;
   private IntSet type;
   private Collection<Integer> values;
 
@@ -30,6 +32,23 @@ public class IntArrayConstant implements Element {
    *          the collection of actual values
    */
   public IntArrayConstant(String name, IntSet range, IntSet type, Collection<Integer> values) {
+    this(name, ListUtils.fromElements(range), type, values);
+  }
+
+  /**
+   * Creates a multi-dimensional array of integer constants.
+   * 
+   * @param name
+   *          the name of the array
+   * @param range
+   *          the ranges (each must be finite)
+   * @param type
+   *          the type of each integer (may be infinite)
+   * @param values
+   *          the collection of actual values
+   */
+  public IntArrayConstant(String name, Collection<IntSet> range, IntSet type,
+      Collection<Integer> values) {
     this.name = name;
     this.range = range;
     this.type = type;
@@ -43,10 +62,19 @@ public class IntArrayConstant implements Element {
     this(name, range, type, ListUtils.fromArray(values));
   }
 
+  public IntArrayConstant(String name, List<IntSet> range, IntSet type, int[][] values) {
+    this(name, range, type, ArrayUtils.toOneDimensionalList(values));
+  }
+
+  @Override
+  public Collection<IntSet> getRange() {
+    return range;
+  }
+
   @Override
   public String declare() {
-    return String.format("array[%s] of %s: %s = %s;", range.nameOrRange(), type.nameOrRange(), name,
-        values.toString());
+    return String.format("array[%s] of %s: %s = %s;", declareRange(), type.nameOrRange(), name,
+        coerce(range, values));
   }
 
   public String getName() {
@@ -56,6 +84,22 @@ public class IntArrayConstant implements Element {
   @Override
   public boolean isVariable() {
     return false;
+  }
+
+  /**
+   * Returns the operation call to coerce the given collection of {@code values} to an array whose dimensions are defined by {@code range}.
+   * @param range
+   * @param values
+   * @return TODO: Return operation object instead of string
+   */
+  public static String coerce(Collection<IntSet> range, Collection<Integer> values) {
+    int dimensions = range.size();
+    if (dimensions == 1) {
+      return values.toString();
+    } else {
+      return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(range),
+          values.toString());
+    }
   }
 
 }

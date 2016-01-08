@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Assert;
@@ -27,18 +28,18 @@ public class TestDeclarations {
   }
 
   @Test
-  public void testTwoDimensionalArray() {
+  public void testTwoDimensionalArrayVar() {
     String name = "a";
     IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
     IntSet setTwoThreeFour = new IntSet("TwoThreeFour", 2, 4);
     Collection<IntSet> range = ListUtils.fromElements(setOneTwoThree, setTwoThreeFour);
     IntSet type = IntSet.ALL_INTEGERS;
     IntArrayVar array = new IntArrayVar(name, range, type);
-    Assert.assertEquals("array[OneTwoThree,TwoThreeFour] of var int: a;", array.declare());
+    Assert.assertEquals("array[OneTwoThree, TwoThreeFour] of var int: a;", array.declare());
   }
 
   @Test
-  public void testThreeDimensionalArray() {
+  public void testThreeDimensionalArrayVar() {
     String name = "a";
     IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
     IntSet setTwoThreeFour = new IntSet("TwoThreeFour", 2, 4);
@@ -47,7 +48,7 @@ public class TestDeclarations {
         setThreeFourFive);
     IntSet type = IntSet.ALL_INTEGERS;
     IntArrayVar array = new IntArrayVar(name, range, type);
-    Assert.assertEquals("array[OneTwoThree,TwoThreeFour,ThreeFourFive] of var int: a;",
+    Assert.assertEquals("array[OneTwoThree, TwoThreeFour, ThreeFourFive] of var int: a;",
         array.declare());
   }
 
@@ -60,6 +61,25 @@ public class TestDeclarations {
     OptionalIntSet set = new OptionalIntSet(new IntSet(nameOfSet, lb, ub));
     IntVar var = new IntVar(nameOfVar, set);
     Assert.assertEquals(String.format("var opt %s: %s;", nameOfSet, nameOfVar), var.declare());
+  }
+
+  @Test
+  public void testThreeDimensionalArrayConstant() {
+    String name = "a";
+    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
+    IntSet setTwoThreeFour = new IntSet("TwoThreeFour", 2, 4);
+    IntSet setThreeFourFive = new IntSet("ThreeFourFive", 3, 5);
+    Collection<IntSet> range = ListUtils.fromElements(setOneTwoThree, setTwoThreeFour,
+        setThreeFourFive);
+    IntSet type = IntSet.ALL_INTEGERS;
+    Collection<Integer> values = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+        16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27);
+    IntArrayConstant array = new IntArrayConstant(name, range, type, values);
+    Assert.assertEquals(
+        "array[OneTwoThree, TwoThreeFour, ThreeFourFive] of int: a = "
+            + "array3d(OneTwoThree, TwoThreeFour, ThreeFourFive, [1, 2, 3, 4, 5, 6, 7, 8, 9, "
+            + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]);",
+        array.declare());
   }
 
 }

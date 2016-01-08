@@ -1,13 +1,12 @@
 package at.siemens.ct.jmz.elements;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.comprehension.Comprehension;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
-public class IntArrayVar extends Variable {
+public class IntArrayVar extends Variable implements IntArray {
 
   private Collection<IntSet> range;
   private IntSet type;
@@ -59,10 +58,12 @@ public class IntArrayVar extends Variable {
    *          a list comprehension (may be {@code null})
    */
   public IntArrayVar(String name, IntSet range, IntSet type, ListComprehension values) {
-    super(name);
-    this.range = ListUtils.fromElements(range);
-    this.type = type;
-    this.values = values;
+    this(name, ListUtils.fromElements(range), type, values);
+  }
+
+  @Override
+  public Collection<IntSet> getRange() {
+    return range;
   }
 
   @Override
@@ -78,10 +79,6 @@ public class IntArrayVar extends Variable {
 
     declaration.append(";");
     return declaration.toString();
-  }
-
-  private String declareRange() {
-    return range.stream().map(IntSet::nameOrRange).collect(Collectors.joining(","));
   }
 
 }
