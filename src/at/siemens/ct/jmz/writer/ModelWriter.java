@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.elements.output.OutputStatement;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
@@ -26,12 +29,18 @@ public class ModelWriter implements IModelWriter {
   private static final String TEMP_FILE_SUFFIX = ".mzn";
 
   private IModelBuilder modelBuilder;
+  private Collection<IncludeItem> includeItems = new ArrayList<>(1);
   private SolvingStrategy solvingStrategy;
   private OutputStatement outputStatement;
 
   public ModelWriter(IModelBuilder modelBuilder) {
     super();
     this.modelBuilder = modelBuilder;
+  }
+
+  @Override
+  public void addIncludeItem(IncludeItem includeItem) {
+    includeItems.add(includeItem);
   }
 
   @Override
@@ -89,7 +98,9 @@ public class ModelWriter implements IModelWriter {
   }
 
   private Stream<Element> allElements() {
-    return Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement))
+    return Stream
+        .concat(includeItems.stream(),
+            Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement)))
         .filter(s -> s != null).filter(s -> s.declare() != null);
   }
 
