@@ -136,4 +136,12 @@ public class TestDeclarations {
     Assert.assertEquals("var I0: i;", var1.declare());
   }
 
+  @Test
+  public void testIntSetWithNamedBounds() {
+    IntConstant lb = new IntConstant("lb", 1);
+    IntConstant ub = new IntConstant("ub", 2);
+    IntSet set = new IntSet("set", lb, ub);
+    Assert.assertEquals("set of int: set = lb..ub;", set.declare());
+  }
+
 }
