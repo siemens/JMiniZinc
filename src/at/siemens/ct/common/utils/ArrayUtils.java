@@ -7,6 +7,8 @@ public class ArrayUtils {
 
   /**
    * Joins all rows of the given two-dimensional array into a one-dimensional list.
+   * 
+   * @see ListUtils#toOneDimensionalList(java.util.Collection)
    */
   public static <T> List<T> toOneDimensionalList(T[][] array) {
     int width = getWidth(array);

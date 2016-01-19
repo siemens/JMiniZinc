@@ -2,6 +2,8 @@ package at.siemens.ct.jmz.elements;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
@@ -95,11 +97,20 @@ public class IntArrayConstant implements IntArray {
   public static String coerce(Collection<IntSet> range, Collection<Integer> values) {
     int dimensions = range.size();
     if (dimensions == 1) {
-      return values.toString();
+      return integerCollectionToString(values);
     } else {
       return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(range),
-          values.toString());
+          integerCollectionToString(values));
     }
+  }
+
+  private static String integerCollectionToString(Collection<Integer> values) {
+    String mznNull = "<>";
+    Function<? super Integer, ? extends String> intOrNull = i -> {
+      return (i == null ? mznNull : i.toString());
+    };
+    return "[" + values.stream().map(intOrNull).collect(Collectors.joining(", ")) + "]";
+    // TODO: move to List class ?!
   }
 
 }

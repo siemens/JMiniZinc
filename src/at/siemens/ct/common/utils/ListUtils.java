@@ -1,6 +1,7 @@
 package at.siemens.ct.common.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ListUtils {
@@ -28,6 +29,37 @@ public class ListUtils {
     }
     assert list.size() == elements.length;
     return list;
+  }
+
+  /**
+   * Joins all elements of the given list of lists into a one-dimensional list.
+   * 
+   * @see ArrayUtils#toOneDimensionalList(Object[][])
+   */
+  public static <T> List<T> toOneDimensionalList(Collection<? extends Collection<T>> listOfLists) {
+    int width = getWidth(listOfLists);
+    int area = listOfLists.size() * width;
+    List<T> result = new ArrayList<>(area);
+    for (Collection<T> list : listOfLists) {
+      int i = 0;
+      for (T element : list) {
+        result.add(element);
+        i++;
+      }
+      for (; i < width; i++) {
+        result.add(null);
+      }
+    }
+
+    assert result.size() == area;
+    return result;
+  }
+
+  /**
+   * Gets the width of the given list of lists, i.e. the size of its longest element.
+   */
+  private static <T> int getWidth(Collection<? extends Collection<T>> listOfLists) {
+    return listOfLists.stream().mapToInt(Collection::size).max().getAsInt();
   }
 
 }
