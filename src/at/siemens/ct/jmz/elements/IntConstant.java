@@ -28,4 +28,11 @@ public class IntConstant extends Constant {
     return name != null ? name : String.valueOf(value);
   }
 
+  /**
+   * Constructs a new constant whose value is {@code this + delta}.
+   */
+  public IntConstant add(int delta) {
+    return new IntConstant(value.intValue() + delta);
+  }
+
 }
