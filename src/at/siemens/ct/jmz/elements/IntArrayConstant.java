@@ -2,11 +2,10 @@ package at.siemens.ct.jmz.elements;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
 /**
  * Represents an array of integer constants.
@@ -75,8 +74,9 @@ public class IntArrayConstant implements IntArray {
 
   @Override
   public String declare() {
+    IntArrayExpression arrayExpression = new IntArrayExpression(range, type, values);
     return String.format("array[%s] of %s: %s = %s;", declareRange(), type.nameOrRange(), name,
-        coerce(range, values));
+        arrayExpression.coerce());
   }
 
   public String getName() {
@@ -86,31 +86,6 @@ public class IntArrayConstant implements IntArray {
   @Override
   public boolean isVariable() {
     return false;
-  }
-
-  /**
-   * Returns the operation call to coerce the given collection of {@code values} to an array whose dimensions are defined by {@code range}.
-   * @param range
-   * @param values
-   * @return TODO: Return operation object instead of string
-   */
-  public static String coerce(Collection<IntSet> range, Collection<Integer> values) {
-    int dimensions = range.size();
-    if (dimensions == 1) {
-      return integerCollectionToString(values);
-    } else {
-      return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(range),
-          integerCollectionToString(values));
-    }
-  }
-
-  private static String integerCollectionToString(Collection<Integer> values) {
-    String mznNull = "<>";
-    Function<? super Integer, ? extends String> intOrNull = i -> {
-      return (i == null ? mznNull : i.toString());
-    };
-    return "[" + values.stream().map(intOrNull).collect(Collectors.joining(", ")) + "]";
-    // TODO: move to List class ?!
   }
 
 }
