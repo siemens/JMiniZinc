@@ -10,7 +10,7 @@ public class IntSet implements Element {
    */
   public static final IntSet ALL_INTEGERS = new IntSet("int", null, null);
 
-  private String name;
+  protected String name;
   private IntConstant lb;
   private IntConstant ub;
 
