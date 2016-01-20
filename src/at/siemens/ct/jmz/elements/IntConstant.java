@@ -26,12 +26,14 @@ public class IntConstant extends Constant implements IntExpression {
   /**
    * If this constant has a name, it is returned. Else, the string representation of the constant´s value is returned.
    */
+  @Override
   public String nameOrValue() {
     return name != null ? name : String.valueOf(value);
   }
 
   /**
    * Constructs a new constant whose value is {@code this + delta}.
+   * TODO: If this constant has a name, the new constant could refer to it: e.g. "INT".add(-1) should create "INT-1"
    */
   public IntConstant add(int delta) {
     return new IntConstant(value.intValue() + delta);

@@ -21,7 +21,8 @@ public class TestDeclarations {
   public void testArrayWithListComprehension() {
     String generator = "i in 1..10";
     String expression = "10*i";
-    ListComprehension comprehension = new ListComprehension(generator, expression);
+    ListComprehension comprehension = new ListComprehension(new IntSet(1, 10), generator,
+        expression);
     IntArrayVar array = new IntArrayVar("a", new IntSet(null, 1, 10), IntSet.ALL_INTEGERS,
         comprehension);
     Assert.assertEquals("array[1..10] of var int: a = [ 10*i | i in 1..10 ];", array.declare());

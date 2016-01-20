@@ -3,6 +3,8 @@ package at.siemens.ct.jmz.expressions.comprehension;
 import org.junit.Assert;
 import org.junit.Test;
 
+import at.siemens.ct.jmz.elements.IntSet;
+
 /**
  * Tests {@link Comprehension} and its concrete implementations.
  * 
@@ -16,8 +18,9 @@ public class TestComprehension {
    */
   @Test
   public void testSimpleListComprehension() {
-    ListComprehension comprehension = new ListComprehension("i in Integers", "2 * i");
-    Assert.assertEquals("[ 2 * i | i in Integers ]", comprehension.toString());
+    ListComprehension comprehension = new ListComprehension(new IntSet(1, 10), "i in 1..10",
+        "2 * i");
+    Assert.assertEquals("[ 2 * i | i in 1..10 ]", comprehension.toString());
   }
 
   /**
@@ -25,8 +28,8 @@ public class TestComprehension {
    */
   @Test
   public void testSimpleSetComprehension() {
-    SetComprehension comprehension = new SetComprehension("i in Integers", "2 * i");
-    Assert.assertEquals("{ 2 * i | i in Integers }", comprehension.toString());
+    SetComprehension comprehension = new SetComprehension("i in 1..10", "2 * i");
+    Assert.assertEquals("{ 2 * i | i in 1..10 }", comprehension.toString());
   }
 
 }

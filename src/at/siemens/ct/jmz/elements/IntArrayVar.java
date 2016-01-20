@@ -74,7 +74,7 @@ public class IntArrayVar extends Variable implements IntArray {
 
     if (values != null) {
       declaration.append(" = ");
-      declaration.append(values);
+      declaration.append(values.coerce());
     }
 
     declaration.append(";");

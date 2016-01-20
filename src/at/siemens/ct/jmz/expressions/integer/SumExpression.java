@@ -1,24 +1,36 @@
 package at.siemens.ct.jmz.expressions.integer;
 
-import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
- * Represents the sum over an array of integers.
+ * Represents the sum over one or more (array(s) of) integers.
  * 
  * @author z003ft4a (Richard Taupe)
  *
  */
 public class SumExpression implements IntExpression {
 
-  private IntArrayExpression summands;
+  private Collection<SummableIntegers> summands;
 
-  public SumExpression(IntArrayExpression summands) {
-    this.summands = summands;
+  public SumExpression(SummableIntegers... summands) {
+    this.summands = Arrays.asList(summands);
   }
 
   @Override
   public String toString() {
-    return String.format("sum(%s)", summands.nameOrValue());
+    return nameOrValue();
+  }
+
+  @Override
+  public boolean isSingleton() {
+    return true;
+  }
+
+  @Override
+  public String nameOrValue() {
+    return summands.stream().map(SummableIntegers::toSum).collect(Collectors.joining(" + "));
   }
 
 }

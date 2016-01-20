@@ -40,8 +40,13 @@ public class IntVar extends Variable implements IntExpression {
    * @param summands
    * @return a reference to the created variable.
    */
-  public static IntVar createSum(String name, IntArrayExpression summands) {
+  public static IntVar createSum(String name, IntArrayExpression... summands) {
     return new IntVar(name, IntSet.ALL_INTEGERS, new SumExpression(summands)); // TODO: tighter domain bounds?
+  }
+
+  @Override
+  public String nameOrValue() {
+    return getName();
   }
 
 }

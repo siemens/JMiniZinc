@@ -1,10 +1,10 @@
 package at.siemens.ct.jmz.expressions.array;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.elements.IntArray;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.PseudoOptionalIntSet;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
@@ -41,27 +41,18 @@ public class IntExplicitList implements IntArrayExpression {
   }
 
   @Override
+  public Collection<IntSet> getRange() {
+    return Collections.unmodifiableCollection(range);
+  }
+
+  @Override
   public String toString() {
     return valuesToString();
   }
 
-  /**
-   * Returns the operation call to coerce the given collection of {@code values} to an array whose dimensions are
-   * defined by {@code range}.
-   * 
-   * @param range
-   * @param type
-   * @param values
-   * @return TODO: Return operation object instead of string
-   */
-  public String coerce() {
-    int dimensions = range.size();
-    if (dimensions == 1) {
-      return valuesToString();
-    } else {
-      return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(range),
-          valuesToString());
-    }
+  @Override
+  public String nameOrValue() {
+    return valuesToString();
   }
 
   private String valuesToString() {
@@ -69,10 +60,5 @@ public class IntExplicitList implements IntArrayExpression {
         i -> (i == null ? nullElement : i.toString());
     return LEFT_BRACKET + values.stream().map(intOrNull).collect(Collectors.joining(", "))
         + RIGHT_BRACKET;
-  }
-
-  @Override
-  public String nameOrValue() {
-    return valuesToString();
   }
 }

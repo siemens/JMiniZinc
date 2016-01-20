@@ -1,12 +1,38 @@
 package at.siemens.ct.jmz.expressions.array;
 
-import at.siemens.ct.jmz.expressions.Expression;
+import java.util.Collection;
 
-public interface IntArrayExpression extends Expression {
+import at.siemens.ct.jmz.elements.IntArray;
+import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.integer.SummableIntegers;
+
+public interface IntArrayExpression extends Expression, SummableIntegers {
+
+  public Collection<IntSet> getRange();
+
+  @Override
+  default boolean isSingleton() {
+    return false;
+  }
 
   /**
-   * @return the expression's name, if it has one, or else its value
+   * Returns the operation call to coerce the given collection of {@code values} to an array whose dimensions are
+   * defined by {@code range}.
+   * 
+   * @param range
+   * @param type
+   * @param values
+   * @return TODO: Return operation object instead of string
    */
-  String nameOrValue();
+  default String coerce() {
+    int dimensions = getRange().size();
+    if (dimensions == 1) {
+      return nameOrValue();
+    } else {
+      return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(getRange()),
+          nameOrValue());
+    }
+  }
 
 }
