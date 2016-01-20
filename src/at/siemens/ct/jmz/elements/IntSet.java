@@ -29,6 +29,18 @@ public class IntSet implements Element {
     this.ub = ub;
   }
 
+  public IntSet(int lb, int ub) {
+    this(null, lb, ub);
+  }
+
+  public IntSet(int lb, IntConstant ub) {
+    this(null, lb, ub);
+  }
+
+  public IntSet(IntConstant lb, IntConstant ub) {
+    this(null, lb, ub);
+  }
+
   @Override
   public String declare() {
     return String.format("set of int: %s = %s;", name, getRange());
