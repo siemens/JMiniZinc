@@ -5,7 +5,7 @@ import java.util.List;
 
 import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
+import at.siemens.ct.jmz.expressions.array.IntExplicitList;
 
 /**
  * Represents an array of integer constants.
@@ -18,7 +18,7 @@ public class IntArrayConstant implements IntArray {
   private String name;
   private Collection<IntSet> range;
   private IntSet type;
-  private Collection<Integer> values;
+  private IntExplicitList values;
 
   /**
    * Creates an array of integer constants.
@@ -53,7 +53,7 @@ public class IntArrayConstant implements IntArray {
     this.name = name;
     this.range = range;
     this.type = type;
-    this.values = values;
+    this.values = new IntExplicitList(range, type, values);
   }
 
   /**
@@ -74,9 +74,8 @@ public class IntArrayConstant implements IntArray {
 
   @Override
   public String declare() {
-    IntArrayExpression arrayExpression = new IntArrayExpression(range, type, values);
     return String.format("array[%s] of %s: %s = %s;", declareRange(), type.nameOrRange(), name,
-        arrayExpression.coerce());
+        values.coerce());
   }
 
   public String getName() {
@@ -86,6 +85,11 @@ public class IntArrayConstant implements IntArray {
   @Override
   public boolean isVariable() {
     return false;
+  }
+
+  @Override
+  public String nameOrValue() {
+    return name != null ? name : values.nameOrValue();
   }
 
 }

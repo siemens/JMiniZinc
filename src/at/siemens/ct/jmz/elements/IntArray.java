@@ -3,7 +3,9 @@ package at.siemens.ct.jmz.elements;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public interface IntArray extends Element {
+import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
+
+public interface IntArray extends Element, IntArrayExpression {
 
   Collection<IntSet> getRange();
 

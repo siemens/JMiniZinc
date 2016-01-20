@@ -81,4 +81,9 @@ public class IntArrayVar extends Variable implements IntArray {
     return declaration.toString();
   }
 
+  @Override
+  public String nameOrValue() {
+    return name;
+  }
+
 }

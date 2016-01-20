@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.expressions.integer;
 
-import at.siemens.ct.jmz.elements.IntArrayVar;
+import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
 /**
  * Represents the sum over an array of integers.
@@ -10,15 +10,15 @@ import at.siemens.ct.jmz.elements.IntArrayVar;
  */
 public class SumExpression implements IntExpression {
 
-  private IntArrayVar summands;
+  private IntArrayExpression summands;
 
-  public SumExpression(IntArrayVar summands) {
+  public SumExpression(IntArrayExpression summands) {
     this.summands = summands;
   }
 
   @Override
   public String toString() {
-    return String.format("sum(%s)", summands.getName());
+    return String.format("sum(%s)", summands.nameOrValue());
   }
 
 }

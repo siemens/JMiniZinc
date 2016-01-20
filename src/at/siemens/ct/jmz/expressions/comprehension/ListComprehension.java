@@ -1,6 +1,8 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
-public class ListComprehension extends Comprehension {
+import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
+
+public class ListComprehension extends Comprehension implements IntArrayExpression {
 
   private static final char LEFT_BRACKET = '[';
   private static final char RIGHT_BRACKET = ']';
@@ -23,6 +25,11 @@ public class ListComprehension extends Comprehension {
   @Override
   protected char getRightBracket() {
     return RIGHT_BRACKET;
+  }
+
+  @Override
+  public String nameOrValue() {
+    return toString();
   }
 
 }
