@@ -1,9 +1,10 @@
 package at.siemens.ct.jmz.elements;
 
+import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.integer.SumExpression;
 
-public class IntVar extends Variable {
+public class IntVar extends Variable implements IntExpression {
 
   private IntSet type;
   private IntExpression value;
@@ -39,7 +40,7 @@ public class IntVar extends Variable {
    * @param summands
    * @return a reference to the created variable.
    */
-  public static IntVar createSum(String name, IntArrayVar summands) {
+  public static IntVar createSum(String name, IntArrayExpression summands) {
     return new IntVar(name, IntSet.ALL_INTEGERS, new SumExpression(summands)); // TODO: tighter domain bounds?
   }
 

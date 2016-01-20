@@ -1,6 +1,8 @@
 package at.siemens.ct.jmz.elements;
 
-public class IntConstant extends Constant {
+import at.siemens.ct.jmz.expressions.integer.IntExpression;
+
+public class IntConstant extends Constant implements IntExpression {
 
   /**
    * Creates an integer constant without a name
