@@ -1,6 +1,9 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
-import at.siemens.ct.jmz.expressions.Expression;
+import java.util.Collection;
+
+import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
 
 /**
  * TODO: expression should not be just a string
@@ -8,7 +11,7 @@ import at.siemens.ct.jmz.expressions.Expression;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public abstract class Comprehension implements Expression {
+public abstract class Comprehension implements RangeBasedExpression {
 
   protected Generator generator;
   private String expression;
@@ -22,6 +25,11 @@ public abstract class Comprehension implements Expression {
   protected abstract char getLeftBracket();
 
   protected abstract char getRightBracket();
+
+  @Override
+  public Collection<IntSet> getRange() {
+    return generator.getRange();
+  }
 
   @Override
   public String toString() {

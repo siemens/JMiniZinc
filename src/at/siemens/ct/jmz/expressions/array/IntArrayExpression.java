@@ -1,15 +1,9 @@
 package at.siemens.ct.jmz.expressions.array;
 
-import java.util.Collection;
-
 import at.siemens.ct.jmz.elements.IntArray;
-import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.integer.SummableIntegers;
 
-public interface IntArrayExpression extends Expression, SummableIntegers {
-
-  public Collection<IntSet> getRange();
+public interface IntArrayExpression extends RangeBasedExpression, SummableIntegers {
 
   @Override
   default boolean isSingleton() {

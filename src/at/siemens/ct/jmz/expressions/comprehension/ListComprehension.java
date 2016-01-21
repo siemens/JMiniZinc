@@ -1,8 +1,5 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
-import java.util.Collection;
-
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
 /**
@@ -32,11 +29,6 @@ public class ListComprehension extends Comprehension implements IntArrayExpressi
   @Override
   protected char getRightBracket() {
     return RIGHT_BRACKET;
-  }
-
-  @Override
-  public Collection<IntSet> getRange() {
-    return generator.getRange();
   }
 
   @Override
