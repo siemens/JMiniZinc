@@ -3,17 +3,17 @@ package at.siemens.ct.jmz.expressions.comprehension;
 import at.siemens.ct.jmz.expressions.Expression;
 
 /**
- * TODO: This is a very basic implementation that could be enhanced with type checking etc.
+ * TODO: expression should not be just a string
  * 
  * @author z003ft4a (Richard Taupe)
  *
  */
 public abstract class Comprehension implements Expression {
 
-  private String generator;
+  protected Generator generator;
   private String expression;
 
-  public Comprehension(String generator, String expression) {
+  public Comprehension(Generator generator, String expression) {
     super();
     this.generator = generator;
     this.expression = expression;

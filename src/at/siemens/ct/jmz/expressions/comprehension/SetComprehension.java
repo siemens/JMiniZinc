@@ -11,7 +11,7 @@ public class SetComprehension extends Comprehension {
    * @param generator
    * @param expression
    */
-  public SetComprehension(String generator, String expression) {
+  public SetComprehension(Generator generator, String expression) {
     super(generator, expression);
   }
 

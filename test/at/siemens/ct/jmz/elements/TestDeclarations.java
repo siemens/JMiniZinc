@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.comprehension.Generator;
+import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
 /**
@@ -19,10 +21,13 @@ public class TestDeclarations {
 
   @Test
   public void testArrayWithListComprehension() {
-    String generator = "i in 1..10";
+    int lb = 1, ub = 10;
+    IntSet range = new IntSet(lb, ub);
+    String iteratorName = "i";
+    IteratorExpression iterator = range.iterate(iteratorName);
+    Generator generator = new Generator(iterator);
     String expression = "10*i";
-    ListComprehension comprehension = new ListComprehension(new IntSet(1, 10), generator,
-        expression);
+    ListComprehension comprehension = new ListComprehension(generator, expression);
     IntArrayVar array = new IntArrayVar("a", new IntSet(null, 1, 10), IntSet.ALL_INTEGERS,
         comprehension);
     Assert.assertEquals("array[1..10] of var int: a = [ 10*i | i in 1..10 ];", array.declare());

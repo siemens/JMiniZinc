@@ -3,6 +3,8 @@ package at.siemens.ct.jmz.elements;
 import java.util.Collection;
 import java.util.Collections;
 
+import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
+
 public class IntSet implements Element {
 
   /**
@@ -83,6 +85,16 @@ public class IntSet implements Element {
 
   protected IntConstant getUb() {
     return ub;
+  }
+
+  /**
+   * Creates an iterator over this set, using {@code nameOfIterator} as the name of the local variable.
+   * 
+   * @param nameOfIterator
+   * @return an iterator over this set
+   */
+  public IteratorExpression iterate(String nameOfIterator) {
+    return new IteratorExpression(this, nameOfIterator);
   }
 
 }
