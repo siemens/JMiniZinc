@@ -17,10 +17,14 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class Executor implements IExecutor {
 
-  private static final String DEFAULT_EXE_PATH = "minizinc";
+  private static final String MZN_EXE_PATH = "minizinc";
+  private static final String IDE_EXE_PATH = "MiniZincIDE";
+  private static String DEFAULT_EXE_PATH = MZN_EXE_PATH;
+  private static boolean DEFAULT_SHOW_IDE = false;
 
   private IModelWriter modelWriter;
   private String pathToExecutable = DEFAULT_EXE_PATH;
+  private boolean showModelInIDE = DEFAULT_SHOW_IDE;
   private Process runningProcess;
   private File temporaryModelFile;
   private String lastSolverOutput;
@@ -39,6 +43,21 @@ public class Executor implements IExecutor {
   @Override
   public void setPathToExecutable(String pathToExecutable) {
     this.pathToExecutable = pathToExecutable;
+  }
+
+  @Override
+  public void setShowModelInIDE(boolean showModelInIDE) {
+    this.showModelInIDE = showModelInIDE;
+    this.pathToExecutable = getExePath(showModelInIDE);
+  }
+
+  public static void setDefaultShowModelInIDE(boolean showModelInIDE) {
+    DEFAULT_SHOW_IDE = showModelInIDE;
+    DEFAULT_EXE_PATH = getExePath(showModelInIDE);
+  }
+
+  private static String getExePath(boolean showModelInIDE) {
+    return showModelInIDE ? IDE_EXE_PATH : MZN_EXE_PATH;
   }
 
   @Override
@@ -70,7 +89,9 @@ public class Executor implements IExecutor {
     lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
     lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
 
-    removeCurrentModelFile();
+    if (!showModelInIDE) {
+      removeCurrentModelFile();
+    }
   }
 
   @Override

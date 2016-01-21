@@ -43,4 +43,6 @@ public interface IExecutor {
    */
   String getLastSolverErrors();
 
+  void setShowModelInIDE(boolean showModelInIDE);
+
 }
