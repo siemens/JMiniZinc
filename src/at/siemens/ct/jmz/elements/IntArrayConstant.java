@@ -88,8 +88,8 @@ public class IntArrayConstant implements IntArray {
   }
 
   @Override
-  public String nameOrValue() {
-    return name != null ? name : values.nameOrValue();
+  public String use() {
+    return name != null ? name : values.use();
   }
 
 }

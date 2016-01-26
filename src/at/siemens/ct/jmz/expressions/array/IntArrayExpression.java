@@ -22,10 +22,10 @@ public interface IntArrayExpression extends RangeBasedExpression, SummableIntege
   default String coerce() {
     int dimensions = getRange().size();
     if (dimensions == 1) {
-      return nameOrValue();
+      return use();
     } else {
       return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(getRange()),
-          nameOrValue());
+          use());
     }
   }
 

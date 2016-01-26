@@ -56,7 +56,7 @@ public class IntSet implements Element {
   }
 
   private String getRange() {
-    return String.format("%s..%s", lb.nameOrValue(), ub.nameOrValue());
+    return String.format("%s..%s", lb.use(), ub.use());
   }
 
   /**

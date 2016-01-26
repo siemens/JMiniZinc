@@ -26,7 +26,7 @@ public class IteratorExpression implements Expression {
   }
 
   @Override
-  public String toString() {
+  public String use() {
     return String.format("%s in %s", name, range.nameOrRange());
   }
 

@@ -27,7 +27,7 @@ public class IntConstant extends Constant implements IntExpression {
    * If this constant has a name, it is returned. Else, the string representation of the constant´s value is returned.
    */
   @Override
-  public String nameOrValue() {
+  public String use() {
     return name != null ? name : String.valueOf(value);
   }
 

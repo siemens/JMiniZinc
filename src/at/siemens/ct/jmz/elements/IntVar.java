@@ -45,7 +45,7 @@ public class IntVar extends Variable implements IntExpression {
   }
 
   @Override
-  public String nameOrValue() {
+  public String use() {
     return getName();
   }
 

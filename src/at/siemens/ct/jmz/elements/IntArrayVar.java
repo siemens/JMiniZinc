@@ -82,7 +82,7 @@ public class IntArrayVar extends Variable implements IntArray {
   }
 
   @Override
-  public String nameOrValue() {
+  public String use() {
     return name;
   }
 

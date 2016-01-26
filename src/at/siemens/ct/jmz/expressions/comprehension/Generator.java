@@ -30,8 +30,8 @@ public class Generator implements Expression {
   }
 
   @Override
-  public String toString() {
-    return iterators.stream().map(IteratorExpression::toString).collect(Collectors.joining(", "));
+  public String use() {
+    return iterators.stream().map(IteratorExpression::use).collect(Collectors.joining(", "));
   }
 
 }

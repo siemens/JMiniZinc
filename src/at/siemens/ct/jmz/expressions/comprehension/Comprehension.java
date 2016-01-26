@@ -32,8 +32,8 @@ public abstract class Comprehension implements RangeBasedExpression {
   }
 
   @Override
-  public String toString() {
-    return String.format("%s %s | %s %s", getLeftBracket(), expression, generator,
+  public String use() {
+    return String.format("%s %s | %s %s", getLeftBracket(), expression, generator.use(),
         getRightBracket());
   }
 

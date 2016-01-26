@@ -31,9 +31,4 @@ public class ListComprehension extends Comprehension implements IntArrayExpressi
     return RIGHT_BRACKET;
   }
 
-  @Override
-  public String nameOrValue() {
-    return toString();
-  }
-
 }

@@ -45,7 +45,7 @@ public class TestComprehension {
     C comprehension = constructor.newInstance(generator, "2 * i");
     String expectedOutput = String.format("%c 2 * %s | %s in %d..%d %c", leftBracket, iteratorName,
         iteratorName, lb, ub, rightBracket);
-    Assert.assertEquals(expectedOutput, comprehension.toString());
+    Assert.assertEquals(expectedOutput, comprehension.use());
   }
 
 }

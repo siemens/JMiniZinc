@@ -36,7 +36,7 @@ public class IntExplicitList implements IntArrayExpression {
 
   private void initNullElement() {
     if (type instanceof PseudoOptionalIntSet) {
-      nullElement = ((PseudoOptionalIntSet) type).getNullElement().nameOrValue();
+      nullElement = ((PseudoOptionalIntSet) type).getNullElement().use();
     }
   }
 
@@ -46,12 +46,7 @@ public class IntExplicitList implements IntArrayExpression {
   }
 
   @Override
-  public String toString() {
-    return valuesToString();
-  }
-
-  @Override
-  public String nameOrValue() {
+  public String use() {
     return valuesToString();
   }
 

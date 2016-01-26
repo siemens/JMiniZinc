@@ -20,7 +20,7 @@ public class SumExpression implements IntExpression {
 
   @Override
   public String toString() {
-    return nameOrValue();
+    return use();
   }
 
   @Override
@@ -29,7 +29,7 @@ public class SumExpression implements IntExpression {
   }
 
   @Override
-  public String nameOrValue() {
+  public String use() {
     return summands.stream().map(SummableIntegers::toSum).collect(Collectors.joining(" + "));
   }
 
