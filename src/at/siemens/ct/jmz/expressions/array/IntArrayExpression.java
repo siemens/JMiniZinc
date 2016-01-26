@@ -1,6 +1,7 @@
 package at.siemens.ct.jmz.expressions.array;
 
 import at.siemens.ct.jmz.elements.IntArray;
+import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.integer.SummableIntegers;
 
 public interface IntArrayExpression extends RangeBasedExpression, SummableIntegers {
@@ -27,6 +28,16 @@ public interface IntArrayExpression extends RangeBasedExpression, SummableIntege
       return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(getRange()),
           use());
     }
+  }
+
+  /**
+   * Provides an expression to access this array by index.
+   * 
+   * @param index
+   * @return
+   */
+  default ArrayAccessExpression access(IntExpression index) {
+    return new ArrayAccessExpression(this, index);
   }
 
 }
