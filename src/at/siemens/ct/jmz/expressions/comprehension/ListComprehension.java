@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
+import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
 /**
@@ -17,7 +18,7 @@ public class ListComprehension extends Comprehension implements IntArrayExpressi
   /**
    * Constructs a list comprehension of the form {@code [ expression | generator ]}.
    */
-  public ListComprehension(Generator generator, String expression) {
+  public ListComprehension(Generator generator, Expression expression) {
     super(generator, expression);
   }
 

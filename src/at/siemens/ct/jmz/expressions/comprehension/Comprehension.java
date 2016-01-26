@@ -3,6 +3,7 @@ package at.siemens.ct.jmz.expressions.comprehension;
 import java.util.Collection;
 
 import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
 
 /**
@@ -14,9 +15,9 @@ import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
 public abstract class Comprehension implements RangeBasedExpression {
 
   protected Generator generator;
-  private String expression;
+  private Expression expression;
 
-  public Comprehension(Generator generator, String expression) {
+  public Comprehension(Generator generator, Expression expression) {
     super();
     this.generator = generator;
     this.expression = expression;
@@ -33,7 +34,7 @@ public abstract class Comprehension implements RangeBasedExpression {
 
   @Override
   public String use() {
-    return String.format("%s %s | %s %s", getLeftBracket(), expression, generator.use(),
+    return String.format("%s %s | %s %s", getLeftBracket(), expression.use(), generator.use(),
         getRightBracket());
   }
 

@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.expressions.Expression;
 
 /**
  * Tests {@link Comprehension} and its concrete implementations.
@@ -41,9 +42,12 @@ public class TestComprehension {
     String iteratorName = "i";
     IteratorExpression iterator = range.iterate(iteratorName);
     Generator generator = new Generator(iterator);
-    Constructor<C> constructor = comprehensionClass.getConstructor(Generator.class, String.class);
-    C comprehension = constructor.newInstance(generator, "2 * i");
-    String expectedOutput = String.format("%c 2 * %s | %s in %d..%d %c", leftBracket, iteratorName,
+    Constructor<C> constructor = comprehensionClass.getConstructor(Generator.class,
+        Expression.class);
+    // C comprehension = constructor.newInstance(generator, "2 * i");
+    // TODO: re-introduce above expression as soon as integer products are supported
+    C comprehension = constructor.newInstance(generator, iterator.add(2));
+    String expectedOutput = String.format("%c %s + 2 | %s in %d..%d %c", leftBracket, iteratorName,
         iteratorName, lb, ub, rightBracket);
     Assert.assertEquals(expectedOutput, comprehension.use());
   }

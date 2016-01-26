@@ -1,5 +1,7 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
+import at.siemens.ct.jmz.expressions.Expression;
+
 public class SetComprehension extends Comprehension {
 
   private static final char LEFT_BRACKET = '{';
@@ -11,7 +13,7 @@ public class SetComprehension extends Comprehension {
    * @param generator
    * @param expression
    */
-  public SetComprehension(Generator generator, String expression) {
+  public SetComprehension(Generator generator, Expression expression) {
     super(generator, expression);
   }
 
