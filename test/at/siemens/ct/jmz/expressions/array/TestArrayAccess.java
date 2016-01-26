@@ -201,6 +201,17 @@ public class TestArrayAccess {
     Assert.assertEquals(expectedOutput, access.use());
   }
 
+  @Test
+  public void testIntArrayVarAccessByIterator() {
+    String nameOfArray = "a";
+    String nameOfIterator = "i";
+    IntArrayVar array = createArrayVar(nameOfArray, 1);
+    IntSet range = array.getRange().iterator().next();
+    ArrayAccessExpression access = array.access(range.iterate(nameOfIterator));
+    String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIterator);
+    Assert.assertEquals(expectedOutput, access.use());
+  }
+
   private IntArrayVar createArrayVar(String nameOfArray, int dimensions) {
     Collection<IntSet> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {

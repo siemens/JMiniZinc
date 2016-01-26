@@ -31,7 +31,7 @@ public class Generator implements Expression {
 
   @Override
   public String use() {
-    return iterators.stream().map(IteratorExpression::use).collect(Collectors.joining(", "));
+    return iterators.stream().map(IteratorExpression::iterate).collect(Collectors.joining(", "));
   }
 
 }
