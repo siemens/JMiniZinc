@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.expressions.array;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 
 /**
@@ -11,16 +14,27 @@ import at.siemens.ct.jmz.expressions.integer.IntExpression;
 public class ArrayAccessExpression implements IntExpression {
 
   private IntArrayExpression array;
-  private IntExpression index;
+  private IntExpression[] indices;
 
-  public ArrayAccessExpression(IntArrayExpression array, IntExpression index) {
+  public ArrayAccessExpression(IntArrayExpression array, IntExpression... indices) {
     this.array = array;
-    this.index = index;
+    this.indices = indices;
+    checkDimensions();
+  }
+
+  private void checkDimensions() {
+    int dimensions = array.getDimensions();
+    if (dimensions != indices.length) {
+      throw new IllegalArgumentException(
+          String.format("Unexpected number of indices: %s has %d dimension(s), not %d!",
+              array.use(), dimensions, indices.length));
+    }
   }
 
   @Override
   public String use() {
-    return String.format("%s[%s]", array.use(), index.use());
+    return String.format("%s[%s]", array.use(),
+        Arrays.stream(indices).map(IntExpression::use).collect(Collectors.joining(",")));
   }
 
   @Override

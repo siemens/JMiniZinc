@@ -9,4 +9,11 @@ public interface RangeBasedExpression extends Expression {
 
   Collection<IntSet> getRange();
 
+  /**
+   * @return the number of dimensions
+   */
+  default int getDimensions() {
+    return getRange().size();
+  }
+
 }

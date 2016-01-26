@@ -21,7 +21,7 @@ public interface IntArrayExpression extends RangeBasedExpression, SummableIntege
    * @return TODO: Return operation object instead of string
    */
   default String coerce() {
-    int dimensions = getRange().size();
+    int dimensions = getDimensions();
     if (dimensions == 1) {
       return use();
     } else {
@@ -31,13 +31,13 @@ public interface IntArrayExpression extends RangeBasedExpression, SummableIntege
   }
 
   /**
-   * Provides an expression to access this array by index.
+   * Provides an expression to access this array by indices (one index for each dimension).
    * 
-   * @param index
-   * @return
+   * @param indices
+   * @return an array access for this array, i.e. this[indices]
    */
-  default ArrayAccessExpression access(IntExpression index) {
-    return new ArrayAccessExpression(this, index);
+  default ArrayAccessExpression access(IntExpression... indices) {
+    return new ArrayAccessExpression(this, indices);
   }
 
 }
