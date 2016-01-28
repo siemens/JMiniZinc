@@ -1,5 +1,7 @@
 package at.siemens.ct.jmz.elements;
 
+import at.siemens.ct.jmz.expressions.integer.IntExpression;
+
 /**
  * Represents a MiniZinc integer set type with an implicit null value that is an element of this set. In contrast to
  * {@link OptionalIntSet}, which uses the support for option types built in to MiniZinc (but not well supported yet by
@@ -30,7 +32,7 @@ public class PseudoOptionalIntSet extends IntSet {
   /**
    * @return the element of this set that represents null values.
    */
-  public IntConstant getNullElement() {
+  public IntExpression getNullElement() {
     return getLb();
   }
 

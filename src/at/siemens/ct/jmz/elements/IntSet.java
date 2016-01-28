@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
+import at.siemens.ct.jmz.expressions.integer.IntExpression;
 
 public class IntSet implements Element {
 
@@ -13,18 +14,18 @@ public class IntSet implements Element {
   public static final IntSet ALL_INTEGERS = new IntSet("int", null, null);
 
   protected String name;
-  private IntConstant lb;
-  private IntConstant ub;
+  private IntExpression lb;
+  private IntExpression ub;
 
   public IntSet(String name, int lb, int ub) {
     this(name, new IntConstant(lb), new IntConstant(ub));
   }
 
-  public IntSet(String name, int lb, IntConstant ub) {
+  public IntSet(String name, int lb, IntExpression ub) {
     this(name, new IntConstant(lb), ub);
   }
 
-  public IntSet(String name, IntConstant lb, IntConstant ub) {
+  public IntSet(String name, IntExpression lb, IntExpression ub) {
     super();
     this.name = name;
     this.lb = lb;
@@ -35,11 +36,11 @@ public class IntSet implements Element {
     this(null, lb, ub);
   }
 
-  public IntSet(int lb, IntConstant ub) {
+  public IntSet(int lb, IntExpression ub) {
     this(null, lb, ub);
   }
 
-  public IntSet(IntConstant lb, IntConstant ub) {
+  public IntSet(IntExpression lb, IntExpression ub) {
     this(null, lb, ub);
   }
 
@@ -79,11 +80,11 @@ public class IntSet implements Element {
     return name;
   }
 
-  protected IntConstant getLb() {
+  protected IntExpression getLb() {
     return lb;
   }
 
-  protected IntConstant getUb() {
+  protected IntExpression getUb() {
     return ub;
   }
 
