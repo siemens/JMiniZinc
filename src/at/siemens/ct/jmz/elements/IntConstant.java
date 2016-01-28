@@ -32,13 +32,18 @@ public class IntConstant extends Constant implements IntExpression {
   }
 
   /**
-   * Constructs a new constant whose value is {@code this + delta}.
-   * TODO: If this constant has a name, the new constant could refer to it: e.g. "INT".add(-1) should create "INT-1"
-   * TODO: merge with {@link IntExpression#add(int)}?
+   * Constructs either a new constant whose value is {@code this + delta} (if this constant has no name), or calls
+   * {@link IntExpression#add(int)} (if this constant has a name).
    */
   @Override
-  public IntConstant add(int delta) {
-    return new IntConstant(value.intValue() + delta);
+  public IntExpression add(int delta) {
+    if (this.name == null) {
+      // directly return computed new value
+      return new IntConstant(value.intValue() + delta);
+    } else {
+      // return expression
+      return IntExpression.super.add(delta);
+    }
   }
 
 }
