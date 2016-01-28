@@ -31,6 +31,8 @@ public class SumExpression implements IntExpression {
   @Override
   public String use() {
     return summands.stream().map(SummableIntegers::toSum).collect(Collectors.joining(" + "));
+    // TODO: Use "-..." instead of "+(-...)" if summand is negative
+    // TODO: Omit blanks if desired (e.g. in IntSet bounds)
   }
 
 }

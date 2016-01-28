@@ -13,11 +13,19 @@ public interface SummableIntegers extends Expression {
 
   default String toSum() {
     if (isSingleton()) {
-      return use();
+      return parenthesiseIfNegative();
     } else {
       return String.format("sum(%s)", use());
-      // TODO: replace by object representing function call
     }
+    // TODO: replace by object representing function call?
+  }
+
+  default String parenthesiseIfNegative() {
+    String usage = use();
+    if (IntExpression.isNegative(usage)) {
+      usage = IntExpression.parenthesise(usage);
+    }
+    return usage;
   }
 
 }

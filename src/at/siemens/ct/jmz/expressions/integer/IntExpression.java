@@ -20,4 +20,24 @@ public interface IntExpression extends Expression, SummableIntegers {
     return new SumExpression(this, new IntConstant(delta));
   }
 
+  /**
+   * Checks if the given integer expression string is negative.
+   * 
+   * @param expression
+   * @return {@code true} iff the given expression starts with a minus sign
+   */
+  static boolean isNegative(String expression) {
+    return expression.startsWith("-");
+  }
+
+  /**
+   * Puts the given integer expression string into braces.
+   * 
+   * @param expression
+   * @return a parenthesised version of the given expression
+   */
+  static String parenthesise(String expression) {
+    return "(" + expression + ")";
+  }
+
 }
