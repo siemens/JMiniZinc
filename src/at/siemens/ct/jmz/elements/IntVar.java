@@ -1,10 +1,12 @@
 package at.siemens.ct.jmz.elements;
 
+import java.util.regex.Pattern;
+
 import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.integer.SumExpression;
 
-public class IntVar extends Variable implements IntExpression {
+public class IntVar extends Variable<Integer> implements IntExpression {
 
   private IntSet type;
   private IntExpression value;
@@ -47,6 +49,21 @@ public class IntVar extends Variable implements IntExpression {
   @Override
   public String use() {
     return getName();
+  }
+
+  @Override
+  public Pattern getPattern() {
+    return getPatternStatic();
+  }
+
+  static Pattern getPatternStatic() {
+    return Pattern.compile("-?\\d+");
+  }
+
+  @Override
+  public Integer parseValue(String value) {
+    // TODO: check value for correctness (value must be in domain)
+    return Integer.valueOf(value);
   }
 
 }

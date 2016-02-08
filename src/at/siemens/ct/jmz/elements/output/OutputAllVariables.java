@@ -30,10 +30,11 @@ public class OutputAllVariables extends OutputStatement {
 
   @Override
   protected Collection<String> getElements() {
-    return variables.stream().map(v -> outputVariable((Variable) v)).collect(Collectors.toList());
+    return variables.stream().map(v -> outputVariable((Variable<?>) v))
+        .collect(Collectors.toList());
   }
 
-  private static String outputVariable(Variable v) {
+  private static String outputVariable(Variable<?> v) {
     String vname = v.getName();
     return String.format("\"%s = \\(%s);\\n\"", vname, vname);
   }

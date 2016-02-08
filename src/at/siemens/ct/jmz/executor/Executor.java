@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.writer.IModelWriter;
 
 /**
@@ -112,8 +112,10 @@ public class Executor implements IExecutor {
   }
 
   @Override
-  public int getSolution(IntVar i) {
-    throw new UnsupportedOperationException(); // TODO: implement
+  public <T> T getSolution(Variable<T> variable) {
+    return variable.parseResults(lastSolverOutput);
+    // TODO: only read last solution (?)
+    // TODO: what if UNSATISFIABLE or UNBOUND or UNKNOWN?
   }
 
 }

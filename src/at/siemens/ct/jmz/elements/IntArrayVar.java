@@ -1,12 +1,15 @@
 package at.siemens.ct.jmz.elements;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.comprehension.Comprehension;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
-public class IntArrayVar extends Variable implements IntArray {
+public class IntArrayVar extends Variable<int[]> implements IntArray {
 
   private Collection<IntSet> range;
   private IntSet type;
@@ -84,6 +87,24 @@ public class IntArrayVar extends Variable implements IntArray {
   @Override
   public String use() {
     return name;
+  }
+
+  @Override
+  public Pattern getPattern() {
+    String intPattern = IntVar.getPatternStatic().pattern();
+    return Pattern.compile("\\[((" + intPattern + ", )*" + intPattern + ")\\]");
+  }
+
+  @Override
+  public int[] parseValue(String value) {
+    // TODO: check value for correctness (correct number of dimensions / values; value is in domain)
+    Matcher matcher = getPattern().matcher(value);
+    if (matcher.find()) {
+      String match = matcher.group(1);
+      return Arrays.stream(match.split(", ")).mapToInt(Integer::valueOf).toArray();
+    } else {
+      throw new IllegalArgumentException("Not an integer array: " + value);
+    }
   }
 
 }
