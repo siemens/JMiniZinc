@@ -12,11 +12,6 @@ public abstract class Variable<T> implements Element {
     this.name = name;
   }
 
-  @Override
-  public boolean isVariable() {
-    return true;
-  }
-
   public String getName() {
     return name;
   }

@@ -10,5 +10,7 @@ public interface Element {
   /**
    * @return {@code true} iff this element is a variable
    */
-  boolean isVariable();
+  default boolean isVariable() {
+    return this instanceof Variable;
+  }
 }

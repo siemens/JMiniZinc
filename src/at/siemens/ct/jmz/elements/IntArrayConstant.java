@@ -83,11 +83,6 @@ public class IntArrayConstant implements IntArray {
   }
 
   @Override
-  public boolean isVariable() {
-    return false;
-  }
-
-  @Override
   public String use() {
     return name != null ? name : values.use();
   }

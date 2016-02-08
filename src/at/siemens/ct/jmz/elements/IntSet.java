@@ -71,11 +71,6 @@ public class IntSet implements Element {
     return new IntSet(name, Collections.min(possibleValues), Collections.max(possibleValues));
   }
 
-  @Override
-  public boolean isVariable() {
-    return false;
-  }
-
   protected String getName() {
     return name;
   }

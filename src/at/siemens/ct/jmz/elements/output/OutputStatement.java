@@ -23,9 +23,4 @@ public abstract class OutputStatement implements Element {
     return declaration.toString();
   }
 
-  @Override
-  public boolean isVariable() {
-    return false;
-  }
-
 }

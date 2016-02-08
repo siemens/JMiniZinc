@@ -24,9 +24,4 @@ public class IncludeItem implements Element {
     return String.format("include \"%s%s\";", fileName, FILENAME_SUFFIX);
   }
 
-  @Override
-  public boolean isVariable() {
-    return false;
-  }
-
 }

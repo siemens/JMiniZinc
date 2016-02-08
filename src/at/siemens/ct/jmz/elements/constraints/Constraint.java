@@ -14,10 +14,5 @@ public abstract class Constraint implements Element {
    *         {@code constraint} keyword in the front and the semicolon in the end.
    */
   abstract String getExpression();
-  
-  @Override
-  public boolean isVariable() {
-    return false;
-  }
 
 }
