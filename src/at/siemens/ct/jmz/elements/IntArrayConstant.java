@@ -67,6 +67,14 @@ public class IntArrayConstant implements IntArray {
     this(name, range, type, ArrayUtils.toOneDimensionalList(values));
   }
 
+  /**
+   * The boolean values given here will be translated to integers ({@code true = 1}, {@code false = 0}).
+   * TODO: Implement real boolean arrays
+   */
+  public IntArrayConstant(String name, List<IntSet> range, IntSet type, boolean[][] values) {
+    this(name, range, type, ArrayUtils.boolToInt(values));
+  }
+
   @Override
   public Collection<IntSet> getRange() {
     return range;

@@ -58,4 +58,19 @@ public class ArrayUtils {
     return boxed;
   }
 
+  /**
+   * Translates an array of booleans to an array of integers ({@code true = 1}, {@code false = 0}).
+   */
+  public static int[][] boolToInt(boolean[][] array) {
+    int[][] result = new int[array.length][];
+    for (int i = 0; i < array.length; i++) {
+      int width = array[i].length;
+      result[i] = new int[width];
+      for (int j = 0; j < width; j++) {
+        result[i][j] = array[i][j] ? 1 : 0;
+      }
+    }
+    return result;
+  }
+
 }
