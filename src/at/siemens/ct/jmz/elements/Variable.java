@@ -26,7 +26,7 @@ public abstract class Variable<T> implements Element {
     if (matcher.find()) {
       return parseValue(matcher.group(1));
     }
-    return null;
+    throw new IllegalArgumentException("No match found");
   }
 
   public abstract T parseValue(String value);
