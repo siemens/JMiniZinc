@@ -14,7 +14,7 @@ public abstract class TemporaryFiles {
 
   private static final String TEMP_FILE_PREFIX = "jmz";
   private static final String MZN_POSTFIX = ".mzn";
-  private static final String FZN_POSTFIX = "jmz";
+  private static final String FZN_POSTFIX = ".fzn";
 
   public static File createMZN() throws IOException {
     return create(TEMP_FILE_PREFIX, MZN_POSTFIX);
