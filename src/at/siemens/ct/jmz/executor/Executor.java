@@ -47,7 +47,7 @@ public abstract class Executor implements IExecutor {
   }
 
   @Override
-  public void waitForSolution() {
+  public void waitForSolution() throws InterruptedException {
     if (runningProcesses.isEmpty()) {
       throw new IllegalStateException("No running process.");
     }
@@ -66,14 +66,16 @@ public abstract class Executor implements IExecutor {
       for (Process process : runningProcesses) {
         process.destroy();
       }
+      throw e;
+    } finally {
+      System.out.println("Executor is finished");
+
+      lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
+      lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
+
+      removeCurrentModelFile();
+      ACTIVE_PROCESSES.remove(runningProcess);
     }
-    System.out.println("Executor is finished");
-
-    lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
-    lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
-
-    removeCurrentModelFile();
-    ACTIVE_PROCESSES.remove(runningProcess);
   }
 
   @Override

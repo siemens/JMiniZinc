@@ -12,7 +12,7 @@ public interface IExecutor {
   /**
    * Waits until the running process returns with a solution.
    */
-  void waitForSolution();
+  void waitForSolution() throws InterruptedException;
 
   /**
    * @return the output generated during the last solver run.

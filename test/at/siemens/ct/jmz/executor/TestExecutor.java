@@ -35,7 +35,7 @@ public class TestExecutor {
   }
 
   @Test
-  public void testSingleVariableGetOutput() throws IOException {
+  public void testSingleVariableGetOutput() throws IOException, InterruptedException {
     IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
     IntVar i = new IntVar("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
@@ -54,7 +54,7 @@ public class TestExecutor {
   }
 
   @Test
-  public void testSingleVariableGetSolution() throws IOException {
+  public void testSingleVariableGetSolution() throws IOException, InterruptedException {
     IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
     IntVar i = new IntVar("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
@@ -67,7 +67,7 @@ public class TestExecutor {
   }
 
   @Test
-  public void testArrayGetSolution() throws IOException {
+  public void testArrayGetSolution() throws IOException, InterruptedException {
     IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
     IntArrayVar a = new IntArrayVar("a", setOneTwoThree, IntSet.ALL_INTEGERS);
     modelBuilder.add(setOneTwoThree, a);

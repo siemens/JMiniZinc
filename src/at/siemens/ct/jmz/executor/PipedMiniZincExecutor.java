@@ -35,7 +35,7 @@ public class PipedMiniZincExecutor extends Executor {
   }
 
   @Override
-  public void waitForSolution() {
+  public void waitForSolution() throws InterruptedException {
     // wait for compiler:
     super.waitForSolution();
 
