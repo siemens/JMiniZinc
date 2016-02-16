@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -16,6 +15,7 @@ import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.elements.output.OutputStatement;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
+import at.siemens.ct.jmz.files.TemporaryFiles;
 
 /**
  * Provides methods that write models built by a {@link IModelBuilder} somewhere.
@@ -24,9 +24,6 @@ import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
  *
  */
 public class ModelWriter implements IModelWriter {
-
-  private static final String TEMP_FILE_PREFIX = "jmz"; // TODO: synergy with Executor?
-  private static final String TEMP_FILE_SUFFIX = ".mzn";
 
   private IModelBuilder modelBuilder;
   private Collection<IncludeItem> includeItems = new ArrayList<>(1);
@@ -94,7 +91,7 @@ public class ModelWriter implements IModelWriter {
 
   @Override
   public File toTempFile() throws IOException {
-    File file = Files.createTempFile(TEMP_FILE_PREFIX, TEMP_FILE_SUFFIX).toFile();
+    File file = TemporaryFiles.createMZN();
     toFile(file);
     return file;
   }

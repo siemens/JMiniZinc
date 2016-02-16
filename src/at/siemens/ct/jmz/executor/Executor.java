@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.jmz.elements.Variable;
@@ -15,67 +19,41 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class Executor implements IExecutor {
+public abstract class Executor implements IExecutor {
 
-  private static final String MZN_EXE_PATH = "minizinc";
-  private static final String IDE_EXE_PATH = "MiniZincIDE";
-  private static String DEFAULT_EXE_PATH = MZN_EXE_PATH;
-  private static boolean DEFAULT_SHOW_IDE = false;
+  private static final Set<Process> ACTIVE_PROCESSES = Collections
+      .synchronizedSet(new HashSet<Process>());
 
   private IModelWriter modelWriter;
-  private String pathToExecutable = DEFAULT_EXE_PATH;
-  private boolean showModelInIDE = DEFAULT_SHOW_IDE;
-  private Process runningProcess;
+  private Stack<Process> runningProcesses = new Stack<>();
   private File temporaryModelFile;
   private String lastSolverOutput;
   private String lastSolverErrors;
 
-  public Executor(IModelWriter modelWriter) {
-    super();
+  protected Executor(IModelWriter modelWriter) {
     this.modelWriter = modelWriter;
   }
 
-  @Override
-  public String getPathToExecutable() {
-    return pathToExecutable;
-  }
-
-  @Override
-  public void setPathToExecutable(String pathToExecutable) {
-    this.pathToExecutable = pathToExecutable;
-  }
-
-  @Override
-  public void setShowModelInIDE(boolean showModelInIDE) {
-    this.showModelInIDE = showModelInIDE;
-    this.pathToExecutable = getExePath(showModelInIDE);
-  }
-
-  public static void setDefaultShowModelInIDE(boolean showModelInIDE) {
-    DEFAULT_SHOW_IDE = showModelInIDE;
-    DEFAULT_EXE_PATH = getExePath(showModelInIDE);
-  }
-
-  private static String getExePath(boolean showModelInIDE) {
-    return showModelInIDE ? IDE_EXE_PATH : MZN_EXE_PATH;
-  }
-
-  @Override
-  public Process startProcess() throws IOException {
+  protected String modelToTempFile() throws IOException {
     temporaryModelFile = modelWriter.toTempFile();
-    String command = pathToExecutable; // TODO: add more parameters, abstract parameter adding
-    ProcessBuilder processBuilder = new ProcessBuilder(command,
-        temporaryModelFile.getAbsolutePath());
-    runningProcess = processBuilder.start();
+    return temporaryModelFile.getAbsolutePath();
+  }
+
+  protected Process startProcess(String... command) throws IOException {
+    ProcessBuilder processBuilder = new ProcessBuilder(command);
+    Process runningProcess = processBuilder.start();
+    ACTIVE_PROCESSES.add(runningProcess);
+    runningProcesses.push(runningProcess);
     return runningProcess;
   }
 
   @Override
   public void waitForSolution() {
-    if (runningProcess == null) {
+    if (runningProcesses.isEmpty()) {
       throw new IllegalStateException("No running process.");
     }
 
+    Process runningProcess = runningProcesses.peek();
     BufferedReader outputReader = new BufferedReader(
         new InputStreamReader(runningProcess.getInputStream()));
     BufferedReader errorReader = new BufferedReader(
@@ -83,15 +61,20 @@ public class Executor implements IExecutor {
 
     try {
       runningProcess.waitFor();
+      // TODO: runningProcess.waitFor(timeout, TimeUnit.SECONDS);
     } catch (InterruptedException e) {
+      System.out.println("Executor was interrupted");
+      for (Process process : runningProcesses) {
+        process.destroy();
+      }
     }
+    System.out.println("Executor is finished");
 
     lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
     lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
 
-    if (!showModelInIDE) {
-      removeCurrentModelFile();
-    }
+    removeCurrentModelFile();
+    ACTIVE_PROCESSES.remove(runningProcess);
   }
 
   @Override
@@ -116,6 +99,18 @@ public class Executor implements IExecutor {
     return variable.parseResults(lastSolverOutput);
     // TODO: only read last solution (?)
     // TODO: what if UNSATISFIABLE or UNBOUND or UNKNOWN?
+  }
+
+  /**
+   * @return {@code true} iff there exists an active {@link Executor} which has a currently running process.
+   */
+  public static boolean isRunning() {
+    for (Process process : ACTIVE_PROCESSES) {
+      if (process.isAlive()) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
