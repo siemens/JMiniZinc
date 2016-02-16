@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,7 @@ public abstract class Executor implements IExecutor {
 
   private IModelWriter modelWriter;
   private Stack<Process> runningProcesses = new Stack<>();
+  private Stack<String[]> runningProcessNames = new Stack<>();
   private File temporaryModelFile;
   private String lastSolverOutput;
   private String lastSolverErrors;
@@ -43,6 +45,7 @@ public abstract class Executor implements IExecutor {
     Process runningProcess = processBuilder.start();
     ACTIVE_PROCESSES.add(runningProcess);
     runningProcesses.push(runningProcess);
+    runningProcessNames.push(command);
     return runningProcess;
   }
 
@@ -62,7 +65,8 @@ public abstract class Executor implements IExecutor {
       runningProcess.waitFor();
       // TODO: runningProcess.waitFor(timeout, TimeUnit.SECONDS);
     } catch (InterruptedException e) {
-      System.out.println("Executor was interrupted");
+      System.out.println(
+          "Executor was interrupted while running " + Arrays.toString(runningProcessNames.peek()));
       for (Process process : runningProcesses) {
         process.destroy();
       }
