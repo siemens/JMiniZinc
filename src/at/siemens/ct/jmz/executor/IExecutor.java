@@ -2,8 +2,6 @@ package at.siemens.ct.jmz.executor;
 
 import java.io.IOException;
 
-import at.siemens.ct.jmz.elements.Variable;
-
 public interface IExecutor {
 
   /**
@@ -15,11 +13,6 @@ public interface IExecutor {
    * Waits until the running process returns with a solution.
    */
   void waitForSolution();
-
-  /**
-   * @return the value that has been assigned to the given variable in the current solution.
-   */
-  <T> T getSolution(Variable<T> i);
 
   /**
    * @return the output generated during the last solver run.

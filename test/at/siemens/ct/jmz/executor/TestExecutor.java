@@ -62,7 +62,7 @@ public class TestExecutor {
     Assert.assertTrue(Executor.isRunning());
     executor.waitForSolution();
     Assert.assertFalse(Executor.isRunning());
-    int solI = executor.getSolution(i);
+    int solI = i.parseResults(executor.getLastSolverOutput());
     Assert.assertTrue("Unexpected solution: i=" + solI, solI >= 1 && solI <= 3);
   }
 
@@ -75,7 +75,7 @@ public class TestExecutor {
     Assert.assertTrue(Executor.isRunning());
     executor.waitForSolution();
     Assert.assertFalse(Executor.isRunning());
-    int[] solA = executor.getSolution(a);
+    int[] solA = a.parseResults(executor.getLastSolverOutput());
     System.out.println(Arrays.toString(solA));
     Assert.assertEquals("Unexpected length of solution array: a=" + Arrays.toString(solA), 3,
         solA.length);

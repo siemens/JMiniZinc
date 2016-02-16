@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.writer.IModelWriter;
 
 /**
@@ -80,6 +79,7 @@ public abstract class Executor implements IExecutor {
   @Override
   public String getLastSolverOutput() {
     return lastSolverOutput;
+    // TODO: cut at last solution delimiter?
   }
 
   @Override
@@ -92,13 +92,6 @@ public abstract class Executor implements IExecutor {
       temporaryModelFile.delete();
       temporaryModelFile = null;
     }
-  }
-
-  @Override
-  public <T> T getSolution(Variable<T> variable) {
-    return variable.parseResults(lastSolverOutput);
-    // TODO: only read last solution (?)
-    // TODO: what if UNSATISFIABLE or UNBOUND or UNKNOWN?
   }
 
   /**
