@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
@@ -199,6 +200,8 @@ public class TestModelWriter {
    * output statement to a string and checks the result.
    */
   @Test
+  @Ignore
+  @Deprecated
   public void testCreateIntVarAndOutputStatementToString() {
     modelBuilder.add(new IntVar("i", IntSet.ALL_INTEGERS));
     modelWriter.setOutputStatement(new OutputAllVariables(modelBuilder.elements()));
@@ -215,6 +218,8 @@ public class TestModelWriter {
    * string and checks the result.
    */
   @Test
+  @Ignore
+  @Deprecated
   public void testCreateTwoIntVarsAndOutputStatementToString() {
     modelBuilder.add(new IntVar("i", IntSet.ALL_INTEGERS));
     modelBuilder.add(new IntVar("j", IntSet.ALL_INTEGERS));

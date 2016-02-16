@@ -92,7 +92,8 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
   @Override
   public Pattern getPattern() {
     String intPattern = IntVar.getPatternStatic().pattern();
-    return Pattern.compile("\\[((" + intPattern + ", )*" + intPattern + ")\\]");
+    return Pattern
+        .compile("array\\dd\\(\\d+..\\d+, \\[((" + intPattern + ", )*" + intPattern + ")\\]\\)");
   }
 
   @Override

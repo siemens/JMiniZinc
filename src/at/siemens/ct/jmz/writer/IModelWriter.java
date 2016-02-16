@@ -42,8 +42,16 @@ public interface IModelWriter {
 
   void setSolvingStrategy(SolvingStrategy solvingStrategy);
 
+  /**
+   * @see OutputStatement
+   */
+  @Deprecated
   OutputStatement getOutputStatement();
 
+  /**
+   * @see OutputStatement
+   */
+  @Deprecated
   void setOutputStatement(OutputStatement outputStatement);
 
 }

@@ -25,7 +25,7 @@ import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
  */
 public class ModelWriter implements IModelWriter {
 
-  private static final String TEMP_FILE_PREFIX = "jmz";
+  private static final String TEMP_FILE_PREFIX = "jmz"; // TODO: synergy with Executor?
   private static final String TEMP_FILE_SUFFIX = ".mzn";
 
   private IModelBuilder modelBuilder;
@@ -54,11 +54,13 @@ public class ModelWriter implements IModelWriter {
   }
 
   @Override
+  @Deprecated
   public OutputStatement getOutputStatement() {
     return outputStatement;
   }
 
   @Override
+  @Deprecated
   public void setOutputStatement(OutputStatement outputStatement) {
     this.outputStatement = outputStatement;
   }
