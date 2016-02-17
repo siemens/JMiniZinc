@@ -72,7 +72,7 @@ public abstract class Executor implements IExecutor {
       }
       throw e;
     } finally {
-      System.out.println("Executor is finished");
+      System.out.println("Executor is finished: " + Arrays.toString(runningProcessNames.peek()));
 
       lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
       lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
