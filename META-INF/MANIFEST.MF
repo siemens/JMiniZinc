@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Implementation-Title: JMiniZinc
+Implementation-Version: 0.0.0.0
+Implementation-Vendor: Siemens
