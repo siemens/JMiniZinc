@@ -95,7 +95,7 @@ public abstract class Executor implements IExecutor {
 
   private void removeCurrentModelFile() {
     if (temporaryModelFile != null) {
-      temporaryModelFile.delete();
+      temporaryModelFile.deleteOnExit();
       temporaryModelFile = null;
     }
   }

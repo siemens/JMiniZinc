@@ -53,7 +53,7 @@ public class PipedMiniZincExecutor extends Executor {
 
   private void removeTemporaryFiles() {
     if (fznFile != null) {
-      fznFile.delete();
+      fznFile.deleteOnExit();
       fznFile = null;
     }
   }
