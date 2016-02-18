@@ -8,9 +8,12 @@ import at.siemens.ct.jmz.elements.IntArrayVar;
 /**
  * Constrains the value of a specific array element to be an element of a specific set.
  * 
+ * @deprecated TODO: replace by {@link ArrayAccessInSet}
+ * 
  * @author z003ft4a (Richard Taupe)
  *
  */
+@Deprecated
 public class ArrayElementInSet extends Constraint {
 
   private IntArrayVar array;
@@ -25,7 +28,6 @@ public class ArrayElementInSet extends Constraint {
    * @param allowedValues
    */
   public ArrayElementInSet(IntArrayVar array, int index, Set<Integer> allowedValues) {
-    super();
     this.array = array;
     this.index = index;
     this.allowedValues = allowedValues;
