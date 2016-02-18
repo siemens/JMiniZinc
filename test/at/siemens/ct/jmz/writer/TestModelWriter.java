@@ -19,6 +19,7 @@ import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 import at.siemens.ct.jmz.elements.output.OutputAllVariables;
 import at.siemens.ct.jmz.elements.solving.OptimizationType;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
@@ -37,7 +38,7 @@ public class TestModelWriter {
   @Before
   public void setUp() {
     modelBuilder.reset();
-    modelWriter.setSolvingStrategy(SolvingStrategy.NULL);
+    modelWriter.setSolvingStrategy(new NullSolvingStrategy());
   }
 
   /**

@@ -2,11 +2,9 @@ package at.siemens.ct.jmz.elements.solving;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.IntVar;
-import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 
 public abstract class SolvingStrategy implements Element {
 
-  public static final SolvingStrategy NULL = new NullSolvingStrategy();
   public static final SolvingStrategy SOLVE_SATISFY = new SolveSatisfy();
 
   public static SolvingStrategy minimize(IntVar objective) {

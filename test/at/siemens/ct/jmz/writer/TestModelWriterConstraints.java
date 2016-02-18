@@ -12,8 +12,8 @@ import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 import at.siemens.ct.jmz.elements.constraints.ArrayElementInSet;
-import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
 /**
  * Tests {@link ModelWriter} with {@link Element}s from {@link at.siemens.ct.jmz.elements.constraints}.
@@ -29,7 +29,7 @@ public class TestModelWriterConstraints {
   @Before
   public void setUp() {
     modelBuilder.reset();
-    modelWriter.setSolvingStrategy(SolvingStrategy.NULL);
+    modelWriter.setSolvingStrategy(new NullSolvingStrategy());
   }
 
   /**
