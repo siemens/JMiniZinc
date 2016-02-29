@@ -93,4 +93,29 @@ public class IntSet implements Element {
     return new IteratorExpression(this, nameOfIterator);
   }
 
+  /**
+   * Checks if the given value is contained by this set. If this cannot be determined (e.g. if the set is bounded by
+   * constants whose values are not known), {@code null} is returned.
+   * 
+   * @param value
+   * @return
+   */
+  public Boolean contains(int value) {
+    if (lb == null && ub == null) {
+      return true;
+    } else if (lb == null) {
+      return ub.isGreaterThanOrEqualTo(value);
+    } else if (ub == null) {
+      return lb.isLessThanOrEqualTo(value);
+    } else {
+      Boolean ubGEQ = ub.isGreaterThanOrEqualTo(value);
+      Boolean lbLEQ = lb.isLessThanOrEqualTo(value);
+      if (ubGEQ != null && lbLEQ != null) {
+        return ubGEQ && lbLEQ;
+      } else {
+        return null;
+      }
+    }
+  }
+
 }

@@ -40,4 +40,26 @@ public interface IntExpression extends Expression, SummableIntegers {
     return "(" + expression + ")";
   }
 
+  /**
+   * Checks if the given value is greater than or equal to this expression. If this cannot be determined (e.g. if the
+   * value of the expression is not known), {@code null} is returned.
+   * 
+   * @param value
+   * @return
+   */
+  default Boolean isGreaterThanOrEqualTo(int value) {
+    return null;
+  }
+
+  /**
+   * Checks if the given value is less than or equal to this expression. If this cannot be determined (e.g. if the value
+   * of the expression is not known), {@code null} is returned.
+   * 
+   * @param value
+   * @return
+   */
+  default Boolean isLessThanOrEqualTo(int value) {
+    return null;
+  }
+
 }

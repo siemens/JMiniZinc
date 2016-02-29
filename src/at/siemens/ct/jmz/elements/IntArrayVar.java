@@ -92,19 +92,49 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
   @Override
   public Pattern getPattern() {
     String intPattern = IntVar.getPatternStatic().pattern();
-    return Pattern
-        .compile("array\\dd\\(\\d+..\\d+, \\[((" + intPattern + ", )*" + intPattern + ")\\]\\)");
+    return Pattern.compile(
+        "array(\\d)d\\((\\d+..\\d+, )+\\[((" + intPattern + ", )*" + intPattern + ")\\]\\)");
   }
 
   @Override
   public int[] parseValue(String value) {
-    // TODO: check value for correctness (correct number of dimensions / values; value is in domain)
     Matcher matcher = getPattern().matcher(value);
     if (matcher.find()) {
-      String match = matcher.group(1);
-      return Arrays.stream(match.split(", ")).mapToInt(Integer::valueOf).toArray();
+      parseDimensions(matcher);
+      return parseValue(matcher);
     } else {
       throw new IllegalArgumentException("Not an integer array: " + value);
+    }
+  }
+
+  private void parseDimensions(Matcher matcher) {
+    String matchDimensions = matcher.group(1);
+    int parsedDimensions = Integer.valueOf(matchDimensions);
+    checkParsedDimensions(parsedDimensions);
+  }
+
+  private int[] parseValue(Matcher matcher) {
+    String matchValue = matcher.group(3);
+    int[] parsedValue = Arrays.stream(matchValue.split(", ")).mapToInt(Integer::valueOf)
+        .toArray();
+    checkParsedValue(parsedValue);
+    return parsedValue;
+  }
+
+  private void checkParsedDimensions(int parsedDimensions) {
+    int expectedDimensions = this.getDimensions();
+    if (expectedDimensions != parsedDimensions) {
+      throw new IllegalArgumentException("Unexpected number of dimensions: expected "
+          + expectedDimensions + ", got " + parsedDimensions);
+    }
+  }
+
+  private void checkParsedValue(int[] parsedValue) {
+    for (int value : parsedValue) {
+      Boolean valueInDomain = type.contains(value);
+      if (valueInDomain == Boolean.FALSE) {
+        throw new IllegalArgumentException("Value not in domain: " + value);
+      }
     }
   }
 

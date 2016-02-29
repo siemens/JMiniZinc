@@ -46,4 +46,14 @@ public class IntConstant extends Constant implements IntExpression {
     }
   }
 
+  @Override
+  public Boolean isGreaterThanOrEqualTo(int value) {
+    return this.value.intValue() >= value;
+  }
+
+  @Override
+  public Boolean isLessThanOrEqualTo(int value) {
+    return this.value.intValue() <= value;
+  }
+
 }
