@@ -62,8 +62,12 @@ public class IntVar extends Variable<Integer> implements IntExpression {
 
   @Override
   public Integer parseValue(String value) {
-    // TODO: check value for correctness (value must be in domain)
-    return Integer.valueOf(value);
+    int i = Integer.parseInt(value);
+    Boolean valueInDomain = type.contains(i);
+    if (valueInDomain == Boolean.FALSE) {
+      throw new IllegalArgumentException("Value not in domain: " + value);
+    }
+    return i;
   }
 
 }
