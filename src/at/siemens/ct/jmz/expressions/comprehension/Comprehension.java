@@ -7,7 +7,6 @@ import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
 
 /**
- * TODO: expression should not be just a string
  * 
  * @author z003ft4a (Richard Taupe)
  *

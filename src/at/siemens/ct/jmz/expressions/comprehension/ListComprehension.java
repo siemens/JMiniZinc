@@ -5,7 +5,6 @@ import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
 /**
  * TODO: this shares some implementation details with {@code IntExplicitList}. Can we merge something?
- * TODO: expression should not be just a string
  * 
  * @author z003ft4a (Richard Taupe)
  *
