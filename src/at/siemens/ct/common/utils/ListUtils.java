@@ -59,7 +59,7 @@ public class ListUtils {
    * Gets the width of the given list of lists, i.e. the size of its longest element.
    */
   private static <T> int getWidth(Collection<? extends Collection<T>> listOfLists) {
-    return listOfLists.stream().mapToInt(Collection::size).max().getAsInt();
+    return listOfLists.stream().mapToInt(Collection::size).max().orElse(0);
   }
 
 }
