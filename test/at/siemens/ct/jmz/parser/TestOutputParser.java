@@ -27,32 +27,28 @@ public class TestOutputParser {
 
   @Test
   public void testComplete() {
-    writeSolutions(2);
-    write("sol3");
+    writeSolutions(3);
     write(SolverMessage.COMPLETE.getMessage());
     expect("sol3");
   }
 
   @Test
   public void testUnbounded() {
-    writeSolutions(2);
-    write("sol3");
+    writeSolutions(3);
     write(SolverMessage.UNBOUNDED.getMessage());
     expect("sol3");
   }
 
   @Test
   public void testUnsatisfiable() {
-    writeSolutions(2);
-    write("sol3");
+    writeSolutions(3);
     write(SolverMessage.UNSATISFIABLE.getMessage());
     expect("sol3");
   }
 
   @Test
   public void testUnknown() {
-    writeSolutions(2);
-    write("sol3");
+    writeSolutions(3);
     write(SolverMessage.UNKNOWN.getMessage());
     expect("sol3");
   }
@@ -72,11 +68,11 @@ public class TestOutputParser {
   private void writeSolutions(int n) {
     for (int i = 1; i <= n; i++) {
       write("sol" + i);
-      newSolution();
+      writeSolutionSeparator();
     }
   }
 
-  private void newSolution() {
+  private void writeSolutionSeparator() {
     write(MiniZincOutputParser.SOLUTION_SEPARATOR);
   }
 

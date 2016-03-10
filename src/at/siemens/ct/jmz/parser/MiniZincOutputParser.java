@@ -42,23 +42,13 @@ public class MiniZincOutputParser {
   }
 
   /**
-   * Gets the part of the solver output that describes the last solution that was found. This can be delimited in the
-   * following ways:
-   * <ul>
-   * <li>If {@link #getAllOutput()} ends with a valid {@link SolverMessage}, the last solution is found between this
-   * message and the last {@link #SOLUTION_SEPARATOR}.</li>
-   * <li>Else, the last solution is found between the last and the second-to-last {@link #SOLUTION_SEPARATOR}.</li>
-   * </ul>
+   * Gets the part of the solver output that describes the last solution that was found.
    * 
-   * @return
+   * @return the part of the solver output that is found between the last and the second-to-last
+   *         {@link #SOLUTION_SEPARATOR}.
    */
   public String getLastSolution() {
-    SolverMessage solverMessage = getSolverMessage();
-    if (solverMessage != null) {
-      return extractLastSolution(SOLUTION_SEPARATOR, solverMessage.getMessage());
-    } else {
-      return extractLastSolution(SOLUTION_SEPARATOR, SOLUTION_SEPARATOR);
-    }
+    return extractLastSolution(SOLUTION_SEPARATOR, SOLUTION_SEPARATOR);
   }
 
   private String extractLastSolution(String sepBefore, String sepAfter) {
