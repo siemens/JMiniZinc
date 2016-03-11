@@ -41,4 +41,20 @@ public class StringUtils {
     return string.substring(0, posSeparator);
   }
 
+  /**
+   * Removes the last occurence of {@code postfixSeparator} and everything that comes after it from {@code input},
+   * then removes the last occurence of {@code prefixSeparator} and everything that comes before it from the remaining
+   * part of {@code input}.
+   * 
+   * @param input
+   * @param prefixSeparator
+   * @param postfixSeparator
+   * @return the remaining part of {@code input}.
+   */
+  public static String removePostfixAndPrefix(String input, String prefixSeparator,
+      String postfixSeparator) {
+    String inputFront = StringUtils.removePostfix(input, postfixSeparator);
+    return removePrefix(inputFront, prefixSeparator);
+  }
+
 }

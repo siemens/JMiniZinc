@@ -53,8 +53,7 @@ public class MiniZincOutputParser {
 
   private String extractLastSolution(String sepBefore, String sepAfter) {
     String allOutput = getAllOutput();
-    String outputFront = StringUtils.removePostfix(allOutput, sepAfter);
-    return StringUtils.removePrefix(outputFront, sepBefore);
+    return StringUtils.removePostfixAndPrefix(allOutput, sepBefore, sepAfter);
   }
 
 }
