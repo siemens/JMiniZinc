@@ -16,21 +16,26 @@ import java.util.concurrent.TimeUnit;
 public class ThreadUtils {
 
   /**
-   * Runs the given {@code task} for at most {@code timeout} seconds.
+   * Runs the given {@code task} for at most {@code timeout} seconds.<br>
+   * If {@code timeout} is {@code null}, the task is executed without any time limit.
    */
-  public static <T> T limitSeconds(Callable<T> task, int timeout) throws Exception {
-    return limitMilliseconds(task, timeout * 1000);
+  public static <T> T limitSeconds(Callable<T> task, Integer timeout) throws Exception {
+    Long timeoutMs = timeout == null ? null : Long.valueOf(timeout) * 1000;
+    return limitMilliseconds(task, timeoutMs);
   }
 
   /**
-   * Runs the given {@code task} for at most {@code timeout} milliseconds.
+   * Runs the given {@code task} for at most {@code timeout} milliseconds.<br>
+   * If {@code timeout} is {@code null}, the task is executed without any time limit.
    */
-  public static <T> T limitMilliseconds(Callable<T> task, long timeout) throws Exception {
+  public static <T> T limitMilliseconds(Callable<T> task, Long timeout) throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     Future<T> future = executor.submit(task);
     executor.shutdown();
-    executor.awaitTermination(timeout, TimeUnit.MILLISECONDS);
-    executor.shutdownNow();
+    if (timeout != null) {
+      executor.awaitTermination(timeout, TimeUnit.MILLISECONDS);
+      executor.shutdownNow();
+    }
     try {
       return future.get();
     } catch (ExecutionException e) {
