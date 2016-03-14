@@ -85,7 +85,6 @@ public abstract class Executor implements IExecutor {
   @Override
   public String getLastSolverOutput() {
     return lastSolverOutput;
-    // TODO: cut at last solution delimiter?
   }
 
   @Override
