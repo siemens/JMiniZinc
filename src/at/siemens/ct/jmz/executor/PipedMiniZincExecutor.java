@@ -17,7 +17,8 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class PipedMiniZincExecutor extends Executor {
 
-  private static final String COMPILER = "mzn2fzn -Ggecode";
+  private static final String COMPILER = "mzn2fzn";
+  private static final String COMPILER_FLAG = "-Ggecode";
   private static final String SOLVER = "fzn-gecode";
 
   private static final String COMPILER_OUTPUT_FZN = "--output-fzn-to-file";
@@ -31,7 +32,8 @@ public class PipedMiniZincExecutor extends Executor {
   @Override
   public void startProcess() throws IOException {
     fznFile = TemporaryFiles.createFZN();
-    startProcess(COMPILER, modelToTempFile(), COMPILER_OUTPUT_FZN, fznFile.getAbsolutePath());
+    startProcess(COMPILER, COMPILER_FLAG, modelToTempFile(), COMPILER_OUTPUT_FZN,
+        fznFile.getAbsolutePath());
   }
 
   @Override
