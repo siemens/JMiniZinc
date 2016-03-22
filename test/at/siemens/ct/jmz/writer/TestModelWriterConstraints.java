@@ -13,7 +13,7 @@ import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
-import at.siemens.ct.jmz.elements.constraints.ArrayElementInSet;
+import at.siemens.ct.jmz.elements.constraints.IntExpressionInSet;
 
 /**
  * Tests {@link ModelWriter} with {@link Element}s from {@link at.siemens.ct.jmz.elements.constraints}.
@@ -33,7 +33,8 @@ public class TestModelWriterConstraints {
   }
 
   /**
-   * Creates an {@link ArrayElementInSet} constraint, writes its declaration to a string and checks the result.
+   * Creates an {@link IntExpressionInSet} constraint for an array element, writes its declaration to a string and
+   * checks the result.
    */
   @Test
   public void testCreateArrayElementInSetConstraintToString() {
@@ -44,7 +45,7 @@ public class TestModelWriterConstraints {
     Set<Integer> allowedValues = new HashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);
-    ArrayElementInSet constraint = new ArrayElementInSet(arrayVar, 1, allowedValues);
+    IntExpressionInSet constraint = new IntExpressionInSet(arrayVar.access(1), allowedValues);
     modelBuilder.add(setRange, arrayVar, constraint);
     String output = modelWriter.toString();
 

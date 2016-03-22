@@ -1,6 +1,7 @@
 package at.siemens.ct.jmz.expressions.array;
 
 import at.siemens.ct.jmz.elements.IntArray;
+import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.integer.SummableIntegers;
 
@@ -38,6 +39,17 @@ public interface IntArrayExpression extends RangeBasedExpression, SummableIntege
    */
   default ArrayAccessExpression access(IntExpression... indices) {
     return new ArrayAccessExpression(this, indices);
+  }
+
+  /**
+   * @see #access(IntExpression...)
+   */
+  default ArrayAccessExpression access(int... indices) {
+    IntConstant[] constantIndices = new IntConstant[indices.length];
+    for (int i = 0; i < indices.length; i++) {
+      constantIndices[i] = new IntConstant(indices[i]);
+    }
+    return new ArrayAccessExpression(this, constantIndices);
   }
 
 }
