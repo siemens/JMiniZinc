@@ -8,7 +8,7 @@ import at.siemens.ct.jmz.elements.IntArrayVar;
 /**
  * Constrains the value of a specific array element to be an element of a specific set.
  * 
- * @deprecated TODO: replace by {@link ArrayAccessInSet}
+ * @deprecated TODO: replace by {@link IntExpressionInSet}
  * 
  * @author z003ft4a (Richard Taupe)
  *
