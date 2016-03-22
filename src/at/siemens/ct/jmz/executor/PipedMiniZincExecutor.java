@@ -17,7 +17,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class PipedMiniZincExecutor extends Executor {
 
-  private static final String COMPILER = "mzn2fzn";
+  private static final String COMPILER = "mzn2fzn -Ggecode";
   private static final String SOLVER = "fzn-gecode";
 
   private static final String COMPILER_OUTPUT_FZN = "--output-fzn-to-file";
