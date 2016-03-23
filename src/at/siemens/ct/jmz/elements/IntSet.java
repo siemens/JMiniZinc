@@ -6,7 +6,7 @@ import java.util.Collections;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 
-public class IntSet implements Element {
+public class IntSet implements NamedElement {
 
   /**
    * Represents the set of all integers
@@ -71,7 +71,8 @@ public class IntSet implements Element {
     return new IntSet(name, Collections.min(possibleValues), Collections.max(possibleValues));
   }
 
-  protected String getName() {
+  @Override
+  public String getName() {
     return name;
   }
 

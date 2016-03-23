@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
-public abstract class Constant implements Element {
+public abstract class Constant implements NamedElement {
   protected String name;
   protected Number value;
 
@@ -15,5 +15,10 @@ public abstract class Constant implements Element {
     super();
     this.name = name;
     this.value = value;
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 }

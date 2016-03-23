@@ -5,8 +5,9 @@ import java.util.stream.Collectors;
 
 import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
-public interface IntArray extends Element, IntArrayExpression {
+public interface IntArray extends NamedElement, IntArrayExpression {
 
+  @Override
   Collection<IntSet> getRange();
 
   default String declareRange() {

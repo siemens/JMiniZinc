@@ -3,7 +3,7 @@ package at.siemens.ct.jmz.elements;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Variable<T> implements Element {
+public abstract class Variable<T> implements NamedElement {
 
   protected String name;
 
@@ -12,6 +12,7 @@ public abstract class Variable<T> implements Element {
     this.name = name;
   }
 
+  @Override
   public String getName() {
     return name;
   }

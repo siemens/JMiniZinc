@@ -1,10 +1,14 @@
 package at.siemens.ct.jmz;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
+import at.siemens.ct.jmz.elements.NamedElement;
 
 /**
  * A MiniZinc model builder.
@@ -14,20 +18,29 @@ import at.siemens.ct.jmz.elements.Element;
  */
 public class ModelBuilder implements IModelBuilder {
 
-  private List<Element> elements = new LinkedList<>();
+  private List<Element> allElements = new LinkedList<>();
+  private Map<String, NamedElement> namedElements = new HashMap<>();
 
   private void addElement(Element element) {
-    elements.add(element);
+    allElements.add(element);
+    if (element instanceof NamedElement) {
+      NamedElement namedElement = ((NamedElement) element);
+      String name = namedElement.getName();
+      if (namedElements.containsKey(name)) {
+        throw new IllegalArgumentException("NamedElement with this name already exists: " + name);
+      }
+      namedElements.put(name, namedElement);
+    }
   }
 
   @Override
   public Stream<Element> elements() {
-    return elements.stream();
+    return allElements.stream();
   }
 
   @Override
   public void reset() {
-    elements.clear();
+    allElements.clear();
   }
 
   @Override
@@ -35,6 +48,18 @@ public class ModelBuilder implements IModelBuilder {
     for (Element element : elements) {
       addElement(element);
     }
+  }
+
+  @Override
+  public void add(Collection<? extends Element> elements) {
+    for (Element element : elements) {
+      addElement(element);
+    }
+  }
+
+  @Override
+  public NamedElement getElementByName(String name) {
+    return namedElements.get(name);
   }
 
 }
