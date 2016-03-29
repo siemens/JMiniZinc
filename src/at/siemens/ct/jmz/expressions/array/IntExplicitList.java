@@ -5,12 +5,13 @@ import java.util.Collections;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.PseudoOptionalIntSet;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
 /**
- * TODO: Overlaps with {@link ListComprehension}. Wanted: a beautiful design
+ * TODO: Overlaps with {@link ListComprehension} and with {@link IntArrayConstant}. Wanted: a beautiful design
  * 
  * @author z003ft4a (Richard Taupe)
  *
@@ -26,8 +27,11 @@ public class IntExplicitList implements IntArrayExpression {
   private Collection<Integer> values;
   private String nullElement = DEFAULT_NULL;
 
+  public IntExplicitList(Collection<IntSet> range, Collection<Integer> values) {
+    this(range, IntSet.deriveRange(values), values);
+  }
+
   public IntExplicitList(Collection<IntSet> range, IntSet type, Collection<Integer> values) {
-    super();
     this.range = range;
     this.type = type;
     this.values = values;

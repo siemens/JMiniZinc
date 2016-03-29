@@ -5,7 +5,7 @@ import java.util.Collection;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.Expression;
 
-public interface RangeBasedExpression extends Expression {
+public interface RangeBasedExpression extends Expression<int[]> {
 
   Collection<IntSet> getRange();
 

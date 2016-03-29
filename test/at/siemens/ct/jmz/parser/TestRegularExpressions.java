@@ -11,6 +11,7 @@ import at.siemens.ct.jmz.executor.TestExecutor;
 
 /**
  * Tests regular expressions that are used to parse {@link Variable}'s values in a result.
+ * TODO: move to {@link at.siemens.ct.jmz.elements} package so we can access the "real" patterns
  * 
  * See also {@link TestExecutor}, where the result parser is tested implicitly.
  * 
@@ -58,6 +59,26 @@ public class TestRegularExpressions {
     Assert.assertTrue("No match in pattern", match);
     String foundValue = matcher.group(1);
     Assert.assertEquals("Unexpected matching value", "98, 116, 102", foundValue);
+  }
+
+  @Test
+  public void testMatchBoolean() {
+    Pattern pattern = Pattern.compile("\\w+ = (true|false);");
+    String input = "x = true;";
+    Matcher matcher = pattern.matcher(input);
+    Assert.assertTrue(matcher.matches());
+  }
+
+  @Test
+  public void testExtractBoolean() {
+    Pattern pattern = Pattern.compile("\\w+ = (true|false);");
+    String input = "x = true;";
+    Matcher matcher = pattern.matcher(input);
+
+    boolean match = matcher.matches();
+    Assert.assertTrue("No match in pattern", match);
+    String foundValue = matcher.group(1);
+    Assert.assertEquals("Unexpected matching value", "true", foundValue);
   }
 
 }

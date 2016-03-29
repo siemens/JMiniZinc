@@ -14,10 +14,9 @@ import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
 public abstract class Comprehension implements RangeBasedExpression {
 
   protected Generator generator;
-  private Expression expression;
+  private Expression<int[]> expression;
 
-  public Comprehension(Generator generator, Expression expression) {
-    super();
+  public Comprehension(Generator generator, Expression<int[]> expression) {
     this.generator = generator;
     this.expression = expression;
   }

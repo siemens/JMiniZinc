@@ -1,9 +1,8 @@
 package at.siemens.ct.jmz.expressions.integer;
 
 import at.siemens.ct.jmz.elements.IntConstant;
-import at.siemens.ct.jmz.expressions.Expression;
 
-public interface IntExpression extends Expression, SummableIntegers {
+public interface IntExpression extends SummableIntegers<Integer> {
 
   @Override
   default boolean isSingleton() {

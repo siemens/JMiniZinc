@@ -153,4 +153,21 @@ public class TestDeclarations {
     Assert.assertEquals("set of int: set = lb..ub;", set.declare());
   }
 
+  @Test
+  public void testBoolVarUnassigned() {
+    String varName = "x";
+    BooleanVar var = new BooleanVar(varName);
+    String expectedDeclaration = String.format("var bool: %s;", varName);
+    Assert.assertEquals("Unexpected declaration", expectedDeclaration, var.declare());
+  }
+
+  @Test
+  public void testBoolVarAssigned() {
+    String varName = "x";
+    boolean value = false;
+    BooleanVar var = new BooleanVar(varName, value);
+    String expectedDeclaration = String.format("var bool: %s = %s;", varName, value);
+    Assert.assertEquals("Unexpected declaration", expectedDeclaration, var.declare());
+  }
+
 }

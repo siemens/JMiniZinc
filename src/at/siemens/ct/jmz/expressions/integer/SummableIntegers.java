@@ -4,7 +4,7 @@ import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.expressions.Expression;
 
-public interface SummableIntegers extends Expression {
+public interface SummableIntegers<T> extends Expression<T> {
 
   /**
    * @return {@code true} if this is only one value (e.g. an {@link IntVar}, in contrast to an {@link IntArrayVar}).
@@ -14,9 +14,8 @@ public interface SummableIntegers extends Expression {
   default String toSum() {
     if (isSingleton()) {
       return parenthesiseIfNegative();
-    } else {
-      return String.format("sum(%s)", use());
     }
+    return String.format("sum(%s)", use());
     // TODO: replace by object representing function call?
   }
 

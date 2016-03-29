@@ -16,12 +16,12 @@ public class TestConditionalExpression {
    */
   @Test
   public void testIntegerIfElse() {
-    BooleanExpression condition = new ComparisonExpression<IntExpression>(new IntConstant(1),
+    BooleanExpression condition = new ComparisonExpression<>(new IntConstant(1),
         BooleanComparisonOperator.LT, new IntConstant(2));
     IntExpression thenBranch = new IntConstant(1);
     IntExpression elseBranch = new IntConstant(2);
-    ConditionalExpression<IntExpression> condExpr = new ConditionalExpression<IntExpression>(
-        condition, thenBranch, elseBranch);
+    ConditionalExpression<Integer> condExpr = new IntegerConditionalExpression(condition,
+        thenBranch, elseBranch);
     Assert.assertEquals("if 1 < 2 then 1 else 2 endif", condExpr.use());
   }
 
@@ -31,15 +31,15 @@ public class TestConditionalExpression {
    */
   @Test
   public void testNestedIntegerIfElse() {
-    BooleanExpression condition1 = new ComparisonExpression<IntExpression>(new IntConstant(1),
+    BooleanExpression condition1 = new ComparisonExpression<>(new IntConstant(1),
         BooleanComparisonOperator.LT, new IntConstant(2));
     IntExpression then1 = new IntConstant(1);
-    BooleanExpression condition2 = new ComparisonExpression<IntExpression>(new IntConstant(2),
+    BooleanExpression condition2 = new ComparisonExpression<>(new IntConstant(2),
         BooleanComparisonOperator.LT, new IntConstant(1));
     IntExpression then2 = new IntConstant(2);
     IntExpression else2 = new IntConstant(3);
-    ConditionalExpression<IntExpression> condExpr = new IntegerConditionalExpression(condition1,
-        then1, new IntegerConditionalExpression(condition2, then2, else2));
+    ConditionalExpression<Integer> condExpr = new IntegerConditionalExpression(condition1, then1,
+        new IntegerConditionalExpression(condition2, then2, else2));
     Assert.assertEquals("if 1 < 2 then 1 else if 2 < 1 then 2 else 3 endif endif", condExpr.use());
   }
 

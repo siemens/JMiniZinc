@@ -10,13 +10,14 @@ import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
  *
  * @param <T>
  */
-public class ConditionalExpression<T extends Expression> implements Expression {
+public class ConditionalExpression<T> implements Expression<T> {
 
   private BooleanExpression condition;
-  private T thenBranch;
-  private T elseBranch;
+  private Expression<T> thenBranch;
+  private Expression<T> elseBranch;
 
-  public ConditionalExpression(BooleanExpression condition, T thenBranch, T elseBranch) {
+  public ConditionalExpression(BooleanExpression condition, Expression<T> thenBranch,
+      Expression<T> elseBranch) {
     this.condition = condition;
     this.thenBranch = thenBranch;
     this.elseBranch = elseBranch;

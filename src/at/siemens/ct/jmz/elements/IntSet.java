@@ -61,6 +61,16 @@ public class IntSet implements NamedElement {
   }
 
   /**
+   * Creates a nameless set covering the given values ({@code min(possibleValues)..max(possibleValues)}).
+   * 
+   * @param possibleValues
+   * @return a reference to the created set.
+   */
+  public static IntSet deriveRange(Collection<Integer> possibleValues) {
+    return deriveRange(null, possibleValues);
+  }
+
+  /**
    * Creates a set with the given name covering the given values ({@code min(possibleValues)..max(possibleValues)}).
    * 
    * @param name
@@ -113,9 +123,8 @@ public class IntSet implements NamedElement {
       Boolean lbLEQ = lb.isLessThanOrEqualTo(value);
       if (ubGEQ != null && lbLEQ != null) {
         return ubGEQ && lbLEQ;
-      } else {
-        return null;
       }
+      return null;
     }
   }
 

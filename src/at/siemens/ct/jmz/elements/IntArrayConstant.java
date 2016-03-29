@@ -20,6 +20,12 @@ public class IntArrayConstant implements IntArray {
   private IntSet type;
   private IntExplicitList values;
 
+  public IntArrayConstant(@SuppressWarnings("unused") Collection<Integer> values) {
+    throw new UnsupportedOperationException(
+        "Please use IntExplicitList if you need an unnamed IntArrayConstant.");
+    // TODO: may be refactored ... there exists a conceptual overlap (see IntExplicitList)
+  }
+
   /**
    * Creates an array of integer constants.
    * 
@@ -82,10 +88,12 @@ public class IntArrayConstant implements IntArray {
 
   @Override
   public String declare() {
+    mustHaveName();
     return String.format("array[%s] of %s: %s = %s;", declareRange(), type.nameOrRange(), name,
         values.coerce());
   }
 
+  @Override
   public String getName() {
     return name;
   }

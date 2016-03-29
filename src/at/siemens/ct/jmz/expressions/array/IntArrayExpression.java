@@ -5,7 +5,7 @@ import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.integer.SummableIntegers;
 
-public interface IntArrayExpression extends RangeBasedExpression, SummableIntegers {
+public interface IntArrayExpression extends RangeBasedExpression, SummableIntegers<int[]> {
 
   @Override
   default boolean isSingleton() {
@@ -25,10 +25,9 @@ public interface IntArrayExpression extends RangeBasedExpression, SummableIntege
     int dimensions = getDimensions();
     if (dimensions == 1) {
       return use();
-    } else {
-      return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(getRange()),
-          use());
     }
+    return String.format("array%dd(%s, %s)", dimensions, IntArray.declareRange(getRange()),
+        use());
   }
 
   /**

@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
  */
 public class SumExpression implements IntExpression {
 
-  private Collection<SummableIntegers> summands;
+  private Collection<SummableIntegers<?>> summands;
 
-  public SumExpression(SummableIntegers... summands) {
+  public SumExpression(SummableIntegers<?>... summands) {
     this.summands = Arrays.asList(summands);
   }
 

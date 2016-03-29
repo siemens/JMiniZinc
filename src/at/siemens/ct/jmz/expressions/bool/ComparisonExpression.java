@@ -2,12 +2,13 @@ package at.siemens.ct.jmz.expressions.bool;
 
 import at.siemens.ct.jmz.expressions.Expression;
 
-public class ComparisonExpression<T extends Expression> implements BooleanExpression {
+public class ComparisonExpression<T> implements BooleanExpression {
 
-  private T left, right;
+  private Expression<T> left, right;
   private BooleanComparisonOperator operator;
 
-  public ComparisonExpression(T left, BooleanComparisonOperator operator, T right) {
+  public ComparisonExpression(Expression<T> left, BooleanComparisonOperator operator,
+      Expression<T> right) {
     super();
     this.left = left;
     this.operator = operator;

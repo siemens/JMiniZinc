@@ -13,7 +13,7 @@ import at.siemens.ct.jmz.expressions.Expression;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class Generator implements Expression {
+public class Generator implements Expression<int[]> {
 
   private Collection<IteratorExpression> iterators;
 
