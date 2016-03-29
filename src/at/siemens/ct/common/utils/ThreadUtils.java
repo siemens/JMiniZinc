@@ -1,11 +1,15 @@
 package at.siemens.ct.common.utils;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Provides simple methods to use threads easily.
@@ -43,6 +47,36 @@ public class ThreadUtils {
       Throwable cause = e.getCause();
       throw cause instanceof Exception ? (Exception) cause : e;
     }
+  }
+
+  /**
+   * Starts a new Thread in which the given input stream will be read to a string.
+   * 
+   * @param inputStream
+   * @return
+   */
+  public static Future<String> readInThread(InputStream inputStream) {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    Future<String> future = executor.submit(new CallableReader(inputStream));
+    executor.shutdown();
+    return future;
+  }
+
+  private static final class CallableReader implements Callable<String> {
+
+    private InputStream inputStream;
+
+    CallableReader(InputStream inputStream) {
+      this.inputStream = inputStream;
+    }
+
+    @Override
+    public String call() throws Exception {
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+        return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+      }
+    }
+
   }
 
 }

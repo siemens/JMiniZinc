@@ -1,9 +1,7 @@
 package at.siemens.ct.jmz.executor;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+import at.siemens.ct.common.utils.ThreadUtils;
 import at.siemens.ct.jmz.writer.IModelWriter;
 
 /**
@@ -91,10 +92,8 @@ public abstract class Executor implements IExecutor {
     }
 
     Process runningProcess = getCurrentProcess();
-    BufferedReader outputReader = new BufferedReader(
-        new InputStreamReader(runningProcess.getInputStream()));
-    BufferedReader errorReader = new BufferedReader(
-        new InputStreamReader(runningProcess.getErrorStream()));
+    Future<String> futureOutput = ThreadUtils.readInThread(runningProcess.getInputStream());
+    Future<String> futureErrors = ThreadUtils.readInThread(runningProcess.getErrorStream());
 
     try {
       runningProcess.waitFor();
@@ -109,8 +108,12 @@ public abstract class Executor implements IExecutor {
     } finally {
       System.out.println("Executor is finished: " + getCurrentCommand());
 
-      lastSolverOutput = outputReader.lines().collect(Collectors.joining(System.lineSeparator()));
-      lastSolverErrors = errorReader.lines().collect(Collectors.joining(System.lineSeparator()));
+      try {
+        lastSolverOutput = futureOutput.get();
+        lastSolverErrors = futureErrors.get();
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      }
 
       removeCurrentModelFile();
       ACTIVE_PROCESSES.remove(runningProcess);
