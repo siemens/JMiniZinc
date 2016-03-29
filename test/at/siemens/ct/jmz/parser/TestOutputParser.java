@@ -88,13 +88,16 @@ public class TestOutputParser {
   private class PseudoExecutor implements IExecutor {
 
     StringBuilder outputBuilder = new StringBuilder();
+    private long startTime;
 
     @Override
     public void startProcess() throws IOException {
+      this.startTime = System.currentTimeMillis();
     }
 
     @Override
-    public void waitForSolution() throws InterruptedException {
+    public long waitForSolution() throws InterruptedException {
+      return System.currentTimeMillis() - startTime;
     }
 
     @Override

@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -26,6 +28,7 @@ public abstract class Executor implements IExecutor {
 
   private IModelWriter modelWriter;
   private Stack<Process> runningProcesses = new Stack<>();
+  private Map<Process, Long> startTimes = new HashMap<>();
   private Stack<String[]> runningProcessNames = new Stack<>();
   private File temporaryModelFile;
   private String lastSolverOutput;
@@ -42,15 +45,21 @@ public abstract class Executor implements IExecutor {
 
   protected Process startProcess(String... command) throws IOException {
     ProcessBuilder processBuilder = new ProcessBuilder(command);
-    Process runningProcess = processBuilder.start();
+    Process runningProcess = startProcess(processBuilder);
     ACTIVE_PROCESSES.add(runningProcess);
     runningProcesses.push(runningProcess);
     runningProcessNames.push(command);
     return runningProcess;
   }
 
+  private Process startProcess(ProcessBuilder processBuilder) throws IOException {
+    Process process = processBuilder.start();
+    startTimes.put(process, System.currentTimeMillis());
+    return process;
+  }
+
   @Override
-  public void waitForSolution() throws InterruptedException {
+  public long waitForSolution() throws InterruptedException {
     if (runningProcesses.isEmpty()) {
       throw new IllegalStateException("No running process.");
     }
@@ -80,6 +89,11 @@ public abstract class Executor implements IExecutor {
       removeCurrentModelFile();
       ACTIVE_PROCESSES.remove(runningProcess);
     }
+    return elapsedTime(runningProcess);
+  }
+
+  private long elapsedTime(Process process) {
+    return System.currentTimeMillis() - startTimes.get(process);
   }
 
   @Override

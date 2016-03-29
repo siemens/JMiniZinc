@@ -11,8 +11,10 @@ public interface IExecutor {
 
   /**
    * Waits until the running process returns with a solution.
+   * 
+   * @return the time that has elapsed since {@link #startProcess()} (in milliseconds).
    */
-  void waitForSolution() throws InterruptedException;
+  long waitForSolution() throws InterruptedException;
 
   /**
    * @return the output generated during the last solver run.

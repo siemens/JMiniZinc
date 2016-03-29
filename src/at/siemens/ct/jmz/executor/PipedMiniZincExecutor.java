@@ -37,20 +37,21 @@ public class PipedMiniZincExecutor extends Executor {
   }
 
   @Override
-  public void waitForSolution() throws InterruptedException {
+  public long waitForSolution() throws InterruptedException {
     // wait for compiler:
-    super.waitForSolution();
+    long elapsedTime = super.waitForSolution();
 
     // execute and wait for solver:
     try {
       startProcess(SOLVER, fznFile.getAbsolutePath());
-      super.waitForSolution();
+      elapsedTime += super.waitForSolution();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } finally {
       removeTemporaryFiles();
     }
+    return elapsedTime;
   }
 
   private void removeTemporaryFiles() {
