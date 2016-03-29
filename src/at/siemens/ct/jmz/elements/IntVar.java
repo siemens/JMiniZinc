@@ -11,6 +11,10 @@ public class IntVar extends Variable<Integer> implements IntExpression {
   private IntSet type;
   private IntExpression value;
 
+  public IntVar(String name) {
+    this(name, IntSet.ALL_INTEGERS);
+  }
+
   public IntVar(String name, IntSet type) {
     this(name, type, null);
   }
@@ -61,11 +65,11 @@ public class IntVar extends Variable<Integer> implements IntExpression {
   }
 
   @Override
-  public Integer parseValue(String value) {
-    int i = Integer.parseInt(value);
+  public Integer parseValue(String string) {
+    int i = Integer.parseInt(string);
     Boolean valueInDomain = type.contains(i);
     if (valueInDomain == Boolean.FALSE) {
-      throw new IllegalArgumentException("Value not in domain: " + value);
+      throw new IllegalArgumentException("Value not in domain: " + string);
     }
     return i;
   }
