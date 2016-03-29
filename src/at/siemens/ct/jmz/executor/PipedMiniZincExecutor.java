@@ -3,6 +3,7 @@ package at.siemens.ct.jmz.executor;
 import java.io.File;
 import java.io.IOException;
 
+import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.files.TemporaryFiles;
 import at.siemens.ct.jmz.writer.IModelWriter;
 
@@ -32,8 +33,8 @@ public class PipedMiniZincExecutor extends Executor {
   @Override
   public void startProcess() throws IOException {
     fznFile = TemporaryFiles.createFZN();
-    startProcess(COMPILER, COMPILER_FLAG, modelToTempFile(), COMPILER_OUTPUT_FZN,
-        fznFile.getAbsolutePath());
+    startProcessIncludeSearchDirectories(COMPILER,
+        ListUtils.fromElements(COMPILER_FLAG, COMPILER_OUTPUT_FZN, fznFile.getAbsolutePath()));
   }
 
   @Override

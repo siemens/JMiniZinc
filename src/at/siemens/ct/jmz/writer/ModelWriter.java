@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -101,6 +102,11 @@ public class ModelWriter implements IModelWriter {
         .concat(includeItems.stream(),
             Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement)))
         .filter(s -> s != null).filter(s -> s.declare() != null);
+  }
+
+  @Override
+  public Collection<Path> getSearchDirectories() {
+    return includeItems.stream().map(IncludeItem::getDirectory).collect(Collectors.toSet());
   }
 
 }

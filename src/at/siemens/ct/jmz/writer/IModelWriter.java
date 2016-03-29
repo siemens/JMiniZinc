@@ -3,6 +3,8 @@ package at.siemens.ct.jmz.writer;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.util.Collection;
 
 import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.elements.output.OutputStatement;
@@ -53,5 +55,12 @@ public interface IModelWriter {
    */
   @Deprecated
   void setOutputStatement(OutputStatement outputStatement);
+
+  /**
+   * Returns the paths where to search for included files.
+   * 
+   * @return a collection of paths.
+   */
+  Collection<Path> getSearchDirectories();
 
 }
