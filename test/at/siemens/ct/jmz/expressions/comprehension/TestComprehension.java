@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,6 +19,7 @@ public class TestComprehension {
   /**
    * Constructs a simple {@link ListComprehension}, calls {@link ListComprehension#toString()} and checks the result.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testSimpleListComprehension() throws Exception {
     testSimpleComprehension(ListComprehension.class, '[', ']');
@@ -28,15 +28,14 @@ public class TestComprehension {
   /**
    * Constructs a simple {@link SetComprehension}, calls {@link SetComprehension#toString()} and checks the result.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testSimpleSetComprehension() throws Exception {
     testSimpleComprehension(SetComprehension.class, '{', '}');
   }
 
-  private <C extends Comprehension> void testSimpleComprehension(Class<C> comprehensionClass,
-      char leftBracket, char rightBracket)
-      throws NoSuchMethodException, SecurityException, InstantiationException,
-      IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+  private static <C extends Comprehension> void testSimpleComprehension(Class<C> comprehensionClass,
+      char leftBracket, char rightBracket) throws Exception {
     int lb = 1, ub = 10;
     IntSet range = new IntSet(lb, ub);
     String iteratorName = "i";

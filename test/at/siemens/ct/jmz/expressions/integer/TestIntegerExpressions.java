@@ -19,6 +19,7 @@ public class TestIntegerExpressions {
   /**
    * Constructs a simple {@link SumExpression}, calls {@link Expression#toString()} and checks the result.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testSumExpression() {
     String nameOfArray = "array";

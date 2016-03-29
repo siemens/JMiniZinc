@@ -14,6 +14,7 @@ public class TestConditionalExpression {
   /**
    * Constructs and checks a simple if-else of the form "if 1 < 2 then 1 else 2 endif".
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntegerIfElse() {
     BooleanExpression condition = new ComparisonExpression<>(new IntConstant(1),
@@ -29,6 +30,7 @@ public class TestConditionalExpression {
    * Constructs and checks a simple if-else-elseif of the form "if 1 < 2 then 1 else if 2 < 1 then 2 else 3 endif endif"
    * .
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testNestedIntegerIfElse() {
     BooleanExpression condition1 = new ComparisonExpression<>(new IntConstant(1),

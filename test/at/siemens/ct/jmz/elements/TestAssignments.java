@@ -16,6 +16,7 @@ import at.siemens.ct.jmz.expressions.array.IntExplicitList;
  */
 public class TestAssignments {
 
+  @SuppressWarnings("static-method")
   @Test
   public void testIntAssignment() {
     String varName = "i";
@@ -26,6 +27,7 @@ public class TestAssignments {
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, assignment.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayAssignment() {
     String varName = "i";
@@ -38,6 +40,7 @@ public class TestAssignments {
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, assignment.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testBooleanAssignment() {
     String varName = "b";

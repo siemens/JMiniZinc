@@ -20,6 +20,7 @@ import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
  */
 public class TestDeclarations {
 
+  @SuppressWarnings("static-method")
   @Test
   public void testArrayWithListComprehension() {
     int lb = 1, ub = 10;
@@ -29,13 +30,14 @@ public class TestDeclarations {
     Generator generator = new Generator(iterator);
     // String expression = "10*i";
     // TODO: re-introduce above expression as soon as integer products are supported
-    Expression expression = iterator.add(10);
+    Expression<Integer> expression = iterator.add(10);
     ListComprehension comprehension = new ListComprehension(generator, expression);
     IntArrayVar array = new IntArrayVar("a", new IntSet(null, 1, 10), IntSet.ALL_INTEGERS,
         comprehension);
     Assert.assertEquals("array[1..10] of var int: a = [ i + 10 | i in 1..10 ];", array.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testTwoDimensionalArrayVar() {
     String name = "a";
@@ -47,6 +49,7 @@ public class TestDeclarations {
     Assert.assertEquals("array[OneTwoThree, TwoThreeFour] of var int: a;", array.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testThreeDimensionalArrayVar() {
     String name = "a";
@@ -61,6 +64,7 @@ public class TestDeclarations {
         array.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testOptIntSet() {
     String nameOfSet = "I";
@@ -72,6 +76,7 @@ public class TestDeclarations {
     Assert.assertEquals(String.format("var opt %s: %s;", nameOfSet, nameOfVar), var.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testThreeDimensionalArrayConstant() {
     String name = "a";
@@ -91,6 +96,7 @@ public class TestDeclarations {
         array.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testThreeDimensionalArrayConstantWithNulls() {
     String name = "a";
@@ -110,6 +116,7 @@ public class TestDeclarations {
         array.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testThreeDimensionalArrayConstantWithPseudoNulls() {
     String name = "a";
@@ -130,6 +137,7 @@ public class TestDeclarations {
         array.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testPseudoOptionalIntSetDeclaration() {
     IntSet i = new IntSet("I", 1, 5);
@@ -145,6 +153,7 @@ public class TestDeclarations {
     Assert.assertEquals("var I0: i;", var1.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testIntSetWithNamedBounds() {
     IntConstant lb = new IntConstant("lb", 1);
@@ -153,6 +162,7 @@ public class TestDeclarations {
     Assert.assertEquals("set of int: set = lb..ub;", set.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testBoolVarUnassigned() {
     String varName = "x";
@@ -161,6 +171,7 @@ public class TestDeclarations {
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, var.declare());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testBoolVarAssigned() {
     String varName = "x";

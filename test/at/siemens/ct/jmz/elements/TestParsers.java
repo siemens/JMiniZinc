@@ -15,6 +15,7 @@ import at.siemens.ct.common.utils.ListUtils;
  */
 public class TestParsers {
 
+  @SuppressWarnings("static-method")
   @Test
   public void testParseCorrectIntArray1d() {
     IntSet range = new IntSet(1, 3);
@@ -25,6 +26,7 @@ public class TestParsers {
     Assert.assertArrayEquals("Unexpected value", new int[] { 1, 2, 3 }, parsedValue);
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testParseCorrectIntArray2d() {
     Collection<IntSet> range = ListUtils.fromElements(new IntSet(1, 3), new IntSet(4, 6));
@@ -36,6 +38,7 @@ public class TestParsers {
         parsedValue);
   }
 
+  @SuppressWarnings("static-method")
   @Test(expected = IllegalArgumentException.class)
   public void testParseIntArrayWrongDimensions() {
     Collection<IntSet> range = ListUtils.fromElements(new IntSet(1, 3), new IntSet(4, 6));
@@ -44,6 +47,7 @@ public class TestParsers {
     var.parseValue("array1d(1..3, [1, 2, 3])");
   }
 
+  @SuppressWarnings("static-method")
   @Test(expected = IllegalArgumentException.class)
   public void testParseIntArrayElementNotInDomain() {
     IntSet range = new IntSet(1, 3);

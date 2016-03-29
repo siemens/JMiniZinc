@@ -13,7 +13,7 @@ public class SetComprehension extends Comprehension {
    * @param generator
    * @param expression
    */
-  public SetComprehension(Generator generator, Expression expression) {
+  public SetComprehension(Generator generator, Expression<int[]> expression) {
     super(generator, expression);
   }
 

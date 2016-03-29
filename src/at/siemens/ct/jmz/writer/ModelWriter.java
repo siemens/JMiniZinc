@@ -71,11 +71,8 @@ public class ModelWriter implements IModelWriter {
 
   @Override
   public void toFile(File file) throws IOException {
-    FileOutputStream outputStream = new FileOutputStream(file);
-    try {
+    try (FileOutputStream outputStream = new FileOutputStream(file)) {
       toOutputStream(outputStream);
-    } finally {
-      outputStream.close();
     }
   }
 

@@ -190,6 +190,9 @@ public class TestModelWriter {
       break;
     case MAX:
       expectedOutput.append("maximize");
+      break;
+    default:
+      throw new IllegalArgumentException("Unknown OptimizationType: " + type);
     }
 
     expectedOutput.append(" i;");

@@ -90,6 +90,9 @@ public class TestOutputParser {
     StringBuilder outputBuilder = new StringBuilder();
     private long startTime;
 
+    PseudoExecutor() {
+    }
+
     @Override
     public void startProcess() throws IOException {
       this.startTime = System.currentTimeMillis();

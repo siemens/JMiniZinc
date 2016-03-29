@@ -102,9 +102,8 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
     if (matcher.find()) {
       parseDimensions(matcher);
       return parseValue(matcher);
-    } else {
-      throw new IllegalArgumentException("Not an integer array: " + value);
     }
+    throw new IllegalArgumentException("Not an integer array: " + value);
   }
 
   private void parseDimensions(Matcher matcher) {

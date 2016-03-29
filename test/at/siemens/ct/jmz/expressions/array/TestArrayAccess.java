@@ -18,6 +18,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using a variable index.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByVar() {
     String nameOfArray = "a";
@@ -32,6 +33,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using a nameless constant index.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByNamelessConstant() {
     String nameOfArray = "a";
@@ -46,6 +48,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using a named constant index.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByNamedConstant() {
     String nameOfArray = "a";
@@ -61,6 +64,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using a variable index.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessByVar() {
     String nameOfArray = "a";
@@ -75,6 +79,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using a nameless constant index.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessByNamelessConstant() {
     String nameOfArray = "a";
@@ -89,6 +94,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using a named constant index.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessByNamedConstant() {
     String nameOfArray = "a";
@@ -104,6 +110,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using two variable indices.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessBy2Vars() {
     String nameOfArray = "a";
@@ -120,6 +127,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using two nameless constant indices.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessBy2NamelessConstants() {
     String nameOfArray = "a";
@@ -136,6 +144,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using two named constant indices.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessBy2NamedConstants() {
     String nameOfArray = "a";
@@ -154,6 +163,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using two variable indices.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessBy2Vars() {
     String nameOfArray = "a";
@@ -170,6 +180,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using two nameless constant indices.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessBy2NamelessConstants() {
     String nameOfArray = "a";
@@ -186,6 +197,7 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using two named constant indices.
    */
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessBy2NamedConstants() {
     String nameOfArray = "a";
@@ -201,6 +213,7 @@ public class TestArrayAccess {
     Assert.assertEquals(expectedOutput, access.use());
   }
 
+  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByIterator() {
     String nameOfArray = "a";
@@ -212,7 +225,7 @@ public class TestArrayAccess {
     Assert.assertEquals(expectedOutput, access.use());
   }
 
-  private IntArrayVar createArrayVar(String nameOfArray, int dimensions) {
+  private static IntArrayVar createArrayVar(String nameOfArray, int dimensions) {
     Collection<IntSet> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
       range.add(new IntSet(i, 10 * i));
@@ -220,7 +233,7 @@ public class TestArrayAccess {
     return new IntArrayVar(nameOfArray, range, IntSet.ALL_INTEGERS);
   }
 
-  private IntArrayConstant createArrayConst(String nameOfArray, int dimensions) {
+  private static IntArrayConstant createArrayConst(String nameOfArray, int dimensions) {
     Collection<IntSet> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
       range.add(new IntSet(i, 10 * i));

@@ -17,7 +17,7 @@ public class ListComprehension extends Comprehension implements IntArrayExpressi
   /**
    * Constructs a list comprehension of the form {@code [ expression | generator ]}.
    */
-  public ListComprehension(Generator generator, Expression<int[]> expression) {
+  public ListComprehension(Generator generator, Expression<?> expression) {
     super(generator, expression);
   }
 
