@@ -113,6 +113,11 @@ public class TestOutputParser {
       return "";
     }
 
+    @Override
+    public int getLastExitCode() {
+      return EXIT_CODE_SUCCESS;
+    }
+
   }
 
 }

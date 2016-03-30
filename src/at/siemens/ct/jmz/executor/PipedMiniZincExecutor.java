@@ -42,24 +42,20 @@ public class PipedMiniZincExecutor extends Executor {
     // wait for compiler:
     long elapsedTime = super.waitForSolution();
 
-    // execute and wait for solver:
-    try {
-      startProcess(SOLVER, fznFile.getAbsolutePath());
-      elapsedTime += super.waitForSolution();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } finally {
-      removeTemporaryFiles();
-    }
-    return elapsedTime;
-  }
+    printLastSolverErrors();
 
-  private void removeTemporaryFiles() {
-    if (fznFile != null) {
-      fznFile.deleteOnExit();
-      fznFile = null;
+    if (getLastExitCode() == EXIT_CODE_SUCCESS) {
+      // execute and wait for solver:
+      try {
+        startProcess(SOLVER, fznFile.getAbsolutePath());
+        elapsedTime += super.waitForSolution();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
+
+    return elapsedTime;
   }
 
 }

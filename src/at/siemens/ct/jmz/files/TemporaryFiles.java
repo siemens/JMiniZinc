@@ -25,7 +25,9 @@ public abstract class TemporaryFiles {
   }
 
   private static File create(String prefix, String postfix) throws IOException {
-    return Files.createTempFile(prefix, postfix).toFile();
+    File file = Files.createTempFile(prefix, postfix).toFile();
+    file.deleteOnExit();
+    return file;
   }
 
 }

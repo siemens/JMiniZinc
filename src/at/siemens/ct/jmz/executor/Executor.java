@@ -37,6 +37,7 @@ public abstract class Executor implements IExecutor {
   private File temporaryModelFile;
   private String lastSolverOutput;
   private String lastSolverErrors;
+  private int lastExitCode;
 
   protected Executor(IModelWriter modelWriter) {
     this.modelWriter = modelWriter;
@@ -96,7 +97,8 @@ public abstract class Executor implements IExecutor {
     Future<String> futureErrors = ThreadUtils.readInThread(runningProcess.getErrorStream());
 
     try {
-      runningProcess.waitFor();
+      lastExitCode = runningProcess.waitFor();
+      System.out.println("Process exited with exit code " + lastExitCode);
       // TODO: runningProcess.waitFor(timeout, TimeUnit.SECONDS);
     } catch (InterruptedException e) {
       System.out.println(
@@ -115,7 +117,6 @@ public abstract class Executor implements IExecutor {
         e.printStackTrace();
       }
 
-      removeCurrentModelFile();
       ACTIVE_PROCESSES.remove(runningProcess);
     }
     return elapsedTime(runningProcess);
@@ -143,11 +144,9 @@ public abstract class Executor implements IExecutor {
     return lastSolverErrors;
   }
 
-  private void removeCurrentModelFile() {
-    if (temporaryModelFile != null) {
-      temporaryModelFile.deleteOnExit();
-      temporaryModelFile = null;
-    }
+  @Override
+  public int getLastExitCode() {
+    return lastExitCode;
   }
 
   /**
