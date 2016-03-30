@@ -13,15 +13,13 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class MiniZincIDEExecutor extends Executor {
 
-  private static final String IDE_EXE_PATH = "MiniZincIDE";
-
   protected MiniZincIDEExecutor(IModelWriter modelWriter) {
     super(modelWriter);
   }
 
   @Override
-  public void startProcess() throws IOException {
-    startProcess(IDE_EXE_PATH, modelToTempFile());
+  public void startProcess(Long timeoutMs) throws IOException {
+    startProcess(new MiniZincIDEExecutable(modelToTempFile()), timeoutMs);
   }
 
 }

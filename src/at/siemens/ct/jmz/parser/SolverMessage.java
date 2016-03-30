@@ -27,6 +27,9 @@ public enum SolverMessage {
   }
 
   public static SolverMessage fromAllOutput(String solverOutput) {
+    if (solverOutput == null) {
+      return UNKNOWN;
+    }
     for (SolverMessage solverMessage : values()) {
       if (solverOutput.endsWith(solverMessage.message)) {
         return solverMessage;

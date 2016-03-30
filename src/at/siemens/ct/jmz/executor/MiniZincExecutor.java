@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.executor;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import at.siemens.ct.jmz.writer.IModelWriter;
 
@@ -15,15 +14,13 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class MiniZincExecutor extends Executor {
 
-  private static final String MZN_EXE_PATH = "minizinc";
-
   public MiniZincExecutor(IModelWriter modelWriter) {
     super(modelWriter);
   }
 
   @Override
-  public void startProcess() throws IOException {
-    startProcessIncludeSearchDirectories(MZN_EXE_PATH, Collections.emptyList());
+  public void startProcess(Long timeoutMs) throws IOException {
+    startProcess(new MiniZincExecutable(modelToTempFile()), timeoutMs);
   }
 
 }

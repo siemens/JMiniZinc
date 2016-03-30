@@ -3,7 +3,6 @@ package at.siemens.ct.jmz.executor;
 import java.io.File;
 import java.io.IOException;
 
-import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.files.TemporaryFiles;
 import at.siemens.ct.jmz.writer.IModelWriter;
 
@@ -18,11 +17,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class PipedMiniZincExecutor extends Executor {
 
-  private static final String COMPILER = "mzn2fzn";
-  private static final String COMPILER_FLAG = "-Ggecode";
-  private static final String SOLVER = "fzn-gecode";
-
-  private static final String COMPILER_OUTPUT_FZN = "--output-fzn-to-file";
+  private static final FlatZincSolver FLATZINC_SOLVER = FlatZincSolver.GECODE;
 
   private File fznFile;
 
@@ -31,10 +26,10 @@ public class PipedMiniZincExecutor extends Executor {
   }
 
   @Override
-  public void startProcess() throws IOException {
+  public void startProcess(Long timeoutMs) throws IOException {
+    super.startProcess(timeoutMs);
     fznFile = TemporaryFiles.createFZN();
-    startProcessIncludeSearchDirectories(COMPILER,
-        ListUtils.fromElements(COMPILER_FLAG, COMPILER_OUTPUT_FZN, fznFile.getAbsolutePath()));
+    startProcess(new MznToFznExecutable(modelToTempFile(), fznFile, FLATZINC_SOLVER), timeoutMs);
   }
 
   @Override
@@ -47,7 +42,7 @@ public class PipedMiniZincExecutor extends Executor {
     if (getLastExitCode() == EXIT_CODE_SUCCESS) {
       // execute and wait for solver:
       try {
-        startProcess(SOLVER, fznFile.getAbsolutePath());
+        startProcess(new FlatZincSolverExecutable(fznFile, FLATZINC_SOLVER), remainingTime());
         elapsedTime += super.waitForSolution();
       } catch (IOException e) {
         // TODO Auto-generated catch block
