@@ -40,6 +40,9 @@ public class IncludeItem implements Element {
     this(file.getParentFile().toPath(), file.getName());
   }
 
+  /**
+   * Returns the path of the directory where the included file is located, if it is known.
+   */
   public Path getDirectory() {
     return directory;
   }

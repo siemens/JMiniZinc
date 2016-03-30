@@ -103,7 +103,8 @@ public class ModelWriter implements IModelWriter {
 
   @Override
   public Collection<Path> getSearchDirectories() {
-    return includeItems.stream().map(IncludeItem::getDirectory).collect(Collectors.toSet());
+    return includeItems.stream().map(IncludeItem::getDirectory).filter(dir -> dir != null)
+        .collect(Collectors.toSet());
   }
 
 }
