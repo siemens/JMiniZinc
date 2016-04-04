@@ -3,10 +3,16 @@ package at.siemens.ct.jmz.elements;
 import java.util.Collection;
 import java.util.Collections;
 
-import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
-public class IntSet implements NamedElement {
+/**
+ * A set of integers that is defined as all integers between a lower and an upper bound.
+ * 
+ * @author z003ft4a (Richard Taupe)
+ *
+ */
+public class IntSet implements NamedElement, IntSetExpression {
 
   /**
    * Represents the set of all integers
@@ -26,7 +32,6 @@ public class IntSet implements NamedElement {
   }
 
   public IntSet(String name, IntExpression lb, IntExpression ub) {
-    super();
     this.name = name;
     this.lb = lb;
     this.ub = ub;
@@ -46,13 +51,19 @@ public class IntSet implements NamedElement {
 
   @Override
   public String declare() {
+    mustHaveName();
     return String.format("set of int: %s = %s;", name, getRange());
   }
 
   /**
    * @return the name of this set, if it is not {@code null}, or else its range in the form {@code lb..ub}.
    */
-  public String nameOrRange() {
+  @Override
+  public String use() {
+    return nameOrRange();
+  }
+
+  private String nameOrRange() {
     return name != null ? name : getRange();
   }
 
@@ -94,23 +105,7 @@ public class IntSet implements NamedElement {
     return ub;
   }
 
-  /**
-   * Creates an iterator over this set, using {@code nameOfIterator} as the name of the local variable.
-   * 
-   * @param nameOfIterator
-   * @return an iterator over this set
-   */
-  public IteratorExpression iterate(String nameOfIterator) {
-    return new IteratorExpression(this, nameOfIterator);
-  }
-
-  /**
-   * Checks if the given value is contained by this set. If this cannot be determined (e.g. if the set is bounded by
-   * constants whose values are not known), {@code null} is returned.
-   * 
-   * @param value
-   * @return
-   */
+  @Override
   public Boolean contains(int value) {
     if (lb == null && ub == null) {
       return true;

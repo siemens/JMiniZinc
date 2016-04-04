@@ -27,8 +27,9 @@ public class IntVar extends Variable<Integer> implements IntExpression {
 
   @Override
   public String declare() {
+    mustHaveName();
     StringBuilder declaration = new StringBuilder();
-    declaration.append(String.format("var %s: %s", type.nameOrRange(), name));
+    declaration.append(String.format("var %s: %s", type.use(), name));
 
     if (value != null) {
       declaration.append(" = ");

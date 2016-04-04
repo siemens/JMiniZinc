@@ -1,21 +1,22 @@
 package at.siemens.ct.jmz.elements;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public interface IntArray extends NamedElement, IntArrayExpression {
 
   @Override
-  Collection<IntSet> getRange();
+  List<? extends IntSetExpression> getRange();
 
   default String declareRange() {
     return declareRange(getRange());
   }
 
-  static String declareRange(Collection<IntSet> range) {
-    return range.stream().map(IntSet::nameOrRange).collect(Collectors.joining(", "));
+  static String declareRange(List<? extends IntSetExpression> range) {
+    return range.stream().map(IntSetExpression::use).collect(Collectors.joining(", "));
   }
 
 }

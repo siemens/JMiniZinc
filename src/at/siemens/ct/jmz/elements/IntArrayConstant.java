@@ -6,6 +6,7 @@ import java.util.List;
 import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.array.IntExplicitList;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
  * Represents an array of integer constants.
@@ -16,11 +17,11 @@ import at.siemens.ct.jmz.expressions.array.IntExplicitList;
 public class IntArrayConstant implements IntArray {
 
   private String name;
-  private Collection<IntSet> range;
+  private List<? extends IntSetExpression> range;
   private IntSet type;
   private IntExplicitList values;
 
-  public IntArrayConstant(@SuppressWarnings("unused") Collection<Integer> values) {
+  public IntArrayConstant(Collection<Integer> values) {
     throw new UnsupportedOperationException(
         "Please use IntExplicitList if you need an unnamed IntArrayConstant.");
     // TODO: may be refactored ... there exists a conceptual overlap (see IntExplicitList)
@@ -38,7 +39,8 @@ public class IntArrayConstant implements IntArray {
    * @param values
    *          the collection of actual values
    */
-  public IntArrayConstant(String name, IntSet range, IntSet type, Collection<Integer> values) {
+  public IntArrayConstant(String name, IntSetExpression range, IntSet type,
+      Collection<Integer> values) {
     this(name, ListUtils.fromElements(range), type, values);
   }
 
@@ -54,7 +56,7 @@ public class IntArrayConstant implements IntArray {
    * @param values
    *          the collection of actual values
    */
-  public IntArrayConstant(String name, Collection<IntSet> range, IntSet type,
+  public IntArrayConstant(String name, List<? extends IntSetExpression> range, IntSet type,
       Collection<Integer> values) {
     this.name = name;
     this.range = range;
@@ -63,13 +65,14 @@ public class IntArrayConstant implements IntArray {
   }
 
   /**
-   * @see #IntArrayConstant(String, IntSet, IntSet, Collection)
+   * @see #IntArrayConstant(String, IntSetExpression, IntSet, Collection)
    */
-  public IntArrayConstant(String name, IntSet range, IntSet type, int[] values) {
+  public IntArrayConstant(String name, IntSetExpression range, IntSet type, int[] values) {
     this(name, range, type, ListUtils.fromArray(values));
   }
 
-  public IntArrayConstant(String name, List<IntSet> range, IntSet type, int[][] values) {
+  public IntArrayConstant(String name, List<? extends IntSetExpression> range, IntSet type,
+      int[][] values) {
     this(name, range, type, ArrayUtils.toOneDimensionalList(values));
   }
 
@@ -77,19 +80,20 @@ public class IntArrayConstant implements IntArray {
    * The boolean values given here will be translated to integers ({@code true = 1}, {@code false = 0}).
    * TODO: Implement real boolean arrays
    */
-  public IntArrayConstant(String name, List<IntSet> range, IntSet type, boolean[][] values) {
+  public IntArrayConstant(String name, List<? extends IntSetExpression> range, IntSet type,
+      boolean[][] values) {
     this(name, range, type, ArrayUtils.boolToInt(values));
   }
 
   @Override
-  public Collection<IntSet> getRange() {
+  public List<? extends IntSetExpression> getRange() {
     return range;
   }
 
   @Override
   public String declare() {
     mustHaveName();
-    return String.format("array[%s] of %s: %s = %s;", declareRange(), type.nameOrRange(), name,
+    return String.format("array[%s] of %s: %s = %s;", declareRange(), type.use(), name,
         values.coerce());
   }
 

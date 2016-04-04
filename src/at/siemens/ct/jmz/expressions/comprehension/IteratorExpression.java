@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.expressions.comprehension;
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
  * Represents one (of potentially multiple) iterators in a {@link Generator}.
@@ -9,15 +9,15 @@ import at.siemens.ct.jmz.expressions.integer.IntExpression;
  */
 public class IteratorExpression implements IntExpression {
 
-  private IntSet range;
+  private IntSetExpression range;
   private String name;
 
-  public IteratorExpression(IntSet range, String name) {
+  public IteratorExpression(IntSetExpression range, String name) {
     this.range = range;
     this.name = name;
   }
 
-  public IntSet getRange() {
+  public IntSetExpression getRange() {
     return range;
   }
 
@@ -37,7 +37,7 @@ public class IteratorExpression implements IntExpression {
    * @return the string representation of this iterator expression, e.g. "i in 1..10"
    */
   public String iterate() {
-    return String.format("%s in %s", name, range.nameOrRange());
+    return String.format("%s in %s", name, range.use());
   }
 
 }

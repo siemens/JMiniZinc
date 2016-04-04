@@ -1,13 +1,13 @@
 package at.siemens.ct.jmz.expressions.array;
 
-import java.util.Collection;
+import java.util.List;
 
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public interface RangeBasedExpression extends Expression<int[]> {
 
-  Collection<IntSet> getRange();
+  List<? extends IntSetExpression> getRange();
 
   /**
    * @return the number of dimensions

@@ -1,10 +1,10 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
-import java.util.Collection;
+import java.util.List;
 
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
  * 
@@ -26,7 +26,7 @@ public abstract class Comprehension implements RangeBasedExpression {
   protected abstract char getRightBracket();
 
   @Override
-  public Collection<IntSet> getRange() {
+  public List<? extends IntSetExpression> getRange() {
     return generator.getRange();
   }
 

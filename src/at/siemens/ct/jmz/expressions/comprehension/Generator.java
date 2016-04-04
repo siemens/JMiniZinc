@@ -1,11 +1,12 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
  * Represents the generating part of a {@link Comprehension}.
@@ -25,7 +26,7 @@ public class Generator implements Expression<int[]> {
     this.iterators = iterators;
   }
 
-  public Collection<IntSet> getRange() {
+  public List<? extends IntSetExpression> getRange() {
     return iterators.stream().map(IteratorExpression::getRange).collect(Collectors.toList());
   }
 

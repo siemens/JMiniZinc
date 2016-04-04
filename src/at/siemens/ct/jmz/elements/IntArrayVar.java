@@ -2,16 +2,18 @@ package at.siemens.ct.jmz.elements;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.comprehension.Comprehension;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public class IntArrayVar extends Variable<int[]> implements IntArray {
 
-  private Collection<IntSet> range;
+  private List<? extends IntSetExpression> range;
   private IntSet type;
   private ListComprehension values;
 
@@ -23,9 +25,9 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
   }
 
   /**
-   * @see #IntArrayVar(String, Collection, IntSet, Comprehension)
+   * @see #IntArrayVar(String, List, IntSet, Comprehension)
    */
-  public IntArrayVar(String name, Collection<IntSet> range, IntSet type) {
+  public IntArrayVar(String name, List<? extends IntSetExpression> range, IntSet type) {
     this(name, range, type, null);
   }
 
@@ -41,7 +43,8 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
    * @param values
    *          a list comprehension (may be {@code null})
    */
-  public IntArrayVar(String name, Collection<IntSet> range, IntSet type, ListComprehension values) {
+  public IntArrayVar(String name, List<? extends IntSetExpression> range, IntSet type,
+      ListComprehension values) {
     super(name);
     this.range = range;
     this.type = type;
@@ -65,15 +68,16 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
   }
 
   @Override
-  public Collection<IntSet> getRange() {
+  public List<? extends IntSetExpression> getRange() {
     return range;
   }
 
   @Override
   public String declare() {
+    mustHaveName();
     StringBuilder declaration = new StringBuilder();
     declaration
-        .append(String.format("array[%s] of var %s: %s", declareRange(), type.nameOrRange(), name));
+        .append(String.format("array[%s] of var %s: %s", declareRange(), type.use(), name));
 
     if (values != null) {
       declaration.append(" = ");

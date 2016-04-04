@@ -2,6 +2,7 @@ package at.siemens.ct.jmz.expressions.array;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.PseudoOptionalIntSet;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
  * TODO: Overlaps with {@link ListComprehension} and with {@link IntArrayConstant}. Wanted: a beautiful design
@@ -22,16 +24,17 @@ public class IntExplicitList implements IntArrayExpression {
   public static final char LEFT_BRACKET = '[';
   public static final char RIGHT_BRACKET = ']';
 
-  private Collection<IntSet> range;
+  private List<? extends IntSetExpression> range;
   private IntSet type;
   private Collection<Integer> values;
   private String nullElement = DEFAULT_NULL;
 
-  public IntExplicitList(Collection<IntSet> range, Collection<Integer> values) {
+  public IntExplicitList(List<? extends IntSetExpression> range, Collection<Integer> values) {
     this(range, IntSet.deriveRange(values), values);
   }
 
-  public IntExplicitList(Collection<IntSet> range, IntSet type, Collection<Integer> values) {
+  public IntExplicitList(List<? extends IntSetExpression> range, IntSet type,
+      Collection<Integer> values) {
     this.range = range;
     this.type = type;
     this.values = values;
@@ -45,8 +48,8 @@ public class IntExplicitList implements IntArrayExpression {
   }
 
   @Override
-  public Collection<IntSet> getRange() {
-    return Collections.unmodifiableCollection(range);
+  public List<? extends IntSetExpression> getRange() {
+    return Collections.unmodifiableList(range);
   }
 
   @Override

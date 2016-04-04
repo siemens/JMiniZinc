@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class TestParsers {
   @SuppressWarnings("static-method")
   @Test
   public void testParseCorrectIntArray2d() {
-    Collection<IntSet> range = ListUtils.fromElements(new IntSet(1, 3), new IntSet(4, 6));
+    List<IntSet> range = ListUtils.fromElements(new IntSet(1, 3), new IntSet(4, 6));
     IntSet type = new IntSet(1, 9);
     IntArrayVar var = new IntArrayVar("a", range, type);
     int[] parsedValue = var.parseValue("array2d(1..3, 4..6, [1, 2, 3, 4, 5, 6, 7, 8, 9])");
@@ -41,7 +41,7 @@ public class TestParsers {
   @SuppressWarnings("static-method")
   @Test(expected = IllegalArgumentException.class)
   public void testParseIntArrayWrongDimensions() {
-    Collection<IntSet> range = ListUtils.fromElements(new IntSet(1, 3), new IntSet(4, 6));
+    List<IntSet> range = ListUtils.fromElements(new IntSet(1, 3), new IntSet(4, 6));
     IntSet type = new IntSet(1, 3);
     IntArrayVar var = new IntArrayVar("a", range, type);
     var.parseValue("array1d(1..3, [1, 2, 3])");

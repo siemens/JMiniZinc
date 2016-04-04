@@ -1,8 +1,8 @@
 package at.siemens.ct.jmz.expressions.array;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +12,7 @@ import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public class TestArrayAccess {
 
@@ -219,14 +220,14 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     String nameOfIterator = "i";
     IntArrayVar array = createArrayVar(nameOfArray, 1);
-    IntSet range = array.getRange().iterator().next();
+    IntSetExpression range = array.getRange().iterator().next();
     ArrayAccessExpression access = array.access(range.iterate(nameOfIterator));
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIterator);
     Assert.assertEquals(expectedOutput, access.use());
   }
 
   private static IntArrayVar createArrayVar(String nameOfArray, int dimensions) {
-    Collection<IntSet> range = new ArrayList<>(dimensions);
+    List<IntSet> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
       range.add(new IntSet(i, 10 * i));
     }
@@ -234,7 +235,7 @@ public class TestArrayAccess {
   }
 
   private static IntArrayConstant createArrayConst(String nameOfArray, int dimensions) {
-    Collection<IntSet> range = new ArrayList<>(dimensions);
+    List<IntSet> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
       range.add(new IntSet(i, 10 * i));
     }
