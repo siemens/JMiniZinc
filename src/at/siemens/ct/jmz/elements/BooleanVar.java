@@ -23,6 +23,7 @@ public class BooleanVar extends Variable<Boolean> {
 
   @Override
   public String declare() {
+    mustHaveName();
     StringBuilder declaration = new StringBuilder();
     declaration.append(String.format("var bool: %s", name));
 
