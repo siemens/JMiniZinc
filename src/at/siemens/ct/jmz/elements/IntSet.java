@@ -2,6 +2,7 @@ package at.siemens.ct.jmz.elements;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
@@ -89,7 +90,13 @@ public class IntSet implements NamedElement, IntSetExpression {
    * @return a reference to the created set.
    */
   public static IntSet deriveRange(String name, Collection<Integer> possibleValues) {
-    return new IntSet(name, Collections.min(possibleValues), Collections.max(possibleValues));
+    Collection<Integer> possibleValuesExceptNull = new HashSet<>(possibleValues);
+    possibleValuesExceptNull.remove(null);
+    if (possibleValuesExceptNull.isEmpty()) {
+      throw new IllegalArgumentException("Collection of possible values is empty.");
+    }
+    return new IntSet(name, Collections.min(possibleValuesExceptNull),
+        Collections.max(possibleValuesExceptNull));
   }
 
   @Override
