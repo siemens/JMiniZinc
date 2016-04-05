@@ -1,4 +1,6 @@
 package at.siemens.ct.jmz.expressions.comprehension;
+
+import at.siemens.ct.jmz.expressions.bool.ComparisonExpression;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
@@ -38,6 +40,16 @@ public class IteratorExpression implements IntExpression {
    */
   public String iterate() {
     return String.format("%s in %s", name, range.use());
+  }
+
+  /**
+   * Creates a new Generator that limits this iterator using a comparison expression.
+   * 
+   * @param comparisonExpression
+   * @return
+   */
+  public Generator where(ComparisonExpression<Integer> comparisonExpression) {
+    return new Generator(comparisonExpression, this);
   }
 
 }

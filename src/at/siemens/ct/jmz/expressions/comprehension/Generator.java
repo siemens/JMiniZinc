@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.bool.ComparisonExpression;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
@@ -16,13 +17,24 @@ import at.siemens.ct.jmz.expressions.set.IntSetExpression;
  */
 public class Generator implements Expression<int[]> {
 
+  private ComparisonExpression<Integer> restriction;
   private Collection<IteratorExpression> iterators;
 
   public Generator(IteratorExpression... iterators) {
-    this.iterators = ListUtils.fromElements(iterators);
+    this(ListUtils.fromElements(iterators));
   }
 
   public Generator(Collection<IteratorExpression> iterators) {
+    this(null, iterators);
+  }
+
+  public Generator(ComparisonExpression<Integer> restriction, IteratorExpression... iterators) {
+    this(restriction, ListUtils.fromElements(iterators));
+  }
+
+  public Generator(ComparisonExpression<Integer> restriction,
+      Collection<IteratorExpression> iterators) {
+    this.restriction = restriction;
     this.iterators = iterators;
   }
 
@@ -32,7 +44,14 @@ public class Generator implements Expression<int[]> {
 
   @Override
   public String use() {
-    return iterators.stream().map(IteratorExpression::iterate).collect(Collectors.joining(", "));
+    StringBuilder sb = new StringBuilder();
+    sb.append(
+        iterators.stream().map(IteratorExpression::iterate).collect(Collectors.joining(", ")));
+    if (restriction != null) {
+      sb.append(" where ");
+      sb.append(restriction.use());
+    }
+    return sb.toString();
   }
 
 }
