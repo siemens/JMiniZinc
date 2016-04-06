@@ -115,8 +115,50 @@ public class NumberUtils {
       return null;
     }
 
+    /**
+     * Returns the product of the two factors, if at least one of them has a value. If one is {@code null}, it is
+     * replaced
+     * by {@code 1}. If both are {@code null}, {@code null} is returned.
+     * 
+     * @param n1
+     *          the first factor
+     * @param n2
+     *          the second factor
+     * @return the product of the two factors, as described above.
+     */
+    public static Integer times(Integer n1, Integer n2) {
+      if (n1 != null || n2 != null)
+        return defaultIfNull(n1, 1) * defaultIfNull(n2, 1);
+      return null;
+    }
+
+    public static Long times(Long n1, Long n2) {
+      if (n1 != null || n2 != null)
+        return defaultIfNull(n1, 1L) * defaultIfNull(n2, 1L);
+      return null;
+    }
+
+    public static Float times(Float n1, Float n2) {
+      if (n1 != null || n2 != null)
+        return defaultIfNull(n1, 1f) * defaultIfNull(n2, 1f);
+      return null;
+    }
+
+    public static Double times(Double n1, Double n2) {
+      if (n1 != null || n2 != null)
+        return defaultIfNull(n1, 1.0) * defaultIfNull(n2, 1.0);
+      return null;
+    }
+
     private static <N extends Number> N defaultIfNull(N number, N defaultValue) {
       return number != null ? number : defaultValue;
+    }
+
+    /**
+     * Returns the integer portion of the given double if it is not {@code null}, or {@code null} otherwise.
+     */
+    public static Integer toInt(Double d) {
+      return d == null ? null : d.intValue();
     }
 
   }
