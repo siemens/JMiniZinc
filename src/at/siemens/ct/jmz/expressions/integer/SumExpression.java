@@ -16,6 +16,9 @@ public class SumExpression implements IntExpression {
 
   public SumExpression(SummableIntegers<?>... summands) {
     this.summands = Arrays.asList(summands);
+    if (this.summands.contains(null)) {
+      throw new IllegalArgumentException("Summand cannot be null");
+    }
   }
 
   @Override
