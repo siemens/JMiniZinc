@@ -31,6 +31,7 @@ public abstract class Executor implements IExecutor {
   private static final Set<Process> ACTIVE_PROCESSES = Collections
       .synchronizedSet(new HashSet<Process>());
 
+  private String identifier;
   private IModelWriter modelWriter;
   private Long timeoutMs;
   private Stack<Process> runningProcesses = new Stack<>();
@@ -40,7 +41,8 @@ public abstract class Executor implements IExecutor {
   private String lastSolverErrors;
   private int lastExitCode;
 
-  protected Executor(IModelWriter modelWriter) {
+  protected Executor(String identifier, IModelWriter modelWriter) {
+    this.identifier = identifier;
     this.modelWriter = modelWriter;
   }
 
@@ -104,8 +106,9 @@ public abstract class Executor implements IExecutor {
     Future<String> futureOutput = ThreadUtils.readInThread(runningProcess.getInputStream());
     Future<String> futureErrors = ThreadUtils.readInThread(runningProcess.getErrorStream());
 
+    long elapsedTime = elapsedTime(runningProcess);
     try {
-      Long remainingMs = NumberUtils.Opt.minus(timeoutMs, elapsedTime(runningProcess));
+      Long remainingMs = NumberUtils.Opt.minus(timeoutMs, elapsedTime);
       if (remainingMs == null) {
         runningProcess.waitFor();
       } else {
@@ -123,7 +126,10 @@ public abstract class Executor implements IExecutor {
       destroyRunningProcesses();
       throw e;
     } finally {
-      System.out.println("Executor is finished: " + getCurrentCommand());
+      elapsedTime = elapsedTime(runningProcess);
+      System.out
+          .println("Executor " + identifier + " is finished after " + elapsedTime + " ms: "
+              + getCurrentCommand());
 
       try {
         lastSolverOutput = futureOutput.get();
@@ -134,7 +140,7 @@ public abstract class Executor implements IExecutor {
 
       ACTIVE_PROCESSES.remove(runningProcess);
     }
-    return elapsedTime(runningProcess);
+    return elapsedTime;
   }
 
   private String getCurrentCommand() {

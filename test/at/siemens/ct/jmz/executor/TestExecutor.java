@@ -26,7 +26,7 @@ public class TestExecutor {
 
   private IModelBuilder modelBuilder = new ModelBuilder();
   private IModelWriter modelWriter = new ModelWriter(modelBuilder);
-  private IExecutor executor = new PipedMiniZincExecutor(modelWriter);
+  private IExecutor executor = new PipedMiniZincExecutor("test", modelWriter);
 
   @Before
   public void setUp() {

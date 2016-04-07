@@ -21,8 +21,8 @@ public class PipedMiniZincExecutor extends Executor {
 
   private File fznFile;
 
-  public PipedMiniZincExecutor(IModelWriter modelWriter) {
-    super(modelWriter);
+  public PipedMiniZincExecutor(String identifier, IModelWriter modelWriter) {
+    super(identifier, modelWriter);
   }
 
   @Override

@@ -13,8 +13,8 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class MiniZincIDEExecutor extends Executor {
 
-  protected MiniZincIDEExecutor(IModelWriter modelWriter) {
-    super(modelWriter);
+  protected MiniZincIDEExecutor(String identifier, IModelWriter modelWriter) {
+    super(identifier, modelWriter);
   }
 
   @Override

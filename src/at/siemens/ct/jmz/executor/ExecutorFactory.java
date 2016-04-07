@@ -21,10 +21,10 @@ public class ExecutorFactory<E extends Executor> {
     this.executorClass = executorClass;
   }
 
-  public E createExecutor(IModelWriter modelWriter) {
+  public E createExecutor(String identifier, IModelWriter modelWriter) {
     try {
-      Constructor<E> constructor = executorClass.getConstructor(IModelWriter.class);
-      return constructor.newInstance(modelWriter);
+      Constructor<E> constructor = executorClass.getConstructor(String.class, IModelWriter.class);
+      return constructor.newInstance(identifier, modelWriter);
     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException e) {
       throw new IllegalStateException(e);
