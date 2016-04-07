@@ -15,14 +15,20 @@ public abstract class SolvingStrategy implements Element {
     return new Optimize(OptimizationType.MAX, objective);
   }
 
-  public static SolvingStrategy optimize(OptimizationType type, IntVar i) {
-    switch (type) {
-    case MIN:
-      return minimize(i);
-    case MAX:
-      return maximize(i);
-    default:
-      throw new IllegalArgumentException("Unknown optimization type: " + type);
-    }
+  public static SolvingStrategy optimize(OptimizationType type, IntVar objective) {
+    return new Optimize(type, objective);
+  }
+
+  public static SolvingStrategy minimize(IntVar objective, String searchAnnotation) {
+    return new Optimize(OptimizationType.MIN, objective, searchAnnotation);
+  }
+
+  public static SolvingStrategy maximize(IntVar objective, String searchAnnotation) {
+    return new Optimize(OptimizationType.MAX, objective, searchAnnotation);
+  }
+
+  public static SolvingStrategy optimize(OptimizationType type, IntVar objective,
+      String searchAnnotation) {
+    return new Optimize(type, objective, searchAnnotation);
   }
 }
