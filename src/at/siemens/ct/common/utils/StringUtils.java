@@ -17,13 +17,25 @@ public class StringUtils {
    */
   public static String removePrefix(String string, String separator) {
     int posSeparator = string.lastIndexOf(separator);
+    return removePrefix(string, posSeparator, separator.length());
+  }
+
+  /**
+   * The case-insensitive version of {@link #removePrefix(String, String)}.
+   */
+  public static String removePrefixCaseInsensitive(String string, String separator) {
+    int posSeparator = string.toLowerCase().lastIndexOf(separator.toLowerCase());
+    return removePrefix(string, posSeparator, separator.length());
+  }
+
+  private static String removePrefix(String string, int posSeparator, int separatorLength) {
     int posRemainder;
     if (posSeparator > -1) {
-      posRemainder = posSeparator + separator.length();
+      posRemainder = posSeparator + separatorLength;
     } else {
       posRemainder = 0;
     }
-    return string.substring(posRemainder).trim();
+    return string.substring(posRemainder);
   }
 
   /**
@@ -35,6 +47,18 @@ public class StringUtils {
    */
   public static String removePostfix(String string, String separator) {
     int posSeparator = string.lastIndexOf(separator);
+    return removePostfix(string, posSeparator);
+  }
+
+  /**
+   * The case-insensitive version of {@link #removePostfix(String, String)}.
+   */
+  public static String removePostfixCaseInsensitive(String string, String separator) {
+    int posSeparator = string.toLowerCase().lastIndexOf(separator.toLowerCase());
+    return removePostfix(string, posSeparator);
+  }
+
+  private static String removePostfix(String string, int posSeparator) {
     if (posSeparator == -1) {
       posSeparator = string.length();
     }
@@ -55,6 +79,15 @@ public class StringUtils {
       String postfixSeparator) {
     String inputFront = StringUtils.removePostfix(input, postfixSeparator);
     return removePrefix(inputFront, prefixSeparator);
+  }
+
+  /**
+   * The case-insensitive version of {@link #removePostfixAndPrefix(String, String, String)}.
+   */
+  public static String removePostfixAndPrefixCaseInsensitive(String input, String prefixSeparator,
+      String postfixSeparator) {
+    String inputFront = StringUtils.removePostfixCaseInsensitive(input, postfixSeparator);
+    return removePrefixCaseInsensitive(inputFront, prefixSeparator);
   }
 
 }
