@@ -59,6 +59,19 @@ public class ArrayUtils {
   }
 
   /**
+   * Unboxes each element in an integer list and stores it in an array, which is then returned.
+   */
+  public static int[] listToUnboxedArray(List<Integer> list) {
+    int[] array = new int[list.size()];
+    int i = 0;
+    for (Integer integer : list) {
+      array[i] = integer;
+      i++;
+    }
+    return array;
+  }
+
+  /**
    * Translates an array of booleans to an array of integers ({@code true = 1}, {@code false = 0}).
    */
   public static int[][] boolToInt(boolean[][] array) {
