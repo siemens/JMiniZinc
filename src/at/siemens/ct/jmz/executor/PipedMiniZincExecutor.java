@@ -26,10 +26,10 @@ public class PipedMiniZincExecutor extends Executor {
   }
 
   @Override
-  public void startProcess(Long timeoutMs) throws IOException {
-    super.startProcess(timeoutMs);
+  public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
+    super.startProcess(timeoutMs, additionalOptions);
     fznFile = TemporaryFiles.createFZN();
-    startProcess(new MznToFznExecutable(modelToTempFile(), fznFile, FLATZINC_SOLVER), timeoutMs);
+    startProcess(new MznToFznExecutable(modelToTempFile(), fznFile, FLATZINC_SOLVER), timeoutMs, additionalOptions);
   }
 
   @Override

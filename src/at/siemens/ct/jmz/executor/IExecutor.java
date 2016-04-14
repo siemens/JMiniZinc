@@ -9,8 +9,8 @@ public interface IExecutor {
   /**
    * Calls {@link #startProcess(Long)} without a time limit.
    */
-  default void startProcess() throws IOException {
-    startProcess(null);
+  default void startProcess(String... additionaloptions) throws IOException {
+    startProcess(null,additionaloptions);
   }
 
   /**
@@ -21,10 +21,12 @@ public interface IExecutor {
    * 
    * @param timeoutMs
    *          a time limit in milliseconds.
+   * @param additionaloptions 
+   *          additional options for executable
    * @throws IOException
    */
-  void startProcess(Long timeoutMs) throws IOException;
-
+  void startProcess(Long timeoutMs,String... additionaloptions) throws IOException;  
+  
   /**
    * Waits until the running process returns with a solution.
    * 

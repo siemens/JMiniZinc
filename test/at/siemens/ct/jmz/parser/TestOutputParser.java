@@ -94,7 +94,7 @@ public class TestOutputParser {
     }
 
     @Override
-    public void startProcess(Long timeoutMs) throws IOException {
+    public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
       this.startTime = System.currentTimeMillis();
     }
 

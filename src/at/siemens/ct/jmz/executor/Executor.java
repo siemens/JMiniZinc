@@ -47,7 +47,7 @@ public abstract class Executor implements IExecutor {
   }
 
   @Override
-  public void startProcess(Long timeoutMs) throws IOException {
+  public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
     this.timeoutMs = timeoutMs;
   }
 

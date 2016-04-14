@@ -19,8 +19,8 @@ public class MiniZincExecutor extends Executor {
   }
 
   @Override
-  public void startProcess(Long timeoutMs) throws IOException {
-    startProcess(new MiniZincExecutable(modelToTempFile()), timeoutMs);
+  public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
+    startProcess(new MiniZincExecutable(modelToTempFile()), timeoutMs, additionalOptions);
   }
 
 }
