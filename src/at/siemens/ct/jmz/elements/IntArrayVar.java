@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,11 +8,10 @@ import java.util.regex.Pattern;
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.comprehension.Comprehension;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
-import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public class IntArrayVar extends Variable<int[]> implements IntArray {
 
-  private List<? extends IntSetExpression> range;
+  private List<? extends IntSet> range;
   private IntSet type;
   private ListComprehension values;
 
@@ -27,7 +25,7 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
   /**
    * @see #IntArrayVar(String, List, IntSet, Comprehension)
    */
-  public IntArrayVar(String name, List<? extends IntSetExpression> range, IntSet type) {
+  public IntArrayVar(String name, List<? extends IntSet> range, IntSet type) {
     this(name, range, type, null);
   }
 
@@ -43,7 +41,7 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
    * @param values
    *          a list comprehension (may be {@code null})
    */
-  public IntArrayVar(String name, List<? extends IntSetExpression> range, IntSet type,
+  public IntArrayVar(String name, List<? extends IntSet> range, IntSet type,
       ListComprehension values) {
     super(name);
     this.range = range;
@@ -68,7 +66,7 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
   }
 
   @Override
-  public List<? extends IntSetExpression> getRange() {
+  public List<? extends IntSet> getRange() {
     return range;
   }
 
