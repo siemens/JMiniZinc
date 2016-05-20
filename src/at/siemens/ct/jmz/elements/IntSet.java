@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -81,7 +82,17 @@ public class IntSet implements NamedElement, IntSetExpression {
   public static IntSet deriveRange(Collection<Integer> possibleValues) {
     return deriveRange(null, possibleValues);
   }
-
+  
+  /**
+   * Creates a nameless set covering the given values ({@code min(possibleValues)..max(possibleValues)}).
+   * 
+   * @param possibleValues
+   * @return a reference to the created set.
+   */
+  public static IntSet deriveRange(Integer... possibleValues) {
+    return deriveRange(null, Arrays.asList(possibleValues));
+  }
+  
   /**
    * Creates a set with the given name covering the given values ({@code min(possibleValues)..max(possibleValues)}).
    * 
@@ -97,6 +108,17 @@ public class IntSet implements NamedElement, IntSetExpression {
     }
     return new IntSet(name, Collections.min(possibleValuesExceptNull),
         Collections.max(possibleValuesExceptNull));
+  }
+  
+  /**
+   * Creates a set with the given name covering the given values ({@code min(possibleValues)..max(possibleValues)}).
+   * 
+   * @param name
+   * @param possibleValues
+   * @return a reference to the created set.
+   */
+  public static IntSet deriveRange(String name, Integer... possibleValues) {
+	  return deriveRange(name,Arrays.asList(possibleValues));
   }
 
   @Override
