@@ -1,5 +1,7 @@
 package at.siemens.ct.common.utils;
 
+import java.util.OptionalInt;
+
 /**
  * Provides utility funcions for {@link Number}s.
  * 
@@ -132,18 +134,27 @@ public class NumberUtils {
       return null;
     }
 
+    /**
+     * @see #times(Integer, Integer)
+     */
     public static Long times(Long n1, Long n2) {
       if (n1 != null || n2 != null)
         return defaultIfNull(n1, 1L) * defaultIfNull(n2, 1L);
       return null;
     }
 
+    /**
+     * @see #times(Integer, Integer)
+     */
     public static Float times(Float n1, Float n2) {
       if (n1 != null || n2 != null)
         return defaultIfNull(n1, 1f) * defaultIfNull(n2, 1f);
       return null;
     }
 
+    /**
+     * @see #times(Integer, Integer)
+     */
     public static Double times(Double n1, Double n2) {
       if (n1 != null || n2 != null)
         return defaultIfNull(n1, 1.0) * defaultIfNull(n2, 1.0);
@@ -159,6 +170,38 @@ public class NumberUtils {
      */
     public static Integer toInt(Double d) {
       return d == null ? null : d.intValue();
+    }
+
+    /**
+     * Returns the maximum of the given numbers, or {@link OptionalInt#empty()} if no number is present.
+     * 
+     * @param numbers
+     * @return the maximum of {@code numbers}
+     */
+    public static OptionalInt max(OptionalInt... numbers) {
+      OptionalInt max = OptionalInt.empty();
+      for (OptionalInt n : numbers) {
+        if (n.isPresent())
+          if (!max.isPresent() || n.getAsInt() > max.getAsInt())
+            max = n;
+      }
+      return max;
+    }
+
+    /**
+     * Returns the minimum of the given numbers, or {@link OptionalInt#empty()} if no number is present.
+     * 
+     * @param numbers
+     * @return the maximum of {@code numbers}
+     */
+    public static OptionalInt min(OptionalInt... numbers) {
+      OptionalInt min = OptionalInt.empty();
+      for (OptionalInt n : numbers) {
+        if (n.isPresent())
+          if (!min.isPresent() || n.getAsInt() < min.getAsInt())
+            min = n;
+      }
+      return min;
     }
 
   }
