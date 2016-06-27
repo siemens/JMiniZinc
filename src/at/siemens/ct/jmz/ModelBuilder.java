@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.NamedElement;
+import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
  * A MiniZinc model builder.
@@ -20,17 +21,37 @@ public class ModelBuilder implements IModelBuilder {
 
   private List<Element> allElements = new LinkedList<>();
   private Map<String, NamedElement> namedElements = new HashMap<>();
+  private ConstraintRegistry constraintRegistry = new ConstraintRegistry();
 
   private void addElement(Element element) {
-    allElements.add(element);
+    boolean ignore = false;
+
     if (element instanceof NamedElement) {
-      NamedElement namedElement = ((NamedElement) element);
-      String name = namedElement.getName();
-      if (namedElements.containsKey(name)) {
-        throw new IllegalArgumentException("NamedElement with this name already exists: " + name);
-      }
-      namedElements.put(name, namedElement);
+      registerNamedElement(((NamedElement) element));
     }
+
+    if (element instanceof Constraint) {
+      Constraint constraint = (Constraint) element;
+      registerConstraint(constraint);
+      if (constraintRegistry.isIgnored(constraint))
+        ignore = true;
+    }
+
+    if (!ignore) {
+      allElements.add(element);
+    }
+  }
+
+  private void registerNamedElement(NamedElement namedElement) {
+    String name = namedElement.getName();
+    if (namedElements.containsKey(name)) {
+      throw new IllegalArgumentException("NamedElement with this name already exists: " + name);
+    }
+    namedElements.put(name, namedElement);
+  }
+
+  private void registerConstraint(Constraint constraint) {
+    constraintRegistry.register(constraint);
   }
 
   @Override

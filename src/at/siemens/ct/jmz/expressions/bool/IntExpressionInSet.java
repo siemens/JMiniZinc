@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.elements.constraints;
+package at.siemens.ct.jmz.expressions.bool;
 
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
@@ -9,7 +9,7 @@ import at.siemens.ct.jmz.expressions.set.IntSetExpression;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class IntExpressionInSet extends Constraint {
+public class IntExpressionInSet implements BooleanExpression {
 
   private IntExpression intExpression;
   private IntSetExpression allowedValues;
@@ -26,7 +26,7 @@ public class IntExpressionInSet extends Constraint {
   }
 
   @Override
-  String getExpression() {
+  public String use() {
     return String.format("%s in %s", intExpression.use(), allowedValues.use());
   }
 
