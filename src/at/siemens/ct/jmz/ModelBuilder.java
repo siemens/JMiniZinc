@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class ModelBuilder implements IModelBuilder {
   private List<Element> allElements = new LinkedList<>();
   private Map<String, NamedElement> namedElements = new HashMap<>();
   private ConstraintRegistry constraintRegistry = new ConstraintRegistry();
+  private boolean relaxedProblem = false;
 
   private void addElement(Element element) {
     boolean ignore = false;
@@ -62,6 +64,9 @@ public class ModelBuilder implements IModelBuilder {
   @Override
   public void reset() {
     allElements.clear();
+    namedElements.clear();
+    constraintRegistry.reset();
+    relaxedProblem = false;
   }
 
   @Override
@@ -81,6 +86,25 @@ public class ModelBuilder implements IModelBuilder {
   @Override
   public NamedElement getElementByName(String name) {
     return namedElements.get(name);
+  }
+
+  @Override
+  public Collection<String> getConstraintGroups() {
+    return constraintRegistry.getGroups();
+  }
+
+  @Override
+  public void rebuildIgnoringConstraintGroups(String... constraintGroups) {
+    Collection<Element> copiedElements = new ArrayList<>(allElements);
+    reset();
+    constraintRegistry.ignoreGroups(constraintGroups);
+    add(copiedElements);
+    relaxedProblem = constraintGroups.length > 0;
+  }
+
+  @Override
+  public boolean isRelaxed() {
+    return relaxedProblem;
   }
 
 }

@@ -36,4 +36,23 @@ public interface IModelBuilder {
 
   NamedElement getElementByName(String name);
 
+  /**
+   * @return the set of constraint groups known by the model builder's {@link ConstraintRegistry}.
+   */
+  Collection<String> getConstraintGroups();
+
+  /**
+   * Rebuilds the model while ignoring the given groups of constraints.
+   * 
+   * @param constraintGroups
+   */
+  void rebuildIgnoringConstraintGroups(String... constraintGroups);
+
+  /**
+   * Checks if the current model corresponds to a relaxed problem.
+   * 
+   * @return {@code true} iff any constraints are currently ignored.
+   */
+  boolean isRelaxed();
+
 }

@@ -1,6 +1,8 @@
 package at.siemens.ct.jmz;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,8 +54,10 @@ public class ConstraintRegistry {
     mapGroupAndNameToConstraint.put(key, constraint);
   }
 
-  public void ignoreGroup(String group) {
-    ignoredGroups.add(group);
+  public void ignoreGroups(String... groups) {
+    for (String group : groups) {
+      ignoredGroups.add(group);
+    }
   }
 
   public void ignoreConstraint(String group, String name) {
@@ -85,6 +89,17 @@ public class ConstraintRegistry {
       builder.append(namedElement.getName());
     }
     return builder.toString();
+  }
+
+  public Collection<String> getGroups() {
+    return Collections.unmodifiableCollection(mapGroupToNames.keySet());
+  }
+
+  public void reset() {
+    mapGroupToNames.clear();
+    mapGroupAndNameToConstraint.clear();
+    ignoredGroups.clear();
+    ignoredKeys.clear();
   }
 
 }
