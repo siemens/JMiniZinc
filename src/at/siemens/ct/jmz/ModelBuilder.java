@@ -1,6 +1,5 @@
 package at.siemens.ct.jmz;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -93,13 +92,40 @@ public class ModelBuilder implements IModelBuilder {
     return constraintRegistry.getGroups();
   }
 
+  ConstraintRegistry getConstraintRegistry() {
+    return constraintRegistry;
+  }
+
   @Override
-  public void rebuildIgnoringConstraintGroups(String... constraintGroups) {
-    Collection<Element> copiedElements = new ArrayList<>(allElements);
-    reset();
-    constraintRegistry.ignoreGroups(constraintGroups);
-    add(copiedElements);
-    relaxedProblem = constraintGroups.length > 0;
+  public IModelBuilder rebuildIgnoringConstraintGroups(String... constraintGroups) {
+    ModelBuilder newModelBuilder = new ModelBuilder();
+    newModelBuilder.getConstraintRegistry().ignoreGroups(constraintGroups);
+    newModelBuilder.add(allElements);
+    newModelBuilder.setRelaxed(constraintGroups.length > 0);
+    return newModelBuilder;
+  }
+
+  @Override
+  public IModelBuilder rebuildChangingConstraints(IConstraintRelaxation constraintRelaxation) {
+    ModelBuilder newModelBuilder = new ModelBuilder();
+    boolean relaxed = false;
+    for (Element element : allElements) {
+      Element replacement = element;
+      if (element instanceof Constraint) {
+        Constraint constraint = (Constraint) element;
+        if (constraintRelaxation.isRelaxed(constraint)) {
+          relaxed = true;
+          replacement = constraintRelaxation.getRelaxed(constraint);
+        }
+      }
+      newModelBuilder.add(replacement);
+    }
+    newModelBuilder.setRelaxed(relaxed);
+    return newModelBuilder;
+  }
+
+  void setRelaxed(boolean relaxed) {
+    this.relaxedProblem = relaxed;
   }
 
   @Override

@@ -46,7 +46,14 @@ public interface IModelBuilder {
    * 
    * @param constraintGroups
    */
-  void rebuildIgnoringConstraintGroups(String... constraintGroups);
+  IModelBuilder rebuildIgnoringConstraintGroups(String... constraintGroups);
+
+  /**
+   * Rebuilds the model while replacing certain constraints by relaxed variants.
+   * 
+   * @param constraintRelaxation
+   */
+  IModelBuilder rebuildChangingConstraints(IConstraintRelaxation constraintRelaxation);
 
   /**
    * Checks if the current model corresponds to a relaxed problem.
