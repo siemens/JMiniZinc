@@ -5,9 +5,9 @@ import at.siemens.ct.jmz.expressions.Expression;
 
 public class Constraint implements Element {
 
-  private final String constraintGroup;
-  private final String constraintName;
-  private Expression<Boolean> expression;
+  protected final String constraintGroup;
+  protected final String constraintName;
+  protected Expression<Boolean> expression;
 
   /**
    * @see #Constraint(String, String, Expression)
@@ -45,15 +45,15 @@ public class Constraint implements Element {
 
   @Override
   public String declare() {
-    return "constraint " + getExpression() + ";";
+    return "constraint " + getExpressionString() + ";";
   }
 
-  /**
-   * @return the constraint expression, which is the same as the result of {@link #declare()}, just without the
-   *         {@code constraint} keyword in the front and the semicolon in the end.
-   */
-  String getExpression() {
+  protected String getExpressionString() {
     return expression.use();
+  }
+
+  public Expression<?> getExpression() {
+    return expression;
   }
 
 }

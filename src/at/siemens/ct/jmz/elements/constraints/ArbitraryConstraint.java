@@ -31,7 +31,7 @@ public class ArbitraryConstraint extends Constraint {
   }
 
   @Override
-  String getExpression() {
+  protected String getExpressionString() {
     return expression;
   }
 
