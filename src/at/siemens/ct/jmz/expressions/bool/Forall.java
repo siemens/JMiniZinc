@@ -29,4 +29,12 @@ public class Forall implements BooleanExpression {
     return String.format("forall(%s)(%s)", generator.use(), expression.use());
   }
 
+  public Generator getGenerator() {
+    return generator;
+  }
+
+  public Expression<Boolean> getExpression() {
+    return expression;
+  }
+
 }
