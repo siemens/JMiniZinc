@@ -54,4 +54,15 @@ public class Generator implements Expression<int[]> {
     return sb.toString();
   }
 
+  /**
+   * Creates a restricted version of this Generator, i.e. one containing a where clause.
+   * 
+   * @param restriction
+   * @return a new Generator, containing the given restriction and the iterators of this Generator.
+   */
+  public Generator restrict(ComparisonExpression<Integer> restriction) {
+    // TODO: if this generator already contains a restriction, combine it with the new restriction using logical and
+    return new Generator(restriction, iterators);
+  }
+
 }
