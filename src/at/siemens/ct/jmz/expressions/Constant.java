@@ -1,6 +1,6 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions;
 
-import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.elements.NamedElement;
 
 public class Constant<T> implements NamedElement, Expression<T> {
   protected String name;

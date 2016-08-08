@@ -1,6 +1,6 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.bool;
 
-import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
+import at.siemens.ct.jmz.expressions.Constant;
 
 public class BooleanConstant extends Constant<Boolean> implements BooleanExpression {
 
@@ -19,6 +19,11 @@ public class BooleanConstant extends Constant<Boolean> implements BooleanExpress
   public String declare() {
     mustHaveName();
     return String.format("bool: %s = %s;", name, value);
+  }
+
+  @Override
+  public boolean isComposite() {
+    return false;
   }
 
 }

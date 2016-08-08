@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
+import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 
 public class IntConstant extends Constant<Integer> implements IntExpression {

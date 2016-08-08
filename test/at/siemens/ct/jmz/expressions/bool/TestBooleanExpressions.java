@@ -21,7 +21,6 @@ public class TestBooleanExpressions {
   /**
    * Constructs a simple {@link Forall}, calls {@link Expression#toString()} and checks the result.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testForall() {
     IntSet set123 = new IntSet(1, 3);
@@ -37,6 +36,61 @@ public class TestBooleanExpressions {
     Forall forall = new Forall(generator, arrayElementEqualsIndex);
 
     Assert.assertEquals("forall(i in 1..3 where i > 1)(a[i] = i)", forall.use());
+  }
+
+  @Test
+  public void testNegation() {
+    BooleanVariable b = new BooleanVariable("b");
+    Negation neg = b.negate();
+    Assert.assertEquals("not (b)", neg.use());
+  }
+
+  @Test
+  public void testConjunction() {
+    BooleanVariable a = new BooleanVariable("a");
+    BooleanVariable b = new BooleanVariable("b");
+    Conjunction operation = a.and(b);
+    Assert.assertEquals("a /\\ b", operation.use());
+  }
+
+  @Test
+  public void testDisjunction() {
+    BooleanVariable a = new BooleanVariable("a");
+    BooleanVariable b = new BooleanVariable("b");
+    Disjunction operation = a.or(b);
+    Assert.assertEquals("a \\/ b", operation.use());
+  }
+
+  @Test
+  public void testImplication() {
+    BooleanVariable a = new BooleanVariable("a");
+    BooleanVariable b = new BooleanVariable("b");
+    Implication operation = a.implies(b);
+    Assert.assertEquals("a -> b", operation.use());
+  }
+
+  @Test
+  public void testLeftImplication() {
+    BooleanVariable a = new BooleanVariable("a");
+    BooleanVariable b = new BooleanVariable("b");
+    LeftImplication operation = a.onlyIf(b);
+    Assert.assertEquals("a <- b", operation.use());
+  }
+
+  @Test
+  public void testEquivalence() {
+    BooleanVariable a = new BooleanVariable("a");
+    BooleanVariable b = new BooleanVariable("b");
+    Equivalence operation = a.iff(b);
+    Assert.assertEquals("a <-> b", operation.use());
+  }
+
+  @Test public void testComplexOperation() {
+    BooleanVariable a = new BooleanVariable("a");
+    BooleanVariable b = new BooleanVariable("b");
+    BooleanVariable c = new BooleanVariable("c");
+    BinaryLogicalOperation operation = a.and((b.or(c)).implies(b));
+    Assert.assertEquals("a /\\ ((b \\/ c) -> b)", operation.use());
   }
 
 }

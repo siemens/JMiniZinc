@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
@@ -166,7 +167,7 @@ public class TestDeclarations {
   @Test
   public void testBoolVarUnassigned() {
     String varName = "x";
-    BooleanVar var = new BooleanVar(varName);
+    BooleanVariable var = new BooleanVariable(varName);
     String expectedDeclaration = String.format("var bool: %s;", varName);
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, var.declare());
   }
@@ -176,7 +177,7 @@ public class TestDeclarations {
   public void testBoolVarAssigned() {
     String varName = "x";
     boolean value = false;
-    BooleanVar var = new BooleanVar(varName, value);
+    BooleanVariable var = new BooleanVariable(varName, value);
     String expectedDeclaration = String.format("var bool: %s = %s;", varName, value);
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, var.declare());
   }

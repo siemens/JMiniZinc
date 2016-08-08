@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.array.IntExplicitList;
+import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 
 /**
  * Tests various {@link Assignment}s.
@@ -45,7 +46,7 @@ public class TestAssignments {
   public void testBooleanAssignment() {
     String varName = "b";
     boolean value = true;
-    Variable<Boolean> variable = new BooleanVar(varName);
+    Variable<Boolean> variable = new BooleanVariable(varName);
     Assignment<Boolean> assignment = new Assignment<>(variable, value);
     String expectedDeclaration = String.format("%s = %s;", varName, value);
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, assignment.declare());

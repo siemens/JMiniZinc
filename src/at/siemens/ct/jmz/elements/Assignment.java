@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.elements;
 
+import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.Expression;
 
 /**

@@ -1,22 +1,22 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.bool;
 
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
+import at.siemens.ct.jmz.elements.Variable;
 
-public class BooleanVar extends Variable<Boolean> implements BooleanExpression {
+public class BooleanVariable extends Variable<Boolean> implements BooleanExpression {
 
   private BooleanExpression value;
 
-  public BooleanVar(String name) {
+  public BooleanVariable(String name) {
     this(name, null);
   }
 
-  public BooleanVar(String name, boolean value) {
+  public BooleanVariable(String name, boolean value) {
     this(name, BooleanConstant.valueOf(value));
   }
 
-  public BooleanVar(String name, BooleanExpression value) {
+  public BooleanVariable(String name, BooleanExpression value) {
     super(name);
     this.value = value;
   }
@@ -48,6 +48,11 @@ public class BooleanVar extends Variable<Boolean> implements BooleanExpression {
   @Override
   public Boolean parseValue(String string) {
     return Boolean.parseBoolean(string);
+  }
+
+  @Override
+  public boolean isComposite() {
+    return false;
   }
 
 }
