@@ -37,9 +37,4 @@ public class ArrayAccessExpression implements IntExpression {
         Arrays.stream(indices).map(IntExpression::use).collect(Collectors.joining(",")));
   }
 
-  @Override
-  public boolean isSingleton() {
-    return true;
-  }
-
 }

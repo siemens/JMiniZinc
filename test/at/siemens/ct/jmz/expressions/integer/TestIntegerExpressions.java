@@ -3,10 +3,9 @@ package at.siemens.ct.jmz.expressions.integer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
 
 /**
  * Tests {@link Expression}s in {@link at.siemens.ct.jmz.expressions.integer}.
@@ -17,9 +16,8 @@ import at.siemens.ct.jmz.expressions.Expression;
 public class TestIntegerExpressions {
 
   /**
-   * Constructs a simple {@link SumExpression}, calls {@link Expression#toString()} and checks the result.
+   * Constructs a simple {@link Sum}, calls {@link Expression#toString()} and checks the result.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testSumExpression() {
     String nameOfArray = "array";

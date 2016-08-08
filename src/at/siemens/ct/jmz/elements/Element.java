@@ -1,5 +1,7 @@
 package at.siemens.ct.jmz.elements;
 
+import at.siemens.ct.jmz.expressions.Variable;
+
 public interface Element {
 
   /**

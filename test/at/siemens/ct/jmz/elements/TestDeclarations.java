@@ -9,10 +9,14 @@ import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.array.IntArrayConstant;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
+import at.siemens.ct.jmz.expressions.integer.IntConstant;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 
 /**
  * Tests declarations of various {@link Element}s

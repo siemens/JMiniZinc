@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.elements.IntArrayVar;
 import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 

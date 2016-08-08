@@ -11,9 +11,4 @@ public class IntegerConditionalExpression extends ConditionalExpression<Integer>
     super(condition, thenBranch, elseBranch);
   }
 
-  @Override
-  public boolean isSingleton() {
-    return true;
-  }
-
 }

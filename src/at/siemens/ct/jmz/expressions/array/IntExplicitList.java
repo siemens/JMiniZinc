@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.elements.IntArrayConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.PseudoOptionalIntSet;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;

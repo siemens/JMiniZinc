@@ -1,9 +1,9 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.elements.NamedElement;
 
 public abstract class Variable<T> implements NamedElement, Expression<T> {
 

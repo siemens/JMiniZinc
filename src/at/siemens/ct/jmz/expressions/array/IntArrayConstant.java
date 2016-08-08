@@ -1,11 +1,11 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.array;
 
 import java.util.Collection;
 import java.util.List;
 
 import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.expressions.array.IntExplicitList;
+import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**

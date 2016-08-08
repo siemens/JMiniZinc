@@ -6,8 +6,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.Variable;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
 import at.siemens.ct.jmz.expressions.array.IntExplicitList;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
+import at.siemens.ct.jmz.expressions.integer.IntConstant;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 
 /**
  * Tests various {@link Assignment}s.

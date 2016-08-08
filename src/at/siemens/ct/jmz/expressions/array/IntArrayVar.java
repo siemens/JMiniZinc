@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.array;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,8 +6,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.expressions.Variable;
 import at.siemens.ct.jmz.expressions.comprehension.Comprehension;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 
 public class IntArrayVar extends Variable<int[]> implements IntArray {
 
@@ -93,7 +96,7 @@ public class IntArrayVar extends Variable<int[]> implements IntArray {
 
   @Override
   public Pattern getPattern() {
-    String intPattern = IntVar.getPatternStatic().pattern();
+    String intPattern = IntVar.getIntegerPattern().pattern();
     return Pattern.compile(
         "array(\\d)d\\((\\d+..\\d+, )+\\[((" + intPattern + ", )*" + intPattern + ")\\]\\)");
   }

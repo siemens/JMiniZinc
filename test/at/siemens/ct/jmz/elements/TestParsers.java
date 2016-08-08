@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
 
 /**
  * Tests {@link IntArrayVar#parseValue(String)

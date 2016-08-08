@@ -1,6 +1,6 @@
 package at.siemens.ct.jmz.elements.solving;
 
-import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 
 public class Optimize extends SolvingStrategy {
 

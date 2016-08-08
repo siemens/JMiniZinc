@@ -2,6 +2,7 @@ package at.siemens.ct.jmz.elements;
 
 import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.Variable;
 
 /**
  * Assigns a value to a previously unassigned variable.

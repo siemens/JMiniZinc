@@ -2,7 +2,7 @@ package at.siemens.ct.jmz.expressions.bool;
 
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.elements.Variable;
+import at.siemens.ct.jmz.expressions.Variable;
 
 public class BooleanVariable extends Variable<Boolean> implements BooleanExpression {
 

@@ -1,7 +1,7 @@
 package at.siemens.ct.jmz.elements.solving;
 
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 
 public abstract class SolvingStrategy implements Element {
 

@@ -3,10 +3,10 @@ package at.siemens.ct.jmz.expressions.conditional;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.integer.IntConstant;
 import at.siemens.ct.jmz.expressions.integer.IntExpression;
 
 public class TestConditionalExpression {

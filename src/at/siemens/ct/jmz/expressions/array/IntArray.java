@@ -1,9 +1,9 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.array;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
+import at.siemens.ct.jmz.elements.NamedElement;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public interface IntArray extends NamedElement, IntArrayExpression {

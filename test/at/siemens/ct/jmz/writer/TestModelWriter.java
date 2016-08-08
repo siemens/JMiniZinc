@@ -14,15 +14,15 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.elements.IntArrayConstant;
-import at.siemens.ct.jmz.elements.IntArrayVar;
-import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.elements.IntVar;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 import at.siemens.ct.jmz.elements.output.OutputAllVariables;
 import at.siemens.ct.jmz.elements.solving.OptimizationType;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
+import at.siemens.ct.jmz.expressions.array.IntArrayConstant;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
+import at.siemens.ct.jmz.expressions.integer.IntConstant;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 
 /**
  * Tests {@link ModelWriter}

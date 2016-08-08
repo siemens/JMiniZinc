@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.Variable;
+import at.siemens.ct.jmz.expressions.Variable;
 
 public class OutputAllVariables extends OutputStatement {
 

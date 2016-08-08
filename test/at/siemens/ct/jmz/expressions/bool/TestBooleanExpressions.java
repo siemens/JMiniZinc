@@ -3,12 +3,12 @@ package at.siemens.ct.jmz.expressions.bool;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.elements.IntArrayVar;
-import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.array.IntArrayVar;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
+import at.siemens.ct.jmz.expressions.integer.IntConstant;
 
 /**
  * Tests {@link Expression}s in {@link at.siemens.ct.jmz.expressions.bool}.

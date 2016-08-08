@@ -1,10 +1,10 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.integer;
 
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
-import at.siemens.ct.jmz.expressions.integer.IntExpression;
-import at.siemens.ct.jmz.expressions.integer.SumExpression;
+import at.siemens.ct.jmz.elements.IntSet;
+import at.siemens.ct.jmz.expressions.Variable;
+import at.siemens.ct.jmz.expressions.array.IntArray;
 
 public class IntVar extends Variable<Integer> implements IntExpression {
 
@@ -47,8 +47,8 @@ public class IntVar extends Variable<Integer> implements IntExpression {
    * @param summands
    * @return a reference to the created variable.
    */
-  public static IntVar createSum(String name, IntArrayExpression... summands) {
-    return new IntVar(name, IntSet.ALL_INTEGERS, new SumExpression(summands)); // TODO: tighter domain bounds?
+  public static IntVar createSum(String name, IntArray summands) {
+    return new IntVar(name, IntSet.ALL_INTEGERS, new Sum(summands)); // TODO: tighter domain bounds?
   }
 
   @Override
@@ -58,10 +58,10 @@ public class IntVar extends Variable<Integer> implements IntExpression {
 
   @Override
   public Pattern getPattern() {
-    return getPatternStatic();
+    return getIntegerPattern();
   }
 
-  static Pattern getPatternStatic() {
+  public static Pattern getIntegerPattern() {
     return Pattern.compile("-?\\d+");
   }
 

@@ -7,11 +7,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.elements.IntArrayConstant;
-import at.siemens.ct.jmz.elements.IntArrayVar;
-import at.siemens.ct.jmz.elements.IntConstant;
 import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.elements.IntVar;
+import at.siemens.ct.jmz.expressions.integer.IntConstant;
+import at.siemens.ct.jmz.expressions.integer.IntVar;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 public class TestArrayAccess {
