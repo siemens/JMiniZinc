@@ -29,9 +29,9 @@ public class TestBooleanExpressions {
 
     IteratorExpression iterator = set123.iterate("i");
     Generator generator = new Generator(
-        new ComparisonExpression<>(iterator, BooleanComparisonOperator.GT, const1), iterator);
-    ComparisonExpression<Integer> arrayElementEqualsIndex = new ComparisonExpression<>(
-        array.access(iterator), BooleanComparisonOperator.EQ, iterator);
+        new RelationalExpression<>(iterator, RelationalOperator.GT, const1), iterator);
+    RelationalExpression<Integer> arrayElementEqualsIndex = new RelationalExpression<>(
+        array.access(iterator), RelationalOperator.EQ, iterator);
 
     Forall forall = new Forall(generator, arrayElementEqualsIndex);
 

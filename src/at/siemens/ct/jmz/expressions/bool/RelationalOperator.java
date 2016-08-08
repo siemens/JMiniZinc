@@ -1,12 +1,12 @@
 package at.siemens.ct.jmz.expressions.bool;
 
-public enum BooleanComparisonOperator {
+public enum RelationalOperator {
 
   LT("<"), LE("<="), EQ("="), NEQ("!="), GE(">="), GT(">");
 
   private String encoding;
 
-  private BooleanComparisonOperator(String encoding) {
+  private RelationalOperator(String encoding) {
     this.encoding = encoding;
   }
 

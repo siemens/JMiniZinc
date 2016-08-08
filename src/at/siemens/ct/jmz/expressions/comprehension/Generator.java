@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.bool.ComparisonExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
 import at.siemens.ct.jmz.expressions.set.IntSetExpression;
 
 /**
@@ -17,7 +17,7 @@ import at.siemens.ct.jmz.expressions.set.IntSetExpression;
  */
 public class Generator implements Expression<int[]> {
 
-  private ComparisonExpression<Integer> restriction;
+  private RelationalExpression<Integer> restriction;
   private Collection<IteratorExpression> iterators;
 
   public Generator(IteratorExpression... iterators) {
@@ -28,11 +28,11 @@ public class Generator implements Expression<int[]> {
     this(null, iterators);
   }
 
-  public Generator(ComparisonExpression<Integer> restriction, IteratorExpression... iterators) {
+  public Generator(RelationalExpression<Integer> restriction, IteratorExpression... iterators) {
     this(restriction, ListUtils.fromElements(iterators));
   }
 
-  public Generator(ComparisonExpression<Integer> restriction,
+  public Generator(RelationalExpression<Integer> restriction,
       Collection<IteratorExpression> iterators) {
     this.restriction = restriction;
     this.iterators = iterators;
@@ -60,7 +60,7 @@ public class Generator implements Expression<int[]> {
    * @param restriction
    * @return a new Generator, containing the given restriction and the iterators of this Generator.
    */
-  public Generator restrict(ComparisonExpression<Integer> restriction) {
+  public Generator restrict(RelationalExpression<Integer> restriction) {
     // TODO: if this generator already contains a restriction, combine it with the new restriction using logical and
     return new Generator(restriction, iterators);
   }
