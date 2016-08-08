@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 
-public class BooleanVar extends Variable<Boolean> {
+public class BooleanVar extends Variable<Boolean> implements BooleanExpression {
 
   private BooleanExpression value;
 
