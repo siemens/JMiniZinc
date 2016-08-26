@@ -9,16 +9,17 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
-import at.siemens.ct.jmz.expressions.array.IntArrayVar;
-import at.siemens.ct.jmz.expressions.integer.IntVar;
+import at.siemens.ct.jmz.expressions.NamedConstantSet;
+import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 
 /**
  * Tests {@link Executor}
- * 
+ *
  * @author z003ft4a (Richard Taupe)
  *
  */
@@ -36,8 +37,8 @@ public class TestExecutor {
 
   @Test
   public void testSingleVariableGetOutput() throws IOException, InterruptedException {
-    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
-    IntVar i = new IntVar("i", setOneTwoThree);
+		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+    IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
     executor.startProcess();
     Assert.assertTrue(Executor.isRunning());
@@ -55,8 +56,8 @@ public class TestExecutor {
 
   @Test
   public void testSingleVariableGetSolution() throws IOException, InterruptedException {
-    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
-    IntVar i = new IntVar("i", setOneTwoThree);
+		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+    IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
     executor.startProcess();
     Assert.assertTrue(Executor.isRunning());
@@ -68,14 +69,14 @@ public class TestExecutor {
 
   @Test
   public void testArrayGetSolution() throws IOException, InterruptedException {
-    IntSet setOneTwoThree = new IntSet("OneTwoThree", 1, 3);
-    IntArrayVar a = new IntArrayVar("a", setOneTwoThree, IntSet.ALL_INTEGERS);
+		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerArrayVariable a = new IntegerArrayVariable("a", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, a);
     executor.startProcess();
     Assert.assertTrue(Executor.isRunning());
     executor.waitForSolution();
     Assert.assertFalse(Executor.isRunning());
-    int[] solA = a.parseResults(executor.getLastSolverOutput());
+		Integer[] solA = a.parseResults(executor.getLastSolverOutput());
     System.out.println(Arrays.toString(solA));
     Assert.assertEquals("Unexpected length of solution array: a=" + Arrays.toString(solA), 3,
         solA.length);

@@ -10,16 +10,18 @@ import org.junit.Test;
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.elements.IntSubSet;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.expressions.array.IntArrayVar;
-import at.siemens.ct.jmz.expressions.bool.IntExpressionInSet;
+import at.siemens.ct.jmz.expressions.NamedConstantSet;
+import at.siemens.ct.jmz.expressions.array.ArrayVariable;
+import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.bool.IntegerExpressionInSet;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
+import at.siemens.ct.jmz.expressions.set.SetLiteral;
 
 /**
  * Tests {@link ModelWriter} with {@link Element}s from {@link at.siemens.ct.jmz.elements.constraints}.
- * 
+ *
  * @author z003ft4a (Richard Taupe)
  *
  */
@@ -35,20 +37,20 @@ public class TestModelWriterConstraints {
   }
 
   /**
-   * Creates an {@link IntExpressionInSet} constraint for an array element, writes its declaration to a string and
+   * Creates an {@link IntegerExpressionInSet} constraint for an array element, writes its declaration to a string and
    * checks the result.
    */
   @Test
   public void testCreateIntExpressionInSetConstraintToString() {
     String setRangeName = "Range";
     String arrayName = "a";
-    IntSet setRange = new IntSet(setRangeName, 1, 3);
-    IntArrayVar arrayVar = new IntArrayVar(arrayName, setRange, IntSet.ALL_INTEGERS);
+		NamedConstantSet<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
+		ArrayVariable<Integer> arrayVar = new IntegerArrayVariable(arrayName, setRange);
     Set<Integer> allowedValues = new HashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);
-    IntExpressionInSet intExpressionInSet = new IntExpressionInSet(arrayVar.access(1),
-        IntSubSet.createConstant(allowedValues));
+		IntegerExpressionInSet intExpressionInSet = new IntegerExpressionInSet(arrayVar.access(1),
+				SetLiteral.fromIntegers(allowedValues));
     Constraint constraint = new Constraint("test", "intExpressionInSet", intExpressionInSet);
     modelBuilder.add(setRange, arrayVar, constraint);
     String output = modelWriter.toString();

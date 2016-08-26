@@ -1,14 +1,14 @@
 package at.siemens.ct.jmz.elements.solving;
 
-import at.siemens.ct.jmz.expressions.integer.IntVar;
+import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 
 public class Optimize extends SolvingStrategy {
 
   private OptimizationType type;
-  private IntVar objective;
+  private IntegerVariable objective;
   private String searchAnnotation;
 
-  public Optimize(OptimizationType type, IntVar objective) {
+  public Optimize(OptimizationType type, IntegerVariable objective) {
     this.type = type;
     this.objective = objective;
   }
@@ -17,7 +17,7 @@ public class Optimize extends SolvingStrategy {
    * TODO: searchAnnotation should not be a string but a JMiniZinc object
    * TODO: searchAnnotation should also be supported by {@link SolveSatisfy}
    */
-  public Optimize(OptimizationType type, IntVar objective, String searchAnnotation) {
+  public Optimize(OptimizationType type, IntegerVariable objective, String searchAnnotation) {
     this.type = type;
     this.objective = objective;
     this.searchAnnotation = searchAnnotation;

@@ -1,25 +1,25 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
+import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
-import at.siemens.ct.jmz.expressions.integer.IntExpression;
-import at.siemens.ct.jmz.expressions.set.IntSetExpression;
+import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
  * Represents one (of potentially multiple) iterators in a {@link Generator}.
- * 
+ *
  * @author z003ft4a (Richard Taupe)
  */
-public class IteratorExpression implements IntExpression {
+public class IteratorExpression<T> implements Expression<T> {
 
-  private IntSetExpression range;
+	private SetExpression<T> range;
   private String name;
 
-  public IteratorExpression(IntSetExpression range, String name) {
+	public IteratorExpression(SetExpression<T> range, String name) {
     this.range = range;
     this.name = name;
   }
 
-  public IntSetExpression getRange() {
+	public SetExpression<T> getRange() {
     return range;
   }
 
@@ -44,12 +44,12 @@ public class IteratorExpression implements IntExpression {
 
   /**
    * Creates a new Generator that limits this iterator using a comparison expression.
-   * 
+   *
    * @param comparisonExpression
    * @return
    */
-  public Generator where(RelationalExpression<Integer> comparisonExpression) {
-    return new Generator(comparisonExpression, this);
+	public Generator<T> where(RelationalExpression<T> comparisonExpression) {
+		return new Generator<T>(comparisonExpression, this);
   }
 
 }

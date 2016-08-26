@@ -11,4 +11,8 @@ public interface Expression<T> {
    */
   String use();
 
+	default NamedConstant<T> toNamedConstant(String name) {
+		return new NamedConstant<>(name, this);
+	}
+
 }

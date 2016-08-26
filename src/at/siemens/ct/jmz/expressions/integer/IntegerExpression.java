@@ -2,7 +2,7 @@ package at.siemens.ct.jmz.expressions.integer;
 
 import at.siemens.ct.jmz.expressions.Expression;
 
-public interface IntExpression extends Expression<Integer> {
+public interface IntegerExpression extends Expression<Integer> {
 
   /**
    * Adds a delta to this expression and returns the result.
@@ -10,7 +10,7 @@ public interface IntExpression extends Expression<Integer> {
    * @param delta
    * @return a new expression whose value is {@code this+delta}
    */
-  default IntExpression add(int delta) {
+  default IntegerExpression add(int delta) {
     // TODO: return new ArithmeticOperation(...)
     return null;
   }

@@ -1,39 +1,28 @@
 package at.siemens.ct.jmz.expressions;
 
-import at.siemens.ct.jmz.elements.NamedElement;
+import java.util.Set;
 
-public class Constant<T> implements NamedElement, Expression<T> {
-  protected String name;
-  protected T value;
+public class Constant<T> implements Expression<T> {
 
-  /**
-   * Creates a constant without a name
-   */
-  public Constant(T value) {
-    this(null, value);
-  }
+  private Expression<Set<T>> type;
+  private T value;
 
-  public Constant(String name, T value) {
-    this.name = name;
+  public Constant(Expression<Set<T>> type, T value) {
+    this.type = type;
     this.value = value;
   }
 
-  @Override
-  public String getName() {
-    return name;
+  public Expression<Set<T>> getType() {
+    return type;
   }
 
-  /**
-   * If this constant has a name, it is returned. Else, the string representation of the constant´s value is returned.
-   */
+  public T getValue() {
+    return value;
+  }
+
   @Override
   public String use() {
-    return name != null ? name : String.valueOf(value);
+    return String.valueOf(value);
   }
 
-  @Override
-  public String declare() {
-    throw new UnsupportedOperationException(
-        "This element cannot be declared. Please use an implementing subclass.");
-  }
 }

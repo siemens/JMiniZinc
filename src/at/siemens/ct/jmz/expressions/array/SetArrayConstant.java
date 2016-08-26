@@ -1,9 +1,11 @@
-package at.siemens.ct.jmz.elements;
+package at.siemens.ct.jmz.expressions.array;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import at.siemens.ct.jmz.expressions.set.IntSetExpression;
+import at.siemens.ct.jmz.elements.NamedElement;
+import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
  * Represents an array of constant integer sets.
@@ -21,12 +23,12 @@ public class SetArrayConstant implements NamedElement {
   public static final char RIGHT_BRACKET = ']';
 
   private String name;
-  private IntSetExpression range;
-  private IntSet type;
-  private List<? extends IntSetExpression> values;
+  private IntegerSetExpression range;
+  private RangeExpression type;
+  private List<? extends IntegerSetExpression> values;
 
-  public SetArrayConstant(String name, IntSetExpression range, IntSet type,
-      List<? extends IntSetExpression> values) {
+  public SetArrayConstant(String name, IntegerSetExpression range, RangeExpression type,
+      List<? extends IntegerSetExpression> values) {
     super();
     this.name = name;
     this.range = range;
@@ -48,7 +50,7 @@ public class SetArrayConstant implements NamedElement {
 
   private String valuesToString() {
     return LEFT_BRACKET
-        + values.stream().map(IntSetExpression::use).collect(Collectors.joining(", "))
+        + values.stream().map(IntegerSetExpression::use).collect(Collectors.joining(", "))
         + RIGHT_BRACKET;
   }
 

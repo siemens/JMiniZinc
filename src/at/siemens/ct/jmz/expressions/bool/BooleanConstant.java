@@ -1,29 +1,24 @@
 package at.siemens.ct.jmz.expressions.bool;
 
 import at.siemens.ct.jmz.expressions.Constant;
+import at.siemens.ct.jmz.expressions.NamedConstantSet;
 
 public class BooleanConstant extends Constant<Boolean> implements BooleanExpression {
 
-  public static final BooleanConstant TRUE = new BooleanConstant(null, true);
-  public static final BooleanConstant FALSE = new BooleanConstant(null, false);
+	public static final BooleanConstant TRUE = new BooleanConstant(true);
+	public static final BooleanConstant FALSE = new BooleanConstant(false);
 
-  public static BooleanConstant valueOf(boolean otherValue) {
-    return otherValue ? TRUE : FALSE;
-  }
+	public static BooleanConstant valueOf(boolean otherValue) {
+		return otherValue ? TRUE : FALSE;
+	}
 
-  public BooleanConstant(String name, boolean value) {
-    super(name, value);
-  }
+	public BooleanConstant(boolean value) {
+		super(NamedConstantSet.BOOLEAN_UNIVERSE, Boolean.valueOf(value));
+	}
 
-  @Override
-  public String declare() {
-    mustHaveName();
-    return String.format("bool: %s = %s;", name, value);
-  }
-
-  @Override
-  public boolean isComposite() {
-    return false;
-  }
+	@Override
+	public boolean isComposite() {
+		return false;
+	}
 
 }

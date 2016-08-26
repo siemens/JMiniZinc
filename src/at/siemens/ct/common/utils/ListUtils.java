@@ -11,21 +11,35 @@ public class ListUtils {
    */
   public static List<Integer> fromArray(int[] array) {
     List<Integer> list = new ArrayList<>(array.length);
-    for (int i = 0; i < array.length; i++) {
-      list.add(array[i]);
+    for (int element : array) {
+      list.add(element);
     }
     assert list.size() == array.length;
     return list;
   }
 
   /**
-   * Converts a series of elements to a {@link List} of {@link Integer}s.
-   */
+	 * Flattens a two-dimensional integer array and converts it to a {@link List} of {@link Integer}s.
+	 */
+	public static List<Integer> fromArray(int[][] array) {
+		List<Integer> list = new ArrayList<>(array.length);
+		for (int[] element : array) {
+			for (int i : element) {
+				list.add(i);
+			}
+		}
+		assert list.size() == array.length;
+		return list;
+	}
+
+	/**
+	 * Converts a series of elements to a {@link List} of {@link Integer}s.
+	 */
   @SafeVarargs
   public static <T> List<T> fromElements(T... elements) {
     List<T> list = new ArrayList<>(elements.length);
-    for (int i = 0; i < elements.length; i++) {
-      list.add(elements[i]);
+    for (T element : elements) {
+      list.add(element);
     }
     assert list.size() == elements.length;
     return list;
@@ -33,7 +47,7 @@ public class ListUtils {
 
   /**
    * Joins all elements of the given list of lists into a one-dimensional list.
-   * 
+   *
    * @see ArrayUtils#toOneDimensionalList(Object[][])
    */
   public static <T> List<T> toOneDimensionalList(Collection<? extends Collection<T>> listOfLists) {

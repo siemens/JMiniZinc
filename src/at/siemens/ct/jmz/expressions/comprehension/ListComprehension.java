@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
 
 /**
  * TODO: this shares some implementation details with {@code IntExplicitList}. Can we merge something?
@@ -9,7 +8,7 @@ import at.siemens.ct.jmz.expressions.array.IntArrayExpression;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class ListComprehension extends Comprehension implements IntArrayExpression {
+public class ListComprehension<T> extends Comprehension<T> {
 
   private static final char LEFT_BRACKET = '[';
   private static final char RIGHT_BRACKET = ']';
@@ -17,7 +16,7 @@ public class ListComprehension extends Comprehension implements IntArrayExpressi
   /**
    * Constructs a list comprehension of the form {@code [ expression | generator ]}.
    */
-  public ListComprehension(Generator generator, Expression<?> expression) {
+  public ListComprehension(Generator generator, Expression<T> expression) {
     super(generator, expression);
   }
 

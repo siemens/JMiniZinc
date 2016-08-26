@@ -1,13 +1,13 @@
 package at.siemens.ct.jmz.expressions.conditional;
 
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
-import at.siemens.ct.jmz.expressions.integer.IntExpression;
+import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 
 public class IntegerConditionalExpression extends ConditionalExpression<Integer>
-    implements IntExpression {
+    implements IntegerExpression {
 
-  public IntegerConditionalExpression(BooleanExpression condition, IntExpression thenBranch,
-      IntExpression elseBranch) {
+  public IntegerConditionalExpression(BooleanExpression condition, IntegerExpression thenBranch,
+      IntegerExpression elseBranch) {
     super(condition, thenBranch, elseBranch);
   }
 

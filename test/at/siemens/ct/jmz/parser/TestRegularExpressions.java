@@ -20,7 +20,6 @@ import at.siemens.ct.jmz.expressions.Variable;
  */
 public class TestRegularExpressions {
 
-  @SuppressWarnings("static-method")
   @Test
   public void testMatchInteger() {
     Pattern pattern = Pattern.compile("\\w+ = \\d+;");
@@ -29,7 +28,6 @@ public class TestRegularExpressions {
     Assert.assertTrue(matcher.matches());
   }
 
-  @SuppressWarnings("static-method")
   @Test
   public void testExtractInteger() {
     Pattern pattern = Pattern.compile("\\w+ = (\\d+);");
@@ -42,7 +40,6 @@ public class TestRegularExpressions {
     Assert.assertEquals("Unexpected matching value", "1092654", foundValue);
   }
 
-  @SuppressWarnings("static-method")
   @Test
   public void testMatchIntegerArray() {
     Pattern pattern = Pattern.compile("\\w+ = \\[(\\d+, )*\\d+\\];");
@@ -51,7 +48,6 @@ public class TestRegularExpressions {
     Assert.assertTrue(matcher.matches());
   }
 
-  @SuppressWarnings("static-method")
   @Test
   public void testExtractIntegerArray() {
     Pattern pattern = Pattern.compile("\\w+ = \\[((\\d+, )*(\\d+))\\];");
@@ -65,7 +61,6 @@ public class TestRegularExpressions {
     Assert.assertEquals("Unexpected matching value", "98, 116, 102", foundValue);
   }
 
-  @SuppressWarnings("static-method")
   @Test
   public void testMatchBoolean() {
     Pattern pattern = Pattern.compile("\\w+ = (true|false);");
@@ -74,7 +69,6 @@ public class TestRegularExpressions {
     Assert.assertTrue(matcher.matches());
   }
 
-  @SuppressWarnings("static-method")
   @Test
   public void testExtractBoolean() {
     Pattern pattern = Pattern.compile("\\w+ = (true|false);");

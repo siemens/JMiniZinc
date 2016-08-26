@@ -1,26 +1,26 @@
 package at.siemens.ct.jmz.expressions.bool;
 
-import at.siemens.ct.jmz.expressions.integer.IntExpression;
-import at.siemens.ct.jmz.expressions.set.IntSetExpression;
+import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
  * Constrains the value of an integer expression to be an element of a specific set.
- * 
+ *
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class IntExpressionInSet implements BooleanExpression {
+public class IntegerExpressionInSet implements BooleanExpression {
 
-  private IntExpression intExpression;
-  private IntSetExpression allowedValues;
+	private Expression<Integer> intExpression;
+	private SetExpression<Integer> allowedValues;
 
   /**
    * Constrains the integer {@code intExpression} to be an element of {@code allowedValues}.
-   * 
+   *
    * @param arrayAccess
    * @param allowedValues
    */
-  public IntExpressionInSet(IntExpression intExpression, IntSetExpression allowedValues) {
+	public IntegerExpressionInSet(Expression<Integer> intExpression, SetExpression<Integer> allowedValues) {
     this.intExpression = intExpression;
     this.allowedValues = allowedValues;
   }

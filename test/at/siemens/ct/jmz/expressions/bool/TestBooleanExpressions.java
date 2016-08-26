@@ -3,16 +3,16 @@ package at.siemens.ct.jmz.expressions.bool;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.elements.IntSet;
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.array.IntArrayVar;
+import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
-import at.siemens.ct.jmz.expressions.integer.IntConstant;
+import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
  * Tests {@link Expression}s in {@link at.siemens.ct.jmz.expressions.bool}.
- * 
+ *
  * @author z003ft4a (Richard Taupe)
  *
  */
@@ -23,9 +23,9 @@ public class TestBooleanExpressions {
    */
   @Test
   public void testForall() {
-    IntSet set123 = new IntSet(1, 3);
-    IntConstant const1 = new IntConstant(1);
-    IntArrayVar array = new IntArrayVar("a", set123, set123);
+    RangeExpression set123 = new RangeExpression(1, 3);
+    IntegerConstant const1 = new IntegerConstant(1);
+		IntegerArrayVariable array = new IntegerArrayVariable("a", set123, set123);
 
     IteratorExpression iterator = set123.iterate("i");
     Generator generator = new Generator(

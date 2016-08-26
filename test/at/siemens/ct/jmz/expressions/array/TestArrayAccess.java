@@ -7,24 +7,25 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.elements.IntSet;
-import at.siemens.ct.jmz.expressions.integer.IntConstant;
-import at.siemens.ct.jmz.expressions.integer.IntVar;
-import at.siemens.ct.jmz.expressions.set.IntSetExpression;
+import at.siemens.ct.jmz.expressions.NamedConstant;
+import at.siemens.ct.jmz.expressions.NamedConstantSet;
+import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
+import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
+import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 public class TestArrayAccess {
 
   /**
    * Accesses an array of integer variables using a variable index.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByVar() {
     String nameOfArray = "a";
     String nameOfIndex = "i";
-    IntArrayVar array = createArrayVar(nameOfArray, 1);
-    IntVar index = new IntVar(nameOfIndex, IntSet.ALL_INTEGERS);
-    ArrayAccessExpression access = array.access(index);
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+		IntegerVariable index = new IntegerVariable(nameOfIndex);
+		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -32,14 +33,13 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using a nameless constant index.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByNamelessConstant() {
     String nameOfArray = "a";
     int valueOfIndex = 1;
-    IntArrayVar array = createArrayVar(nameOfArray, 1);
-    IntConstant index = new IntConstant(valueOfIndex);
-    ArrayAccessExpression access = array.access(index);
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+    IntegerConstant index = new IntegerConstant(valueOfIndex);
+		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%d]", nameOfArray, valueOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -47,15 +47,14 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using a named constant index.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByNamedConstant() {
     String nameOfArray = "a";
     String nameOfIndex = "i";
     int valueOfIndex = 1;
-    IntArrayVar array = createArrayVar(nameOfArray, 1);
-    IntConstant index = new IntConstant(nameOfIndex, valueOfIndex);
-    ArrayAccessExpression access = array.access(index);
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+		NamedConstant<Integer> index = new IntegerConstant(valueOfIndex).toNamedConstant(nameOfIndex);
+		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -63,14 +62,13 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using a variable index.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessByVar() {
     String nameOfArray = "a";
     String nameOfIndex = "i";
-    IntArrayConstant array = createArrayConst(nameOfArray, 1);
-    IntVar index = new IntVar(nameOfIndex, IntSet.ALL_INTEGERS);
-    ArrayAccessExpression access = array.access(index);
+		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
+		IntegerVariable index = new IntegerVariable(nameOfIndex);
+		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -78,14 +76,13 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using a nameless constant index.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessByNamelessConstant() {
     String nameOfArray = "a";
     int valueOfIndex = 1;
-    IntArrayConstant array = createArrayConst(nameOfArray, 1);
-    IntConstant index = new IntConstant(valueOfIndex);
-    ArrayAccessExpression access = array.access(index);
+		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
+    IntegerConstant index = new IntegerConstant(valueOfIndex);
+		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%d]", nameOfArray, valueOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -93,15 +90,14 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using a named constant index.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessByNamedConstant() {
     String nameOfArray = "a";
     String nameOfIndex = "i";
     int valueOfIndex = 1;
-    IntArrayConstant array = createArrayConst(nameOfArray, 1);
-    IntConstant index = new IntConstant(nameOfIndex, valueOfIndex);
-    ArrayAccessExpression access = array.access(index);
+		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
+		NamedConstant<Integer> index = new IntegerConstant(valueOfIndex).toNamedConstant(nameOfIndex);
+		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -109,16 +105,15 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using two variable indices.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessBy2Vars() {
     String nameOfArray = "a";
     String nameOfIndex1 = "i1";
     String nameOfIndex2 = "i2";
-    IntArrayVar array = createArrayVar(nameOfArray, 2);
-    IntVar index1 = new IntVar(nameOfIndex1, IntSet.ALL_INTEGERS);
-    IntVar index2 = new IntVar(nameOfIndex2, IntSet.ALL_INTEGERS);
-    ArrayAccessExpression access = array.access(index1, index2);
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
+		IntegerVariable index1 = new IntegerVariable(nameOfIndex1);
+		IntegerVariable index2 = new IntegerVariable(nameOfIndex2);
+		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%s,%s]", nameOfArray, nameOfIndex1, nameOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -126,16 +121,15 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using two nameless constant indices.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessBy2NamelessConstants() {
     String nameOfArray = "a";
     int valueOfIndex1 = 1;
     int valueOfIndex2 = 2;
-    IntArrayVar array = createArrayVar(nameOfArray, 2);
-    IntConstant index1 = new IntConstant(valueOfIndex1);
-    IntConstant index2 = new IntConstant(valueOfIndex2);
-    ArrayAccessExpression access = array.access(index1, index2);
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
+    IntegerConstant index1 = new IntegerConstant(valueOfIndex1);
+    IntegerConstant index2 = new IntegerConstant(valueOfIndex2);
+		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%d,%d]", nameOfArray, valueOfIndex1, valueOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -143,7 +137,6 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer variables using two named constant indices.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessBy2NamedConstants() {
     String nameOfArray = "a";
@@ -151,10 +144,10 @@ public class TestArrayAccess {
     int valueOfIndex1 = 1;
     String nameOfIndex2 = "i2";
     int valueOfIndex2 = 2;
-    IntArrayVar array = createArrayVar(nameOfArray, 2);
-    IntConstant index1 = new IntConstant(nameOfIndex1, valueOfIndex1);
-    IntConstant index2 = new IntConstant(nameOfIndex2, valueOfIndex2);
-    ArrayAccessExpression access = array.access(index1, index2);
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
+		NamedConstant<Integer> index1 = new IntegerConstant(valueOfIndex1).toNamedConstant(nameOfIndex1);
+		NamedConstant<Integer> index2 = new IntegerConstant(valueOfIndex2).toNamedConstant(nameOfIndex2);
+		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%s,%s]", nameOfArray, nameOfIndex1, nameOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -162,16 +155,15 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using two variable indices.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessBy2Vars() {
     String nameOfArray = "a";
     String nameOfIndex1 = "i1";
     String nameOfIndex2 = "i2";
-    IntArrayConstant array = createArrayConst(nameOfArray, 2);
-    IntVar index1 = new IntVar(nameOfIndex1, IntSet.ALL_INTEGERS);
-    IntVar index2 = new IntVar(nameOfIndex2, IntSet.ALL_INTEGERS);
-    ArrayAccessExpression access = array.access(index1, index2);
+		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
+		IntegerVariable index1 = new IntegerVariable(nameOfIndex1);
+		IntegerVariable index2 = new IntegerVariable(nameOfIndex2);
+		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%s,%s]", nameOfArray, nameOfIndex1, nameOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -179,16 +171,15 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using two nameless constant indices.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessBy2NamelessConstants() {
     String nameOfArray = "a";
     int valueOfIndex1 = 1;
     int valueOfIndex2 = 2;
-    IntArrayConstant array = createArrayConst(nameOfArray, 2);
-    IntConstant index1 = new IntConstant(valueOfIndex1);
-    IntConstant index2 = new IntConstant(valueOfIndex2);
-    ArrayAccessExpression access = array.access(index1, index2);
+		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
+    IntegerConstant index1 = new IntegerConstant(valueOfIndex1);
+    IntegerConstant index2 = new IntegerConstant(valueOfIndex2);
+		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%d,%d]", nameOfArray, valueOfIndex1, valueOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
   }
@@ -196,7 +187,6 @@ public class TestArrayAccess {
   /**
    * Accesses an array of integer constants using two named constant indices.
    */
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayConstAccessBy2NamedConstants() {
     String nameOfArray = "a";
@@ -204,40 +194,40 @@ public class TestArrayAccess {
     int valueOfIndex1 = 1;
     String nameOfIndex2 = "i2";
     int valueOfIndex2 = 2;
-    IntArrayConstant array = createArrayConst(nameOfArray, 2);
-    IntConstant index1 = new IntConstant(nameOfIndex1, valueOfIndex1);
-    IntConstant index2 = new IntConstant(nameOfIndex2, valueOfIndex2);
-    ArrayAccessExpression access = array.access(index1, index2);
+		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
+		NamedConstant<Integer> index1 = new IntegerConstant(valueOfIndex1).toNamedConstant(nameOfIndex1);
+		NamedConstant<Integer> index2 = new IntegerConstant(valueOfIndex2).toNamedConstant(nameOfIndex2);
+		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%s,%s]", nameOfArray, nameOfIndex1, nameOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
   }
 
-  @SuppressWarnings("static-method")
   @Test
   public void testIntArrayVarAccessByIterator() {
     String nameOfArray = "a";
     String nameOfIterator = "i";
-    IntArrayVar array = createArrayVar(nameOfArray, 1);
-    IntSetExpression range = array.getRange().iterator().next();
-    ArrayAccessExpression access = array.access(range.iterate(nameOfIterator));
+		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+		SetExpression<Integer> range = array.getRange().iterator().next();
+		ArrayAccessExpression<Integer> access = array.access(range.iterate(nameOfIterator));
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIterator);
     Assert.assertEquals(expectedOutput, access.use());
   }
 
-  private static IntArrayVar createArrayVar(String nameOfArray, int dimensions) {
-    List<IntSet> range = new ArrayList<>(dimensions);
+	private static ArrayVariable<Integer> createIntegerArrayVariable(String nameOfArray, int dimensions) {
+    List<RangeExpression> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
-      range.add(new IntSet(i, 10 * i));
+      range.add(new RangeExpression(i, 10 * i));
     }
-    return new IntArrayVar(nameOfArray, range, IntSet.ALL_INTEGERS);
+		return new IntegerArrayVariable(nameOfArray, range);
   }
 
-  private static IntArrayConstant createArrayConst(String nameOfArray, int dimensions) {
-    List<IntSet> range = new ArrayList<>(dimensions);
+	private static ArrayConstant<Integer> createIntegerArrayConstant(String nameOfArray, int dimensions) {
+    List<RangeExpression> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
-      range.add(new IntSet(i, 10 * i));
+      range.add(new RangeExpression(i, 10 * i));
     }
-    return new IntArrayConstant(nameOfArray, range, IntSet.ALL_INTEGERS, Collections.emptyList());
+		return new ExplicitIntegerList(range, NamedConstantSet.INTEGER_UNIVERSE, Collections.emptyList())
+				.toNamedConstant(nameOfArray);
   }
 
 }

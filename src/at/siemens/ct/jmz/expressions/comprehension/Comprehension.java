@@ -3,20 +3,20 @@ package at.siemens.ct.jmz.expressions.comprehension;
 import java.util.List;
 
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.array.RangeBasedExpression;
-import at.siemens.ct.jmz.expressions.set.IntSetExpression;
+import at.siemens.ct.jmz.expressions.array.ArrayExpression;
+import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 
 /**
  * 
  * @author z003ft4a (Richard Taupe)
  *
  */
-public abstract class Comprehension implements RangeBasedExpression {
+public abstract class Comprehension<T> implements ArrayExpression<T> {
 
   protected Generator generator;
-  private Expression<?> expression;
+  private Expression<T> expression;
 
-  public Comprehension(Generator generator, Expression<?> expression) {
+  public Comprehension(Generator generator, Expression<T> expression) {
     this.generator = generator;
     this.expression = expression;
   }
@@ -26,7 +26,7 @@ public abstract class Comprehension implements RangeBasedExpression {
   protected abstract char getRightBracket();
 
   @Override
-  public List<? extends IntSetExpression> getRange() {
+  public List<? extends IntegerSetExpression> getRange() {
     return generator.getRange();
   }
 
