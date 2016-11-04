@@ -52,18 +52,13 @@ public class ExplicitList<T> implements ArrayExpression<T> {
 	}
 
 	@Override
-	public String use() {
-		return valuesToString();
+  public String use1d() {
+    return valuesToString();
 	}
 
 	private String valuesToString() {
 		Function<? super T, ? extends String> elementOrNull = i -> (i == null ? nullElement : i.toString());
 		return LEFT_BRACKET + values.stream().map(elementOrNull).collect(Collectors.joining(", "))
 				+ RIGHT_BRACKET;
-	}
-
-	@Override
-	public ArrayConstant<T> toNamedConstant(String name) {
-		return new ArrayConstant<>(name, this);
 	}
 }

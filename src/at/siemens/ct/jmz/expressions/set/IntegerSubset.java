@@ -1,7 +1,5 @@
 package at.siemens.ct.jmz.expressions.set;
 
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
-
 /**
  * A set of integers that is defined by a concrete subset of another {@link IntegerSetExpression}.
  *
@@ -13,7 +11,7 @@ public abstract class IntegerSubset implements IntegerSetExpression {
 	private SetExpression<Integer> parent;
 
 	protected IntegerSubset() {
-		this(NamedConstantSet.INTEGER_UNIVERSE);
+    this(IntegerSetExpression.INTEGER_UNIVERSE);
 	}
 
 	public IntegerSubset(SetExpression<Integer> parent) {
@@ -27,5 +25,10 @@ public abstract class IntegerSubset implements IntegerSetExpression {
 		mustHaveName();
 		return String.format("set of %s: %s = %s;", parent.use(), name, define());
 	}*/
+
+  @Override
+  public String toString() {
+    return use();
+  }
 
 }

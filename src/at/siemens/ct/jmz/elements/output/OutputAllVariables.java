@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.expressions.Variable;
+import at.siemens.ct.jmz.elements.Variable;
 
 public class OutputAllVariables extends OutputStatement {
 
-  private List<Variable<?>> variables;
+  private List<Variable<?, ?>> variables;
 
   /**
    * Filters all variables from the given collection of {@link Element}s. They will be printed, each in a separate line,
@@ -25,7 +25,7 @@ public class OutputAllVariables extends OutputStatement {
    * following the pattern {@code name=value}.
    */
   public OutputAllVariables(Stream<Element> elements) {
-    this.variables = elements.filter(e -> e instanceof Variable).map(e -> (Variable<?>) e)
+    this.variables = elements.filter(e -> e instanceof Variable).map(e -> (Variable<?, ?>) e)
         .collect(Collectors.toList());
   }
 
@@ -34,7 +34,7 @@ public class OutputAllVariables extends OutputStatement {
     return variables.stream().map(v -> outputVariable(v)).collect(Collectors.toList());
   }
 
-  private static String outputVariable(Variable<?> v) {
+  private static String outputVariable(Variable<?, ?> v) {
     String vname = v.getName();
     return String.format("\"%s = \\(%s);\\n\"", vname, vname);
   }

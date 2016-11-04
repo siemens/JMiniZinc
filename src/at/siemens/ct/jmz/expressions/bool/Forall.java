@@ -12,16 +12,16 @@ import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
  */
 public class Forall implements BooleanExpression {
 
-  private final Generator generator;
+  private final Generator<?> generator;
   private final Expression<Boolean> expression;
 
-  public Forall(Generator generator, Expression<Boolean> expression) {
+  public Forall(Generator<?> generator, Expression<Boolean> expression) {
     this.generator = generator;
     this.expression = expression;
   }
 
-  public Forall(IteratorExpression iterator, Expression<Boolean> expression) {
-    this(new Generator(iterator), expression);
+  public <T> Forall(IteratorExpression<T> iterator, Expression<Boolean> expression) {
+    this(new Generator<T>(iterator), expression);
   }
 
   @Override
@@ -29,7 +29,7 @@ public class Forall implements BooleanExpression {
     return String.format("forall(%s)(%s)", generator.use(), expression.use());
   }
 
-  public Generator getGenerator() {
+  public Generator<?> getGenerator() {
     return generator;
   }
 

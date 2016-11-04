@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
@@ -25,7 +25,7 @@ public class TestBooleanExpressions {
   public void testForall() {
     RangeExpression set123 = new RangeExpression(1, 3);
     IntegerConstant const1 = new IntegerConstant(1);
-		IntegerArrayVariable array = new IntegerArrayVariable("a", set123, set123);
+    IntegerArray array = IntegerArray.createVariable("a", set123, set123);
 
     IteratorExpression iterator = set123.iterate("i");
     Generator generator = new Generator(

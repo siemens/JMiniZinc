@@ -2,12 +2,12 @@ package at.siemens.ct.jmz.expressions;
 
 import java.util.Set;
 
-public class Constant<T> implements Expression<T> {
+public class Constant<T, V> implements Expression<V> {
 
   private Expression<Set<T>> type;
-  private T value;
+  private V value;
 
-  public Constant(Expression<Set<T>> type, T value) {
+  public Constant(Expression<Set<T>> type, V value) {
     this.type = type;
     this.value = value;
   }
@@ -16,7 +16,7 @@ public class Constant<T> implements Expression<T> {
     return type;
   }
 
-  public T getValue() {
+  public V getValue() {
     return value;
   }
 

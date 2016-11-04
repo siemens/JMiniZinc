@@ -65,13 +65,18 @@ public interface ArrayExpression<T> extends Expression<T[]> {
 	 * @param values
 	 * @return TODO: Return operation object instead of string
 	 */
-	default String coerce() {
+  default String use() {
 		int dimensions = getDimensions();
 		if (dimensions == 1) {
-			return use();
+      return use1d();
 		}
 		return String.format("array%dd(%s, %s)", dimensions, declareRange(getRange()),
-				use());
+        use1d());
 	}
+
+  /**
+   * Returns the string expression to use this array, without changing its indices to multiple dimensions.
+   */
+  String use1d();
 
 }

@@ -25,7 +25,7 @@ public class RangeExpression extends IntegerSubset {
 		this(new IntegerConstant(lb), new IntegerConstant(ub));
 	}
 
-	public RangeExpression(int lb, IntegerExpression ub) {
+  public RangeExpression(int lb, IntegerExpression ub) {
 		this(new IntegerConstant(lb), ub);
 	}
 

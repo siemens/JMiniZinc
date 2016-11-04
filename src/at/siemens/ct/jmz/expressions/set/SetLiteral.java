@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 
 public class SetLiteral extends IntegerSubset {
@@ -30,21 +29,23 @@ public class SetLiteral extends IntegerSubset {
 	}
 
 	public static SetLiteral subset(Collection<IntegerConstant> elements) {
-		return subset(NamedConstantSet.INTEGER_UNIVERSE, elements);
+    return subset(IntegerSetExpression.INTEGER_UNIVERSE, elements);
 	}
 
 	public static SetLiteral fromIntegers(Collection<Integer> elements) {
-		return subset(NamedConstantSet.INTEGER_UNIVERSE,
+    return subset(IntegerSetExpression.INTEGER_UNIVERSE,
 				elements.stream().map(IntegerConstant::new).collect(Collectors.toSet()));
 	}
 
 	public static SetLiteral singleton(IntegerConstant element) {
-		return subset(NamedConstantSet.INTEGER_UNIVERSE, ListUtils.fromElements(element));
+    return subset(IntegerSetExpression.INTEGER_UNIVERSE, ListUtils.fromElements(element));
 	}
 
 	@Override
 	public String use() {
-		return "{" + elements.stream().map(String::valueOf).collect(Collectors.joining(", ")) + "}";
+    return "{"
+        + elements.stream().sorted().map(IntegerConstant::use).collect(Collectors.joining(", "))
+        + "}"; // note: elements are sorted to improve readability
 	}
 
 	@Override

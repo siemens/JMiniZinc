@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.NamedElement;
+import at.siemens.ct.jmz.elements.TypeInst;
 
 /**
  * An interface for MiniZinc model builders.
@@ -34,7 +34,7 @@ public interface IModelBuilder {
    */
   void add(Collection<? extends Element> elements);
 
-  NamedElement getElementByName(String name);
+  TypeInst<?, ?> getElementByName(String name);
 
   /**
    * @return the set of constraint groups known by the model builder's {@link ConstraintRegistry}.

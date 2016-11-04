@@ -1,13 +1,12 @@
 package at.siemens.ct.jmz.expressions.set;
 
-import java.util.Set;
 import java.util.regex.Pattern;
 
+import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 
-public interface SetExpression<T> extends Expression<Set<T>> {
+public interface SetExpression<T> extends Expression<java.util.Set<T>> {
 
 	/**
 	 * Checks if the given value is contained by this set. If this cannot be determined (e.g. if the set is bounded by
@@ -20,9 +19,8 @@ public interface SetExpression<T> extends Expression<Set<T>> {
 
 	Pattern getPattern();
 
-	@Override
-	default NamedConstantSet<T> toNamedConstant(String name) {
-		return new NamedConstantSet<>(name, this);
+  default Set<T> toNamedConstant(String name) {
+    return new Set<>(name, this.getType(), this);
 	}
 
 	/**
@@ -34,5 +32,7 @@ public interface SetExpression<T> extends Expression<Set<T>> {
 	default IteratorExpression<T> iterate(String nameOfIterator) {
 		return new IteratorExpression<T>(this, nameOfIterator);
 	}
+
+  SetExpression<T> getType();
 
 }

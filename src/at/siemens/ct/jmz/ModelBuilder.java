@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.NamedElement;
+import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -20,15 +20,15 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 public class ModelBuilder implements IModelBuilder {
 
   private List<Element> allElements = new LinkedList<>();
-  private Map<String, NamedElement> namedElements = new HashMap<>();
+  private Map<String, TypeInst<?, ?>> namedElements = new HashMap<>();
   private ConstraintRegistry constraintRegistry = new ConstraintRegistry();
   private boolean relaxedProblem = false;
 
   private void addElement(Element element) {
     boolean ignore = false;
 
-    if (element instanceof NamedElement) {
-      registerNamedElement(((NamedElement) element));
+    if (element instanceof TypeInst<?, ?>) {
+      registerNamedElement(((TypeInst<?, ?>) element));
     }
 
     if (element instanceof Constraint) {
@@ -43,7 +43,7 @@ public class ModelBuilder implements IModelBuilder {
     }
   }
 
-  private void registerNamedElement(NamedElement namedElement) {
+  private void registerNamedElement(TypeInst<?, ?> namedElement) {
     String name = namedElement.getName();
     if (namedElements.containsKey(name)) {
       throw new IllegalArgumentException("NamedElement with this name already exists: " + name);
@@ -83,7 +83,7 @@ public class ModelBuilder implements IModelBuilder {
   }
 
   @Override
-  public NamedElement getElementByName(String name) {
+  public TypeInst<?, ?> getElementByName(String name) {
     return namedElements.get(name);
   }
 

@@ -2,13 +2,10 @@ package at.siemens.ct.jmz.expressions.bool;
 
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
-import at.siemens.ct.jmz.expressions.Variable;
+import at.siemens.ct.jmz.elements.Variable;
+import at.siemens.ct.jmz.expressions.set.BooleanSetExpression;
 
-public class BooleanVariable extends Variable<Boolean> implements BooleanExpression {
-
-	private BooleanExpression value;
+public class BooleanVariable extends Variable<Boolean, Boolean> implements BooleanExpression {
 
 	public BooleanVariable(String name) {
 		this(name, null);
@@ -19,7 +16,7 @@ public class BooleanVariable extends Variable<Boolean> implements BooleanExpress
 	}
 
 	public BooleanVariable(String name, BooleanExpression value) {
-		super(NamedConstantSet.BOOLEAN_UNIVERSE, name);
+    super(name, BooleanSetExpression.BOOLEAN_UNIVERSE);
 		this.value = value;
 	}
 
@@ -27,7 +24,7 @@ public class BooleanVariable extends Variable<Boolean> implements BooleanExpress
 	public String declare() {
 		mustHaveName();
 		StringBuilder declaration = new StringBuilder();
-		declaration.append(String.format("var bool: %s", name));
+    declaration.append(String.format("var bool: %s", getName()));
 
 		if (value != null) {
 			declaration.append(" = ");
@@ -55,11 +52,6 @@ public class BooleanVariable extends Variable<Boolean> implements BooleanExpress
 	@Override
 	public boolean isComposite() {
 		return false;
-	}
-
-	@Override
-	public Expression<Boolean> getValue() {
-		return value;
 	}
 
 }

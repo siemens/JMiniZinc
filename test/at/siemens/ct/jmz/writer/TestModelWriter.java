@@ -14,18 +14,17 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
+import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
+import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.output.OutputAllVariables;
 import at.siemens.ct.jmz.elements.solving.OptimizationType;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
-import at.siemens.ct.jmz.expressions.NamedConstant;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
-import at.siemens.ct.jmz.expressions.array.ArrayVariable;
 import at.siemens.ct.jmz.expressions.array.ExplicitIntegerList;
-import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.array.IntegerArray;
+import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
-import at.siemens.ct.jmz.expressions.integer.NamedIntegerConstant;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
@@ -62,7 +61,7 @@ public class TestModelWriter {
 	 */
 	@Test
 	public void testCreateSingleSetTemporaryFile() throws IOException {
-		modelBuilder.add(new RangeExpression(1, 99).toNamedConstant("s"));
+    modelBuilder.add(new RangeExpression(1, 99).toNamedConstant("s"));
 		File tempFile = File.createTempFile("jmz", null);
 		try {
 			modelWriter.toFile(tempFile);
@@ -78,8 +77,8 @@ public class TestModelWriter {
 	 */
 	@Test
 	public void testCreateTwoLinesToString() {
-		NamedIntegerConstant i = new IntegerConstant(2).toNamedConstant("i");
-		NamedConstantSet<Integer> s = new RangeExpression(1, i).toNamedConstant("s");
+    BasicInteger i = new IntegerConstant(2).toNamedConstant("i");
+    Set<Integer> s = new RangeExpression(1, i).toNamedConstant("s");
 		modelBuilder.add(i, s);
 		String output = modelWriter.toString();
 
@@ -106,7 +105,7 @@ public class TestModelWriter {
 	 */
 	@Test
 	public void testCreateRestrictedIntVarToString() {
-		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+    Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
 		modelBuilder.add(setOneTwoThree, i);
 		String output = modelWriter.toString();
@@ -126,9 +125,10 @@ public class TestModelWriter {
 	public void testCreateIntArrayConstantToString() {
 		String setRangeName = "Range";
 		String arrayName = "a";
-		NamedConstantSet<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
+    Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
 		List<Integer> values = Arrays.asList(1, 2, 3);
-		NamedConstant<Integer[]> iac = new ExplicitIntegerList(setRange, values).toNamedConstant(arrayName);
+    Array<Integer> iac = IntegerArray.createConstant(arrayName,
+        new ExplicitIntegerList(setRange, values));
 		modelBuilder.add(setRange, iac);
 		String output = modelWriter.toString();
 
@@ -147,8 +147,8 @@ public class TestModelWriter {
 	public void testCreateIntArrayVarToString() {
 		String setRangeName = "Range";
 		String arrayName = "a";
-		NamedConstantSet<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
-		ArrayVariable<Integer> iav = new IntegerArrayVariable(arrayName, setRange);
+    Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
+    Array<Integer> iav = IntegerArray.createVariable(arrayName, setRange);
 		modelBuilder.add(setRange, iav);
 		String output = modelWriter.toString();
 

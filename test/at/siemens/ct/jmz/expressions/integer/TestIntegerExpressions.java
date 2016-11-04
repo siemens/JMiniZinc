@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
@@ -22,7 +22,7 @@ public class TestIntegerExpressions {
   public void testSumExpression() {
     String nameOfArray = "array";
     String nameOfSumVar = "s";
-		IntegerArrayVariable arrayVar = new IntegerArrayVariable(nameOfArray, new RangeExpression(1, 3));
+    IntegerArray arrayVar = IntegerArray.createVariable(nameOfArray, new RangeExpression(1, 3));
     IntegerVariable sumVar = IntegerVariable.createSum(nameOfSumVar, arrayVar);
 
     Assert.assertEquals("var int: s = sum(array);", sumVar.declare());

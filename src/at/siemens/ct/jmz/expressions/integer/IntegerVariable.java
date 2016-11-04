@@ -2,17 +2,17 @@ package at.siemens.ct.jmz.expressions.integer;
 
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
-import at.siemens.ct.jmz.expressions.Variable;
+import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.expressions.array.ArrayExpression;
+import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
-public class IntegerVariable extends Variable<Integer> implements IntegerExpression {
+public class IntegerVariable extends Variable<Integer, Integer> implements IntegerExpression {
 
-	private IntegerExpression value;
+  private SetExpression<Integer> type;
 
 	public IntegerVariable(String name) {
-		this(name, NamedConstantSet.INTEGER_UNIVERSE);
+    this(name, IntegerSetExpression.INTEGER_UNIVERSE);
 	}
 
 	public IntegerVariable(String name, SetExpression<Integer> type) {
@@ -20,8 +20,8 @@ public class IntegerVariable extends Variable<Integer> implements IntegerExpress
 	}
 
 	public IntegerVariable(String name, SetExpression<Integer> type, IntegerExpression value) {
-		super(type, name);
-		this.type = type;
+    super(name, type);
+    this.type = type;
 		this.value = value;
 	}
 
@@ -33,17 +33,13 @@ public class IntegerVariable extends Variable<Integer> implements IntegerExpress
 	 * @return a reference to the created variable.
 	 */
 	public static IntegerVariable createSum(String name, ArrayExpression<Integer> summands) {
-		return new IntegerVariable(name, NamedConstantSet.INTEGER_UNIVERSE, new Sum(summands)); // TODO: tighter domain bounds?
+    return new IntegerVariable(name, IntegerSetExpression.INTEGER_UNIVERSE, new Sum(summands)); // TODO: tighter domain
+                                                                                                // bounds?
 	}
 
 	@Override
 	public String use() {
 		return getName();
-	}
-
-	@Override
-	public IntegerExpression getValue() {
-		return value;
 	}
 
 	@Override
@@ -58,7 +54,7 @@ public class IntegerVariable extends Variable<Integer> implements IntegerExpress
 	@Override
 	public Integer parseValue(String string) {
 		int i = Integer.parseInt(string);
-		Boolean valueInDomain = type.contains(i);
+    Boolean valueInDomain = type.contains(i);
 		if (valueInDomain == Boolean.FALSE) {
 			throw new IllegalArgumentException("Value not in domain: " + string);
 		}

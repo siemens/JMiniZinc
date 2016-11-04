@@ -7,10 +7,11 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.siemens.ct.jmz.expressions.NamedConstant;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
+import at.siemens.ct.jmz.elements.Array;
+import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
+import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
@@ -23,7 +24,7 @@ public class TestArrayAccess {
   public void testIntArrayVarAccessByVar() {
     String nameOfArray = "a";
     String nameOfIndex = "i";
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
 		IntegerVariable index = new IntegerVariable(nameOfIndex);
 		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
@@ -37,7 +38,7 @@ public class TestArrayAccess {
   public void testIntArrayVarAccessByNamelessConstant() {
     String nameOfArray = "a";
     int valueOfIndex = 1;
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
     IntegerConstant index = new IntegerConstant(valueOfIndex);
 		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%d]", nameOfArray, valueOfIndex);
@@ -52,8 +53,8 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     String nameOfIndex = "i";
     int valueOfIndex = 1;
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
-		NamedConstant<Integer> index = new IntegerConstant(valueOfIndex).toNamedConstant(nameOfIndex);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+    BasicInteger index = new IntegerConstant(valueOfIndex).toNamedConstant(nameOfIndex);
 		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
@@ -66,7 +67,7 @@ public class TestArrayAccess {
   public void testIntArrayConstAccessByVar() {
     String nameOfArray = "a";
     String nameOfIndex = "i";
-		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
+    Array<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
 		IntegerVariable index = new IntegerVariable(nameOfIndex);
 		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
@@ -80,7 +81,7 @@ public class TestArrayAccess {
   public void testIntArrayConstAccessByNamelessConstant() {
     String nameOfArray = "a";
     int valueOfIndex = 1;
-		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
+    Array<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
     IntegerConstant index = new IntegerConstant(valueOfIndex);
 		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%d]", nameOfArray, valueOfIndex);
@@ -95,8 +96,8 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     String nameOfIndex = "i";
     int valueOfIndex = 1;
-		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
-		NamedConstant<Integer> index = new IntegerConstant(valueOfIndex).toNamedConstant(nameOfIndex);
+    Array<Integer> array = createIntegerArrayConstant(nameOfArray, 1);
+    BasicInteger index = new IntegerConstant(valueOfIndex).toNamedConstant(nameOfIndex);
 		ArrayAccessExpression<Integer> access = array.access(index);
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIndex);
     Assert.assertEquals(expectedOutput, access.use());
@@ -110,7 +111,7 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     String nameOfIndex1 = "i1";
     String nameOfIndex2 = "i2";
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
 		IntegerVariable index1 = new IntegerVariable(nameOfIndex1);
 		IntegerVariable index2 = new IntegerVariable(nameOfIndex2);
 		ArrayAccessExpression<Integer> access = array.access(index1, index2);
@@ -126,7 +127,7 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     int valueOfIndex1 = 1;
     int valueOfIndex2 = 2;
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
     IntegerConstant index1 = new IntegerConstant(valueOfIndex1);
     IntegerConstant index2 = new IntegerConstant(valueOfIndex2);
 		ArrayAccessExpression<Integer> access = array.access(index1, index2);
@@ -144,9 +145,9 @@ public class TestArrayAccess {
     int valueOfIndex1 = 1;
     String nameOfIndex2 = "i2";
     int valueOfIndex2 = 2;
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
-		NamedConstant<Integer> index1 = new IntegerConstant(valueOfIndex1).toNamedConstant(nameOfIndex1);
-		NamedConstant<Integer> index2 = new IntegerConstant(valueOfIndex2).toNamedConstant(nameOfIndex2);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 2);
+    BasicInteger index1 = new IntegerConstant(valueOfIndex1).toNamedConstant(nameOfIndex1);
+    BasicInteger index2 = new IntegerConstant(valueOfIndex2).toNamedConstant(nameOfIndex2);
 		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%s,%s]", nameOfArray, nameOfIndex1, nameOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
@@ -160,7 +161,7 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     String nameOfIndex1 = "i1";
     String nameOfIndex2 = "i2";
-		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
+    Array<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
 		IntegerVariable index1 = new IntegerVariable(nameOfIndex1);
 		IntegerVariable index2 = new IntegerVariable(nameOfIndex2);
 		ArrayAccessExpression<Integer> access = array.access(index1, index2);
@@ -176,7 +177,7 @@ public class TestArrayAccess {
     String nameOfArray = "a";
     int valueOfIndex1 = 1;
     int valueOfIndex2 = 2;
-		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
+    Array<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
     IntegerConstant index1 = new IntegerConstant(valueOfIndex1);
     IntegerConstant index2 = new IntegerConstant(valueOfIndex2);
 		ArrayAccessExpression<Integer> access = array.access(index1, index2);
@@ -194,9 +195,9 @@ public class TestArrayAccess {
     int valueOfIndex1 = 1;
     String nameOfIndex2 = "i2";
     int valueOfIndex2 = 2;
-		ArrayConstant<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
-		NamedConstant<Integer> index1 = new IntegerConstant(valueOfIndex1).toNamedConstant(nameOfIndex1);
-		NamedConstant<Integer> index2 = new IntegerConstant(valueOfIndex2).toNamedConstant(nameOfIndex2);
+    Array<Integer> array = createIntegerArrayConstant(nameOfArray, 2);
+    BasicInteger index1 = new IntegerConstant(valueOfIndex1).toNamedConstant(nameOfIndex1);
+    BasicInteger index2 = new IntegerConstant(valueOfIndex2).toNamedConstant(nameOfIndex2);
 		ArrayAccessExpression<Integer> access = array.access(index1, index2);
     String expectedOutput = String.format("%s[%s,%s]", nameOfArray, nameOfIndex1, nameOfIndex2);
     Assert.assertEquals(expectedOutput, access.use());
@@ -206,28 +207,28 @@ public class TestArrayAccess {
   public void testIntArrayVarAccessByIterator() {
     String nameOfArray = "a";
     String nameOfIterator = "i";
-		ArrayVariable<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
+		Array<Integer> array = createIntegerArrayVariable(nameOfArray, 1);
 		SetExpression<Integer> range = array.getRange().iterator().next();
 		ArrayAccessExpression<Integer> access = array.access(range.iterate(nameOfIterator));
     String expectedOutput = String.format("%s[%s]", nameOfArray, nameOfIterator);
     Assert.assertEquals(expectedOutput, access.use());
   }
 
-	private static ArrayVariable<Integer> createIntegerArrayVariable(String nameOfArray, int dimensions) {
+	private static Array<Integer> createIntegerArrayVariable(String nameOfArray, int dimensions) {
     List<RangeExpression> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
       range.add(new RangeExpression(i, 10 * i));
     }
-		return new IntegerArrayVariable(nameOfArray, range);
+    return IntegerArray.createVariable(nameOfArray, range);
   }
 
-	private static ArrayConstant<Integer> createIntegerArrayConstant(String nameOfArray, int dimensions) {
+  private static Array<Integer> createIntegerArrayConstant(String nameOfArray, int dimensions) {
     List<RangeExpression> range = new ArrayList<>(dimensions);
     for (int i = 0; i < dimensions; i++) {
       range.add(new RangeExpression(i, 10 * i));
     }
-		return new ExplicitIntegerList(range, NamedConstantSet.INTEGER_UNIVERSE, Collections.emptyList())
-				.toNamedConstant(nameOfArray);
+    return IntegerArray.createConstant(nameOfArray, new ExplicitIntegerList(range,
+        IntegerSetExpression.INTEGER_UNIVERSE, Collections.emptyList()));
   }
 
 }

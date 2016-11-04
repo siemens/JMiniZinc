@@ -34,13 +34,13 @@ public class TestComprehension {
     testSimpleComprehension(SetComprehension.class, '{', '}');
   }
 
-  private static <C extends Comprehension> void testSimpleComprehension(Class<C> comprehensionClass,
-      char leftBracket, char rightBracket) throws Exception {
+  private static <C extends Comprehension<Integer>> void testSimpleComprehension(
+      Class<C> comprehensionClass, char leftBracket, char rightBracket) throws Exception {
     int lb = 1, ub = 10;
     RangeExpression range = new RangeExpression(lb, ub);
     String iteratorName = "i";
-    IteratorExpression iterator = range.iterate(iteratorName);
-    Generator generator = new Generator(iterator);
+    IteratorExpression<Integer> iterator = range.iterate(iteratorName);
+    Generator<Integer> generator = new Generator<>(iterator);
     Constructor<C> constructor = comprehensionClass.getConstructor(Generator.class,
         Expression.class);
     // C comprehension = constructor.newInstance(generator, "2 * i");

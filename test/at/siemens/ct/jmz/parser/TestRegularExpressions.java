@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 import org.junit.Assert;
 import org.junit.Test;
 
+import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.executor.TestExecutor;
-import at.siemens.ct.jmz.expressions.Variable;
 
 /**
  * Tests regular expressions that are used to parse {@link Variable}'s values in a result.

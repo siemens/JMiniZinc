@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.writer;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,12 +8,12 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
+import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
+import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
-import at.siemens.ct.jmz.expressions.array.ArrayVariable;
-import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.bool.IntegerExpressionInSet;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetLiteral;
@@ -44,9 +43,9 @@ public class TestModelWriterConstraints {
   public void testCreateIntExpressionInSetConstraintToString() {
     String setRangeName = "Range";
     String arrayName = "a";
-		NamedConstantSet<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
-		ArrayVariable<Integer> arrayVar = new IntegerArrayVariable(arrayName, setRange);
-    Set<Integer> allowedValues = new HashSet<>();
+    Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
+    Array<Integer> arrayVar = IntegerArray.createVariable(arrayName, setRange);
+    java.util.Set<Integer> allowedValues = new HashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);
 		IntegerExpressionInSet intExpressionInSet = new IntegerExpressionInSet(arrayVar.access(1),

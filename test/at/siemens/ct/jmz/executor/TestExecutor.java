@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
+import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
-import at.siemens.ct.jmz.expressions.array.IntegerArrayVariable;
+import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.writer.IModelWriter;
@@ -37,7 +37,7 @@ public class TestExecutor {
 
   @Test
   public void testSingleVariableGetOutput() throws IOException, InterruptedException {
-		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+    Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
     IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
     executor.startProcess();
@@ -56,7 +56,7 @@ public class TestExecutor {
 
   @Test
   public void testSingleVariableGetSolution() throws IOException, InterruptedException {
-		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+    Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
     IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
     executor.startProcess();
@@ -69,8 +69,8 @@ public class TestExecutor {
 
   @Test
   public void testArrayGetSolution() throws IOException, InterruptedException {
-		NamedConstantSet<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
-		IntegerArrayVariable a = new IntegerArrayVariable("a", setOneTwoThree);
+    Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+    IntegerArray a = IntegerArray.createVariable("a", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, a);
     executor.startProcess();
     Assert.assertTrue(Executor.isRunning());

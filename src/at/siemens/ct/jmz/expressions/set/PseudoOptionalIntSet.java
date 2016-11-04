@@ -2,7 +2,7 @@ package at.siemens.ct.jmz.expressions.set;
 
 import java.util.regex.Pattern;
 
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
+import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 
@@ -25,17 +25,18 @@ public class PseudoOptionalIntSet implements IntegerSetExpression {
 		this.innerSet = new RangeExpression(nullElement, originalSet.getUb());
 	}
 
-	public PseudoOptionalIntSet(NamedConstantSet<Integer> intSet) {
+  public PseudoOptionalIntSet(Set<Integer> intSet) {
 		IntegerConstant nullElement = determineNullElement(intSet);
 		this.nullElement = nullElement;
 		this.innerSet = new Union(intSet, SetLiteral.singleton(nullElement));
 	}
 
-	private IntegerConstant determineNullElement(NamedConstantSet<Integer> intSet) {
+  private IntegerConstant determineNullElement(Set<Integer> intSet) {
 		// TODO: determine least element of intSet in a more intelligent way (set must be constant anyway)
 		int nullElement = 0;
-		while (intSet.contains(nullElement--))
-			;
+    while (intSet.contains(nullElement)) {
+      nullElement--;
+    }
 		return new IntegerConstant(nullElement);
 	}
 
@@ -59,8 +60,12 @@ public class PseudoOptionalIntSet implements IntegerSetExpression {
 
 	@Override
 	public String use() {
-		// TODO Auto-generated method stub
-		return null;
+    return innerSet.use();
 	}
+
+  @Override
+  public String toString() {
+    return use();
+  }
 
 }

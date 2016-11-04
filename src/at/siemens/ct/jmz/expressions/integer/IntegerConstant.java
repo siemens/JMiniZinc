@@ -1,13 +1,14 @@
 package at.siemens.ct.jmz.expressions.integer;
 
 import at.siemens.ct.jmz.expressions.Constant;
-import at.siemens.ct.jmz.expressions.NamedConstantSet;
+import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
-public class IntegerConstant extends Constant<Integer> implements IntegerExpression {
+public class IntegerConstant extends Constant<Integer, Integer>
+    implements IntegerExpression, Comparable<IntegerConstant> {
 
 	public IntegerConstant(Integer value) {
-		super(NamedConstantSet.INTEGER_UNIVERSE, value);
+    super(IntegerSetExpression.INTEGER_UNIVERSE, value);
 	}
 
 	public IntegerConstant(SetExpression<Integer> type, Integer value) {
@@ -34,9 +35,13 @@ public class IntegerConstant extends Constant<Integer> implements IntegerExpress
 		return getValue().intValue() <= otherValue;
 	}
 
-	@Override
-	public NamedIntegerConstant toNamedConstant(String name) {
-		return new NamedIntegerConstant(name, this);
+  public BasicInteger toNamedConstant(String name) {
+    return new BasicInteger(name, IntegerSetExpression.INTEGER_UNIVERSE, this);
 	}
+
+  @Override
+  public int compareTo(IntegerConstant o) {
+    return this.getValue().compareTo(o.getValue());
+  }
 
 }

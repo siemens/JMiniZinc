@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import at.siemens.ct.jmz.elements.NamedElement;
+import at.siemens.ct.jmz.elements.BasicTypeInst;
+import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -76,15 +77,15 @@ public class ConstraintRegistry {
   }
 
   /**
-   * Builds a constraint name from a given prefix and list of {@link NamedElement}s.
+   * Builds a constraint name from a given prefix and list of {@link BasicTypeInst}s.
    * 
    * @param prefix
    * @param namedElements
    * @return the concatenation of the prefix and the names of the given elements, separated by {@link #NAME_SEPARATOR}.
    */
-  public static String buildName(String prefix, NamedElement... namedElements) {
+  public static String buildName(String prefix, TypeInst<?, ?>... namedElements) {
     StringBuilder builder = new StringBuilder(prefix);
-    for (NamedElement namedElement : namedElements) {
+    for (TypeInst<?, ?> namedElement : namedElements) {
       builder.append(NAME_SEPARATOR);
       builder.append(namedElement.getName());
     }

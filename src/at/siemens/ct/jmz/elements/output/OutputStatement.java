@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.expressions.Variable;
+import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
 
 /**
