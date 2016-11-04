@@ -18,11 +18,12 @@ public abstract class BinarySetOperation implements IntegerSetExpression {
 
 	@Override
 	public String use() {
-		// TODO Auto-generated method stub
-		return null;
+    return String.format("%s %s %s", operand1, getOperatorSymbol(), operand2);
 	}
 
-	@Override
+  protected abstract String getOperatorSymbol();
+
+  @Override
 	public Pattern getPattern() {
 		// TODO Auto-generated method stub
 		return null;

@@ -2,6 +2,8 @@ package at.siemens.ct.jmz.expressions.set;
 
 public class SymmetricSetDifference extends BinarySetOperation {
 
+  private static final String OPERATOR_SYMBOL = "symdiff";
+
 	public SymmetricSetDifference(SetExpression<Integer> operand1, SetExpression<Integer> operand2) {
 		super(operand1, operand2);
 	}
@@ -11,5 +13,10 @@ public class SymmetricSetDifference extends BinarySetOperation {
 		return (operand1.contains(value) || operand2.contains(value))
 				&& !(operand1.contains(value) && operand2.contains(value));
 	}
+
+  @Override
+  protected String getOperatorSymbol() {
+    return OPERATOR_SYMBOL;
+  }
 
 }
