@@ -21,4 +21,8 @@ public class BooleanConstant extends Constant<Boolean, Boolean> implements Boole
 		return false;
 	}
 
+  public BasicBoolean toNamedConstant(String name) {
+    return new BasicBoolean(name, BooleanSetExpression.BOOLEAN_UNIVERSE, this);
+  }
+
 }
