@@ -9,10 +9,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.ExplicitIntegerList;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
+import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
+import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
@@ -183,6 +187,16 @@ public class TestDeclarations {
     BooleanVariable var = new BooleanVariable(varName, value);
     String expectedDeclaration = String.format("var bool: %s = %s;", varName, value);
     Assert.assertEquals("Unexpected declaration", expectedDeclaration, var.declare());
+  }
+
+  @Test
+  public void testIntegerAssignmentConstraint() {
+    IntegerVariable x3 = new IntegerVariable("x3");
+    BooleanExpression expression = new RelationalExpression<>(x3, RelationalOperator.EQ,
+        new IntegerConstant(2));
+    Constraint constraint = new Constraint(expression);
+    String expectedDeclaration = "constraint x3 = 2;";
+    Assert.assertEquals("Unexpected declaraion", expectedDeclaration, constraint.declare());
   }
 
 }
