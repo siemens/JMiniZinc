@@ -35,6 +35,15 @@ public class Constraint implements Element {
     this.expression = expression;
   }
 
+  /**
+   * Creates a new constraint without assigning it a group or a name.
+   * 
+   * @see #Constraint(String, String, Expression)
+   */
+  public Constraint(Expression<Boolean> expression) {
+    this(null, null, expression);
+  }
+
   public String getConstraintGroup() {
     return constraintGroup;
   }
