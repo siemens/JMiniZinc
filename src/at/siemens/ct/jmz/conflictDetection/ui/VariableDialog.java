@@ -33,6 +33,7 @@ import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JOptionPane;
 import javax.swing.PopupFactory;
 
+import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
 import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Variable;
@@ -50,9 +51,11 @@ public class VariableDialog<V> {
 	private MiniZincCP mznCp;
 	private Map<Label, TextField> map;
 	private ArrayList<Element> decisionVariables;
+	private File mznFile; 
+	private TextArea textLog = new TextArea();
 
 	public VariableDialog(File mznFile) throws IOException, IllegalArgumentException, IllegalAccessException {
-
+		this.mznFile = mznFile;
 		mznCp = new MiniZincCP(mznFile);
 		decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements().filter(e -> e.isVariable() == true)
 				.collect(Collectors.toList());
@@ -66,14 +69,25 @@ public class VariableDialog<V> {
 	}
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
+	
 		try {
-			VariableDialog variableDialog = new VariableDialog(
-					new File("D:\\product-configuration-technologies\\minizinc\\test.mzn"));
+			
+			final String PROPERTY_FILENAME = "filename";
+			String mznFileName = System.getProperty(PROPERTY_FILENAME, "").toString();
+			File mznFile = new File(mznFileName);
+			if (!mznFile.exists()) {
+				JOptionPane.showMessageDialog(null, String
+						.format("The file \"%s\" does not exist!", mznFileName),
+						"Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			/*VariableDialog variableDialog =*/ new VariableDialog(mznFile);
+		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	private void prepareGUI() {
@@ -105,6 +119,7 @@ public class VariableDialog<V> {
 		algotithm.add("Simple Conflic Detection");
 		algotithm.add("QuickXPlain");
 		algotithm.add("FastDiag");
+		algotithm.setEnabled(false); //todo: Temporary
 
 		algorithmChosing.add(new Label("Chose the algorithm:"));
 		algorithmChosing.add(algotithm);
@@ -120,8 +135,7 @@ public class VariableDialog<V> {
 			}
 
 		});
-		generateSolution.setMaximumSize(new Dimension(120, 30));
-		TextArea textLog = new TextArea();
+		generateSolution.setMaximumSize(new Dimension(120, 30));		
 		textLog.setEditable(false);
 
 		panel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -187,7 +201,9 @@ public class VariableDialog<V> {
 
 		for (Entry<Label, TextField> entry : map.entrySet()) {
 			Constraint c = createContraint(entry.getKey().getText(), entry.getValue().getText());
-			userConstraints.add(c);
+			if (c!= null){
+				userConstraints.add(c);
+			}
 		}
 
 		return userConstraints;
@@ -200,21 +216,39 @@ public class VariableDialog<V> {
 
 		try {
 			variableValue = variable.parseValue(value);
+			
+			BooleanExpression expression = new RelationalExpression<>(variable, RelationalOperator.EQ,
+					new IntegerConstant(variableValue));
+			Constraint constraint = new Constraint("userDefined", 
+					String.format("%s = %s", variableName, value), expression);
+			return constraint;
+			
 		} catch (IllegalArgumentException e) {
-			JOptionPane.showMessageDialog(controlPanel, String
+			/*JOptionPane.showMessageDialog(controlPanel, String
 					.format("Value inserted for variable %s is incorect. Insert a value in domain", variable.getName()),
-					"WARNING", JOptionPane.WARNING_MESSAGE);
+					"WARNING", JOptionPane.WARNING_MESSAGE);*/
 
 		}
-		BooleanExpression expression = new RelationalExpression<>(variable, RelationalOperator.EQ,
-				new IntegerConstant(variableValue));
-		Constraint constraint = new Constraint(expression);
-		return constraint;
-
+		return null;
 	}
 
 	private void generateSolution() {
 		List<Constraint> userConstraints = getAllValuesFromTheInterface();
+		if (userConstraints.isEmpty()){
+			JOptionPane.showMessageDialog(controlPanel, "You must set some values for decision variables!",
+					"Information", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+		try{
+			//todo: select algorithm according to user selection.
+			HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints);			
+			textLog.setText(hsdag.diagnose());
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(controlPanel, String
+					.format("An error occured! %s", ex.getMessage()),
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}		
 	}
 
 }

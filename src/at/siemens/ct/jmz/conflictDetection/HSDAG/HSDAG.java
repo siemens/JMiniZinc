@@ -1,6 +1,5 @@
 package at.siemens.ct.jmz.conflictDetection.HSDAG;
 
-import java.awt.TextArea;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -10,7 +9,7 @@ import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public class HSDAG {
-	private String mznFullFileName;
+//	/private String mznFullFileName;
 	private AbstractConflictDetection conflictDetection;
 	private List<Constraint> userConstraints;
 	//private TextArea textArea;
@@ -25,7 +24,7 @@ public class HSDAG {
 		}
 		
 		this.userConstraints = userConstraints;
-		this.mznFullFileName = mznFullFileName;
+		//this.mznFullFileName = mznFullFileName;
 		//this.textArea = textArea;
 		
 		this.conflictDetection = new SimpleConflictDetection(mznFullFileName); //todo: Modify to use other algorithm 
@@ -50,6 +49,6 @@ public class HSDAG {
 	
 	private String getDiagnoses(TreeNode rootNode){
 		//StringBuilder
-		return "";
+		return "This is a test!";
 	}
 }
