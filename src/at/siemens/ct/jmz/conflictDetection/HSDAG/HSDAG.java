@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
+import at.siemens.ct.jmz.conflictDetection.DebugUtils;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -38,15 +39,27 @@ public class HSDAG {
 	}
 	
 	public String diagnose() throws Exception{
+		DebugUtils.logLabel = "HSDAG";		
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 		
 		if (minCS == null){
+			DebugUtils.writeOutput("A minimal conflict set does not exist.");
 			return "A minimal conflict set does not exist."; // todo: Improve
 																// this
 		}
 		
 		TreeNode rootNode = new TreeNode(minCS, userConstraints);
-		return buildDiagnosesTree(rootNode);			
+		
+		DebugUtils.writeOutput("Start with a MinConstraintsSet:" );
+		DebugUtils.indent++;
+		//DebugUtils.printConstraintsSet("MinCS", minCS);
+		//DebugUtils.printConstraintsSet("Input constraints set", userConstraints);
+		
+		String res = buildDiagnosesTree(rootNode);
+		//DebugUtils.writeOutput("OUTPUT = ");
+		//DebugUtils.writeOutput(res);
+		//DebugUtils.writeOutput("\\\\OUTPUT = ");
+		return res;
 	}
 	
 	private String buildDiagnosesTree(TreeNode root) throws Exception {
@@ -54,33 +67,56 @@ public class HSDAG {
 		List<Constraint> difference;
 		TreeNode treeNode;
 		StringBuilder sb = new StringBuilder();		
-		List<TreeNode> conflicts = new ArrayList<TreeNode>(); 
+		List<TreeNode> conflicts = new ArrayList<TreeNode>();
 		
-		for (Constraint constraint : root.getData()) {
+		DebugUtils.indent++;
+		
+		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		DebugUtils.writeOutput("Build Diagnose tree for node");
+		DebugUtils.indent++;
+		DebugUtils.printConstraintsSet("MinCS = ", root.getData());
+		DebugUtils.printConstraintsSet("Input constraints set = ", root.getInitialConstraintsSet());
+		DebugUtils.indent--;
+		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		for (Constraint constraint : root.getData()) {					
 			difference = elminateConstraintFromList(root.getInitialConstraintsSet(), constraint);
 			minCS = conflictDetection.getMinConflictSet(difference);
-
-			if (minCS == null) {
+			
+			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
+			
+			if (minCS == null) {				
 				treeNode = new TreeNode(null, null);
 				root.addChild(constraint, treeNode);
 				List<Constraint> diagnose =getDiagnose(treeNode);
 				
+				String s = diagnoseToString(diagnose);
+				DebugUtils.writeOutput("No min conflict set found.");
+				DebugUtils.writeOutput("DIAGNOSE: " + s);
+				
 				sb.append("Diagnose: ");
-				sb.append(diagnoseToString(diagnose));
+				sb.append(s);
 				sb.append(newline);				
 			} else {
-				treeNode = new TreeNode(minCS, difference);
+				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
+				DebugUtils.printConstraintsSet("Difference:", difference);				
+				treeNode = new TreeNode(minCS, difference);				
 				root.addChild(constraint, treeNode);
 				conflicts.add(treeNode);
 				//buildDiagnosesTree(treeNode, difference);
-			}
+			}			
 		}
 		
 		for(TreeNode node : conflicts){
-			buildDiagnosesTree(node);
+			String s = buildDiagnosesTree(node);
+			sb.append(s);
 		}
 		
-		return sb.toString();
+		DebugUtils.indent--;
+		String res = sb.toString();
+		DebugUtils.writeOutput("Result = " + res);
+		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		return res;
 	}
 	
 	private List<Constraint> getDiagnose(TreeNode node) {

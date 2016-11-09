@@ -74,7 +74,7 @@ public class UtilsForTest {
 		constraintsSetC.add(c2);
 		
 		BooleanExpression expression3 = new RelationalExpression<>(x3, RelationalOperator.EQ, new IntegerConstant(3));
-		Constraint c3 = new Constraint("group", "c3 {x2 = x1}", expression3);
+		Constraint c3 = new Constraint("group", "c3 {x3 = 3}", expression3);
 		constraintsSetC.add(c3);
 		
 		return f.getAbsolutePath(); 
@@ -110,4 +110,44 @@ public class UtilsForTest {
 		return f.getAbsolutePath(); 
 	}
 	
+	public static String getTestDataset7(List<Constraint> constraintsSetC, List<Element> decisionsVar) throws FileNotFoundException{		
+		File f = new File ("testFiles\\testConflictDetection7.mzn");
+		
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);	
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);		
+		decisionsVar.add(setOneTwoThree);
+		decisionsVar.add(x1);
+		decisionsVar.add(x2);
+		decisionsVar.add(x3);
+		
+		BooleanExpression expression1 = new RelationalExpression<>(x1, RelationalOperator.EQ, new IntegerConstant(1));						
+		Constraint c1 = new Constraint("group", "c1 {x1 = 1}", expression1);
+		constraintsSetC.add(c1);
+		
+		BooleanExpression expression2 = new RelationalExpression<>(x2, RelationalOperator.EQ, new IntegerConstant(2));
+		Constraint c2 = new Constraint("group", "c2 {x2 = 2}", expression2);
+		constraintsSetC.add(c2);
+					
+		BooleanExpression expression3 = new RelationalExpression<>(x3, RelationalOperator.EQ, new IntegerConstant(3));
+		Constraint c3 = new Constraint("group", "c3 {x3 = 3}", expression3);
+		constraintsSetC.add(c3);
+		
+		//-----------------------------------------
+		
+		BooleanExpression expression4 = new RelationalExpression<>(x2, RelationalOperator.EQ, x1);
+		Constraint c4 = new Constraint("group", "c4 {x2=x1}", expression4);
+		constraintsSetC.add(c4);
+		
+		BooleanExpression expression5 = new RelationalExpression<>(x3, RelationalOperator.EQ, x2);
+		Constraint c5 = new Constraint("group", "c5 {x3=x2}", expression5);
+		constraintsSetC.add(c5);
+		
+		BooleanExpression expression6 = new RelationalExpression<>(x3, RelationalOperator.GT, x2);
+		Constraint c6 = new Constraint("group", "c6 {x3>2}", expression6);
+		constraintsSetC.add(c6);
+		
+		return f.getAbsolutePath();
+	}
 }

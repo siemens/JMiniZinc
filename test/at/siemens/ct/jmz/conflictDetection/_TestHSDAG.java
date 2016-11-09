@@ -9,7 +9,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 import junit.framework.TestCase;
 
 public class _TestHSDAG extends TestCase {	
-	public void testDiagnoses(){		
+	public void testDiagnoses2(){		
 		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
@@ -42,6 +42,20 @@ public class _TestHSDAG extends TestCase {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, decisionsVar);
+			String output = hsdag.diagnose();
+			//...
+			System.out.println(output);
+		} catch (Exception ex){
+			ex.printStackTrace();			
+		}	
+	}
+	
+	public void testDiagnoses7(){		
+		try{
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, decisionsVar);
 			String output = hsdag.diagnose();
 			//...

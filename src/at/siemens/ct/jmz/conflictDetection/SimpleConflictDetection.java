@@ -7,9 +7,7 @@ import java.util.List;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
-public class SimpleConflictDetection extends AbstractConflictDetection{			
-	private List<Element> declarations;
-	
+public class SimpleConflictDetection extends AbstractConflictDetection{		
 	/**
 	 * Constructor
 	 * @param mznFullFileName The minizinc file which contains parameters, decision variables and constraints. 
@@ -17,65 +15,74 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 	 * @param declarations The list of decision variables and parameters.
 	 * @throws FileNotFoundException
 	 */
+	//TODO: Maybe declarations is not necessaty any more
 	public SimpleConflictDetection(String mznFullFileName, List<Element> declarations) throws FileNotFoundException{
 		super(mznFullFileName);
-		this.declarations = declarations;
+		//this.declarations = declarations;
 	}
 	
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
-		System.out.println("**********************************************************");
-		printConstraintsSet("* Get MinConflictSet for the following constraints", constraintsSetC);
-		System.out.println("* File: " + mznFile.getAbsolutePath());
-		System.out.println("**********************************************************");
-		
-		List<Constraint> cs = new ArrayList<Constraint>();			
-		
-		//todo: This can be moved outside this method. 
-		if (! consistencyChecker.isConsistent(mznFile)){
-			System.out.println("The input constraints set in not consistent!");
-			return null;
-		};
-		
-		if (consistencyChecker.isConsistent(constraintsSetC, mznFile)){
-			System.out.println("All constraints are consistent. Cannot find a subset of inconsistent constraints.");
-			return null;
-		}
-		
-		int debugStep1 = 0;
-		int debugStep2 = 0;
-		
-		List<Constraint> intermediaryCS = new ArrayList<Constraint>();
-		boolean isInconsistent;
-		do{
-			debugStep1++;
-			System.out.println("--------------------");			
+		String oldLogLabel = DebugUtils.logLabel; 
+		DebugUtils.logLabel = "SCD:";
+		DebugUtils.writeOutput("**********************************************************");
+		DebugUtils.printConstraintsSet("* Get MinConflictSet for the following constraints", constraintsSetC);
+		DebugUtils.writeOutput("* File: " + mznFile.getAbsolutePath());
+		DebugUtils.writeOutput("**********************************************************");
+		List<Constraint> cs = new ArrayList<Constraint>();
+		try{				
+			//todo: This can be moved outside this method. 
+			if (! consistencyChecker.isConsistent(mznFile)){
+				DebugUtils.writeOutput("RESULT of SimpleConflictDetection: The input constraints set in not consistent!");
+				return null;
+			};
 			
-			intermediaryCS.clear();
-			intermediaryCS.addAll(cs);
+			if (consistencyChecker.isConsistent(constraintsSetC, mznFile)){
+				DebugUtils.writeOutput("RESULT of SimpleConflictDetection: All constraints are consistent. Cannot find a subset of inconsistent constraints.");
+				return null;
+			}
 			
-			printConstraintsSet("Step " + debugStep1 + ") IntermediaryCS", intermediaryCS);
-			Constraint c = null;			
+			int debugStep1 = 0;
+			int debugStep2 = 0;
+			
+			List<Constraint> intermediaryCS = new ArrayList<Constraint>();
+			boolean isInconsistent;
 			do{
-				debugStep2++;
+				debugStep1++;
+				DebugUtils.writeOutput("----------Step " + debugStep1 + " ----------");			
 				
-				c = getElement(constraintsSetC, intermediaryCS);
-				if (c == null){
-					System.out.println("Cannot find a minimum conflict set."); 
-					return null;
-				}
-				intermediaryCS.add(c);				
-				printConstraintsSet(String.format("Step %d.%d) IntermediaryCS", debugStep1, debugStep2), intermediaryCS);
-				isInconsistent = !consistencyChecker.isConsistent(intermediaryCS, mznFile);
-				System.out.println("(IntermediaryCS U B).isInconsistent = " + isInconsistent);
+				intermediaryCS.clear();
+				intermediaryCS.addAll(cs);
+				
+				DebugUtils.printConstraintsSet("Step " + debugStep1 + ") IntermediaryCS", intermediaryCS);
+				Constraint c = null;
+				DebugUtils.indent++;
+				do{					
+					debugStep2++;
+					DebugUtils.writeOutput("----------Step " + debugStep1 + "." + debugStep2 + " ----------");
+					
+					c = getElement(constraintsSetC, intermediaryCS);
+					if (c == null){
+						DebugUtils.writeOutput("RESULT of SimpleConflictDetection: Cannot find a minimum conflict set."); 
+						return null;
+					}
+					intermediaryCS.add(c);				
+					DebugUtils.printConstraintsSet(String.format("Step %d.%d) IntermediaryCS", debugStep1, debugStep2), intermediaryCS);
+					isInconsistent = !consistencyChecker.isConsistent(intermediaryCS, mznFile);
+					DebugUtils.writeOutput("(IntermediaryCS U B).isInconsistent = " + isInconsistent);
+				}while (!isInconsistent);
+				DebugUtils.indent--;
+				appendSet(cs, c);
+				DebugUtils.printConstraintsSet("Subset CS", cs);
+				isInconsistent = !consistencyChecker.isConsistent(cs, /*, declarations*/ mznFile);
+				DebugUtils.writeOutput("CS.isInconsistent = " + isInconsistent);
 			}while (!isInconsistent);
-			appendSet(cs, c);
-			printConstraintsSet("Subset CS", cs);
-			isInconsistent = !consistencyChecker.isConsistent(cs, declarations);
-			System.out.println("CS.isInconsistent = " + isInconsistent);
-		}while (!isInconsistent);
-		
-		printConstraintsSet("RESULT of SimpleConflictDetection:", cs);
-		System.out.println("**********************************************************");
+			
+			DebugUtils.printConstraintsSet("RESULT of SimpleConflictDetection:", cs);
+			
+		} finally{
+			DebugUtils.writeOutput("**********************************************************");
+			DebugUtils.logLabel = oldLogLabel;
+		}
 		return cs;
 	}
 	
@@ -88,12 +95,12 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 			}
 		}
 				
-		printConstraintsSet("DifferenceSet", differenceSet);
+		DebugUtils.printConstraintsSet("DifferenceSet", differenceSet);
 		if (differenceSet.size() == 0) 
 			return null;
 		
 		Constraint c = differenceSet.get(0);
-		System.out.println("Selected constraint: " + c.getConstraintName());
+		DebugUtils.writeOutput("Selected constraint: " + c.getConstraintName());
 		return differenceSet.get(0);
 	}
 	
@@ -102,5 +109,5 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 		if (!destSet.contains(c)){
 			destSet.add(c);
 		}
-	}
+	}	
 }
