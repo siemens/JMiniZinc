@@ -2,17 +2,21 @@ package at.siemens.ct.jmz.conflictDetection.HSDAG;
 
 import java.util.*;
 
+import org.hamcrest.CoreMatchers;
+
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * @author z003pczy (Rosu Mara)
- * Class for a node from the HSDAG tree
+ * @author z003pczy (Rosu Mara) Class for a node from the HSDAG tree
  *
  */
 public class TreeNode {
 
+	// list with constraints from minimal conflict set
 	private List<Constraint> data;
+	// parent node
 	private TreeNode parent;
+	// kids
 	private Map<Constraint, TreeNode> childrens;
 
 	public TreeNode(List<Constraint> data) {
@@ -22,7 +26,6 @@ public class TreeNode {
 	}
 
 	public void addChild(Constraint c, TreeNode child) {
-
 		if (c != null) {
 			child.parent = this;
 			childrens.put(c, child);
