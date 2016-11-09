@@ -89,11 +89,11 @@ public class RangeExpression extends IntegerSubset {
 				Collections.max(possibleValuesExceptNull));
 	}
 
-	protected IntegerExpression getLb() {
+	public IntegerExpression getLb() {
 		return lb;
 	}
 
-	protected IntegerExpression getUb() {
+	public IntegerExpression getUb() {
 		return ub;
 	}
 
