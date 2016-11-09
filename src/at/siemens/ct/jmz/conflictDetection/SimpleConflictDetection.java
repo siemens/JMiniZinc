@@ -4,17 +4,28 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
-public class SimpleConflictDetection extends AbstractConflictDetection{		
-		
-	public SimpleConflictDetection(String mznFullFileName) throws FileNotFoundException{
-		super(mznFullFileName);			
+public class SimpleConflictDetection extends AbstractConflictDetection{			
+	private List<Element> declarations;
+	
+	/**
+	 * Constructor
+	 * @param mznFullFileName The minizinc file which contains parameters, decision variables and constraints. 
+	 * The constraints from this file are the fixed ones. They must be consistent.    
+	 * @param declarations The list of decision variables and parameters.
+	 * @throws FileNotFoundException
+	 */
+	public SimpleConflictDetection(String mznFullFileName, List<Element> declarations) throws FileNotFoundException{
+		super(mznFullFileName);
+		this.declarations = declarations;
 	}
 	
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
 		System.out.println("**********************************************************");
 		printConstraintsSet("* Get MinConflictSet for the following constraints", constraintsSetC);
+		System.out.println("* File: " + mznFile.getAbsolutePath());
 		System.out.println("**********************************************************");
 		
 		List<Constraint> cs = new ArrayList<Constraint>();			
@@ -59,11 +70,12 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 			}while (!isInconsistent);
 			appendSet(cs, c);
 			printConstraintsSet("Subset CS", cs);
-			isInconsistent = !consistencyChecker.isConsistent(cs);
+			isInconsistent = !consistencyChecker.isConsistent(cs, declarations);
 			System.out.println("CS.isInconsistent = " + isInconsistent);
 		}while (!isInconsistent);
 		
-		printConstraintsSet("Final CS", cs);
+		printConstraintsSet("RESULT of SimpleConflictDetection:", cs);
+		System.out.println("**********************************************************");
 		return cs;
 	}
 	
@@ -89,6 +101,6 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 	private void appendSet(List<Constraint> destSet, Constraint c){		
 		if (!destSet.contains(c)){
 			destSet.add(c);
-		}		
+		}
 	}
 }

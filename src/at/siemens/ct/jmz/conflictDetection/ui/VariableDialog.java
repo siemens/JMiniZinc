@@ -242,8 +242,8 @@ public class VariableDialog<V> {
 		
 		try{
 			//todo: select algorithm according to user selection.
-			HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints);			
-			textLog.setText(hsdag.diagnose());
+			//HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints);			
+			//textLog.setText(hsdag.diagnose());
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(controlPanel, String
 					.format("An error occured! %s", ex.getMessage()),

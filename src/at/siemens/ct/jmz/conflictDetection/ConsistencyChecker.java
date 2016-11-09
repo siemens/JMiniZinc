@@ -5,6 +5,7 @@ import java.util.List;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
@@ -22,6 +23,10 @@ public class ConsistencyChecker {
 	IExecutor executor;
 	
 	public ConsistencyChecker(){
+		//initialization();
+	}
+	
+	private void initialization(){
 		modelBuilder = new ModelBuilder();
 		
 		modelWriter = new ModelWriter(modelBuilder);
@@ -30,7 +35,9 @@ public class ConsistencyChecker {
 		executor = new PipedMiniZincExecutor("consistencyChecker", modelWriter);
 	}
 	
-	public boolean isConsistent(File mznFile) throws Exception{		
+	public boolean isConsistent(File mznFile) throws Exception{	
+		initialization();
+		
 		modelBuilder.reset();		
 		
 		IncludeItem includeItem = new IncludeItem(mznFile);
@@ -42,6 +49,7 @@ public class ConsistencyChecker {
 	}
 	
 	public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws Exception{
+		initialization();
 		modelBuilder.reset();		
 		
 		IncludeItem includeItem = new IncludeItem(mznFile);
@@ -53,9 +61,11 @@ public class ConsistencyChecker {
 	    return (isSolverResultConsistent(res));
 	}
 	
-	public boolean isConsistent(List<Constraint> constraintsSet) throws Exception{		
+	public boolean isConsistent(List<Constraint> constraintsSet, List<Element> decisionVariables) throws Exception{
+		initialization();
 		modelBuilder.reset();
-		modelBuilder.add(constraintsSet);		
+		modelBuilder.add(constraintsSet);
+		modelBuilder.add(decisionVariables);
 		
 		String res = callExecutor();
 	    return (isSolverResultConsistent(res));
@@ -79,19 +89,5 @@ public class ConsistencyChecker {
 	    
 	    //System.out.println("Solver output = " + lastSolverOutput);
 	    return lastSolverOutput;
-	}
-	
-	/*private void createMznFileForConstraints(List<Constraint> constraints) throws IOException{
-		IModelBuilder modelBuilder = new ModelBuilder();
-		IModelWriter modelWriter = new ModelWriter(modelBuilder);
-		modelBuilder.reset();
-		modelWriter.addIncludeItem(includeItem);
-		
-		for(Constraint c : constraints){
-			modelBuilder.add(c);
-		}
-				
-		File file = new File(generatedFileName);		
-		modelWriter.toFile(file);		
-	}*/
+	}	
 }
