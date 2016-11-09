@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.conflictDetection;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -33,5 +36,23 @@ public class DebugUtils {
 		}
 		s += message;
 		System.out.println(s);
+	}
+	
+	public static void printFile(String fileName){
+		writeOutput("Filename: " + fileName);
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader (fileName));
+		    String         line = null;	    
+			try {
+			    while((line = reader.readLine()) != null) {
+			        writeOutput(line);
+			        
+			    }	    
+			} finally {
+			    reader.close();
+			}
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
 	}
 }

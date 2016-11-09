@@ -10,6 +10,7 @@ import at.siemens.ct.jmz.conflictDetection.DebugUtils;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.executor.MznToFznExecutable;
 
 public class HSDAG {
 	private final String newline = System.getProperty("line.separator");
@@ -17,6 +18,7 @@ public class HSDAG {
 	private AbstractConflictDetection conflictDetection;
 	private List<Constraint> userConstraints;
 	//private List<Element> declarations;
+	private String mznFullFileName;
 	
 	// todo: Fo not use textArea in this class. Implement callbacks to send
 	// messages to gui
@@ -29,6 +31,7 @@ public class HSDAG {
 			throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
 		}
 		
+		this.mznFullFileName = mznFullFileName;
 		this.userConstraints = userConstraints;				
 		this.conflictDetection = new SimpleConflictDetection(mznFullFileName, declarations); // todo:
 																				// Modify
@@ -38,8 +41,13 @@ public class HSDAG {
 																				// algorithm
 	}
 	
-	public String diagnose() throws Exception{
+	public String diagnose() throws Exception{			
 		DebugUtils.logLabel = "HSDAG";		
+		DebugUtils.writeOutput("***********************************************");
+		DebugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
+		DebugUtils.printFile(mznFullFileName);
+		DebugUtils.writeOutput("***********************************************");
+		
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 		
 		if (minCS == null){
@@ -49,20 +57,13 @@ public class HSDAG {
 		}
 		
 		TreeNode rootNode = new TreeNode(minCS, userConstraints);
+		DiagnosesCollection diagnosesCollection = new DiagnosesCollection();
 		
-		DebugUtils.writeOutput("Start with a MinConstraintsSet:" );
-		DebugUtils.indent++;
-		//DebugUtils.printConstraintsSet("MinCS", minCS);
-		//DebugUtils.printConstraintsSet("Input constraints set", userConstraints);
-		
-		String res = buildDiagnosesTree(rootNode);
-		//DebugUtils.writeOutput("OUTPUT = ");
-		//DebugUtils.writeOutput(res);
-		//DebugUtils.writeOutput("\\\\OUTPUT = ");
+		String res = buildDiagnosesTree(rootNode, diagnosesCollection);		
 		return res;
 	}
 	
-	private String buildDiagnosesTree(TreeNode root) throws Exception {
+	private String buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
 		List<Constraint> minCS;
 		List<Constraint> difference;
 		TreeNode treeNode;
@@ -90,13 +91,18 @@ public class HSDAG {
 				root.addChild(constraint, treeNode);
 				List<Constraint> diagnose =getDiagnose(treeNode);
 				
-				String s = diagnoseToString(diagnose);
-				DebugUtils.writeOutput("No min conflict set found.");
-				DebugUtils.writeOutput("DIAGNOSE: " + s);
-				
-				sb.append("Diagnose: ");
-				sb.append(s);
-				sb.append(newline);				
+				if (!diagnosesCollection.Contains(diagnose)){
+					diagnosesCollection.add(diagnose);				
+					String s = diagnoseToString(diagnose);
+					DebugUtils.writeOutput("No min conflict set found.");
+					DebugUtils.writeOutput("DIAGNOSE: " + s);
+					
+					sb.append("Diagnose: ");
+					sb.append(s);
+					sb.append(newline);
+				} else {
+					DebugUtils.writeOutput("Ignore diagnose:" + diagnoseToString(diagnose));
+				}
 			} else {
 				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
 				DebugUtils.printConstraintsSet("Difference:", difference);				
@@ -108,7 +114,7 @@ public class HSDAG {
 		}
 		
 		for(TreeNode node : conflicts){
-			String s = buildDiagnosesTree(node);
+			String s = buildDiagnosesTree(node, diagnosesCollection);
 			sb.append(s);
 		}
 		

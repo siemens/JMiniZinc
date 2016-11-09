@@ -20,10 +20,10 @@ public class _TestHSDAG extends TestCase {
 			System.out.println(output);
 		} catch (Exception ex){
 			ex.printStackTrace();			
-		}	
+		}
 	}
 	
-	public void testDiagnoses5(){		
+	public void testDiagnoses5(){
 		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();

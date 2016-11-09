@@ -2,6 +2,7 @@ package at.siemens.ct.jmz.conflictDetection;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.Element;
@@ -76,6 +77,8 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 				isInconsistent = !consistencyChecker.isConsistent(cs, /*, declarations*/ mznFile);
 				DebugUtils.writeOutput("CS.isInconsistent = " + isInconsistent);
 			}while (!isInconsistent);
+			
+			Collections.reverse(cs);
 			
 			DebugUtils.printConstraintsSet("RESULT of SimpleConflictDetection:", cs);
 			
