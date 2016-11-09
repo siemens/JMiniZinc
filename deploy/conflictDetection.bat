@@ -1,2 +1,1 @@
-java -Dfilename="D:/projects/JMiniZinc/testFiles/testConflictDetection5.mzn" -jar conflictDetection.jar
-pause
+javaw -Dfilename="testFiles/testConflictDetection5.mzn" -jar conflictDetection.jar
