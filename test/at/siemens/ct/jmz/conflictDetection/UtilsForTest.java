@@ -6,7 +6,9 @@ import java.util.List;
 
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
+import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
@@ -45,4 +47,54 @@ public class UtilsForTest {
 		
 		return f.getAbsolutePath(); 
 	}
+	
+	public static String getTestDataset5(List<Constraint> constraintsSetC) throws FileNotFoundException{		
+		File f = new File ("testFiles\\testConflictDetection5.mzn");
+		
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);	
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
+		
+		BooleanExpression expression1 = new RelationalExpression<>(x1, RelationalOperator.EQ, new IntegerConstant(1));						
+		Constraint c1 = new Constraint("group", "c1 {x1 = 1}", expression1);
+		constraintsSetC.add(c1);
+		
+		BooleanExpression expression2 = new RelationalExpression<>(x2, RelationalOperator.EQ, new IntegerConstant(2));
+		Constraint c2 = new Constraint("group", "c2 {x2 = 2}", expression2);
+		constraintsSetC.add(c2);
+		
+		BooleanExpression expression3 = new RelationalExpression<>(x3, RelationalOperator.EQ, new IntegerConstant(3));
+		Constraint c3 = new Constraint("group", "c3 {x2 = x1}", expression3);
+		constraintsSetC.add(c3);
+		
+		return f.getAbsolutePath(); 
+	}
+	
+	public static String getTestDataset6(List<Constraint> constraintsSetC) throws FileNotFoundException{		
+		File f = new File ("testFiles\\testConflictDetection6.mzn");
+		
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);	
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
+		
+		BooleanVariable c1 = new BooleanVariable("c1");
+		BooleanVariable c2 = new BooleanVariable("c2");
+		BooleanVariable c3 = new BooleanVariable("c3");
+		
+		
+		
+		
+		BooleanExpression expression1 = new RelationalExpression<>(x1, RelationalOperator.EQ, new IntegerConstant(1));						
+		Constraint constraint1 = new Constraint("group", "constraint1 {x1 = 1}", expression1);
+		constraintsSetC.add(constraint1);
+		
+		BooleanExpression expression2 = new RelationalExpression<>(c1, RelationalOperator.EQ, new BooleanConstant(true));
+		Constraint constraint2 = new Constraint("group", "constraint2 {c1 = true}", expression2);
+		constraintsSetC.add(constraint2);
+		
+		return f.getAbsolutePath(); 
+	}
+	
 }

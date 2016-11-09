@@ -64,4 +64,40 @@ public class _TestSimpleConflictDetection extends TestCase {
 			throw ex;
 		}		
 	}
+	
+	public void testExistsMinimalConflictSet5() throws Exception{
+		List<Constraint> minCS = null;
+		try{									
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			String fileName = UtilsForTest.getTestDataset5(constraintsSetC);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
+															
+			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+			assertNotNull(minCS);
+			assertTrue(minCS.size() == 2);
+			assertTrue(minCS.contains(constraintsSetC.get(0)));
+			assertTrue(minCS.contains(constraintsSetC.get(1)));
+		} catch (Exception ex){
+			ex.printStackTrace();
+			throw ex;
+		}		
+	}
+	
+	public void testExistsMinimalConflictSet6() throws Exception{
+		List<Constraint> minCS = null;
+		try{									
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			String fileName = UtilsForTest.getTestDataset6(constraintsSetC);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
+															
+			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+			assertNotNull(minCS);
+			assertTrue(minCS.size() == 2);
+			assertTrue(minCS.contains(constraintsSetC.get(0)));
+			assertTrue(minCS.contains(constraintsSetC.get(1)));
+		} catch (Exception ex){
+			ex.printStackTrace();
+			throw ex;
+		}		
+	}
 }

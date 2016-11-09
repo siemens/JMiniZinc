@@ -20,4 +20,30 @@ public class _TestHSDAG extends TestCase {
 			ex.printStackTrace();			
 		}	
 	}
+	
+	public void testDiagnoses5(){		
+		try{
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			String fileName = UtilsForTest.getTestDataset5(constraintsSetC);
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC);
+			String output = hsdag.diagnose();
+			//...
+			System.out.println(output);
+		} catch (Exception ex){
+			ex.printStackTrace();			
+		}	
+	}
+	
+	public void testDiagnoses6(){		
+		try{
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			String fileName = UtilsForTest.getTestDataset6(constraintsSetC);
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC);
+			String output = hsdag.diagnose();
+			//...
+			System.out.println(output);
+		} catch (Exception ex){
+			ex.printStackTrace();			
+		}	
+	}
 }
