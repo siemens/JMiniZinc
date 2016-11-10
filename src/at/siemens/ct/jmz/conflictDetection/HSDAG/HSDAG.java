@@ -68,6 +68,8 @@ public class HSDAG {
 		DiagnosesCollection diagnosesCollection = new DiagnosesCollection(); // Here are stored the diagnoses
 		
 		buildDiagnosesTree(rootNode, diagnosesCollection);
+		
+		if (progressCallback!= null) progressCallback.allDiagnoses(diagnosesCollection);
 	}
 	
 	private void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
@@ -99,15 +101,16 @@ public class HSDAG {
 				root.addChild(constraint, treeNode);
 				List<Constraint> diagnose = getDiagnose(treeNode);
 				Collections.reverse(diagnose);				
-								
-				if (!diagnosesCollection.Contains(diagnose)){
+					
+				DiagnoseMetadata diagnoseMetadata = diagnosesCollection.Contains(diagnose); 				
+				if (diagnoseMetadata == DiagnoseMetadata.Min){
 					diagnosesCollection.add(diagnose);
 					if (progressCallback != null) progressCallback.diagnoseFound(diagnose);									
 					DebugUtils.writeOutput("No min conflict set found.");
-					DebugUtils.printConstraintsSet("DIAGNOSE: ", diagnose);
-					
+					DebugUtils.printConstraintsSet("DIAGNOSE: ", diagnose);					
 				} else {
 					DebugUtils.writeOutput("Ignore diagnose:" + diagnoseToString(diagnose));
+					if (progressCallback != null) progressCallback.ignoredDiagnose(diagnose, diagnoseMetadata);
 				}
 			} else {
 				if (progressCallback != null) progressCallback.minConflictSetFound(minCS);

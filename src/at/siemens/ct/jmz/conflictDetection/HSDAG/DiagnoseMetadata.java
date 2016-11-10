@@ -1,6 +1,7 @@
 package at.siemens.ct.jmz.conflictDetection.HSDAG;
 
-public enum ReasonIgnoreDiagnose {
+public enum DiagnoseMetadata {
+	Min, 
 	NotMin,
 	AlreadyExists
 }

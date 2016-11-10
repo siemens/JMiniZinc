@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnosesCollection;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
+import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseMetadata;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import junit.framework.TestCase;
@@ -157,5 +159,36 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	
 	public void testDiagnoseProblemWithQuickXPlain7(){
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
+	}
+
+	@Override
+	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {
+		String oldLabel = DebugUtils.logLabel;
+		int oldIndent = DebugUtils.indent;
+		DebugUtils.indent = 0;
+		DebugUtils.logLabel = logLabel;
+		DebugUtils.writeOutput("ALL DIAGNOSES");
+		DebugUtils.writeOutput(diagnoseCollection.toString());
+		DebugUtils.logLabel = oldLabel;	
+		DebugUtils.indent = oldIndent;
+	}
+
+	@Override
+	public void ignoredDiagnose(List<Constraint> diagnose, DiagnoseMetadata reasonIgnoreDiagnose) {
+		String oldLabel = DebugUtils.logLabel;
+		int oldIndent = DebugUtils.indent;
+		DebugUtils.indent = 0;
+		DebugUtils.logLabel = logLabel;
+		switch (reasonIgnoreDiagnose) {
+		case AlreadyExists:
+			DebugUtils.printConstraintsSet("DIAGNOSE already exists", diagnose);
+			break;
+		default:
+			DebugUtils.printConstraintsSet("Not a minimal DIAGNOSE", diagnose);
+			break;
+		}
+		
+		DebugUtils.logLabel = oldLabel;
+		DebugUtils.indent = oldIndent;		
 	}
 }
