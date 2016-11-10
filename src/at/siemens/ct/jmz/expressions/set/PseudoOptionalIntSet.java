@@ -1,7 +1,5 @@
 package at.siemens.ct.jmz.expressions.set;
 
-import java.util.regex.Pattern;
-
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
@@ -50,12 +48,6 @@ public class PseudoOptionalIntSet implements IntegerSetExpression {
 	@Override
 	public Boolean contains(Integer value) {
 		return innerSet.contains(value);
-	}
-
-	@Override
-	public Pattern getPattern() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

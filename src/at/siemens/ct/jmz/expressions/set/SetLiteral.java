@@ -1,7 +1,6 @@
 package at.siemens.ct.jmz.expressions.set;
 
 import java.util.Collection;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
@@ -51,12 +50,6 @@ public class SetLiteral extends IntegerSubset {
 	@Override
 	public Boolean contains(Integer value) {
 		return elements.contains(value);
-	}
-
-	@Override
-	public Pattern getPattern() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

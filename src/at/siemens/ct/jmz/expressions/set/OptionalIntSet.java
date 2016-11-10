@@ -1,7 +1,5 @@
 package at.siemens.ct.jmz.expressions.set;
 
-import java.util.regex.Pattern;
-
 /**
  * Represents a MiniZinc option type with an underlying integer set. This means that a variable of this type can either
  * be assigned an element of this set or, optionally, a null value.
@@ -24,12 +22,6 @@ public class OptionalIntSet implements IntegerSetExpression {
 		if (value == null)
 			return true;
 		return innerSet.contains(value);
-	}
-
-	@Override
-	public Pattern getPattern() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package at.siemens.ct.jmz.expressions.set;
 
-import java.util.regex.Pattern;
-
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
@@ -16,8 +14,6 @@ public interface SetExpression<T> extends Expression<java.util.Set<T>> {
 	 * @return
 	 */
 	Boolean contains(T value);
-
-	Pattern getPattern();
 
   default Set<T> toNamedConstant(String name) {
     return new Set<>(name, this.getType(), this);

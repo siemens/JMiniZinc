@@ -1,7 +1,5 @@
 package at.siemens.ct.jmz.expressions.set;
 
-import java.util.regex.Pattern;
-
 /**
  * TODO: unit tests (for all subclasses)
  * @author z003ft4a
@@ -22,11 +20,5 @@ public abstract class BinarySetOperation implements IntegerSetExpression {
 	}
 
   protected abstract String getOperatorSymbol();
-
-  @Override
-	public Pattern getPattern() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.regex.Pattern;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
@@ -115,12 +114,6 @@ public class RangeExpression extends IntegerSubset {
 			}
 			return null;
 		}
-	}
-
-	@Override
-	public Pattern getPattern() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
