@@ -10,7 +10,7 @@ import java.util.OptionalInt;
  */
 public class NumberUtils {
 
-  private static final double EPSILON = 0.00000001;
+  private static final double EPSILON = 0.000001;
 
   /**
    * Checks if the difference between two {@link Double}s is very small.
