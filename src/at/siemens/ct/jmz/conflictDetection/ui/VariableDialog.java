@@ -15,7 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +34,10 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JOptionPane;
 
+import at.siemens.ct.jmz.conflictDetection.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseMetadata;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnosesCollection;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
 import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
 import at.siemens.ct.jmz.elements.Element;
@@ -49,27 +54,35 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
-public class VariableDialog<V> implements DiagnoseProgressCallback {
+public class VariableDialog implements DiagnoseProgressCallback {
 
 	private Frame mainFrame;
 	private Panel controlPanel;
 	private MiniZincCP mznCp;
-	private Map<Label, Component> map;
+	private Map<Label, Component> mapWithControls;
 	private ArrayList<Element> decisionVariables;
 	private File mznFile;
 	private TextArea textLog = new TextArea();
+	private List<Constraint> userConstraints;
+	private Button generateSolution;
+
+	private final String UNDEFINED = "Undefined";
 
 	public VariableDialog(File mznFile) throws IOException, IllegalArgumentException, IllegalAccessException {
 		this.mznFile = mznFile;
 		mznCp = new MiniZincCP(mznFile);
 		decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements().filter(e -> e.isVariable() == true)
 				.collect(Collectors.toList());
-		map = new HashMap<Label, Component>();
+		mapWithControls = new HashMap<Label, Component>();
 
 		prepareGUI();
 		addDecisionVariables();
 		addComponents();
-		mainFrame.pack();
+				
+	    mainFrame.pack();
+	    mainFrame.setLocationRelativeTo(null);
+	    mainFrame.setResizable(false);
+		mainFrame.setVisible(true);
 
 	}
 
@@ -96,14 +109,16 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 	private void prepareGUI() {
 
-		mainFrame = new Frame("Conflict Detection");
+		final String FRAME_TITLE = "Minimal diagnoses";
+		mainFrame = new Frame(FRAME_TITLE);
 		mainFrame.setLayout(new FlowLayout());
-		mainFrame.setLocationRelativeTo(null);
+		//mainFrame.setLocationRelativeTo(null);
+			     
 		controlPanel = new Panel();
 		controlPanel.setLayout(new FlowLayout());
 		mainFrame.add(controlPanel);
-		mainFrame.setVisible(true);
-		mainFrame.setResizable(false);
+		//mainFrame.setVisible(true);
+		//mainFrame.setResizable(false);
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
@@ -124,15 +139,13 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 		Choice algorithmType = new Choice();
 		algorithmType.add("Simple Conflict Detection - HSDAG");
-		// algotithm.add("QuickXPlain");
+		// algorithmType.add("QuickXPlain - HSDAG");
 		// algotithm.add("FastDiag");
-		// algotithm.setEnabled(false); // todo: Temporary
 
 		algorithmChosing.add(algorithmType);
 		algorithmChosing.add(Box.createHorizontalGlue());
-		
-		
-		Button generateSolution = new Button("Start diagnosis ...");
+
+		generateSolution = new Button("Start diagnosis ...");
 		algorithmChosing.add(generateSolution);
 		algorithmChosing.setAlignmentX(Box.RIGHT_ALIGNMENT);
 		panel.add(algorithmChosing);
@@ -141,19 +154,23 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				generateSolution.setEnabled(false);
 				generateSolution();
+				generateSolution.setEnabled(true);
+				
 
 			}
 
 		});
 		textLog.setEditable(false);
-		textLog.setPreferredSize(new Dimension(500, 200));
+		textLog.setPreferredSize(new Dimension(500, 700));
+		//textLog.
 
 		panel.add(Box.createRigidArea(new Dimension(0, 10)));
 		panel.add(textLog);
 
 		controlPanel.add(panel);
-		mainFrame.setVisible(true);
+		//mainFrame.setVisible(true);
 	}
 
 	private <T> void addDecisionVariables() {
@@ -163,7 +180,7 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 		GroupLayout dvlayout = new GroupLayout(dvPanel);
 		dvlayout.setAutoCreateGaps(true);
-		dvlayout.setAutoCreateContainerGaps(true);
+		dvlayout.setAutoCreateContainerGaps(true);		
 
 		ParallelGroup groupForElementsInLine = dvlayout.createParallelGroup(Alignment.LEADING);
 		SequentialGroup groupForElementsInColumns = dvlayout.createSequentialGroup();
@@ -175,43 +192,36 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 				.collect(Collectors.toList());
 
 		for (Element decisionVariable : decisionVariables) {
+			Variable<?, ?> var = null;
+			if (decisionVariable instanceof Variable<?, ?>) {
+				var = (Variable<?, ?>) decisionVariable;
+				if (var instanceof IntegerVariable) {
+					if (var.getType() instanceof RangeExpression) {
 
-			Variable<T, V> var = (Variable<T, V>) decisionVariable;
-
-			if (var instanceof IntegerVariable) {
-				if (var.getType() instanceof RangeExpression) {
-
-					List<String> possibleValues;
-
-					RangeExpression variableRange = (RangeExpression) var.getType();
-
-					possibleValues = generateListFromRangeExpression(variableRange.getLb(), variableRange.getUb());
-
-					Choice variableValue = new Choice();
-
-					variableValue.add("Undefined");
-
-					if (!possibleValues.isEmpty()) {
-						for (String string : possibleValues) {
-							variableValue.add(string);
+						List<String> possibleValues;
+						RangeExpression variableRange = (RangeExpression) var.getType();
+						possibleValues = generateListFromRangeExpression(variableRange.getLb(), variableRange.getUb());
+						Choice variableValue = new Choice();
+						variableValue.add(UNDEFINED);
+						if (!possibleValues.isEmpty()) {
+							for (String string : possibleValues) {
+								variableValue.add(string);
+							}
 						}
+						textField = variableValue;
+					} else {
+						textField = new TextField();
+						textField.setPreferredSize(new Dimension(70, 20));
 					}
 
+				} else if (var instanceof BooleanVariable) {
+
+					Choice variableValue = new Choice();
+					variableValue.add(UNDEFINED);
+					variableValue.add("true");
+					variableValue.add("false");
 					textField = variableValue;
-				} else {
-					textField = new TextField();
-					textField.setPreferredSize(new Dimension(70, 20));
 				}
-
-			} else if (var instanceof BooleanVariable) {
-
-				Choice variableValue = new Choice();
-
-				variableValue.add("Undefined");
-				variableValue.add("true");
-				variableValue.add("false");
-
-				textField = variableValue;
 			}
 
 			label = new Label(var.getName());
@@ -222,20 +232,14 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 			groupForElementsInColumns.addGroup(
 					(dvlayout.createParallelGroup(Alignment.CENTER).addComponent(label).addComponent(textField)));
 
-			map.put(label, textField);
+			mapWithControls.put(label, textField);
 		}
 
 		dvlayout.setHorizontalGroup(groupForElementsInLine);
 		dvlayout.setVerticalGroup(groupForElementsInColumns);
-
 		dvPanel.setLayout(dvlayout);
-
 		dvPanel.setBackground(Color.lightGray);
-
-		controlPanel.add(dvPanel);
-
-		mainFrame.setVisible(true);
-
+		controlPanel.add(dvPanel);			
 	}
 
 	private List<String> generateListFromRangeExpression(IntegerExpression lb, IntegerExpression ub) {
@@ -254,7 +258,7 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 		ArrayList<Constraint> userConstraints = new ArrayList<Constraint>();
 		String text = null;
-		for (Entry<Label, Component> entry : map.entrySet()) {
+		for (Entry<Label, Component> entry : mapWithControls.entrySet()) {
 			if (entry.getValue() instanceof Choice) {
 				Choice choice = (Choice) entry.getValue();
 				text = choice.getSelectedItem();
@@ -262,7 +266,7 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 				TextField textField = (TextField) entry.getValue();
 				text = textField.getText();
 			}
-			if (!text.equals("Undefined") && !text.isEmpty()) {
+			if (!text.equals(UNDEFINED) && !text.isEmpty()) {
 				Constraint c = createContraint(entry.getKey().getText(), text);
 				if (c != null) {
 					userConstraints.add(c);
@@ -298,7 +302,7 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 	private void generateSolution() {
 		textLog.setText(null);
-		List<Constraint> userConstraints = getAllValuesFromTheInterface();
+		userConstraints = getAllValuesFromTheInterface();
 		if (userConstraints.isEmpty()) {
 			JOptionPane.showMessageDialog(controlPanel, "You must set some values for decision variables!",
 					"Information", JOptionPane.INFORMATION_MESSAGE);
@@ -307,13 +311,12 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 		try {
 			// todo: select algorithm according to user selection.
-			HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints, null);
-			textLog.setText("The solution is computing...");
-			String diagnoseResult = hsdag.diagnose();
-			if (diagnoseResult != null) {
-				textLog.setText(diagnoseResult);
-			}
 
+			HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints, this,
+					ConflictDetectionAlgorithm.SimpleConflictDetection);
+			displayStartMessage();
+			hsdag.diagnose();
+			
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(controlPanel, String.format("An error occured! %s", ex.getMessage()), "Error",
 					JOptionPane.ERROR_MESSAGE);
@@ -323,40 +326,108 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 	@Override
 	public void diagnoseFound(List<Constraint> diagnose) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Diagnose found: D = {");
-		for (Constraint constraint : diagnose) {
-			stringBuilder.append(constraint.getConstraintName());
-		}
-		stringBuilder.append(" }/n");
-		
+		stringBuilder.append("DIAGNOSIS: ");
+		stringBuilder.append(displayConstraintList(diagnose));
 		textLog.append(stringBuilder.toString());
 	}
 
 	@Override
 	public void minConflictSetFound(List<Constraint> minConflictSet) {
-		
+
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Minimal Conflict Set found: CS = {");
-		for (Constraint constraint : minConflictSet) {
-			stringBuilder.append(constraint.getConstraintName());
-		}
-		stringBuilder.append(" }/n");
+		stringBuilder.append("Minimal Conflict Set: ");
+		stringBuilder.append(displayConstraintList(minConflictSet));
 		textLog.append(stringBuilder.toString());
 	}
 
 	@Override
 	public void constraintSelected(Constraint constraint) {
-		String textToDIsplay = String.format("Selected constraint: %s/n", constraint);
+		String textToDIsplay = String.format("Selected constraint: { %s } %s", constraint.getConstraintName(),
+				System.lineSeparator());
 		textLog.append(textToDIsplay);
-		
+
 	}
 
 	@Override
 	public void displayMessage(String message) {
-		// TODO Auto-generated method stub
-		
+		textLog.append(message);
 	}
+
+	private void displayStartMessage() {
+		writeOutput("********************************************************");
+		printFile(mznFile.getAbsolutePath());
+		//writeOutput("********************************************************");
+		writeOutput("");
+		textLog.append("User constraints: " + displayConstraintList(userConstraints));
+		writeOutput("********************************************************");
+		//writeOutput("Steps");
+		//writeOutput("********************************************************");
+	}
+
 	
-	
+	public void writeOutput(String message) {
+
+		textLog.append(message + System.lineSeparator());
+	}
+
+	public void printFile(String fileName) {
+
+		writeOutput("Filename: " + fileName);
+		writeOutput("");
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(fileName));
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					writeOutput("\t" + line);
+
+				}
+			} finally {
+				reader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {
+		StringBuilder sBuilder = new StringBuilder();
+		sBuilder.append("All diagnoses: ").append(System.lineSeparator());
+		for (List<Constraint> list : diagnoseCollection) {
+			sBuilder.append("\t" + displayConstraintList(list));
+		}
+		textLog.append(sBuilder.toString());
+
+	}
+
+	private String displayConstraintList(List<Constraint> constraintList) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if(constraintList==null)
+		{
+			return "No elements in constraints set.";
+		}
+		stringBuilder.append("{ ");
+		for (Constraint constraint : constraintList) {
+			stringBuilder.append("(").append(constraint.getConstraintName()).append(") ");
+		}
+		stringBuilder.append("}").append(System.lineSeparator());
+		return stringBuilder.toString();
+	}
+
+	@Override
+	public void ignoredDiagnose(List<Constraint> diagnose, DiagnoseMetadata diagnoseMetadata) {			
+		String result = "";
+		switch (diagnoseMetadata) {
+		case AlreadyExists:
+			result = String.format("DIAGNOSIS already exists: %s",	displayConstraintList(diagnose));
+			break;
+		case NotMin:
+			result = String.format("DIAGNOSIS is not minimal: %s",	displayConstraintList(diagnose));
+			break;
+		}
+		textLog.append(result);		
+	}
 
 }

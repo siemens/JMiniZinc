@@ -29,7 +29,6 @@ public class HSDAG {
 		if (!mznFile.exists()) {
 			throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
 		}
-				
 		this.userConstraints = userConstraints;
 		this.progressCallback = progressCallback; 
 		switch (conflictDetectionAlgorithm) {
@@ -107,9 +106,9 @@ public class HSDAG {
 					diagnosesCollection.add(diagnose);
 					if (progressCallback != null) progressCallback.diagnoseFound(diagnose);									
 					DebugUtils.writeOutput("No min conflict set found.");
-					DebugUtils.printConstraintsSet("DIAGNOSE: ", diagnose);					
+					DebugUtils.printConstraintsSet("DIAGNOSIS: ", diagnose);					
 				} else {
-					DebugUtils.writeOutput("Ignore diagnose:" + diagnoseToString(diagnose));
+					DebugUtils.writeOutput("Ignore diagnosis:" + diagnoseToString(diagnose));
 					if (progressCallback != null) progressCallback.ignoredDiagnose(diagnose, diagnoseMetadata);
 				}
 			} else {
