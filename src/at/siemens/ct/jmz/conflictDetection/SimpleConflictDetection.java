@@ -16,19 +16,20 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 	 * @param declarations The list of decision variables and parameters.
 	 * @throws FileNotFoundException
 	 */
-	//TODO: Maybe declarations is not necessaty any more
-	public SimpleConflictDetection(String mznFullFileName, List<Element> declarations) throws FileNotFoundException{
-		super(mznFullFileName);
-		//this.declarations = declarations;
+	//TODO: Maybe declarations is not necessary any more
+	public SimpleConflictDetection(String mznFullFileName) throws FileNotFoundException{
+		super(mznFullFileName);		
 	}
 	
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
+		DebugUtils.enabled = false;
 		String oldLogLabel = DebugUtils.logLabel; 
 		DebugUtils.logLabel = "SCD:";
 		DebugUtils.writeOutput("**********************************************************");
 		DebugUtils.printConstraintsSet("* Get MinConflictSet for the following constraints", constraintsSetC);
 		DebugUtils.writeOutput("* File: " + mznFile.getAbsolutePath());
 		DebugUtils.writeOutput("**********************************************************");
+		
 		List<Constraint> cs = new ArrayList<Constraint>();
 		try{				
 			//todo: This can be moved outside this method. 
@@ -85,6 +86,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 		} finally{
 			DebugUtils.writeOutput("**********************************************************");
 			DebugUtils.logLabel = oldLogLabel;
+			DebugUtils.enabled = true;
 		}
 		return cs;
 	}

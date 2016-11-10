@@ -3,37 +3,34 @@ package at.siemens.ct.jmz.conflictDetection.HSDAG;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
 import at.siemens.ct.jmz.conflictDetection.DebugUtils;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
-import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.executor.MznToFznExecutable;
 
-public class HSDAG {
-	private final String newline = System.getProperty("line.separator");
-	
+public class HSDAG {		
 	private AbstractConflictDetection conflictDetection;
-	private List<Constraint> userConstraints;
-	//private List<Element> declarations;
+	private List<Constraint> userConstraints;	
 	private String mznFullFileName;
+	private DiagnoseProgressCallback progressCallback;  
 	
-	// todo: Fo not use textArea in this class. Implement callbacks to send
-	// messages to gui
 	public HSDAG(String mznFullFileName,
 			List<Constraint> userConstraints,
-			List<Element> declarations) throws FileNotFoundException {
+			DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
 		super();
+		
 		File mznFile = new File(mznFullFileName);
 		if (!mznFile.exists()) {
 			throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
 		}
 		
 		this.mznFullFileName = mznFullFileName;
-		this.userConstraints = userConstraints;				
-		this.conflictDetection = new SimpleConflictDetection(mznFullFileName, declarations); // todo:
+		this.userConstraints = userConstraints;
+		this.progressCallback = progressCallback; 
+		this.conflictDetection = new SimpleConflictDetection(mznFullFileName); // todo:
 																				// Modify
 																				// to
 																				// use
@@ -41,7 +38,7 @@ public class HSDAG {
 																				// algorithm
 	}
 	
-	public String diagnose() throws Exception{			
+	public void diagnose() throws Exception{			
 		DebugUtils.logLabel = "HSDAG";		
 		DebugUtils.writeOutput("***********************************************");
 		DebugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
@@ -52,22 +49,22 @@ public class HSDAG {
 		
 		if (minCS == null){
 			DebugUtils.writeOutput("A minimal conflict set does not exist.");
-			return "A minimal conflict set does not exist."; // todo: Improve
-																// this
+			if (progressCallback != null) progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");			
+			return;
 		}
 		
-		TreeNode rootNode = new TreeNode(minCS, userConstraints);
-		DiagnosesCollection diagnosesCollection = new DiagnosesCollection();
+	 	if (progressCallback != null) progressCallback.minConflictSetFound(minCS);	 	
 		
-		String res = buildDiagnosesTree(rootNode, diagnosesCollection);		
-		return res;
+		TreeNode rootNode = new TreeNode(minCS, userConstraints);
+		DiagnosesCollection diagnosesCollection = new DiagnosesCollection(); // Here are stored the diagnoses
+		
+		buildDiagnosesTree(rootNode, diagnosesCollection);
 	}
 	
-	private String buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
+	private void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
 		List<Constraint> minCS;
 		List<Constraint> difference;
-		TreeNode treeNode;
-		StringBuilder sb = new StringBuilder();		
+		TreeNode treeNode;			
 		List<TreeNode> conflicts = new ArrayList<TreeNode>();
 		
 		DebugUtils.indent++;
@@ -80,7 +77,9 @@ public class HSDAG {
 		DebugUtils.indent--;
 		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
-		for (Constraint constraint : root.getData()) {					
+		for (Constraint constraint : root.getData()) {
+			if (progressCallback != null) progressCallback.constraintSelected(constraint);
+			
 			difference = elminateConstraintFromList(root.getInitialConstraintsSet(), constraint);
 			minCS = conflictDetection.getMinConflictSet(difference);
 			
@@ -89,40 +88,35 @@ public class HSDAG {
 			if (minCS == null) {				
 				treeNode = new TreeNode(null, null);
 				root.addChild(constraint, treeNode);
-				List<Constraint> diagnose =getDiagnose(treeNode);
-				
+				List<Constraint> diagnose = getDiagnose(treeNode);
+				Collections.reverse(diagnose);				
+								
 				if (!diagnosesCollection.Contains(diagnose)){
-					diagnosesCollection.add(diagnose);				
-					String s = diagnoseToString(diagnose);
+					diagnosesCollection.add(diagnose);
+					if (progressCallback != null) progressCallback.diagnoseFound(diagnose);									
 					DebugUtils.writeOutput("No min conflict set found.");
-					DebugUtils.writeOutput("DIAGNOSE: " + s);
+					DebugUtils.printConstraintsSet("DIAGNOSE: ", diagnose);
 					
-					sb.append("Diagnose: ");
-					sb.append(s);
-					sb.append(newline);
 				} else {
 					DebugUtils.writeOutput("Ignore diagnose:" + diagnoseToString(diagnose));
 				}
 			} else {
+				if (progressCallback != null) progressCallback.minConflictSetFound(minCS);
+				
 				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
-				DebugUtils.printConstraintsSet("Difference:", difference);				
+				DebugUtils.printConstraintsSet("Difference:", difference);
+				
 				treeNode = new TreeNode(minCS, difference);				
 				root.addChild(constraint, treeNode);
-				conflicts.add(treeNode);
-				//buildDiagnosesTree(treeNode, difference);
+				conflicts.add(treeNode);				
 			}			
 		}
 		
 		for(TreeNode node : conflicts){
-			String s = buildDiagnosesTree(node, diagnosesCollection);
-			sb.append(s);
+			buildDiagnosesTree(node, diagnosesCollection);			
 		}
 		
-		DebugUtils.indent--;
-		String res = sb.toString();
-		DebugUtils.writeOutput("Result = " + res);
-		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		return res;
+		DebugUtils.indent--;			
 	}
 	
 	private List<Constraint> getDiagnose(TreeNode node) {
@@ -146,44 +140,6 @@ public class HSDAG {
 		}
 		return sb.toString();
 	}
-			
-	/*private String getDiagnoses(TreeNode rootNode) {
-		Queue<TreeNode> queue = new LinkedList<TreeNode>();
-		queue.add(rootNode);
-		printNode(rootNode);
-		rootNode.setVisited(true);
-		while(!queue.isEmpty()) {
-			TreeNode node = (TreeNode)queue.remove();
-			TreeNode child=null;
-			while((child = getUnvisitedChildNode(node))!=null) {
-				child.setVisited(true);
-				printNode(child);
-				queue.add(child);
-			}
-		}
-		return "This is a test!";
-	}*/
-
-	/**
-     * returns the left child if not visited, then right child if not visited
-     */
-    /*private TreeNode getUnvisitedChildNode(TreeNode node) {
-        if (node.getLeft() != null) {
-            if (!node.getLeft().isVisited()) {
-                return node.getLeft();
-            }
-        }
-        if (node.getRight() != null) {
-            if (!node.getRight().isVisited()) {
-                return  node.getRight();
-            }
-        }
-        return null;
-    }
-    
-	private void printNode(TreeNode rootNode){
-		System.out.println(rootNode.toString());
-	}*/
 
 	private List<Constraint> elminateConstraintFromList(List<Constraint> constraints, Constraint constraint) {
 		List<Constraint> returnList = new ArrayList<Constraint>();

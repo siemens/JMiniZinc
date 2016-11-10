@@ -44,7 +44,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 			constraint = new Constraint("group", "x2 = 3", expression2);
 			constraintsSetC.add(constraint);					
 					
-			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(f.getAbsolutePath(), decisionsVariable);			
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(f.getAbsolutePath());			
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNull(minCS);			
 		} catch (Exception ex){
@@ -60,7 +60,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName, decisionsVar);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
 
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
@@ -79,7 +79,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName, decisionsVar);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
@@ -99,7 +99,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName, decisionsVar);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
@@ -119,7 +119,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName, decisionsVar);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);

@@ -8,10 +8,13 @@ import java.util.List;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public class DebugUtils {
-	public static String logLabel = "Debug";
+	public static String logLabel = "";
 	public static int indent = 0;
+	public static boolean enabled = true;
 
-	public static void printConstraintsSet(String message, List<Constraint> cs){		
+	public static void printConstraintsSet(String message, List<Constraint> cs){
+		if (!enabled) return;
+		
 		if (cs == null){
 			writeOutput(message + ": null");
 			return;
@@ -29,8 +32,9 @@ public class DebugUtils {
 	}		
 	
 	public static void writeOutput(String message){
-		String s = logLabel + "\t";
+		if (!enabled) return;
 		
+		String s = logLabel + "\t";		
 		for (int i = 0; i < indent; i ++){
 			s += "\t";
 		}
@@ -39,6 +43,8 @@ public class DebugUtils {
 	}
 	
 	public static void printFile(String fileName){
+		if (!enabled) return;
+		
 		writeOutput("Filename: " + fileName);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader (fileName));
