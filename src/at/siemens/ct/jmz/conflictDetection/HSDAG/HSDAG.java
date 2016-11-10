@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
+import at.siemens.ct.jmz.conflictDetection.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.conflictDetection.DebugUtils;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -19,7 +20,8 @@ public class HSDAG {
 	
 	public HSDAG(String mznFullFileName,
 			List<Constraint> userConstraints,
-			DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
+			DiagnoseProgressCallback progressCallback, 
+			ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
 		super();
 		
 		File mznFile = new File(mznFullFileName);
@@ -30,12 +32,12 @@ public class HSDAG {
 		this.mznFullFileName = mznFullFileName;
 		this.userConstraints = userConstraints;
 		this.progressCallback = progressCallback; 
-		this.conflictDetection = new SimpleConflictDetection(mznFullFileName); // todo:
-																				// Modify
-																				// to
-																				// use
-																				// other
-																				// algorithm
+		switch (conflictDetectionAlgorithm) {
+		case SimpleConflictDetection:
+			this.conflictDetection = new SimpleConflictDetection(mznFullFileName);
+			break;
+		case QuickXPlain:
+		}
 	}
 	
 	public void diagnose() throws Exception{			
