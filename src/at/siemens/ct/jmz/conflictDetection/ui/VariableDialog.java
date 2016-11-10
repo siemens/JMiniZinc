@@ -32,6 +32,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JOptionPane;
 
+import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
 import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
 import at.siemens.ct.jmz.elements.Element;
@@ -48,7 +49,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
-public class VariableDialog<V> {
+public class VariableDialog<V> implements DiagnoseProgressCallback {
 
 	private Frame mainFrame;
 	private Panel controlPanel;
@@ -96,15 +97,13 @@ public class VariableDialog<V> {
 	private void prepareGUI() {
 
 		mainFrame = new Frame("Conflict Detection");
-		mainFrame.setResizable(false);
 		mainFrame.setLayout(new FlowLayout());
 		mainFrame.setLocationRelativeTo(null);
-
 		controlPanel = new Panel();
 		controlPanel.setLayout(new FlowLayout());
 		mainFrame.add(controlPanel);
 		mainFrame.setVisible(true);
-		mainFrame.setResizable(true);
+		mainFrame.setResizable(false);
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
@@ -117,21 +116,27 @@ public class VariableDialog<V> {
 	private void addComponents() {
 		Panel panel = new Panel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		Box algorithmChosing = Box.createHorizontalBox();
 
-		Choice algotithm = new Choice();
-		algotithm.add("Simple Conflict Detection - HSDAG");
+		Box algorithmChosing = Box.createHorizontalBox();
+		algorithmChosing.setAlignmentX(Box.CENTER_ALIGNMENT);
+		Label choseTheAlgorithm = new Label("Chose the algorithm:");
+		algorithmChosing.add(choseTheAlgorithm);
+
+		Choice algorithmType = new Choice();
+		algorithmType.add("Simple Conflict Detection - HSDAG");
 		// algotithm.add("QuickXPlain");
 		// algotithm.add("FastDiag");
 		// algotithm.setEnabled(false); // todo: Temporary
 
-		algorithmChosing.add(new Label("Chose the algorithm:"));
-		algorithmChosing.add(algotithm);
+		algorithmChosing.add(algorithmType);
+		algorithmChosing.add(Box.createHorizontalGlue());
+		
+		
+		Button generateSolution = new Button("Start diagnosis ...");
+		algorithmChosing.add(generateSolution);
+		algorithmChosing.setAlignmentX(Box.RIGHT_ALIGNMENT);
 		panel.add(algorithmChosing);
 
-		Box genS = Box.createHorizontalBox();
-		genS.setAlignmentX(Component.LEFT_ALIGNMENT);
-		Button generateSolution = new Button("Generate Solution");
 		generateSolution.addActionListener(new ActionListener() {
 
 			@Override
@@ -141,13 +146,9 @@ public class VariableDialog<V> {
 			}
 
 		});
-		generateSolution.setMaximumSize(new Dimension(120, 30));
-		genS.add(generateSolution);
 		textLog.setEditable(false);
-		textLog.setPreferredSize(new Dimension(700, 200));
+		textLog.setPreferredSize(new Dimension(500, 200));
 
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
-		panel.add(genS);
 		panel.add(Box.createRigidArea(new Dimension(0, 10)));
 		panel.add(textLog);
 
@@ -170,8 +171,8 @@ public class VariableDialog<V> {
 		Component textField = null;
 		Label label;
 
-		 decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements()
-				.filter(e -> e.isVariable() == true).collect(Collectors.toList());
+		decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements().filter(e -> e.isVariable() == true)
+				.collect(Collectors.toList());
 
 		for (Element decisionVariable : decisionVariables) {
 
@@ -306,19 +307,56 @@ public class VariableDialog<V> {
 
 		try {
 			// todo: select algorithm according to user selection.
-			HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints,
-					null);
+			HSDAG hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints, null);
 			textLog.setText("The solution is computing...");
 			String diagnoseResult = hsdag.diagnose();
-			if(diagnoseResult!=null)
-			{
+			if (diagnoseResult != null) {
 				textLog.setText(diagnoseResult);
 			}
-			
+
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(controlPanel, String.format("An error occured! %s", ex.getMessage()), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
+	@Override
+	public void diagnoseFound(List<Constraint> diagnose) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Diagnose found: D = {");
+		for (Constraint constraint : diagnose) {
+			stringBuilder.append(constraint.getConstraintName());
+		}
+		stringBuilder.append(" }/n");
+		
+		textLog.append(stringBuilder.toString());
+	}
+
+	@Override
+	public void minConflictSetFound(List<Constraint> minConflictSet) {
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Minimal Conflict Set found: CS = {");
+		for (Constraint constraint : minConflictSet) {
+			stringBuilder.append(constraint.getConstraintName());
+		}
+		stringBuilder.append(" }/n");
+		textLog.append(stringBuilder.toString());
+	}
+
+	@Override
+	public void constraintSelected(Constraint constraint) {
+		String textToDIsplay = String.format("Selected constraint: %s/n", constraint);
+		textLog.append(textToDIsplay);
+		
+	}
+
+	@Override
+	public void displayMessage(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 }

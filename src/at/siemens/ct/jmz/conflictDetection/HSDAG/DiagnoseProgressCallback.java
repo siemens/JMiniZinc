@@ -8,4 +8,5 @@ public interface DiagnoseProgressCallback {
 	public void diagnoseFound(List<Constraint> diagnose);
 	public void minConflictSetFound(List<Constraint> diagnose);
 	public void constraintSelected(Constraint constraint);
+	public void displayMessage(String message);
 }
