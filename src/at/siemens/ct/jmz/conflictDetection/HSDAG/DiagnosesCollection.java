@@ -26,19 +26,18 @@ public class DiagnosesCollection extends ArrayList<List<Constraint>>{
 
 	public boolean Contains(List<Constraint> diagnose){
 		for(List<Constraint> d : this){
-			boolean res = haveTheSameContent(diagnose, d);
+			boolean res = existsASmallerDiagnose(diagnose, d);
 			if (res) return true;
 		}
 		return false;
 	}
 	
-	private boolean haveTheSameContent(List<Constraint> d1, List<Constraint> d2){
-		if (d1.size() != d2.size()) return false;
+	private boolean existsASmallerDiagnose(List<Constraint> newDiagnose, List<Constraint> existingDiagnose){
+		// newDiagnose can be at least as big as existingDiagnose.
 		
-		for(Constraint c: d1){
-			if (!d2.contains(c)) return false;
-		}
-		
+		for(Constraint c: existingDiagnose){
+			if (!newDiagnose.contains(c)) return false;
+		}		
 		return true;  
 	}
 }
