@@ -6,38 +6,24 @@ import java.util.stream.Collectors;
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 
-public class SetLiteral extends IntegerSubset {
+public class SetLiteral implements IntegerSetExpression {
 
 	private Collection<IntegerConstant> elements;
 
-	private SetLiteral(SetExpression<Integer> parent, Collection<IntegerConstant> elements) {
-		super(parent);
+  private SetLiteral(Collection<IntegerConstant> elements) {
 		this.elements = elements;
 	}
 
-	public static SetLiteral subset(SetExpression<Integer> parent, Collection<IntegerConstant> elements) {
-		return new SetLiteral(parent, elements);
-	}
-
-	public static SetLiteral fromIntegers(SetExpression<Integer> parent, Collection<Integer> elements) {
-		return subset(parent, elements.stream().map(IntegerConstant::new).collect(Collectors.toSet()));
-	}
-
-	public static SetLiteral singleton(SetExpression<Integer> parent, IntegerConstant element) {
-		return subset(parent, ListUtils.fromElements(element));
-	}
-
 	public static SetLiteral subset(Collection<IntegerConstant> elements) {
-    return subset(IntegerSetExpression.INTEGER_UNIVERSE, elements);
+    return new SetLiteral(elements);
 	}
 
 	public static SetLiteral fromIntegers(Collection<Integer> elements) {
-    return subset(IntegerSetExpression.INTEGER_UNIVERSE,
-				elements.stream().map(IntegerConstant::new).collect(Collectors.toSet()));
+    return subset(elements.stream().map(IntegerConstant::new).collect(Collectors.toSet()));
 	}
 
 	public static SetLiteral singleton(IntegerConstant element) {
-    return subset(IntegerSetExpression.INTEGER_UNIVERSE, ListUtils.fromElements(element));
+    return subset(ListUtils.fromElements(element));
 	}
 
 	@Override
@@ -51,5 +37,10 @@ public class SetLiteral extends IntegerSubset {
 	public Boolean contains(Integer value) {
 		return elements.contains(value);
 	}
+
+  @Override
+  public String toString() {
+    return use();
+  }
 
 }

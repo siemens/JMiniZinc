@@ -15,7 +15,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class RangeExpression extends IntegerSubset {
+public class RangeExpression implements IntegerSetExpression {
 
 	private IntegerExpression lb;
 	private IntegerExpression ub;
@@ -115,5 +115,10 @@ public class RangeExpression extends IntegerSubset {
 			return null;
 		}
 	}
+
+  @Override
+  public String toString() {
+    return use();
+  }
 
 }
