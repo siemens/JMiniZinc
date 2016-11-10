@@ -15,7 +15,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
  */
 public class PseudoOptionalIntSet implements IntegerSetExpression {
 
-	private SetExpression<Integer> innerSet; // TODO: or IntegerSubset? (distinguish between constant and variable sets?)
+  private SetExpression<Integer> innerSet;
 	private IntegerExpression nullElement;
 
 	public PseudoOptionalIntSet(RangeExpression originalSet) {

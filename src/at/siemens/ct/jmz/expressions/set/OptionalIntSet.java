@@ -9,7 +9,7 @@ package at.siemens.ct.jmz.expressions.set;
  */
 public class OptionalIntSet implements IntegerSetExpression {
 
-	private SetExpression<Integer> innerSet; // TODO: or IntegerSubset? (distinguish between constant and variable sets?)
+  private SetExpression<Integer> innerSet;
 
 	public OptionalIntSet(SetExpression<Integer> originalSet) {
 		if (originalSet instanceof OptionalIntSet)

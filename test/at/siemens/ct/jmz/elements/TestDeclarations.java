@@ -149,13 +149,7 @@ public class TestDeclarations {
     Set<Integer> pseudoOptionalI = new PseudoOptionalIntSet(i).toNamedConstant("I0");
     IntegerVariable var1 = new IntegerVariable("i", pseudoOptionalI);
 
-    // before a pseudo-optional int set is declared, it must be used without its name:
-    // TODO: !?
-    // Assert.assertEquals("var 0..5: i;", var1.declare());
-
     Assert.assertEquals("set of int: I0 = I union {0};", pseudoOptionalI.declare());
-
-    // after a pseudo-optional int set is declared, it must be used with its name:
     Assert.assertEquals("var I0: i;", var1.declare());
   }
 
