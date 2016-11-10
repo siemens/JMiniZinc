@@ -30,13 +30,8 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 		DebugUtils.writeOutput("**********************************************************");
 		
 		List<Constraint> cs = new ArrayList<Constraint>();
-		try{				
-			//todo: This can be moved outside this method. 
-			if (! consistencyChecker.isConsistent(mznFile)){
-				DebugUtils.writeOutput("RESULT of SimpleConflictDetection: The input constraints set in not consistent!");
-				return null;
-			};
-			
+		try{							
+					
 			if (consistencyChecker.isConsistent(constraintsSetC, mznFile)){
 				DebugUtils.writeOutput("RESULT of SimpleConflictDetection: All constraints are consistent. Cannot find a subset of inconsistent constraints.");
 				return null;
@@ -74,7 +69,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 				DebugUtils.indent--;
 				appendSet(cs, c);
 				DebugUtils.printConstraintsSet("Subset CS", cs);
-				isInconsistent = !consistencyChecker.isConsistent(cs, /*, declarations*/ mznFile);
+				isInconsistent = !consistencyChecker.isConsistent(cs, mznFile);
 				DebugUtils.writeOutput("CS.isInconsistent = " + isInconsistent);
 			}while (!isInconsistent);
 			

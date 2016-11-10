@@ -8,6 +8,7 @@ import java.util.List;
 
 import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
 import at.siemens.ct.jmz.conflictDetection.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.conflictDetection.ConsistencyChecker;
 import at.siemens.ct.jmz.conflictDetection.DebugUtils;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -15,7 +16,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 public class HSDAG {		
 	private AbstractConflictDetection conflictDetection;
 	private List<Constraint> userConstraints;	
-	private String mznFullFileName;
+	private File mznFile;
 	private DiagnoseProgressCallback progressCallback;  
 	
 	public HSDAG(String mznFullFileName,
@@ -24,12 +25,11 @@ public class HSDAG {
 			ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
 		super();
 		
-		File mznFile = new File(mznFullFileName);
+		mznFile = new File(mznFullFileName);
 		if (!mznFile.exists()) {
 			throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
 		}
-		
-		this.mznFullFileName = mznFullFileName;
+				
 		this.userConstraints = userConstraints;
 		this.progressCallback = progressCallback; 
 		switch (conflictDetectionAlgorithm) {
@@ -44,8 +44,15 @@ public class HSDAG {
 		DebugUtils.logLabel = "HSDAG";		
 		DebugUtils.writeOutput("***********************************************");
 		DebugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
-		DebugUtils.printFile(mznFullFileName);
+		DebugUtils.printFile(mznFile.getAbsolutePath());
 		DebugUtils.writeOutput("***********************************************");
+		
+		ConsistencyChecker consistencyChecker = new ConsistencyChecker(); 
+		if (! consistencyChecker.isConsistent(mznFile)){
+			DebugUtils.writeOutput("The input constraints set in not consistent!");
+			if (progressCallback != null) progressCallback.displayMessage("The constraints set form the input file is not consistent.");
+			return;
+		};
 		
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 		
