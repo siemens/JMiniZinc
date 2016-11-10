@@ -8,7 +8,7 @@ import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
-import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
@@ -35,8 +35,8 @@ public class _TestSimpleConflictDetection extends TestCase {
 			decisionsVariable.add(x2);
 			decisionsVariable.add(x3);
 			
-			BooleanExpression expression1 = new RelationalExpression<>(x1, RelationalOperator.EQ, new IntegerConstant(3));			
-			BooleanExpression expression2 = new RelationalExpression<>(x2, RelationalOperator.EQ, new IntegerConstant(3));			
+			BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(3));			
+			BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(3));			
 			
 			Constraint constraint = new Constraint("group", "x1 = 3", expression1);
 			constraintsSetC.add(constraint);

@@ -3,10 +3,10 @@ package at.siemens.ct.jmz.expressions.comprehension;
 import java.lang.reflect.Constructor;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.integer.ArithmeticOperation;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
@@ -15,7 +15,6 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  * @author z003ft4a (Richard Taupe)
  *
  */
-@Ignore //TODO
 public class TestComprehension {
 
   /**
@@ -43,10 +42,7 @@ public class TestComprehension {
     Generator<Integer> generator = new Generator<>(iterator);
     Constructor<C> constructor = comprehensionClass.getConstructor(Generator.class,
         Expression.class);
-    // C comprehension = constructor.newInstance(generator, "2 * i");
-    // TODO: re-introduce above expression as soon as integer products are supported
-		// TODO: C comprehension = constructor.newInstance(generator, iterator.add(2));
-		C comprehension = constructor.newInstance(generator, iterator);
+    C comprehension = constructor.newInstance(generator, ArithmeticOperation.plus(iterator, 2));
     String expectedOutput = String.format("%c %s + 2 | %s in %d..%d %c", leftBracket, iteratorName,
         iteratorName, lb, ub, rightBracket);
     Assert.assertEquals(expectedOutput, comprehension.use());

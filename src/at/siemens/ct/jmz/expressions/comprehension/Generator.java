@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
@@ -17,10 +17,11 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
  */
 public class Generator<T> implements Expression<T[]> {
 
-	private RelationalExpression<T> restriction;
+	private RelationalOperation<T> restriction;
 	private Collection<IteratorExpression<T>> iterators;
 
-	public Generator(IteratorExpression<T>... iterators) {
+  @SafeVarargs
+  public Generator(IteratorExpression<T>... iterators) {
     this(ListUtils.fromElements(iterators));
   }
 
@@ -28,11 +29,12 @@ public class Generator<T> implements Expression<T[]> {
     this(null, iterators);
   }
 
-	public Generator(RelationalExpression<T> restriction, IteratorExpression<T>... iterators) {
+  @SafeVarargs
+  public Generator(RelationalOperation<T> restriction, IteratorExpression<T>... iterators) {
     this(restriction, ListUtils.fromElements(iterators));
   }
 
-	public Generator(RelationalExpression<T> restriction, Collection<IteratorExpression<T>> iterators) {
+	public Generator(RelationalOperation<T> restriction, Collection<IteratorExpression<T>> iterators) {
     this.restriction = restriction;
     this.iterators = iterators;
   }
@@ -59,9 +61,9 @@ public class Generator<T> implements Expression<T[]> {
    * @param restriction
    * @return a new Generator, containing the given restriction and the iterators of this Generator.
    */
-	public Generator<T> restrict(RelationalExpression<T> restriction) {
+	public Generator<T> restrict(RelationalOperation<T> restriction) {
     // TODO: if this generator already contains a restriction, combine it with the new restriction using logical and
-    return new Generator(restriction, iterators);
+    return new Generator<T>(restriction, iterators);
   }
 
 }

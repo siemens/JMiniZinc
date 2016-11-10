@@ -28,4 +28,39 @@ public class TestIntegerExpressions {
     Assert.assertEquals("var int: s = sum(array);", sumVar.declare());
   }
 
+  @Test
+  public void testPlus() {
+    ArithmeticOperation<Integer> op = new ArithmeticOperation<>(new IntegerVariable("v"),
+        ArithmeticOperator.PLUS, new IntegerConstant(1));
+    Assert.assertEquals("v + 1", op.use());
+  }
+
+  @Test
+  public void testMinus() {
+    ArithmeticOperation<Integer> op = new ArithmeticOperation<>(new IntegerVariable("v"),
+        ArithmeticOperator.MINUS, new IntegerConstant(1));
+    Assert.assertEquals("v - 1", op.use());
+  }
+
+  @Test
+  public void testTimes() {
+    ArithmeticOperation<Integer> op = new ArithmeticOperation<>(new IntegerVariable("v"),
+        ArithmeticOperator.TIMES, new IntegerConstant(2));
+    Assert.assertEquals("v * 2", op.use());
+  }
+
+  @Test
+  public void testDiv() {
+    ArithmeticOperation<Integer> op = new ArithmeticOperation<>(new IntegerVariable("v"),
+        ArithmeticOperator.DIV_INT, new IntegerConstant(3));
+    Assert.assertEquals("v div 3", op.use());
+  }
+
+  @Test
+  public void testModulo() {
+    ArithmeticOperation<Integer> op = new ArithmeticOperation<>(new IntegerVariable("v"),
+        ArithmeticOperator.MODULO, new IntegerConstant(2));
+    Assert.assertEquals("v mod 2", op.use());
+  }
+
 }

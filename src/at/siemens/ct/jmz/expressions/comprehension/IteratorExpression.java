@@ -1,7 +1,7 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
@@ -48,7 +48,7 @@ public class IteratorExpression<T> implements Expression<T> {
    * @param comparisonExpression
    * @return
    */
-	public Generator<T> where(RelationalExpression<T> comparisonExpression) {
+	public Generator<T> where(RelationalOperation<T> comparisonExpression) {
 		return new Generator<T>(comparisonExpression, this);
   }
 

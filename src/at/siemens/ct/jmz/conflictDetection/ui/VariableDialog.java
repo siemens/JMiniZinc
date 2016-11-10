@@ -42,7 +42,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
-import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
@@ -281,12 +281,12 @@ public class VariableDialog<V> implements DiagnoseProgressCallback {
 		if (variable instanceof IntegerVariable) {
 			IntegerVariable integervariable = (IntegerVariable) variable;
 			int variableValue = integervariable.parseValue(value);
-			expression = new RelationalExpression<>(integervariable, RelationalOperator.EQ,
+			expression = new RelationalOperation<>(integervariable, RelationalOperator.EQ,
 					new IntegerConstant(variableValue));
 		} else {
 			BooleanVariable booleanVariable = (BooleanVariable) variable;
 			boolean variableValue = booleanVariable.parseValue(value);
-			expression = new RelationalExpression<>(booleanVariable, RelationalOperator.EQ,
+			expression = new RelationalOperation<>(booleanVariable, RelationalOperator.EQ,
 					new BooleanConstant(variableValue));
 		}
 

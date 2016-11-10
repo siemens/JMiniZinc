@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
-import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
@@ -16,7 +16,7 @@ public class TestConditionalExpression {
    */
   @Test
   public void testIntegerIfElse() {
-    BooleanExpression condition = new RelationalExpression<>(new IntegerConstant(1),
+    BooleanExpression condition = new RelationalOperation<>(new IntegerConstant(1),
         RelationalOperator.LT, new IntegerConstant(2));
     IntegerExpression thenBranch = new IntegerConstant(1);
     IntegerExpression elseBranch = new IntegerConstant(2);
@@ -31,10 +31,10 @@ public class TestConditionalExpression {
    */
   @Test
   public void testNestedIntegerIfElse() {
-    BooleanExpression condition1 = new RelationalExpression<>(new IntegerConstant(1),
+    BooleanExpression condition1 = new RelationalOperation<>(new IntegerConstant(1),
         RelationalOperator.LT, new IntegerConstant(2));
     IntegerExpression then1 = new IntegerConstant(1);
-    BooleanExpression condition2 = new RelationalExpression<>(new IntegerConstant(2),
+    BooleanExpression condition2 = new RelationalOperation<>(new IntegerConstant(2),
         RelationalOperator.LT, new IntegerConstant(1));
     IntegerExpression then2 = new IntegerConstant(2);
     IntegerExpression else2 = new IntegerConstant(3);

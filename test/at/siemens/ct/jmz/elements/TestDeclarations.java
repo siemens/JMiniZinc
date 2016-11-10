@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
@@ -15,11 +14,12 @@ import at.siemens.ct.jmz.expressions.array.ExplicitIntegerList;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
-import at.siemens.ct.jmz.expressions.bool.RelationalExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
+import at.siemens.ct.jmz.expressions.integer.ArithmeticOperation;
 import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
@@ -37,21 +37,16 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 public class TestDeclarations {
 
   @Test
-	@Ignore // TODO
   public void testArrayWithListComprehension() {
     int lb = 1, ub = 10;
     RangeExpression range = new RangeExpression(lb, ub);
     String iteratorName = "i";
-    IteratorExpression iterator = range.iterate(iteratorName);
-    Generator generator = new Generator(iterator);
-    // String expression = "10*i";
-    // TODO: re-introduce above expression as soon as integer products are supported
-		// TODO: Expression<Integer> expression = iterator.add(10);
-		Expression<Integer> expression = iterator;
+    IteratorExpression<Integer> iterator = range.iterate(iteratorName);
+    Generator<Integer> generator = new Generator<>(iterator);
+    Expression<Integer> expression = ArithmeticOperation.times(iterator, 10);
 		ListComprehension<Integer> comprehension = new ListComprehension<>(generator, expression);
-    Array<Integer> array = IntegerArray.createVariable("a", new RangeExpression(1, 10),
-        comprehension);
-    Assert.assertEquals("array[1..10] of var int: a = [ i + 10 | i in 1..10 ];", array.declare());
+    Array<Integer> array = IntegerArray.createVariable("a", comprehension);
+    Assert.assertEquals("array[1..10] of var int: a = [ i * 10 | i in 1..10 ];", array.declare());
   }
 
   @Test
@@ -192,7 +187,7 @@ public class TestDeclarations {
   @Test
   public void testIntegerAssignmentConstraint() {
     IntegerVariable x3 = new IntegerVariable("x3");
-    BooleanExpression expression = new RelationalExpression<>(x3, RelationalOperator.EQ,
+    BooleanExpression expression = new RelationalOperation<>(x3, RelationalOperator.EQ,
         new IntegerConstant(2));
     Constraint constraint = new Constraint(expression);
     String expectedDeclaration = "constraint x3 = 2;";

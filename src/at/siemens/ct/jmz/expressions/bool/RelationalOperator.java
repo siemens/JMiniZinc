@@ -1,6 +1,8 @@
 package at.siemens.ct.jmz.expressions.bool;
 
-public enum RelationalOperator {
+import at.siemens.ct.jmz.expressions.Operator;
+
+public enum RelationalOperator implements Operator {
 
   LT("<"), LE("<="), EQ("="), NEQ("!="), GE(">="), GT(">");
 

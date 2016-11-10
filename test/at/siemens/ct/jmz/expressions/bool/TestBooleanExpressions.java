@@ -8,6 +8,7 @@ import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.comprehension.Generator;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
+import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
@@ -27,10 +28,10 @@ public class TestBooleanExpressions {
     IntegerConstant const1 = new IntegerConstant(1);
     IntegerArray array = IntegerArray.createVariable("a", set123, set123);
 
-    IteratorExpression iterator = set123.iterate("i");
-    Generator generator = new Generator(
-        new RelationalExpression<>(iterator, RelationalOperator.GT, const1), iterator);
-    RelationalExpression<Integer> arrayElementEqualsIndex = new RelationalExpression<>(
+    IteratorExpression<Integer> iterator = set123.iterate("i");
+    Generator<Integer> generator = new Generator<Integer>(
+        new RelationalOperation<>(iterator, RelationalOperator.GT, const1), iterator);
+    RelationalOperation<Integer> arrayElementEqualsIndex = new RelationalOperation<>(
         array.access(iterator), RelationalOperator.EQ, iterator);
 
     Forall forall = new Forall(generator, arrayElementEqualsIndex);
@@ -85,12 +86,57 @@ public class TestBooleanExpressions {
     Assert.assertEquals("a <-> b", operation.use());
   }
 
-  @Test public void testComplexOperation() {
+  @Test
+  public void testComplexOperation() {
     BooleanVariable a = new BooleanVariable("a");
     BooleanVariable b = new BooleanVariable("b");
     BooleanVariable c = new BooleanVariable("c");
     BinaryLogicalOperation operation = a.and((b.or(c)).implies(b));
     Assert.assertEquals("a /\\ ((b \\/ c) -> b)", operation.use());
+  }
+
+  @Test
+  public void testRelationalOperatorLT() {
+    RelationalOperation<Integer> op = new RelationalOperation<>(new IntegerConstant(1),
+        RelationalOperator.LT, new IntegerVariable("v"));
+    Assert.assertEquals("1 < v", op.use());
+  }
+
+  @Test
+  public void testRelationalOperatorLE() {
+    RelationalOperation<Integer> op = new RelationalOperation<>(new IntegerVariable("v"),
+        RelationalOperator.LE, new IntegerConstant(1));
+    Assert.assertEquals("v <= 1", op.use());
+  }
+
+  @Test
+  public void testRelationalOperatorEQ() {
+    RelationalOperation<Integer> op = new RelationalOperation<>(new IntegerConstant(3),
+        RelationalOperator.EQ, new IntegerVariable("v"));
+    Assert.assertEquals("3 = v", op.use());
+  }
+
+  @Test
+  public void testRelationalOperatorNEQ() {
+    RelationalOperation<Integer> op = new RelationalOperation<>(new IntegerVariable("u"),
+        RelationalOperator.NEQ, new IntegerVariable("v"));
+    Assert.assertEquals("u != v", op.use());
+  }
+
+  @Test
+  public void testRelationalOperatorGE() {
+    RelationalOperation<Integer> op = new RelationalOperation<>(
+        new IntegerConstant(Integer.MAX_VALUE),
+        RelationalOperator.GE, new IntegerConstant(0));
+    Assert.assertEquals("2147483647 >= 0", op.use());
+  }
+
+  @Test
+  public void testRelationalOperatorGT() {
+    RelationalOperation<Integer> op = new RelationalOperation<>(
+        new IntegerConstant(Integer.MAX_VALUE), RelationalOperator.GT,
+        new IntegerConstant(Integer.MIN_VALUE));
+    Assert.assertEquals("2147483647 > -2147483648", op.use());
   }
 
 }
