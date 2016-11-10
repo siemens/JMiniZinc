@@ -16,7 +16,7 @@ public abstract class BinarySetOperation implements IntegerSetExpression {
 
 	@Override
 	public String use() {
-    return String.format("%s %s %s", operand1, getOperatorSymbol(), operand2);
+    return String.format("%s %s %s", operand1.use(), getOperatorSymbol(), operand2.use());
 	}
 
   protected abstract String getOperatorSymbol();
