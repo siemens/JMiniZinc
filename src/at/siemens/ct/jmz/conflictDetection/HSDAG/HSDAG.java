@@ -10,6 +10,7 @@ import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
 import at.siemens.ct.jmz.conflictDetection.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.conflictDetection.ConsistencyChecker;
 import at.siemens.ct.jmz.conflictDetection.DebugUtils;
+import at.siemens.ct.jmz.conflictDetection.QuickXPlain;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
@@ -36,7 +37,8 @@ public class HSDAG {
 			this.conflictDetection = new SimpleConflictDetection(mznFullFileName);
 			break;
 		case QuickXPlain:
-			throw new Exception("QuickXPlain is not implented yet.");
+			this.conflictDetection = new QuickXPlain(mznFullFileName);
+			break;
 		}
 	}
 	
@@ -53,7 +55,7 @@ public class HSDAG {
 			if (progressCallback != null) progressCallback.displayMessage("The constraints set form the input file is not consistent.");
 			return;
 		};
-		
+				
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 		
 		if (minCS == null){
@@ -62,7 +64,7 @@ public class HSDAG {
 			return;
 		}
 		
-	 	if (progressCallback != null) progressCallback.minConflictSetFound(minCS);	 	
+	 	if (progressCallback != null) progressCallback.minConflictSet(minCS, userConstraints);
 		
 		TreeNode rootNode = new TreeNode(minCS, userConstraints);
 		DiagnosesCollection diagnosesCollection = new DiagnosesCollection(); // Here are stored the diagnoses
@@ -89,12 +91,13 @@ public class HSDAG {
 		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 		for (Constraint constraint : root.getData()) {
-			if (progressCallback != null) progressCallback.constraintSelected(constraint);
-			
 			difference = elminateConstraintFromList(root.getInitialConstraintsSet(), constraint);
+			
+			if (progressCallback != null) progressCallback.constraintSelected(constraint);			
 			minCS = conflictDetection.getMinConflictSet(difference);
 			
 			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
+			if (progressCallback != null) progressCallback.minConflictSet(minCS, difference);
 			
 			if (minCS == null) {				
 				treeNode = new TreeNode(null, null);
@@ -113,7 +116,7 @@ public class HSDAG {
 					if (progressCallback != null) progressCallback.ignoredDiagnose(diagnose, diagnoseMetadata);
 				}
 			} else {
-				if (progressCallback != null) progressCallback.minConflictSetFound(minCS);
+				//if (progressCallback != null) progressCallback.minConflictSetFound(minCS);
 				
 				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
 				DebugUtils.printConstraintsSet("Difference:", difference);
