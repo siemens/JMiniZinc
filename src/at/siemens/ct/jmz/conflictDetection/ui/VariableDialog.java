@@ -20,10 +20,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.swing.Box;
@@ -59,7 +65,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	private Frame mainFrame;
 	private Panel controlPanel;
 	private MiniZincCP mznCp;
-	private Map<Label, Component> mapWithControls;
+	private List<DecisionVariableGUI> mapWithControls;
 	private ArrayList<Element> decisionVariables;
 	private File mznFile;
 	private TextArea textLog = new TextArea();
@@ -73,7 +79,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		mznCp = new MiniZincCP(mznFile);
 		decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements().filter(e -> e.isVariable() == true)
 				.collect(Collectors.toList());
-		mapWithControls = new HashMap<Label, Component>();
+		mapWithControls = new ArrayList<DecisionVariableGUI>() ;
 
 		prepareGUI();
 		addDecisionVariables();
@@ -211,7 +217,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 						textField = variableValue;
 					} else {
 						textField = new TextField();
-						textField.setPreferredSize(new Dimension(70, 20));
+						textField.setPreferredSize(new Dimension(87, 20));
 					}
 
 				} else if (var instanceof BooleanVariable) {
@@ -232,13 +238,15 @@ public class VariableDialog implements DiagnoseProgressCallback {
 			groupForElementsInColumns.addGroup(
 					(dvlayout.createParallelGroup(Alignment.CENTER).addComponent(label).addComponent(textField)));
 
-			mapWithControls.put(label, textField);
+			DecisionVariableGUI dvGUI = new DecisionVariableGUI(label, textField);
+			mapWithControls.add(dvGUI);
 		}
 
 		dvlayout.setHorizontalGroup(groupForElementsInLine);
 		dvlayout.setVerticalGroup(groupForElementsInColumns);
 		dvPanel.setLayout(dvlayout);
 		dvPanel.setBackground(Color.lightGray);
+		Collections.sort(mapWithControls);
 		controlPanel.add(dvPanel);			
 	}
 
@@ -258,16 +266,16 @@ public class VariableDialog implements DiagnoseProgressCallback {
 
 		ArrayList<Constraint> userConstraints = new ArrayList<Constraint>();
 		String text = null;
-		for (Entry<Label, Component> entry : mapWithControls.entrySet()) {
-			if (entry.getValue() instanceof Choice) {
-				Choice choice = (Choice) entry.getValue();
+		for (DecisionVariableGUI dvGui : mapWithControls) {
+			if (dvGui.getComponent() instanceof Choice) {
+				Choice choice = (Choice) dvGui.getComponent();
 				text = choice.getSelectedItem();
 			} else {
-				TextField textField = (TextField) entry.getValue();
+				TextField textField = (TextField) dvGui.getComponent();
 				text = textField.getText();
 			}
 			if (!text.equals(UNDEFINED) && !text.isEmpty()) {
-				Constraint c = createContraint(entry.getKey().getText(), text);
+				Constraint c = createContraint(dvGui.getLabel().getText(), text);
 				if (c != null) {
 					userConstraints.add(c);
 				}
@@ -326,7 +334,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	@Override
 	public void diagnoseFound(List<Constraint> diagnose) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("DIAGNOSIS: ");
+		stringBuilder.append("Diagnosis: ");
 		stringBuilder.append(displayConstraintList(diagnose));
 		textLog.append(stringBuilder.toString());
 	}
@@ -335,7 +343,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	public void minConflictSetFound(List<Constraint> minConflictSet) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Minimal Conflict Set: ");
+		stringBuilder.append("Check: ");
 		stringBuilder.append(displayConstraintList(minConflictSet));
 		textLog.append(stringBuilder.toString());
 	}
@@ -403,14 +411,25 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	}
 
 	private String displayConstraintList(List<Constraint> constraintList) {
-		StringBuilder stringBuilder = new StringBuilder();
 		if(constraintList==null)
 		{
 			return "No elements in constraints set.";
 		}
+		
+		SortedMap< Integer, Constraint> sortedConstraints = new TreeMap<Integer, Constraint>();
+		for(Constraint c : constraintList){
+			sortedConstraints.put(userConstraints.indexOf(c), c);
+		}
+			
+		StringBuilder stringBuilder = new StringBuilder();		
 		stringBuilder.append("{ ");
-		for (Constraint constraint : constraintList) {
-			stringBuilder.append("(").append(constraint.getConstraintName()).append(") ");
+		for (Constraint c : sortedConstraints.values()) {			
+			stringBuilder.append(c.getConstraintName()).append(", ");
+		}
+		
+		int index = stringBuilder.lastIndexOf(",");
+		if (index >= 0){
+			stringBuilder.delete(index, index + 1);
 		}
 		stringBuilder.append("}").append(System.lineSeparator());
 		return stringBuilder.toString();
@@ -421,10 +440,10 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		String result = "";
 		switch (diagnoseMetadata) {
 		case AlreadyExists:
-			result = String.format("DIAGNOSIS already exists: %s",	displayConstraintList(diagnose));
+			result = String.format("Diagnosis already exists: %s",	displayConstraintList(diagnose));
 			break;
 		case NotMin:
-			result = String.format("DIAGNOSIS is not minimal: %s",	displayConstraintList(diagnose));
+			result = String.format("Diagnosis is not minimal: %s",	displayConstraintList(diagnose));
 			break;
 		}
 		textLog.append(result);		
