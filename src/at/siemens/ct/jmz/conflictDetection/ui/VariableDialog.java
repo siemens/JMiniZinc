@@ -334,17 +334,21 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	@Override
 	public void diagnoseFound(List<Constraint> diagnose) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Diagnosis: ");
+		stringBuilder.append("DIAGNOSIS: ");
 		stringBuilder.append(displayConstraintList(diagnose));
 		textLog.append(stringBuilder.toString());
 	}
 
 	@Override
-	public void minConflictSetFound(List<Constraint> minConflictSet) {
-
+	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Check: ");
-		stringBuilder.append(displayConstraintList(minConflictSet));
+		stringBuilder.append("Check: ").append(displayConstraintList(inputConflictSet));
+		if(minConflictSet == null){
+			stringBuilder.append("No minimal conflict set.").append(System.lineSeparator());
+		} else {
+			stringBuilder.append("Minimal conflict set: ");
+			stringBuilder.append(displayConstraintList(minConflictSet));
+		}
 		textLog.append(stringBuilder.toString());
 	}
 
@@ -358,7 +362,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 
 	@Override
 	public void displayMessage(String message) {
-		textLog.append(message);
+		textLog.append(message + System.lineSeparator());
 	}
 
 	private void displayStartMessage() {
@@ -402,7 +406,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	@Override
 	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {
 		StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append("All diagnoses: ").append(System.lineSeparator());
+		sBuilder.append(System.lineSeparator()).append("All diagnoses: ").append(System.lineSeparator());
 		for (List<Constraint> list : diagnoseCollection) {
 			sBuilder.append("\t" + displayConstraintList(list));
 		}
@@ -448,5 +452,4 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		}
 		textLog.append(result);		
 	}
-
 }

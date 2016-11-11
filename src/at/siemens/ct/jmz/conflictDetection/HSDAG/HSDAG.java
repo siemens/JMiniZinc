@@ -97,7 +97,10 @@ public class HSDAG {
 			minCS = conflictDetection.getMinConflictSet(difference);
 			
 			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
-			if (progressCallback != null) progressCallback.minConflictSet(minCS, difference);
+			if (progressCallback != null) {
+				progressCallback.displayMessage("");
+				progressCallback.minConflictSet(minCS, difference);
+			}
 			
 			if (minCS == null) {				
 				treeNode = new TreeNode(null, null);
