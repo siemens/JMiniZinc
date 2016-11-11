@@ -70,6 +70,21 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 			ex.printStackTrace();			
 		}	
 	}
+	
+	
+	public void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm){		
+		try{
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
+			printProblem(constraintsSetC, fileName);
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+			hsdag.diagnose();
+			//todo: test the results
+		} catch (Exception ex){
+			ex.printStackTrace();			
+		}	
+	}
 
 	@Override
 	public void diagnoseFound(List<Constraint> diagnose) {
@@ -145,7 +160,11 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		diagnoseProblem7(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 	
-	public void testDiagnoseProblemWithQuickXPlain2(){
+	public void testDiagnoseProblemWithSCD8(){
+		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
+	}
+	
+	/*public void testDiagnoseProblemWithQuickXPlain2(){
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 	
@@ -159,7 +178,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	
 	public void testDiagnoseProblemWithQuickXPlain7(){
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
-	}
+	}*/
 
 	@Override
 	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {

@@ -22,7 +22,7 @@ public class HSDAG {
 	public HSDAG(String mznFullFileName,
 			List<Constraint> userConstraints,
 			DiagnoseProgressCallback progressCallback, 
-			ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
+			ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 		super();
 		
 		mznFile = new File(mznFullFileName);
@@ -36,6 +36,7 @@ public class HSDAG {
 			this.conflictDetection = new SimpleConflictDetection(mznFullFileName);
 			break;
 		case QuickXPlain:
+			throw new Exception("QuickXPlain is not implented yet.");
 		}
 	}
 	
