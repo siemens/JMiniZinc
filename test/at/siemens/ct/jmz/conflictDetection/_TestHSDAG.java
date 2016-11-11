@@ -98,12 +98,12 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void minConflictSetFound(List<Constraint> conflictSet) {
+	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet) {
 		String oldLabel = DebugUtils.logLabel;
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
 		DebugUtils.logLabel = logLabel;
-		DebugUtils.printConstraintsSet("Min Conflict Set", conflictSet);
+		DebugUtils.printConstraintsSet("Min Conflict Set", minC);
 		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}
@@ -164,7 +164,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 	
-	/*public void testDiagnoseProblemWithQuickXPlain2(){
+	public void testDiagnoseProblemWithQuickXPlain2(){
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 	
@@ -178,7 +178,11 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	
 	public void testDiagnoseProblemWithQuickXPlain7(){
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
-	}*/
+	}
+	
+	public void testDiagnoseProblemWithQuickXPlain8(){
+		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
+	}
 
 	@Override
 	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {
