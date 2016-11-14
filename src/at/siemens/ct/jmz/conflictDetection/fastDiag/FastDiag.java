@@ -11,9 +11,14 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public class FastDiag extends AbstractConflictDetection {
 
+	private DiagnoseProgressCallback progressCallback;
+	private List<Constraint> userConstraints;
+
 	public FastDiag(String mznFullFileName, List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback)
 			throws FileNotFoundException {
 		super(mznFullFileName);
+		this.progressCallback = progressCallback;
+		this.userConstraints = userConstraints;
 	}
 
 	private List<Constraint> fd(List<Constraint> d, List<Constraint> c, List<Constraint> removeFromAC)
@@ -38,23 +43,16 @@ public class FastDiag extends AbstractConflictDetection {
 		return appendSets(d1, d2);
 	}
 
-	private List<Constraint> appendSets(List<Constraint> CS1, List<Constraint> CS2) {
-		List<Constraint> reunion = new ArrayList<>(CS1);
-		if (CS2 == null)
-			return reunion;
-
-		for (Constraint c : CS2) {
-			if (!reunion.contains(c)) {
-				reunion.add(c);
-			}
-		}
-		return reunion;
-	}
 
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
 		// TODO Auto-generated method stub
 		return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC), Collections.emptyList());
+	}
+
+	public void diagnose() throws Exception {
+		List<Constraint> diagnoseFound = getMinConflictSet(userConstraints);
+		progressCallback.diagnoseFound(diagnoseFound);
 	}
 
 }

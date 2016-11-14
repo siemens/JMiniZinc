@@ -100,15 +100,5 @@ public class QuickXPlain extends AbstractConflictDetection{
 		return tempCS;
 	}
 	
-	private List<Constraint> appendSets(List<Constraint> CS1, List<Constraint> CS2){
-		List<Constraint> reunion = new ArrayList<>(CS1);
-		if (CS2 == null) return reunion; 
-			
-		for (Constraint c : CS2) {
-			if (!reunion.contains(c)){
-				reunion.add(c);
-			}
-		}
-		return reunion;
-	}
+	
 }

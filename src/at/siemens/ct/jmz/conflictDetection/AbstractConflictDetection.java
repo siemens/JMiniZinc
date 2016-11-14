@@ -2,6 +2,7 @@ package at.siemens.ct.jmz.conflictDetection;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -55,4 +56,16 @@ public abstract class AbstractConflictDetection {
 		s += message;
 		System.out.println(s);
 	}*/
+	
+	public static List<Constraint> appendSets(List<Constraint> CS1, List<Constraint> CS2){
+		List<Constraint> reunion = new ArrayList<>(CS1);
+		if (CS2 == null) return reunion; 
+			
+		for (Constraint c : CS2) {
+			if (!reunion.contains(c)){
+				reunion.add(c);
+			}
+		}
+		return reunion;
+	}
 }

@@ -45,6 +45,7 @@ import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseMetadata;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnosesCollection;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
+import at.siemens.ct.jmz.conflictDetection.fastDiag.FastDiag;
 import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.TypeInst;
@@ -73,6 +74,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	private Button generateSolution;
 	private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
 	private final String QUICKXPLAIN_HSDAG = "QuickXPlain - HSDAG";
+	private final String FAST_DIAG = "FastDiag";
 	private Choice algorithmType;
 
 	private final String UNDEFINED = "Undefined";
@@ -148,8 +150,8 @@ public class VariableDialog implements DiagnoseProgressCallback {
 
 		algorithmType = new Choice();
 		algorithmType.add(SCD_HSDAG);
-		algorithmType.add(QUICKXPLAIN_HSDAG);
-		// algotithm.add("FastDiag");
+		//algorithmType.add(QUICKXPLAIN_HSDAG);
+		algorithmType.add(FAST_DIAG);
 
 		algorithmChosing.add(algorithmType);
 		algorithmChosing.add(Box.createHorizontalGlue());
@@ -335,6 +337,10 @@ public class VariableDialog implements DiagnoseProgressCallback {
 				displayStartMessage();
 				hsdag.diagnose();
 				break;
+			case FAST_DIAG:
+				FastDiag fastDiag = new FastDiag(mznFile.getAbsolutePath(), userConstraints, this);
+				displayStartMessage();
+				fastDiag.diagnose();
 			}
 
 		} catch (Exception ex) {
