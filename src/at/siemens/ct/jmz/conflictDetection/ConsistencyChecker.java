@@ -1,6 +1,9 @@
 package at.siemens.ct.jmz.conflictDetection;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import at.siemens.ct.jmz.IModelBuilder;
@@ -58,6 +61,18 @@ public class ConsistencyChecker {
 		modelBuilder.add(constraintsSet);
 		
 		String res = callExecutor();		
+		
+		//todo: Only for debug
+		/*DebugUtils.writeOutput("-- IsConsistent(ConstraintsSet, mznFile) --");		
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		Date date = new Date();
+		String s = dateFormat.format(date);
+		
+		File tempFile = new File("e:\\Work\\Mara\\Conflict Detection\\Sources\\JMiniZinc\\testFiles\\test_" + s); 
+		modelWriter.toFile(tempFile);
+		DebugUtils.printFile(tempFile.getAbsolutePath());
+		DebugUtils.writeOutput("-- IsConsistent = " + res); 				
+		//------------------------------*/
 	    return (isSolverResultConsistent(res));
 	}
 	

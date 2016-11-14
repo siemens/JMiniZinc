@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 
 public class _TestSimpleConflictDetection extends TestCase {
 
-	public void testExistsMinimalConflictSet1() throws Exception{
+	public void testSimpleConflictDetection_1() throws Exception{
 		List<Constraint> minCS = null;
 		try{			
 			File f = new File ("testFiles\\testConflictDetection1.mzn");					
@@ -46,7 +46,8 @@ public class _TestSimpleConflictDetection extends TestCase {
 					
 			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(f.getAbsolutePath());			
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-			assertNull(minCS);			
+			assertNull(minCS);
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_1:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -54,7 +55,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		assertNull(minCS);
 	}
 	
-	public void testExistsMinimalConflictSet2() throws Exception{
+	public void testSimpleConflictDetection_2() throws Exception{
 		List<Constraint> minCS = null;
 		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -67,13 +68,14 @@ public class _TestSimpleConflictDetection extends TestCase {
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_2:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
 		}
 	}
 	
-	public void testExistsMinimalConflictSet5() throws Exception{
+	public void testSimpleConflictDetection_5() throws Exception{
 		List<Constraint> minCS = null;
 		try{									
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -83,6 +85,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_5:", minCS);
 			//todo: add some checks
 			//assertTrue(minCS.size() == 2);
 			//assertTrue(minCS.contains(constraintsSetC.get(0)));
@@ -93,7 +96,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}		
 	}
 	
-	public void testExistsMinimalConflictSet6() throws Exception{
+	public void testSimpleConflictDetection_6() throws Exception{
 		List<Constraint> minCS = null;
 		try{									
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -103,6 +106,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_6:", minCS);
 			//todo: add some checks
 			/*assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
@@ -113,7 +117,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}
 	}
 	
-	public void testExistsMinimalConflictSet7() throws Exception{
+	public void testSimpleConflictDetection_7() throws Exception{
 		List<Constraint> minCS = null;
 		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -123,6 +127,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_7:", minCS);
 			//todo: add some checks
 			//assertTrue(minCS.size() == 2);
 			//assertTrue(minCS.contains(constraintsSetC.get(0)));
@@ -133,7 +138,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}		
 	}
 	
-	public void testExistsMinimalConflictSet8() throws Exception{
+	public void testSimpleConflictDetection_8() throws Exception{
 		List<Constraint> minCS = null;
 		try{									
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -143,6 +148,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_8:", minCS);
 			//todo: add some checks
 			/*assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));

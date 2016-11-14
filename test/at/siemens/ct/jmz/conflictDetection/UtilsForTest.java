@@ -137,15 +137,15 @@ public class UtilsForTest {
 		//-----------------------------------------
 		
 		BooleanExpression expression4 = new RelationalOperation<>(x2, RelationalOperator.EQ, x1);
-		Constraint c4 = new Constraint("group", "c4 {x2=x1}", expression4);
+		Constraint c4 = new Constraint("group", "c4 {x2 = x1}", expression4);
 		constraintsSetC.add(c4);
 		
 		BooleanExpression expression5 = new RelationalOperation<>(x3, RelationalOperator.EQ, x2);
-		Constraint c5 = new Constraint("group", "c5 {x3=x2}", expression5);
+		Constraint c5 = new Constraint("group", "c5 {x3 = x2}", expression5);
 		constraintsSetC.add(c5);
 		
 		BooleanExpression expression6 = new RelationalOperation<>(x3, RelationalOperator.GT, x2);
-		Constraint c6 = new Constraint("group", "c6 {x3>2}", expression6);
+		Constraint c6 = new Constraint("group", "c6 {x3 > 2}", expression6);
 		constraintsSetC.add(c6);
 		
 		return f.getAbsolutePath();

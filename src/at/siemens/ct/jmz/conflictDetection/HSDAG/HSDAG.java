@@ -93,12 +93,15 @@ public class HSDAG {
 		for (Constraint constraint : root.getData()) {
 			difference = elminateConstraintFromList(root.getInitialConstraintsSet(), constraint);
 			
-			if (progressCallback != null) progressCallback.constraintSelected(constraint);			
+			if (progressCallback != null) {
+				progressCallback.displayMessage("");
+				progressCallback.constraintSelected(constraint);			
+			}
 			minCS = conflictDetection.getMinConflictSet(difference);
 			
 			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
 			if (progressCallback != null) {
-				progressCallback.displayMessage("");
+				//progressCallback.displayMessage("");
 				progressCallback.minConflictSet(minCS, difference);
 			}
 			
@@ -127,7 +130,7 @@ public class HSDAG {
 				treeNode = new TreeNode(minCS, difference);				
 				root.addChild(constraint, treeNode);
 				conflicts.add(treeNode);				
-			}			
+			}
 		}
 		
 		for(TreeNode node : conflicts){

@@ -21,7 +21,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 	}
 	
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
-		DebugUtils.enabled = false;
+		DebugUtils.enabled = true;
 		String oldLogLabel = DebugUtils.logLabel; 
 		DebugUtils.logLabel = "SCD:";
 		DebugUtils.writeOutput("**********************************************************");
