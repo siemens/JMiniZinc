@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 
 public class _TestQuickXPlain extends TestCase{
 	
-	public void testConsistencyChecker() throws Exception{
+	public void testConsistencyChecker_2() throws Exception{
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
 		File mznFile = new File ("testFiles\\testConflictDetection2.mzn");
@@ -43,20 +43,46 @@ public class _TestQuickXPlain extends TestCase{
 		assertTrue(isConsistent);
 	}
 	
+	public void testConsistencyChecker_7() throws Exception{
+		ConsistencyChecker checker = new ConsistencyChecker();
+		List<Constraint> constraintsSetC = new ArrayList<>();
+		File mznFile = new File ("testFiles\\testConflictDetection7.mzn");
+		
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);	
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);		
+				
+		BooleanExpression expression4 = new RelationalOperation<>(x2, RelationalOperator.EQ, x1);
+		Constraint c4 = new Constraint("group", "c4 {x2 = x1}", expression4);
+		constraintsSetC.add(c4);
+		
+		BooleanExpression expression5 = new RelationalOperation<>(x3, RelationalOperator.EQ, x2);
+		Constraint c5 = new Constraint("group", "c5 {x3 = x2}", expression5);
+		constraintsSetC.add(c5);
+		
+		BooleanExpression expression6 = new RelationalOperation<>(x3, RelationalOperator.GT, x2);
+		Constraint c6 = new Constraint("group", "c6 {x3 > 2}", expression6);
+		constraintsSetC.add(c6);
+		
+		boolean isConsistent = checker.isConsistent(constraintsSetC, mznFile);
+		assertTrue(isConsistent == false);
+	}
+	
 	public void testQuickXPlainMinCS_2() throws Exception{
 		List<Constraint> minCS = null;
 		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName, constraintsSetC);
+			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_2:", minCS);
 			assertNotNull(minCS);
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
-			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_2:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -69,13 +95,13 @@ public class _TestQuickXPlain extends TestCase{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2NoConflict(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName, constraintsSetC);
+			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-			/*assertNotNull(minCS);
+			assertNotNull(minCS);
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
-			assertTrue(minCS.contains(constraintsSetC.get(1)));*/
+			assertTrue(minCS.contains(constraintsSetC.get(1)));
 			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_Subset2:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
@@ -90,15 +116,13 @@ public class _TestQuickXPlain extends TestCase{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName, constraintsSetC);
+			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
 			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_5:", minCS);
-			//todo: add some checks
-			//assertTrue(minCS.size() == 2);
-			//assertTrue(minCS.contains(constraintsSetC.get(0)));
-			//assertTrue(minCS.contains(constraintsSetC.get(1)));
+			assertTrue(minCS.size() == 1);
+			assertTrue(minCS.contains(constraintsSetC.get(0)));
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -111,15 +135,14 @@ public class _TestQuickXPlain extends TestCase{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName, constraintsSetC);
+			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_6:", minCS);
-			//todo: add some checks
-			/*assertTrue(minCS.size() == 2);
+			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_6:", minCS);			
+			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
-			assertTrue(minCS.contains(constraintsSetC.get(1)));*/
+			assertTrue(minCS.contains(constraintsSetC.get(1)));
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -132,15 +155,15 @@ public class _TestQuickXPlain extends TestCase{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName, constraintsSetC);
+			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_7:", minCS);
-			//todo: add some checks
-			//assertTrue(minCS.size() == 2);
-			//assertTrue(minCS.contains(constraintsSetC.get(0)));
-			//assertTrue(minCS.contains(constraintsSetC.get(1)));
+			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_7:", minCS);			
+			assertTrue(minCS.size() == 3);
+			assertTrue(minCS.contains(constraintsSetC.get(0)));
+			assertTrue(minCS.contains(constraintsSetC.get(1)));
+			assertTrue(minCS.contains(constraintsSetC.get(3)));
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -153,15 +176,13 @@ public class _TestQuickXPlain extends TestCase{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
-			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName, constraintsSetC);
+			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_8:", minCS);
-			//todo: add some checks
-			/*assertTrue(minCS.size() == 2);
-			assertTrue(minCS.contains(constraintsSetC.get(0)));
-			assertTrue(minCS.contains(constraintsSetC.get(1)));*/
+			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_8:", minCS);			
+			assertTrue(minCS.size() == 1);
+			assertTrue(minCS.contains(constraintsSetC.get(0)));			
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;

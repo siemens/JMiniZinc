@@ -37,7 +37,7 @@ public class HSDAG {
 			this.conflictDetection = new SimpleConflictDetection(mznFullFileName);
 			break;
 		case QuickXPlain:
-			this.conflictDetection = new QuickXPlain(mznFullFileName, userConstraints);
+			this.conflictDetection = new QuickXPlain(mznFullFileName);
 			break;
 		}
 	}
