@@ -21,7 +21,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 	}
 	
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
-		DebugUtils.enabled = false;
+		//DebugUtils.enabled = false;
 		String oldLogLabel = DebugUtils.logLabel; 
 		DebugUtils.logLabel = "SCD:";
 		DebugUtils.writeOutput("**********************************************************");
@@ -29,6 +29,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 		DebugUtils.writeOutput("* File: " + mznFile.getAbsolutePath());
 		DebugUtils.writeOutput("**********************************************************");
 		
+		DebugUtils.enabled = false;
 		List<Constraint> cs = new ArrayList<Constraint>();
 		try{							
 					
@@ -74,6 +75,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 			}while (!isInconsistent);
 			
 			Collections.reverse(cs);
+			DebugUtils.enabled = true;
 			
 			DebugUtils.printConstraintsSet("RESULT of SimpleConflictDetection:", cs);
 			

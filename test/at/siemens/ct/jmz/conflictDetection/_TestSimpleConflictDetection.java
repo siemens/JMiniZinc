@@ -56,6 +56,23 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}
 		assertNull(minCS);
 	}
+	
+	public void testSimpleConflictDetection_NoConflict() throws Exception{
+		List<Constraint> minCS = null;
+		try{
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>(); 
+			String fileName = UtilsForTest.getTestDataset2NoConflict(constraintsSetC, decisionsVar);
+			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
+
+			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+			assertNull(minCS);			
+			DebugUtils.printConstraintsSet("testSimpleConflictDetection_Subset2:", minCS);
+		} catch (Exception ex){
+			ex.printStackTrace();
+			throw ex;
+		}
+	}
 
 	public void testSimpleConflictDetection_2() throws Exception {
 		List<Constraint> minCS = null;

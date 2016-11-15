@@ -121,7 +121,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
 		DebugUtils.logLabel = logLabel;
-		DebugUtils.printConstraintsSet("DIAGNOSE", diagnose);
+		DebugUtils.printConstraintsSet("DIAGNOSIS", diagnose);
 		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}
@@ -132,7 +132,8 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
 		DebugUtils.logLabel = logLabel;
-		DebugUtils.printConstraintsSet("Min Conflict Set", minC);
+		DebugUtils.printConstraintsSet("Input Conflict Set", inputConflictSet);
+		DebugUtils.printConstraintsSet("Min Conflict Set", minC);		
 		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}

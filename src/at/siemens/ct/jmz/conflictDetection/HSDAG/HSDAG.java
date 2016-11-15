@@ -37,7 +37,7 @@ public class HSDAG {
 			this.conflictDetection = new SimpleConflictDetection(mznFullFileName);
 			break;
 		case QuickXPlain:
-			this.conflictDetection = new QuickXPlain(mznFullFileName);
+			this.conflictDetection = new QuickXPlain(mznFullFileName, userConstraints);
 			break;
 		}
 	}
@@ -93,7 +93,7 @@ public class HSDAG {
 		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 		for (Constraint constraint : root.getData()) {
-			difference = elminateConstraintFromList(root.getInitialConstraintsSet(), constraint);
+			difference = removeConstraintFromList(root.getInitialConstraintsSet(), constraint);
 			
 			if (progressCallback != null) {
 				progressCallback.displayMessage("");
@@ -164,7 +164,7 @@ public class HSDAG {
 		return sb.toString();
 	}
 
-	private List<Constraint> elminateConstraintFromList(List<Constraint> constraints, Constraint constraint) {
+	private List<Constraint> removeConstraintFromList(List<Constraint> constraints, Constraint constraint) {
 		List<Constraint> returnList = new ArrayList<Constraint>();
 		if (constraint != null) {
 			for (Constraint ct : constraints) {

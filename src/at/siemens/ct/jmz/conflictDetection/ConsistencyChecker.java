@@ -1,9 +1,6 @@
 package at.siemens.ct.jmz.conflictDetection;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import at.siemens.ct.jmz.IModelBuilder;

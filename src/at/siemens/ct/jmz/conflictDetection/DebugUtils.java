@@ -14,6 +14,7 @@ public class DebugUtils {
 
 	public static void printConstraintsSet(String message, List<Constraint> cs){
 		if (!enabled) return;
+		if (logLabel.equals("HSDAG")) return; //todo: temporary
 		
 		if (cs == null){
 			writeOutput(message + ": null");
@@ -33,6 +34,7 @@ public class DebugUtils {
 	
 	public static void writeOutput(String message){
 		if (!enabled) return;
+		if (logLabel.equals("HSDAG")) return; //todo: temporary
 		
 		String s = logLabel + "\t";		
 		for (int i = 0; i < indent; i ++){
@@ -44,6 +46,7 @@ public class DebugUtils {
 	
 	public static void printFile(String fileName){
 		if (!enabled) return;
+		if (logLabel.equals("HSDAG")) return; //todo: temporary
 		
 		writeOutput("Filename: " + fileName);
 		try {
