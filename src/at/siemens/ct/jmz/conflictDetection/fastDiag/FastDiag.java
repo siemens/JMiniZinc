@@ -21,10 +21,9 @@ public class FastDiag extends AbstractConflictDetection {
 		this.userConstraints = userConstraints;
 	}
 
-	private List<Constraint> fd(List<Constraint> d, List<Constraint> c, List<Constraint> removeFromAC)
-			throws Exception {
-		removeFromAC = appendSets(removeFromAC, d);
-		if (d.isEmpty() != true && consistencyChecker.isConsistent(c, mznFile)) {
+	private List<Constraint> fd(List<Constraint> d, List<Constraint> c, List<Constraint> ac) throws Exception {
+		// removeFromAC = appendSets(removeFromAC, d);
+		if (!d.isEmpty() && consistencyChecker.isConsistent(ac, mznFile)) {
 			return Collections.emptyList();
 		}
 
@@ -34,20 +33,19 @@ public class FastDiag extends AbstractConflictDetection {
 		}
 
 		int k = q / 2;
-		List<Constraint> c1 = c.subList(0, k); // fromIndex is inclusive,
-												// toIndex is exclusive!
+		List<Constraint> c1 = c.subList(0, k);
 		List<Constraint> c2 = c.subList(k, q);
 
-		List<Constraint> d1 = fd(c2, c1, removeFromAC);
-		List<Constraint> d2 = fd(d1, c2, removeFromAC);
+		List<Constraint> d1 = fd(c2, c1, diffSets(ac, c2));
+		List<Constraint> d2 = fd(d1, c2, diffSets(ac, d1));
 		return appendSets(d1, d2);
 	}
-
 
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
 		// TODO Auto-generated method stub
-		return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC), Collections.emptyList());
+		return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC),
+				Collections.unmodifiableList(constraintsSetC));
 	}
 
 	public void diagnose() throws Exception {
