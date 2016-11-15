@@ -68,4 +68,15 @@ public abstract class AbstractConflictDetection {
 		}
 		return reunion;
 	}
+	
+	public static List<Constraint> diffSets(List<Constraint> ac, List<Constraint> c2) {
+		List<Constraint> diff = new ArrayList<Constraint>();
+		for (Constraint constraint : ac) {
+			if (!c2.contains(constraint)) {
+				diff.add(constraint);
+			}
+
+		}
+		return diff;
+	}
 }
