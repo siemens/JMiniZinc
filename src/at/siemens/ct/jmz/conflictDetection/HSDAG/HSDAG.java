@@ -42,7 +42,7 @@ public class HSDAG {
 		}
 	}
 	
-	public void diagnose() throws Exception{			
+	public DiagnosesCollection diagnose() throws Exception{			
 		DebugUtils.logLabel = "HSDAG";		
 		DebugUtils.writeOutput("***********************************************");
 		DebugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
@@ -53,7 +53,7 @@ public class HSDAG {
 		if (! consistencyChecker.isConsistent(mznFile)){
 			DebugUtils.writeOutput("The input constraints set in not consistent!");
 			if (progressCallback != null) progressCallback.displayMessage("The constraints set form the input file is not consistent.");
-			return;
+			return new DiagnosesCollection();
 		};
 				
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
@@ -61,7 +61,7 @@ public class HSDAG {
 		if (minCS == null){
 			DebugUtils.writeOutput("A minimal conflict set does not exist.");
 			if (progressCallback != null) progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");			
-			return;
+			return new DiagnosesCollection();
 		}
 		
 	 	if (progressCallback != null) progressCallback.minConflictSet(minCS, userConstraints);
@@ -72,6 +72,8 @@ public class HSDAG {
 		buildDiagnosesTree(rootNode, diagnosesCollection);
 		
 		if (progressCallback!= null) progressCallback.allDiagnoses(diagnosesCollection);
+		
+		return diagnosesCollection;
 	}
 	
 	private void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
