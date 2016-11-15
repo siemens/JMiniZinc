@@ -97,7 +97,7 @@ public abstract class Executor implements IExecutor {
   }
 
   @Override
-  public long waitForSolution() throws InterruptedException {
+  public long waitForSolution() throws InterruptedException, IOException {
     if (runningProcesses.isEmpty()) {
       throw new IllegalStateException("No running process.");
     }

@@ -33,7 +33,7 @@ public class PipedMiniZincExecutor extends Executor {
   }
 
   @Override
-  public long waitForSolution() throws InterruptedException {
+  public long waitForSolution() throws InterruptedException, IOException {
     // wait for compiler:
     long elapsedTime = super.waitForSolution();
 
@@ -41,13 +41,8 @@ public class PipedMiniZincExecutor extends Executor {
 
     if (getLastExitCode() == EXIT_CODE_SUCCESS) {
       // execute and wait for solver:
-      try {
-        startProcess(new FlatZincSolverExecutable(fznFile, FLATZINC_SOLVER), remainingTime());
-        elapsedTime += super.waitForSolution();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+      startProcess(new FlatZincSolverExecutable(fznFile, FLATZINC_SOLVER), remainingTime());
+      elapsedTime += super.waitForSolution();
     }
 
     return elapsedTime;

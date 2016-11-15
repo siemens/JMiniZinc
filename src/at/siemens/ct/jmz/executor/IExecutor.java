@@ -21,9 +21,10 @@ public interface IExecutor {
    * 
    * @param timeoutMs
    *          a time limit in milliseconds.
-   * @param additionaloptions 
+   * @param additionaloptions
    *          additional options for executable
    * @throws IOException
+   *           if a process executable cannot be found.
    */
   void startProcess(Long timeoutMs,String... additionaloptions) throws IOException;  
   
@@ -31,8 +32,10 @@ public interface IExecutor {
    * Waits until the running process returns with a solution.
    * 
    * @return the time that has elapsed since {@link #startProcess()} (in milliseconds).
+   * @throws IOException
+   *           if a process executable cannot be found.
    */
-  long waitForSolution() throws InterruptedException;
+  long waitForSolution() throws InterruptedException, IOException;
 
   /**
    * @return the output generated during the last solver run.
