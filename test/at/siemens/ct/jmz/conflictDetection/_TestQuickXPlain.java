@@ -98,10 +98,7 @@ public class _TestQuickXPlain extends TestCase{
 			AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-			assertNotNull(minCS);
-			assertTrue(minCS.size() == 2);
-			assertTrue(minCS.contains(constraintsSetC.get(0)));
-			assertTrue(minCS.contains(constraintsSetC.get(1)));
+			assertNull(minCS);			
 			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_Subset2:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
