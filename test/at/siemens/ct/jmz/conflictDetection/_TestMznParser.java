@@ -14,10 +14,14 @@ import org.junit.Test;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
 import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincElementsPatterns;
+import at.siemens.ct.jmz.elements.BasicTypeInst;
+import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 import at.siemens.ct.jmz.executor.Executor;
 import at.siemens.ct.jmz.executor.IExecutor;
 import at.siemens.ct.jmz.executor.PipedMiniZincExecutor;
+import at.siemens.ct.jmz.expressions.bool.BasicBoolean;
+import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
@@ -30,15 +34,49 @@ public class _TestMznParser {
 
 	ModelBuilder modelBuilder;
 	MiniZincCP constraintProblem;
-	
-	@Test
-	public void testMznParser() throws IOException, InterruptedException, IllegalArgumentException,
-			IllegalAccessException, URISyntaxException {
 
-		// create a model from a mznFile		
+	@Test
+	public void testMznParser() throws IllegalArgumentException, IllegalAccessException, IOException {
 		File miniZincFile = new File("testFiles\\testConflictDetection4.mzn");
 		constraintProblem = new MiniZincCP(miniZincFile);
+		int noOfVar = constraintProblem.getModelBuilder().elements().toArray().length;
+		assertEquals(noOfVar, 7);
+		TypeInst<?, ?> nc = constraintProblem.getModelBuilder().getElementByName("nc");
+		TypeInst<?, ?> min = constraintProblem.getModelBuilder().getElementByName("min");
+		TypeInst<?, ?> max = constraintProblem.getModelBuilder().getElementByName("max");
 
+		TypeInst<?, ?> x_1 = constraintProblem.getModelBuilder().getElementByName("x_1");
+		TypeInst<?, ?> x2 = constraintProblem.getModelBuilder().getElementByName("x2");
+		TypeInst<?, ?> x3 = constraintProblem.getModelBuilder().getElementByName("x3");
+		TypeInst<?, ?> x4 = constraintProblem.getModelBuilder().getElementByName("x4");
+
+		assertTrue(nc != null);
+		assertTrue(min != null);
+		assertTrue(max != null);
+		assertTrue(x_1 != null);
+		assertTrue(x2 != null);
+		assertTrue(x3 != null);
+		assertTrue(x4 != null);
+
+		assertTrue(nc instanceof BasicTypeInst<?>);
+		assertTrue(min instanceof BasicTypeInst<?>);
+		assertTrue(max instanceof BasicTypeInst<?>);
+		assertTrue(x_1 instanceof IntegerVariable);
+		assertTrue(x2 instanceof IntegerVariable);
+		assertTrue(x3 instanceof BooleanVariable);
+		assertTrue(x4 instanceof IntegerVariable);
+
+	}
+
+	// test to check if solver has the same output for a model from a .mzn file
+	// and a model created programmatically
+	@Test
+	public void testMznParserWithSolver() throws IOException, InterruptedException, IllegalArgumentException,
+			IllegalAccessException, URISyntaxException {
+
+		// create a model from a mznFile
+		File miniZincFile = new File("testFiles\\testConflictDetection4.mzn");
+		constraintProblem = new MiniZincCP(miniZincFile);
 		IModelWriter modelWriterCP = new ModelWriter(constraintProblem.getModelBuilder());
 		modelWriterCP.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
 		IExecutor executorCP = new PipedMiniZincExecutor("testCP", modelWriterCP);
@@ -73,88 +111,22 @@ public class _TestMznParser {
 	}
 
 	@Test
-	public void testMinimalConflict()
-			throws IOException, InterruptedException, IllegalArgumentException, IllegalAccessException {
-		/*
-		 * NamedIntegerConstant nc = new
-		 * IntegerConstant(3).toNamedConstant("nc"); NamedConstantSet<Integer>
-		 * variableDomain = new RangeExpression(1,
-		 * nc).toNamedConstant("variableDomain");
-		 */
-		// IntSet variableDomain = new IntSet("variableDomain", 1, 3);
-		// IntVar x1 = new IntVar("x1", variableDomain);
-		// IntVar x2 = new IntVar("x2", variableDomain);
-		// IntVar x3 = new IntVar("x3", variableDomain);
-
-		// BooleanExpression c1 = new RelationalExpression<>(x1,
-		// RelationalOperator.EQ, new IntConstant(1));
-		// BooleanExpression c2 = new RelationalExpression<>(x1,
-		// RelationalOperator.EQ, new IntConstant(2));
-		// BooleanExpression c3 = new RelationalExpression<>(x2,
-		// RelationalOperator.EQ, x1);
-		// BooleanExpression c4 = new RelationalExpression<>(x3,
-		// RelationalOperator.EQ, x2);
-		// BooleanExpression c5 = new RelationalExpression<>(x3,
-		// RelationalOperator.GT, new IntConstant(2));
-		//
-		// Constraint constraint1 = new Constraint("test", "c1", c1);
-		// Constraint constraint2 = new Constraint("test", "c2", c2);
-		// Constraint constraint3 = new Constraint("test", "c3", c3);
-		// Constraint constraint4 = new Constraint("test", "c4", c4);
-		// Constraint constraint5 = new Constraint("test", "c5", c5);
-
-		File miniZincFile = new File("testFiles\\testConflictDetection3.mzn");
-		modelBuilder = new ModelBuilder();
-
-		// modelBuilder.add(/* nc, */variableDomain, x1, x2, x3
-		/* constraint1,constraint2,constraint3,constraint4, constraint5 */// );
-		IModelWriter modelWriter = new ModelWriter(modelBuilder);
-		modelWriter.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
-		IExecutor executor = new PipedMiniZincExecutor("test", modelWriter);
-		executor.startProcess();
-		System.out.println("Solver.IsRunning = " + Executor.isRunning());
-		executor.waitForSolution();
-
-		String lastSolverOutput = executor.getLastSolverOutput();
-
-		System.out.println(lastSolverOutput);
-
-		constraintProblem = new MiniZincCP(miniZincFile);
-		IModelWriter modelWriterCP = new ModelWriter(constraintProblem.getModelBuilder());
-		modelWriterCP.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
-		IExecutor executorCP = new PipedMiniZincExecutor("testCP", modelWriterCP);
-		executorCP.startProcess();
-		System.out.println("Solver.IsRunning = " + Executor.isRunning());
-		executorCP.waitForSolution();
-
-		String lastSolverOutputCP = executorCP.getLastSolverOutput();
-
-		assertEquals(lastSolverOutput, lastSolverOutputCP);
-
-	}
-
-	@Test
 	public void testRegularExpressionForBool()
 
 	{
-		// BooleanConstant boolCt = new BooleanConstant(true);
-		// String inputbooleanDeclaration = boolCt.declare();
-		//
-		Pattern pattern = Pattern.compile(MiniZincElementsPatterns.BOOLEEAN_DECLARATION_PATTERN);
-		// Matcher matcher = pattern.matcher(inputbooleanDeclaration);
-		// boolean match = matcher.matches();
-		// assertTrue(match);
-		//
-		// boolCt = new BooleanConstant("isTrue", false);
-		// inputbooleanDeclaration = boolCt.declare();
-		// matcher = pattern.matcher(inputbooleanDeclaration);
-		// match = matcher.matches();
-		// assertTrue(match);
 
-		BooleanVariable boolVar = new BooleanVariable("my_boolean_variable");
-		String inputbooleanDeclaration = boolVar.declare();
+		Pattern pattern = Pattern.compile(MiniZincElementsPatterns.BOOLEEAN_DECLARATION_PATTERN);
+
+		BasicBoolean boolCt = new BooleanConstant(false).toNamedConstant("isTrue");
+		String inputbooleanDeclaration = boolCt.declare();
 		Matcher matcher = pattern.matcher(inputbooleanDeclaration);
 		boolean match = matcher.matches();
+		assertTrue(match);
+
+		BooleanVariable boolVar = new BooleanVariable("my_boolean_variable");
+		inputbooleanDeclaration = boolVar.declare();
+		matcher = pattern.matcher(inputbooleanDeclaration);
+		match = matcher.matches();
 		assertTrue(match);
 
 	}
@@ -185,20 +157,4 @@ public class _TestMznParser {
 		assertTrue(match1);
 
 	}
-	
-	@Test
-	public void testIsConsistent() throws URISyntaxException, IllegalArgumentException, IllegalAccessException, IOException, InterruptedException
-	{
-		File miniZincFile = new File("testFiles\\testConflictDetection3.mzn");
-		constraintProblem = new MiniZincCP(miniZincFile);
-		
-		//Boolean failed = ConflictDetection.isConsistent(modelBuilder);
-		
-		//assertTrue(!failed);
-		
-		
-		
-	}
-	
-
 }

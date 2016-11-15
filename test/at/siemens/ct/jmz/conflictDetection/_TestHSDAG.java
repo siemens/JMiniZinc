@@ -12,78 +12,107 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 import junit.framework.TestCase;
 
 public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
-	private static String logLabel = "TestHSDAG"; 
-	
-	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm){
-		try{
+	private static String logLabel = "TestHSDAG";
+
+	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);			
-			hsdag.diagnose();
-			//todo: test the results
-			
-		} catch (Exception ex){
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+
+			String actualOutput = diagCollection.toString();
+
+			String expectedOutput = "(c1 {x1 = 1}) (c2 {x1 = 2}) \r\n" + "(c1 {x1 = 1}) (c3 {x2 = x1}) \r\n"
+					+ "(c1 {x1 = 1}) (c4 {x3 = x2}) \r\n" + "(c1 {x1 = 1}) (c5 {x3 > 2}) \r\n"
+					+ "(c2 {x1 = 2}) (c3 {x2 = x1}) \r\n" + "(c2 {x1 = 2}) (c4 {x3 = x2}) \r\n"
+					+ "(c2 {x1 = 2}) (c5 {x3 > 2}) \r\n";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-		
-	public void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm){
-		try{
+
+	public void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			hsdag.diagnose();
-			//todo: test the results
-		} catch (Exception ex){
-			ex.printStackTrace();			
-		}	
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+
+			String actualOutput = diagCollection.toString();
+
+			String expectedOutput = "(c1 {x1 = 1}) (c2 {x2 = 2}) \r\n";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
-	
-	public void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm){		
-		try{
+
+	public void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			hsdag.diagnose();
-			//todo: test the results
-		} catch (Exception ex){
-			ex.printStackTrace();			
-		}	
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+
+			String actualOutput = diagCollection.toString();
+
+			String expectedOutput = "(constraint1 {x1 = 1}) \r\n(constraint2 {c1 = true}) \r\n";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
-	
-	public void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm){		
-		try{
+
+	public void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			hsdag.diagnose();
-			//todo: test the results
-		} catch (Exception ex){
-			ex.printStackTrace();			
-		}	
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+
+			String actualOutput = diagCollection.toString();
+
+			String expectedOutput = "(c1 {x1 = 1}) (c5 {x3 = x2}) \r\n"
+					+ "(c1 {x1 = 1}) (c2 {x2 = 2}) (c6 {x3 > 2}) \r\n"
+					+ "(c1 {x1 = 1}) (c3 {x3 = 3}) (c6 {x3 > 2}) \r\n" 
+					+ "(c2 {x2 = 2}) (c5 {x3 = x2}) \r\n"
+					+ "(c2 {x2 = 2}) (c3 {x3 = 3}) (c6 {x3 > 2}) \r\n"
+					+ "(c2 {x2 = 2}) (c4 {x2 = x1}) (c6 {x3 > 2}) \r\n"
+					+ "(c4 {x2 = x1}) (c5 {x3 = x2}) \r\n"
+					+ "(c4 {x2 = x1}) (c3 {x3 = 3}) (c6 {x3 > 2}) \r\n";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
-	
-	
-	public void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm){		
-		try{
+
+	public void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			hsdag.diagnose();
-			//todo: test the results
-		} catch (Exception ex){
-			ex.printStackTrace();			
-		}	
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+
+			String actualOutput = diagCollection.toString();
+			String expectedOutput = "(c1 {x3 = 4}) (c2 {c = true}) (c4 {x2 = 3}) \r\n"
+					+ "(c1 {x3 = 4}) (c3 {x1 = 3}) (c4 {x2 = 3}) \r\n";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@Override
@@ -126,11 +155,11 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		DebugUtils.indent = 0;
 		DebugUtils.logLabel = logLabel;
 		DebugUtils.writeOutput(message);
-		DebugUtils.logLabel = oldLabel;	
+		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}
-	
-	private void printProblem(List<Constraint> constraintsSet, String fileName){
+
+	private void printProblem(List<Constraint> constraintsSet, String fileName) {
 		String oldLabel = DebugUtils.logLabel;
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
@@ -139,48 +168,48 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		DebugUtils.printConstraintsSet("User Constraints Set:", constraintsSet);
 		DebugUtils.printFile(fileName);
 		DebugUtils.writeOutput("***********************************************");
-		
+
 		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}
-	
-	public void testDiagnoseProblemWithSCD2(){
+
+	public void testDiagnoseProblemWithSCD2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
-	
-	public void testDiagnoseProblemWithSCD5(){
+
+	public void testDiagnoseProblemWithSCD5() {
 		diagnoseProblem5(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
-	
-	public void testDiagnoseProblemWithSCD6(){
+
+	public void testDiagnoseProblemWithSCD6() {
 		diagnoseProblem6(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
-	
-	public void testDiagnoseProblemWithSCD7(){
+
+	public void testDiagnoseProblemWithSCD7() {
 		diagnoseProblem7(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
-	
-	public void testDiagnoseProblemWithSCD8(){
+
+	public void testDiagnoseProblemWithSCD8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
-	
-	public void testDiagnoseProblemWithQuickXPlain2(){
+
+	public void testDiagnoseProblemWithQuickXPlain2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
-	
-	public void testDiagnoseProblemWithQuickXPlain5(){
+
+	public void testDiagnoseProblemWithQuickXPlain5() {
 		diagnoseProblem5(ConflictDetectionAlgorithm.QuickXPlain);
 	}
-	
-	public void testDiagnoseProblemWithQuickXPlain6(){
+
+	public void testDiagnoseProblemWithQuickXPlain6() {
 		diagnoseProblem6(ConflictDetectionAlgorithm.QuickXPlain);
 	}
-	
-	public void testDiagnoseProblemWithQuickXPlain7(){
+
+	public void testDiagnoseProblemWithQuickXPlain7() {
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
 	}
-	
-	public void testDiagnoseProblemWithQuickXPlain8(){
+
+	public void testDiagnoseProblemWithQuickXPlain8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
@@ -192,7 +221,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		DebugUtils.logLabel = logLabel;
 		DebugUtils.writeOutput("ALL DIAGNOSES");
 		DebugUtils.writeOutput(diagnoseCollection.toString());
-		DebugUtils.logLabel = oldLabel;	
+		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}
 
@@ -210,8 +239,8 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 			DebugUtils.printConstraintsSet("Not a minimal DIAGNOSE", diagnose);
 			break;
 		}
-		
+
 		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;		
+		DebugUtils.indent = oldIndent;
 	}
 }
