@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.expressions.array.ExplicitList;
+import at.siemens.ct.jmz.expressions.array.ExplicitIntegerList;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
@@ -38,10 +38,10 @@ public class TestAssignments {
 		String varName = "i";
 		RangeExpression range = new RangeExpression(1, 7);
 		int[] value = new int[] { 1, 1, 2, 3, 5, 8, 13 };
-    Array<Integer> variable = IntegerArray.createVariable(varName, range);
+		IntegerArray variable = IntegerArray.createVariable(varName, range);
     Assignment<Integer, Integer[]> assignment = new Assignment<>(variable,
-        new ExplicitList<Integer>(ListUtils.fromElements(range),
-            IntegerSetExpression.INTEGER_UNIVERSE, ListUtils.fromArray(value)));
+				new ExplicitIntegerList(ListUtils.fromElements(range), IntegerSetExpression.INTEGER_UNIVERSE,
+						ListUtils.fromArray(value)));
 		String expectedDeclaration = String.format("%s = %s;", varName, Arrays.toString(value));
 		Assert.assertEquals("Unexpected declaration", expectedDeclaration, assignment.declare());
 	}

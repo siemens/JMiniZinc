@@ -45,7 +45,7 @@ public class TestDeclarations {
     Generator<Integer> generator = new Generator<>(iterator);
     Expression<Integer> expression = ArithmeticOperation.times(iterator, 10);
 		ListComprehension<Integer> comprehension = new ListComprehension<>(generator, expression);
-    Array<Integer> array = IntegerArray.createVariable("a", comprehension);
+		IntegerArray array = IntegerArray.createVariable("a", comprehension);
     Assert.assertEquals("array[1..10] of var int: a = [ i * 10 | i in 1..10 ];", array.declare());
   }
 
@@ -55,7 +55,7 @@ public class TestDeclarations {
     Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
     Set<Integer> setTwoThreeFour = new RangeExpression(2, 4).toNamedConstant("TwoThreeFour");
     List<Set<Integer>> range = ListUtils.fromElements(setOneTwoThree, setTwoThreeFour);
-    Array<Integer> array = IntegerArray.createVariable(name, range);
+		IntegerArray array = IntegerArray.createVariable(name, range);
     Assert.assertEquals("array[OneTwoThree, TwoThreeFour] of var int: a;", array.declare());
   }
 
@@ -67,7 +67,7 @@ public class TestDeclarations {
     Set<Integer> setThreeFourFive = new RangeExpression(3, 5).toNamedConstant("ThreeFourFive");
     List<Set<Integer>> range = ListUtils.fromElements(setOneTwoThree, setTwoThreeFour,
         setThreeFourFive);
-    Array<Integer> array = IntegerArray.createVariable(name, range);
+		IntegerArray array = IntegerArray.createVariable(name, range);
     Assert.assertEquals("array[OneTwoThree, TwoThreeFour, ThreeFourFive] of var int: a;",
         array.declare());
   }
@@ -93,7 +93,7 @@ public class TestDeclarations {
         setThreeFourFive);
     List<Integer> values = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
         16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27);
-    Array<Integer> array = IntegerArray.createConstant(name,
+		IntegerArray array = IntegerArray.createConstant(name,
         new ExplicitIntegerList(range, values));
     Assert.assertEquals(
         "array[OneTwoThree, TwoThreeFour, ThreeFourFive] of int: a = "
@@ -113,7 +113,7 @@ public class TestDeclarations {
     IntegerSetExpression type = new OptionalIntSet(IntegerSetExpression.INTEGER_UNIVERSE);
     Collection<Integer> values = Arrays.asList(1, 2, null, 4, 5, 6, 7, 8, null, null, 11, 12, 13,
         14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27);
-    Array<Integer> array = IntegerArray.createConstant(name, type,
+		IntegerArray array = IntegerArray.createConstant(name, type,
         new ExplicitIntegerList(range, type, values));
     Assert.assertEquals(
         "array[OneTwoThree, TwoThreeFour, ThreeFourFive] of opt int: a = "
@@ -134,7 +134,7 @@ public class TestDeclarations {
 		PseudoOptionalIntSet type = new PseudoOptionalIntSet(i);
     Collection<Integer> values = Arrays.asList(1, 2, null, 4, 5, 6, 7, 8, null, null, 11, 12, 13,
         14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27);
-    Array<Integer> array = IntegerArray.createConstant(name, type,
+		IntegerArray array = IntegerArray.createConstant(name, type,
         new ExplicitIntegerList(range, type, values));
     Assert.assertEquals(
         "array[OneTwoThree, TwoThreeFour, ThreeFourFive] of I union {0}: a = "

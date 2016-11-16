@@ -13,13 +13,13 @@ import at.siemens.ct.jmz.expressions.array.ArrayExpression;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
-public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpression<T> {
+public abstract class Array<T, V> extends TypeInst<T, V[]> implements ArrayExpression<V> {
 
 	private List<? extends SetExpression<Integer>> range;
-  private TypeInst<T, ?> innerTypeInst;
+	private TypeInst<T, V> innerTypeInst;
 
-  protected Array(List<? extends SetExpression<Integer>> range, TypeInst<T, ?> innerTypeInst,
-      ArrayExpression<T> value) {
+	protected Array(List<? extends SetExpression<Integer>> range, TypeInst<T, V> innerTypeInst,
+			ArrayExpression<V> value) {
     this.range = range;
     this.innerTypeInst = innerTypeInst;
     this.value = value;
@@ -36,8 +36,8 @@ public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpressi
 	}
 
   @Override
-  public SetExpression<T> getType() {
-    return innerTypeInst.getType();
+	public SetExpression<T> getType() {
+		return innerTypeInst.getType();
   }
 
   @Override
@@ -68,13 +68,13 @@ public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpressi
 	}
 
 	@Override
-	public T[] parseValue(String value) {
+	public V[] parseValue(String value) {
 		Matcher matcher = getPattern().matcher(value);
 		if (matcher.find()) {
 			parseDimensions(matcher);
 			return parseValue(matcher);
 		}
-		throw new IllegalArgumentException("Not an integer array: " + value);
+		throw new IllegalArgumentException("Not a valid array: " + value);
 	}
 
 	private void parseDimensions(Matcher matcher) {
@@ -83,17 +83,17 @@ public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpressi
 		checkParsedDimensions(parsedDimensions);
 	}
 
-	private T[] parseValue(Matcher matcher) {
+	private V[] parseValue(Matcher matcher) {
 		String matchValue = matcher.group(3);
-    T[] parsedValue = Arrays.stream(matchValue.split(", ")).map(getElementParser())
+		V[] parsedValue = Arrays.stream(matchValue.split(", ")).map(getElementParser())
         .toArray(getArrayGenerator());
 		checkParsedValue(parsedValue);
 		return parsedValue;
 	}
 
-  protected abstract Function<? super String, T> getElementParser();
+	protected abstract Function<? super String, V> getElementParser();
 
-  protected abstract IntFunction<T[]> getArrayGenerator();
+	protected abstract IntFunction<V[]> getArrayGenerator();
 
 	private void checkParsedDimensions(int parsedDimensions) {
 		int expectedDimensions = this.getDimensions();
@@ -103,20 +103,39 @@ public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpressi
 		}
 	}
 
-	private void checkParsedValue(T[] parsedValue) {
-		for (T value : parsedValue) {
-      Boolean valueInDomain = getType().contains(value);
+	private void checkParsedValue(V[] parsedValue) {
+		for (V value : parsedValue) {
+			Boolean valueInDomain = isValueInDomain(value);
 			if (valueInDomain == Boolean.FALSE) {
 				throw new IllegalArgumentException("Value not in domain: " + value);
 			}
 		}
 	}
 
-	public static <T> Array<T> singleton(Expression<T> element) {
-		return new SingletonArray<T>(element);
+	/**
+	 * TODO: implement checked version of this method, maybe implement in subclasses?
+	 */
+	@SuppressWarnings("unchecked")
+	private Boolean isValueInDomain(V value) {
+		if (value instanceof java.util.Set<?>) {
+			java.util.Set<T> set = (java.util.Set<T>) value;
+			for (T element : set) {
+				Boolean contains = getType().contains(element);
+				if (Boolean.FALSE == contains) {
+					return false;
+				}
+			}
+			return true;
+		} else {
+			return getType().contains((T) value);
+		}
 	}
 
-	private static class SingletonArray<T> extends Array<T> {
+	public static <T, V> Array<T, V> singleton(Expression<T> element) {
+		return new SingletonArray<T, V>(element);
+	}
+
+	private static class SingletonArray<T, V> extends Array<T, V> {
 
 		private static final List<? extends SetExpression<Integer>> RANGE = ListUtils
 				.fromElements(new RangeExpression(0, 0));
@@ -144,12 +163,12 @@ public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpressi
 		}
 
 		@Override
-		protected Function<? super String, T> getElementParser() {
+		protected Function<? super String, V> getElementParser() {
 			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		protected IntFunction<T[]> getArrayGenerator() {
+		protected IntFunction<V[]> getArrayGenerator() {
 			throw new UnsupportedOperationException();
 		}
 

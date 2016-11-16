@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 import at.siemens.ct.jmz.elements.Set;
@@ -44,7 +43,7 @@ public class TestModelWriterConstraints {
     String setRangeName = "Range";
     String arrayName = "a";
     Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
-    Array<Integer> arrayVar = IntegerArray.createVariable(arrayName, setRange);
+		IntegerArray arrayVar = IntegerArray.createVariable(arrayName, setRange);
     java.util.Set<Integer> allowedValues = new HashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);

@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.elements.NullSolvingStrategy;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.output.OutputAllVariables;
@@ -127,7 +126,7 @@ public class TestModelWriter {
 		String arrayName = "a";
     Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
 		List<Integer> values = Arrays.asList(1, 2, 3);
-    Array<Integer> iac = IntegerArray.createConstant(arrayName,
+		IntegerArray iac = IntegerArray.createConstant(arrayName,
         new ExplicitIntegerList(setRange, values));
 		modelBuilder.add(setRange, iac);
 		String output = modelWriter.toString();
@@ -148,7 +147,7 @@ public class TestModelWriter {
 		String setRangeName = "Range";
 		String arrayName = "a";
     Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
-    Array<Integer> iav = IntegerArray.createVariable(arrayName, setRange);
+		IntegerArray iav = IntegerArray.createVariable(arrayName, setRange);
 		modelBuilder.add(setRange, iav);
 		String output = modelWriter.toString();
 
