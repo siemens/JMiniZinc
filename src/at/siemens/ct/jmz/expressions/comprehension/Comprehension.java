@@ -28,7 +28,7 @@ public abstract class Comprehension<G, T, V> implements Expression<V> {
     return generator.getRange();
   }
 
-  public String use1d() {
+  public String useWithOriginalDimensions() {
     return String.format("%s %s | %s %s", getLeftBracket(), expression.use(), generator.use(),
         getRightBracket());
   }

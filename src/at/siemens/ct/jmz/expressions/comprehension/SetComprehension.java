@@ -30,7 +30,7 @@ public abstract class SetComprehension<T> extends Comprehension<Integer, T, Set<
 
   @Override
   public String use() {
-    return use1d();
+    return useWithOriginalDimensions();
   }
 
   @Override
