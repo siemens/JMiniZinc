@@ -2,8 +2,9 @@ package at.siemens.ct.jmz.expressions;
 
 public class Operation<T, V> implements Expression<V> {
 
-  private Expression<T> left, right;
-  private Operator operator;
+	private Expression<T> left;
+	private Expression<T> right;
+	private Operator operator;
 
   public Operation(Expression<T> left, Operator operator, Expression<T> right) {
     this.left = left;
@@ -11,7 +12,19 @@ public class Operation<T, V> implements Expression<V> {
     this.right = right;
   }
 
-  @Override
+	public Expression<T> getLeft() {
+		return left;
+	}
+
+	public Expression<T> getRight() {
+		return right;
+	}
+
+	public Operator getOperator() {
+		return operator;
+	}
+
+	@Override
   public String use() {
     return String.format("%s %s %s", left.use(), operator, right.use());
   }
