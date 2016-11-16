@@ -2,21 +2,24 @@ package at.siemens.ct.jmz.expressions.array;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
-public class ExplicitIntegerList extends ExplicitList<Integer> {
+public class ExplicitIntegerList extends ArrayLiteral<Integer, Integer> {
 
 	public ExplicitIntegerList(SetExpression<Integer> range, SetExpression<Integer> type, Collection<Integer> values) {
-		super(range, type, values);
+		super(range, type, valuesToConstants(type, values));
 	}
 
 	public ExplicitIntegerList(List<? extends SetExpression<Integer>> range, SetExpression<Integer> type,
 			Collection<Integer> values) {
-		super(range, type, values);
+		super(range, type, valuesToConstants(type, values));
 	}
 
 	public ExplicitIntegerList(List<? extends SetExpression<Integer>> range, Collection<Integer> values) {
@@ -24,24 +27,41 @@ public class ExplicitIntegerList extends ExplicitList<Integer> {
 	}
 
 	public ExplicitIntegerList(SetExpression<Integer> range, SetExpression<Integer> type, int[] values) {
-		super(range, type, ListUtils.fromArray(values));
+		super(range, type, valuesToConstants(type, ListUtils.fromArray(values)));
 	}
 
 	public ExplicitIntegerList(List<? extends SetExpression<Integer>> range, SetExpression<Integer> type,
 			int[][] values) {
-		super(range, type, ArrayUtils.toOneDimensionalList(values));
+		super(range, type, valuesToConstants(type, ArrayUtils.toOneDimensionalList(values)));
 	}
 
 	public ExplicitIntegerList(SetExpression<Integer> range, Collection<Integer> values) {
-		super(range, RangeExpression.deriveRange(values), values);
+		super(range, RangeExpression.deriveRange(values), valuesToConstants(values));
 	}
 
 	public ExplicitIntegerList(SetExpression<Integer> range, int[] values) {
-		super(range, RangeExpression.deriveRange(values), ListUtils.fromArray(values));
+		super(range, RangeExpression.deriveRange(values), valuesToConstants(ListUtils.fromArray(values)));
 	}
 
 	public ExplicitIntegerList(List<? extends SetExpression<Integer>> range, int[][] values) {
-		super(range, RangeExpression.deriveRange(values), ArrayUtils.toOneDimensionalList(values));
+		super(range, RangeExpression.deriveRange(values), valuesToConstants(ArrayUtils.toOneDimensionalList(values)));
+	}
+
+	private static Collection<IntegerConstant> valuesToConstants(SetExpression<Integer> type,
+			Collection<Integer> values) {
+		return values.stream().map(createConstant(type)).collect(Collectors.toList());
+	}
+
+	private static Collection<IntegerConstant> valuesToConstants(Collection<Integer> values) {
+		return values.stream().map(createConstant()).collect(Collectors.toList());
+	}
+
+	private static Function<? super Integer, ? extends IntegerConstant> createConstant(SetExpression<Integer> type) {
+		return v -> v == null ? null : new IntegerConstant(type, v);
+	}
+
+	private static Function<? super Integer, ? extends IntegerConstant> createConstant() {
+		return v -> v == null ? null : new IntegerConstant(v);
 	}
 
 }

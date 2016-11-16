@@ -7,17 +7,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
-import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
+import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.PseudoOptionalIntSet;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
- * TODO: Overlaps with {@link ListComprehension}. Wanted: a beautiful design
- *
  * @author z003ft4a (Richard Taupe)
  *
  */
-public class ExplicitList<T> implements ArrayExpression<T> {
+public class ArrayLiteral<T, V> implements ArrayExpression<V> {
 
 	public static final String DEFAULT_NULL = "<>";
 	public static final char LEFT_BRACKET = '[';
@@ -25,14 +23,15 @@ public class ExplicitList<T> implements ArrayExpression<T> {
 
 	private List<? extends SetExpression<Integer>> range;
 	private SetExpression<T> type;
-	private Collection<T> values;
+	private Collection<? extends Expression<V>> values;
 	private String nullElement = DEFAULT_NULL;
 
-	public ExplicitList(SetExpression<Integer> range, SetExpression<T> type, Collection<T> values) {
+	public ArrayLiteral(SetExpression<Integer> range, SetExpression<T> type, Collection<? extends Expression<V>> values) {
 		this(ListUtils.fromElements(range), type, values);
 	}
 
-	public ExplicitList(List<? extends SetExpression<Integer>> range, SetExpression<T> type, Collection<T> values) {
+	public ArrayLiteral(List<? extends SetExpression<Integer>> range, SetExpression<T> type,
+			Collection<? extends Expression<V>> values) {
 		this.range = range;
 		this.type = type;
 		this.values = values;
@@ -57,7 +56,7 @@ public class ExplicitList<T> implements ArrayExpression<T> {
 	}
 
 	private String valuesToString() {
-		Function<? super T, ? extends String> elementOrNull = i -> (i == null ? nullElement : i.toString());
+		Function<? super Expression<V>, ? extends String> elementOrNull = i -> (i == null ? nullElement : i.use());
 		return LEFT_BRACKET + values.stream().map(elementOrNull).collect(Collectors.joining(", "))
 				+ RIGHT_BRACKET;
 	}
