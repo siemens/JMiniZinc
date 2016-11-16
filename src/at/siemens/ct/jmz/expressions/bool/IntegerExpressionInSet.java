@@ -1,7 +1,8 @@
 package at.siemens.ct.jmz.expressions.bool;
 
+import java.util.Set;
+
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
  * Constrains the value of an integer expression to be an element of a specific set.
@@ -12,7 +13,7 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
 public class IntegerExpressionInSet implements BooleanExpression {
 
 	private Expression<Integer> intExpression;
-	private SetExpression<Integer> allowedValues;
+	private Expression<Set<Integer>> allowedValues;
 
   /**
    * Constrains the integer {@code intExpression} to be an element of {@code allowedValues}.
@@ -20,7 +21,7 @@ public class IntegerExpressionInSet implements BooleanExpression {
    * @param arrayAccess
    * @param allowedValues
    */
-	public IntegerExpressionInSet(Expression<Integer> intExpression, SetExpression<Integer> allowedValues) {
+	public IntegerExpressionInSet(Expression<Integer> intExpression, Expression<Set<Integer>> allowedValues) {
     this.intExpression = intExpression;
     this.allowedValues = allowedValues;
   }
