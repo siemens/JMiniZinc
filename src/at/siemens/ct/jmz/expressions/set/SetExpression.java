@@ -6,6 +6,9 @@ import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 
 public interface SetExpression<T> extends Expression<java.util.Set<T>> {
 
+  final char LEFT_BRACKET = '{';
+  final char RIGHT_BRACKET = '}';
+
 	/**
 	 * Checks if the given value is contained by this set. If this cannot be determined (e.g. if the set is bounded by
 	 * constants whose values are not known), {@code null} is returned.

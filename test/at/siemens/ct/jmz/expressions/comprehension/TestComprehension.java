@@ -22,7 +22,7 @@ public class TestComprehension {
    */
   @Test
   public void testSimpleListComprehension() throws Exception {
-    testSimpleComprehension(ListComprehension.class, '[', ']');
+		testSimpleComprehension(IntegerListComprehension.class, '[', ']');
   }
 
   /**
@@ -30,10 +30,10 @@ public class TestComprehension {
    */
   @Test
   public void testSimpleSetComprehension() throws Exception {
-    testSimpleComprehension(SetComprehension.class, '{', '}');
+		testSimpleComprehension(IntegerSetComprehension.class, '{', '}');
   }
 
-  private static <C extends Comprehension<Integer>> void testSimpleComprehension(
+	private static <C extends Comprehension<Integer, Integer, ?>> void testSimpleComprehension(
       Class<C> comprehensionClass, char leftBracket, char rightBracket) throws Exception {
     int lb = 1, ub = 10;
     RangeExpression range = new RangeExpression(lb, ub);

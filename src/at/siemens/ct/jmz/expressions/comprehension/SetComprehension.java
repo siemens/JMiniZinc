@@ -1,11 +1,12 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
+import java.util.Set;
+
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.set.SetExpression;
 
-public class SetComprehension<T> extends Comprehension<T> {
-
-  private static final char LEFT_BRACKET = '{';
-  private static final char RIGHT_BRACKET = '}';
+public abstract class SetComprehension<T> extends Comprehension<Integer, T, Set<T>>
+    implements SetExpression<T> {
 
   /**
    * Constructs a list comprehension of the form { {@code expression | generator} }.
@@ -13,7 +14,7 @@ public class SetComprehension<T> extends Comprehension<T> {
    * @param generator
    * @param expression
    */
-  public SetComprehension(Generator generator, Expression<T> expression) {
+	public SetComprehension(Generator<Integer> generator, Expression<T> expression) {
     super(generator, expression);
   }
 
@@ -25,6 +26,16 @@ public class SetComprehension<T> extends Comprehension<T> {
   @Override
   protected char getRightBracket() {
     return RIGHT_BRACKET;
+  }
+
+  @Override
+  public String use() {
+    return use1d();
+  }
+
+  @Override
+  public Boolean contains(T value) {
+    return null;
   }
 
 }
