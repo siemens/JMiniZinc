@@ -39,8 +39,9 @@ public class Set<T> extends TypeInst<T, java.util.Set<T>> implements SetExpressi
 
   @Override
   public Pattern getPattern() {
-    // TODO Auto-generated method stub
-    return null;
+    String elementPattern = innerTypeInst.getPattern().pattern();
+    return Pattern.compile(
+        "\\{((" + elementPattern + ", )*" + elementPattern + ")\\}\\)");
   }
 
   @Override
