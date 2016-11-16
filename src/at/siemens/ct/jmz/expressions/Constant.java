@@ -22,6 +22,7 @@ public class Constant<T, V> implements Expression<V> {
 
   @Override
   public String use() {
+		//TODO: handle NULL values here? (cf. ArrayLiteral#valuesToString)
     return String.valueOf(value);
   }
 
