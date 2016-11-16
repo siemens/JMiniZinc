@@ -3,6 +3,7 @@ package at.siemens.ct.jmz.expressions.array;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
@@ -10,7 +11,10 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 public interface ArrayExpression<T> extends Expression<T[]> {
 
-	List<? extends SetExpression<Integer>> getRange();
+  final char LEFT_BRACKET = '[';
+  final char RIGHT_BRACKET = ']';
+
+  List<? extends SetExpression<Integer>> getRange();
 
 	/**
 	 * @return the number of dimensions
@@ -52,7 +56,7 @@ public interface ArrayExpression<T> extends Expression<T[]> {
 		return declareRange(getRange());
 	}
 
-	static String declareRange(List<? extends SetExpression<Integer>> range) {
+  static String declareRange(List<? extends SetExpression<Integer>> range) {
 		return range.stream().map(SetExpression::use).collect(Collectors.joining(", "));
 	}
 
@@ -78,5 +82,21 @@ public interface ArrayExpression<T> extends Expression<T[]> {
    * Returns the string expression to use this array, without changing its indices to multiple dimensions.
    */
   String use1d();
+
+	default ArrayExpression<T> concatenate(ArrayExpression<T> successor) {
+		return new ArrayConcatenation<>(this, successor);
+	}
+
+	default ArrayExpression<T> concatenateTo(ArrayExpression<T> predecessor) {
+		return new ArrayConcatenation<>(predecessor, this);
+	}
+
+	default ArrayExpression<T> concatenate(Expression<T> successor) {
+		return concatenate(Array.singleton(successor));
+	}
+
+	default ArrayExpression<T> concatenateTo(Expression<T> predecessor) {
+		return concatenateTo(Array.singleton(predecessor));
+	}
 
 }
