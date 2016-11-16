@@ -18,4 +18,22 @@ public class BasicInteger extends BasicTypeInst<Integer> implements IntegerExpre
     super(name, type, value);
   }
 
+	@Override
+	public Boolean isGreaterThanOrEqualTo(int value) {
+		Expression<Integer> expression = getValue();
+		if (expression instanceof IntegerExpression) {
+			return ((IntegerExpression) expression).isGreaterThanOrEqualTo(value);
+		}
+		return null;
+	}
+
+	@Override
+	public Boolean isLessThanOrEqualTo(int value) {
+		Expression<Integer> expression = getValue();
+		if (expression instanceof IntegerExpression) {
+			return ((IntegerExpression) expression).isLessThanOrEqualTo(value);
+		}
+		return null;
+	}
+
 }
