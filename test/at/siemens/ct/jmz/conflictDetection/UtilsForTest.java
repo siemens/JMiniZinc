@@ -180,7 +180,7 @@ public class UtilsForTest {
 		constraintsSetC.add(c5);
 		
 		BooleanExpression expression6 = new RelationalOperation<>(x3, RelationalOperator.GT, x2);
-		Constraint c6 = new Constraint("group", "c6 {x3 > 2}", expression6);
+		Constraint c6 = new Constraint("group", "c6 {x3 > x2}", expression6);
 		constraintsSetC.add(c6);
 		
 		return f.getAbsolutePath();

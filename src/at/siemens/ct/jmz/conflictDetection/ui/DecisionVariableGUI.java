@@ -30,10 +30,4 @@ public class DecisionVariableGUI implements Comparable<DecisionVariableGUI> {
 	public Component getComponent() {
 		return component;
 	}
-	
-	
-	
-
-	
-
 }

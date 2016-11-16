@@ -14,6 +14,9 @@ import at.siemens.ct.jmz.conflictDetection.QuickXPlain;
 import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * This class implements HSDAG algorithm for detecting all diagnoses. 
+ */
 public class HSDAG {		
 	private AbstractConflictDetection conflictDetection;
 	private List<Constraint> userConstraints;	
@@ -102,8 +105,7 @@ public class HSDAG {
 			minCS = conflictDetection.getMinConflictSet(difference);
 			
 			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
-			if (progressCallback != null) {
-				//progressCallback.displayMessage("");
+			if (progressCallback != null) {				
 				progressCallback.minConflictSet(minCS, difference);
 			}
 			
@@ -123,9 +125,7 @@ public class HSDAG {
 					DebugUtils.writeOutput("Ignore diagnosis:" + diagnoseToString(diagnose));
 					if (progressCallback != null) progressCallback.ignoredDiagnose(diagnose, diagnoseMetadata);
 				}
-			} else {
-				//if (progressCallback != null) progressCallback.minConflictSetFound(minCS);
-				
+			} else {					
 				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
 				DebugUtils.printConstraintsSet("Difference:", difference);
 				

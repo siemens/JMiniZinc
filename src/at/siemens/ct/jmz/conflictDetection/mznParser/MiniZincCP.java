@@ -5,16 +5,11 @@ package at.siemens.ct.jmz.conflictDetection.mznParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import at.siemens.ct.common.utils.FileUtils;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.executor.MznToFznExecutable;
-import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
-//import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 
 /**
  * @author z003pczy (Mara Rosu) parses output from MiniZincIde (.mzn files)

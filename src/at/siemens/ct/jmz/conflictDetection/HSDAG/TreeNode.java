@@ -14,27 +14,11 @@ public class TreeNode {
 	private List<Constraint> data;
 	
 	private List<Constraint> initialConstraintsSet;
-	
-	/**
-	 * The list of children nodes. The order is important.
-	 */
-	//private List<TreeNode> childrens; //todo: is this necessary?
-	
-	/**
-	 * This is used when visiting the nodes breadth-first.
-	 */
-	//private boolean isVisited = false;
-	
+		
 	/**
 	 *  parent node	
 	 */
 	private TreeNode parent;
-	
-	/**
-	 * The left neighbor in children's list 
-	 */
-	//private TreeNode leftNeighbor;
-	//private TreeNode rightNeighbor;
 	
 	/**
 	 * This is the constraint associated to the arch which comes to this node. Can be null for parent nodes.
@@ -43,23 +27,13 @@ public class TreeNode {
 	
 	public TreeNode(List<Constraint> data, List<Constraint> initialConstraintsSet) {
 		super();
-		this.data = data;
-		//childrens = new ArrayList<TreeNode>();
+		this.data = data;		
 		this.initialConstraintsSet = initialConstraintsSet;
 	}
 
 	public void addChild(Constraint c, TreeNode child) {		
 		child.parent = this;
-		child.constraint = c;
-		/*int len = childrens.size();
-		if (len > 0){
-			TreeNode prevNode = childrens.get(len - 1);
-			prevNode.rightNeighbor = child;
-			child.leftNeighbor = prevNode;
-		}*/
-		
-		//childrens.add(child);
-		
+		child.constraint = c;		
 	}
 
 	public TreeNode getParentNode() {
@@ -100,22 +74,6 @@ public class TreeNode {
 		
 		return sb.toString();
 	}
-
-	/*public boolean isVisited() {
-		return isVisited;
-	}
-
-	public void setVisited(boolean isVisited) {
-		this.isVisited = isVisited;
-	}
-	
-	public TreeNode getLeft(){
-		return leftNeighbor;
-	}
-	
-	public TreeNode getRight(){
-		return rightNeighbor;
-	}*/
 	
 	public Constraint getConstraint(){
 		return constraint;  

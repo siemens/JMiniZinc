@@ -2,10 +2,14 @@ package at.siemens.ct.jmz.conflictDetection.HSDAG;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * This class stores all diagnoses for a configuration problem. 
+ */
 public class DiagnosesCollection extends ArrayList<List<Constraint>>{	
 	private static final long serialVersionUID = 8940404145930730128L;
 
@@ -38,13 +42,28 @@ public class DiagnosesCollection extends ArrayList<List<Constraint>>{
 		return DiagnoseMetadata.NotMin;
 	}
 		
-	public java.lang.String toString() {
-		StringBuilder sb = new StringBuilder();
-		for (List<Constraint> diagnose : this){			
+	public java.lang.String toString() {		
+		List<String> lines = new ArrayList<String>();
+		
+		for (List<Constraint> diagnose : this){
+			
+			List<String> constraints = new ArrayList<String>();
 			for(Constraint c : diagnose){
-				sb.append("(").append(c.getConstraintName()).append(") ");
+				constraints.add("(" + c.getConstraintName() + ") ");
 			}
-			sb.append(System.lineSeparator());
+			
+			Collections.sort(constraints);
+			StringBuilder line = new StringBuilder();
+			for(String c : constraints){
+				line.append(c); 
+			}
+			lines.add(line.toString());
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		Collections.sort(lines);
+		for(String line : lines){
+			sb.append(line).append(System.lineSeparator());
 		}
 		return sb.toString();
 	}
