@@ -45,7 +45,8 @@ public class HSDAG {
 		}
 	}
 	
-	public DiagnosesCollection diagnose() throws Exception{			
+	public DiagnosesCollection diagnose() throws Exception{
+		DebugUtils.enabled = false;
 		DebugUtils.logLabel = "HSDAG";		
 		DebugUtils.writeOutput("***********************************************");
 		DebugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
@@ -76,6 +77,7 @@ public class HSDAG {
 		
 		if (progressCallback!= null) progressCallback.allDiagnoses(diagnosesCollection);
 		
+		DebugUtils.enabled = true;
 		return diagnosesCollection;
 	}
 	

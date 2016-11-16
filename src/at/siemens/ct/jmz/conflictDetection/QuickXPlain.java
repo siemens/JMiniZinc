@@ -16,7 +16,7 @@ public class QuickXPlain extends AbstractConflictDetection{
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {		
 		
 		int levelForDebug = 1;
-		DebugUtils.enabled = true;
+		DebugUtils.enabled = false;
 		String oldLogLabel = DebugUtils.logLabel; 
 		DebugUtils.logLabel = "QuickXPlain:";
 		DebugUtils.writeOutput("**********************************************************");
@@ -78,12 +78,6 @@ public class QuickXPlain extends AbstractConflictDetection{
 		
 		DebugUtils.printConstraintsSet(String.format("Level %d: C1", level), C1);
 		DebugUtils.printConstraintsSet(String.format("Level %d: C2", level), C2);
-				
-		/*List<Constraint> CS2 = quickXPlain(C1,  C2, appendSets(B, C1), level + 1);
-		DebugUtils.printConstraintsSet(String.format("Level %d: CS2", level), CS2);
-
-		List<Constraint> CS1 = quickXPlain(CS2,  C1, appendSets(B, CS2), level + 1);
-		DebugUtils.printConstraintsSet(String.format("Level %d: CS1", level), CS1);*/
 		
 		List<Constraint> CS1 = quickXPlain(C2,  C1, appendSets(B, C2), level + 1);
 		DebugUtils.printConstraintsSet(String.format("Level %d: CS1", level), CS1);
