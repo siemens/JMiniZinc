@@ -1,13 +1,17 @@
 package at.siemens.ct.jmz.expressions.array;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
+import at.siemens.ct.common.utils.ArrayUtils;
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.elements.BasicTypeInst;
 import at.siemens.ct.jmz.elements.TypeInst;
+import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
@@ -44,11 +48,15 @@ public class IntegerArray extends Array<Integer> {
     return createVariable(name, range, type, null);
   }
 
-  private static IntegerArray createVariable(String name,
-      List<? extends SetExpression<Integer>> range, SetExpression<Integer> type,
-      ArrayExpression<Integer> values) {
+	public static IntegerArray createVariable(String name, List<? extends SetExpression<Integer>> range,
+			SetExpression<Integer> type, ArrayExpression<Integer> values) {
     return new IntegerArray(name, range, type, values, true);
   }
+
+	public static IntegerArray createVariable(String name, SetExpression<Integer> range, SetExpression<Integer> type,
+			ArrayExpression<Integer> values) {
+		return new IntegerArray(name, ListUtils.fromElements(range), type, values, true);
+	}
 
   public static IntegerArray createConstant(String name, SetExpression<Integer> range) {
     return createConstant(name, ListUtils.fromElements(range), TYPE);
@@ -68,6 +76,11 @@ public class IntegerArray extends Array<Integer> {
     return createConstant(name, values.getRange(), type, values);
   }
 
+	public static IntegerArray createConstant(String name, SetExpression<Integer> range, SetExpression<Integer> type,
+			int[] values) {
+		return createConstant(name, ListUtils.fromElements(range), type, new ExplicitIntegerList(range, values));
+	}
+
   public static IntegerArray createConstant(String name,
       List<? extends SetExpression<Integer>> range) {
     return createConstant(name, range, TYPE);
@@ -75,8 +88,33 @@ public class IntegerArray extends Array<Integer> {
 
   public static IntegerArray createConstant(String name,
       List<? extends SetExpression<Integer>> range, SetExpression<Integer> type) {
-    return createConstant(name, range, type, null);
+		return createConstant(name, range, type, (ArrayExpression<Integer>) null);
   }
+
+	public static IntegerArray createConstant(String name,
+			List<? extends SetExpression<Integer>> range, SetExpression<Integer> type, Collection<Integer> values) {
+		return createConstant(name, range, type, new ExplicitIntegerList(range, values));
+	}
+
+	public static IntegerArray createConstant(String name, SetExpression<Integer> range, SetExpression<Integer> type,
+			Collection<Integer> values) {
+		return createConstant(name, ListUtils.fromElements(range), type, new ExplicitIntegerList(range, values));
+	}
+
+	public static IntegerArray createConstant(String name,
+			List<? extends SetExpression<Integer>> range, SetExpression<Integer> type, int[][] values) {
+		return createConstant(name, range, type, new ExplicitIntegerList(range, values));
+	}
+
+	public static IntegerArray createConstant(String name,
+			List<? extends SetExpression<Integer>> range, int[][] values) {
+		return createConstant(name, range, TYPE, new ExplicitIntegerList(range, values));
+	}
+
+	public static IntegerArray createConstant(String name, List<? extends SetExpression<Integer>> range,
+			SetExpression<Integer> type, boolean[][] values) {
+		return createConstant(name, range, type, ArrayUtils.boolToInt(values));
+	}
 
   private static IntegerArray createConstant(String name,
       List<? extends SetExpression<Integer>> range,
@@ -107,5 +145,20 @@ public class IntegerArray extends Array<Integer> {
   protected IntFunction<Integer[]> getArrayGenerator() {
     return size -> new Integer[size];
   }
+
+	@Override
+	public IntegerArrayAccessExpression access(Expression<Integer> index) {
+		return new IntegerArrayAccessExpression(this, index);
+	}
+
+	@Override
+	public IntegerArrayAccessExpression access(Expression<Integer> index1, Expression<Integer> index2) {
+		return new IntegerArrayAccessExpression(this, index1, index2);
+	}
+
+	@Override
+	public IntegerArrayAccessExpression access(IntegerExpression... indices) {
+		return IntegerArrayAccessExpression.accessInteger(this, indices);
+	}
 
 }

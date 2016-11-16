@@ -30,7 +30,7 @@ public class ArrayAccessExpression<T> implements Expression<T> {
 		return new ArrayAccessExpression<>(array, indices);
 	}
 
-	private ArrayAccessExpression(ArrayExpression<T> array, IntegerExpression... indices) {
+	protected ArrayAccessExpression(ArrayExpression<T> array, IntegerExpression... indices) {
 		this(array, ListUtils.fromElements(indices));
 	}
 
