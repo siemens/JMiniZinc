@@ -78,7 +78,7 @@ public class IntegerArray extends Array<Integer, Integer> {
 
 	public static IntegerArray createConstant(String name, SetExpression<Integer> range, SetExpression<Integer> type,
 			int[] values) {
-		return createConstant(name, ListUtils.fromElements(range), type, new ExplicitIntegerList(range, values));
+		return createConstant(name, ListUtils.fromElements(range), type, new ExplicitIntegerList(range, type, values));
 	}
 
   public static IntegerArray createConstant(String name,
@@ -93,17 +93,17 @@ public class IntegerArray extends Array<Integer, Integer> {
 
 	public static IntegerArray createConstant(String name,
 			List<? extends SetExpression<Integer>> range, SetExpression<Integer> type, Collection<Integer> values) {
-		return createConstant(name, range, type, new ExplicitIntegerList(range, values));
+		return createConstant(name, range, type, new ExplicitIntegerList(range, type, values));
 	}
 
 	public static IntegerArray createConstant(String name, SetExpression<Integer> range, SetExpression<Integer> type,
 			Collection<Integer> values) {
-		return createConstant(name, ListUtils.fromElements(range), type, new ExplicitIntegerList(range, values));
+		return createConstant(name, ListUtils.fromElements(range), type, new ExplicitIntegerList(range, type, values));
 	}
 
 	public static IntegerArray createConstant(String name,
 			List<? extends SetExpression<Integer>> range, SetExpression<Integer> type, int[][] values) {
-		return createConstant(name, range, type, new ExplicitIntegerList(range, values));
+		return createConstant(name, range, type, new ExplicitIntegerList(range, type, values));
 	}
 
 	public static IntegerArray createConstant(String name,
