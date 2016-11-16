@@ -10,18 +10,18 @@ public interface IntegerExpression extends Expression<Integer> {
    * @param delta
    * @return a new expression whose value is {@code this+delta}
    */
-  default IntegerExpression add(int delta) {
+	default IntegerExpression add(int delta) {
     if (delta > 0) {
-      return ArithmeticOperation.plus(this, delta);
+			return new IntegerOperation(ArithmeticOperation.plus(this, delta));
     } else if (delta < 0) {
-      return ArithmeticOperation.minus(this, -delta);
+			return new IntegerOperation(ArithmeticOperation.minus(this, -delta));
     } else {
       return this;
     }
   }
 
 	default IntegerExpression addTo(Expression<Integer> otherSummand) {
-		return ArithmeticOperation.plus(otherSummand, this);
+		return new IntegerOperation(ArithmeticOperation.plus(otherSummand, this));
 	}
 
   /**

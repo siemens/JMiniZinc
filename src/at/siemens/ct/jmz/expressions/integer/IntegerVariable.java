@@ -1,8 +1,10 @@
 package at.siemens.ct.jmz.expressions.integer;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import at.siemens.ct.jmz.elements.Variable;
+import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.ArrayExpression;
 import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
@@ -19,7 +21,7 @@ public class IntegerVariable extends Variable<Integer, Integer> implements Integ
 		this(name, type, null);
 	}
 
-	public IntegerVariable(String name, SetExpression<Integer> type, IntegerExpression value) {
+	public IntegerVariable(String name, SetExpression<Integer> type, Expression<Integer> value) {
     super(name, type);
     this.type = type;
 		this.value = value;
@@ -33,8 +35,27 @@ public class IntegerVariable extends Variable<Integer, Integer> implements Integ
 	 * @return a reference to the created variable.
 	 */
 	public static IntegerVariable createSum(String name, ArrayExpression<Integer> summands) {
-    return new IntegerVariable(name, IntegerSetExpression.INTEGER_UNIVERSE, new Sum(summands)); // TODO: tighter domain
-                                                                                                // bounds?
+		return new IntegerVariable(name, IntegerSetExpression.INTEGER_UNIVERSE, new Sum(summands)); // TODO: tighter domain bounds?
+	}
+
+	/**
+	 * Creates an integer variable named {@code name} and assigns the sum of {@code summands} to it.
+	 *
+	 * @param name
+	 * @param summands
+	 * @return a reference to the created variable.
+	 */
+	@SafeVarargs
+	public static IntegerVariable createSum(String name, ArrayExpression<Integer>... summands) {
+		return new IntegerVariable(name, IntegerSetExpression.INTEGER_UNIVERSE, multipleSummands(summands)); // TODO: tighter domain bounds?
+	}
+
+	private static Expression<Integer> multipleSummands(ArrayExpression<Integer>[] summands) {
+		return ArithmeticOperation.plus(sums(summands));
+	}
+
+	private static Sum[] sums(ArrayExpression<Integer>[] summands) {
+		return Arrays.stream(summands).map(s -> new Sum(s)).toArray(size -> new Sum[size]);
 	}
 
 	@Override
