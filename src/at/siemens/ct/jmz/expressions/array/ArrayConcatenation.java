@@ -21,13 +21,13 @@ public class ArrayConcatenation<T> implements ArrayExpression<T> {
 	}
 
 	@Override
-	public String use1d() {
-		return String.format("%s ++ %s", left.use(), right.use());
+	public String useWithOriginalDimensions() {
+		return String.format("%s ++ %s", left.use1d(), right.use1d());
 	}
 
 	@Override
 	public String use() {
-		return use1d();
+		return useWithOriginalDimensions();
 	}
 
 }

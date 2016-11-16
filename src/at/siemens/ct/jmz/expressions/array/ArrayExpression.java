@@ -72,16 +72,27 @@ public interface ArrayExpression<T> extends Expression<T[]> {
   default String use() {
 		int dimensions = getDimensions();
 		if (dimensions == 1) {
-      return use1d();
+      return useWithOriginalDimensions();
 		}
 		return String.format("array%dd(%s, %s)", dimensions, declareRange(getRange()),
-        use1d());
+        useWithOriginalDimensions());
+	}
+
+	/**
+	 * Returns the one-dimensional form of this array.
+	 */
+	default String use1d() {
+		int dimensions = getDimensions();
+		if (dimensions == 1) {
+			return useWithOriginalDimensions();
+		}
+		return String.format("array1d(%s)", useWithOriginalDimensions());
 	}
 
   /**
    * Returns the string expression to use this array, without changing its indices to multiple dimensions.
    */
-  String use1d();
+  String useWithOriginalDimensions();
 
 	default ArrayExpression<T> concatenate(ArrayExpression<T> successor) {
 		return new ArrayConcatenation<>(this, successor);

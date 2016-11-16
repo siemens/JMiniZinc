@@ -51,7 +51,7 @@ public class ArrayLiteral<T, V> implements ArrayExpression<V> {
 	}
 
 	@Override
-  public String use1d() {
+  public String useWithOriginalDimensions() {
     return valuesToString();
 	}
 

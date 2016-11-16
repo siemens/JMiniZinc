@@ -45,13 +45,8 @@ public abstract class Array<T, V> extends TypeInst<T, V[]> implements ArrayExpre
     return String.format("array[%s] of %s", declareRange(), innerTypeInst.declare(value));
   }
 
-	@Override
-	public String use() {
-    return use1d();
-  }
-
   @Override
-  public String use1d() {
+  public String useWithOriginalDimensions() {
     String name = getName();
     if (name != null) {
       return name;
