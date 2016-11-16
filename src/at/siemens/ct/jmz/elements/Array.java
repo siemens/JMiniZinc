@@ -7,8 +7,10 @@ import java.util.function.IntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.ArrayExpression;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpression<T> {
@@ -108,6 +110,54 @@ public abstract class Array<T> extends TypeInst<T, T[]> implements ArrayExpressi
 				throw new IllegalArgumentException("Value not in domain: " + value);
 			}
 		}
+	}
+
+	public static <T> Array<T> singleton(Expression<T> element) {
+		return new SingletonArray<T>(element);
+	}
+
+	private static class SingletonArray<T> extends Array<T> {
+
+		private static final List<? extends SetExpression<Integer>> RANGE = ListUtils
+				.fromElements(new RangeExpression(0, 0));
+
+		private Expression<T> element;
+
+		public SingletonArray(Expression<T> element) {
+			super(RANGE, null, null);
+			this.element = element;
+		}
+
+		@Override
+		public String getName() {
+			return null;
+		}
+
+		@Override
+		public SetExpression<T> getType() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String declare() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		protected Function<? super String, T> getElementParser() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		protected IntFunction<T[]> getArrayGenerator() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String use() {
+			return String.format("%c %s %c", LEFT_BRACKET, element.use(), RIGHT_BRACKET);
+		}
+
 	}
 
 }
