@@ -80,9 +80,13 @@ public class _TestQuickXPlain extends TestCase{
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_2:", minCS);
 			assertNotNull(minCS);
-			assertTrue(minCS.size() == 2);
-			assertTrue(minCS.contains(constraintsSetC.get(0)));
+			
+			// the expected out is (c2,c3,c4,c5)
+			assertTrue(minCS.size() == 4);
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
+			assertTrue(minCS.contains(constraintsSetC.get(2)));
+			assertTrue(minCS.contains(constraintsSetC.get(3)));
+			assertTrue(minCS.contains(constraintsSetC.get(4)));
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -118,8 +122,10 @@ public class _TestQuickXPlain extends TestCase{
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
 			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_5:", minCS);
+			
+			// the expected output is c2
 			assertTrue(minCS.size() == 1);
-			assertTrue(minCS.contains(constraintsSetC.get(0)));
+			assertTrue(minCS.contains(constraintsSetC.get(1)));
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -156,11 +162,12 @@ public class _TestQuickXPlain extends TestCase{
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_7:", minCS);			
-			assertTrue(minCS.size() == 3);
-			assertTrue(minCS.contains(constraintsSetC.get(0)));
-			assertTrue(minCS.contains(constraintsSetC.get(1)));
-			assertTrue(minCS.contains(constraintsSetC.get(3)));
+			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_7:", minCS);		
+			
+			//the expected output is c5, c6
+			assertTrue(minCS.size() == 2);
+			assertTrue(minCS.contains(constraintsSetC.get(4)));
+			assertTrue(minCS.contains(constraintsSetC.get(5)));
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -177,9 +184,11 @@ public class _TestQuickXPlain extends TestCase{
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
+			
+			// expected output is c4
 			DebugUtils.printConstraintsSet("testQuickXPlainMinCS_8:", minCS);			
 			assertTrue(minCS.size() == 1);
-			assertTrue(minCS.contains(constraintsSetC.get(0)));			
+			assertTrue(minCS.contains(constraintsSetC.get(3)));			
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;

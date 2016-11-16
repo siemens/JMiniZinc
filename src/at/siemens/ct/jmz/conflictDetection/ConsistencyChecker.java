@@ -15,91 +15,72 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 
 public class ConsistencyChecker {
-	
+
 	private static final String Unsatisfiable = "=====UNSATISFIABLE=====";
-	
+
 	IModelBuilder modelBuilder;
 	IModelWriter modelWriter;
 	IExecutor executor;
-	
-	public ConsistencyChecker(){
-		//initialization();
-	}
-	
-	private void initialization(){
+
+	private void initialization() {
 		modelBuilder = new ModelBuilder();
-		
 		modelWriter = new ModelWriter(modelBuilder);
 		modelWriter.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
-		
 		executor = new PipedMiniZincExecutor("consistencyChecker", modelWriter);
 	}
-	
-	public boolean isConsistent(File mznFile) throws Exception{	
+
+	public boolean isConsistent(File mznFile) throws Exception {
 		initialization();
-		
-		modelBuilder.reset();		
-		
+
+		modelBuilder.reset();
+
 		IncludeItem includeItem = new IncludeItem(mznFile);
 		modelWriter.addIncludeItem(includeItem);
-		
+
 		String res = callExecutor();
-		
-	    return (isSolverResultConsistent(res));		
+
+		return (isSolverResultConsistent(res));
 	}
-	
-	public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws Exception{
+
+	public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws Exception {
 		initialization();
-		modelBuilder.reset();		
-		
+		modelBuilder.reset();
+
 		IncludeItem includeItem = new IncludeItem(mznFile);
-		modelWriter.addIncludeItem(includeItem);		
-		
+		modelWriter.addIncludeItem(includeItem);
+
 		modelBuilder.add(constraintsSet);
-		
-		String res = callExecutor();		
-		
-		//todo: Only for debug
-		/*DebugUtils.writeOutput("-- IsConsistent(ConstraintsSet, mznFile) --");		
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-		Date date = new Date();
-		String s = dateFormat.format(date);
-		
-		File tempFile = new File("e:\\Work\\Mara\\Conflict Detection\\Sources\\JMiniZinc\\testFiles\\test_" + s); 
-		modelWriter.toFile(tempFile);
-		DebugUtils.printFile(tempFile.getAbsolutePath());
-		DebugUtils.writeOutput("-- IsConsistent = " + res); 				
-		//------------------------------*/
-	    return (isSolverResultConsistent(res));
+
+		String res = callExecutor();
+
+		return (isSolverResultConsistent(res));
 	}
-	
-	public boolean isConsistent(List<Constraint> constraintsSet, List<Element> decisionVariables) throws Exception{
+
+	public boolean isConsistent(List<Constraint> constraintsSet, List<Element> decisionVariables) throws Exception {
 		initialization();
 		modelBuilder.reset();
 		modelBuilder.add(constraintsSet);
 		modelBuilder.add(decisionVariables);
-		
+
 		String res = callExecutor();
-	    return (isSolverResultConsistent(res));
+		return (isSolverResultConsistent(res));
 	}
-	
-	private boolean isSolverResultConsistent(String result){
+
+	private boolean isSolverResultConsistent(String result) {
 		boolean res = !result.contains(Unsatisfiable);
-		//System.out.println("isSolverResultConsistent = " + res);
 		return res;
 	}
-	
-	private String callExecutor() throws Exception{
+
+	private String callExecutor() throws Exception {
 		executor.startProcess();
 		executor.waitForSolution();
-		
-		if (executor.getLastExitCode() != IExecutor.EXIT_CODE_SUCCESS){
-			throw new Exception("An error occured while running the solver. \n" + executor.getLastSolverErrors());
+
+		if (executor.getLastExitCode() != IExecutor.EXIT_CODE_SUCCESS) {
+			throw new Exception("An error occured while running the solver. Some libraries are missing. \n"
+					+ executor.getLastSolverErrors());
 		}
-		
-	    String lastSolverOutput = executor.getLastSolverOutput();
-	    
-	    //System.out.println("Solver output = " + lastSolverOutput);
-	    return lastSolverOutput;
-	}	
+
+		String lastSolverOutput = executor.getLastSolverOutput();
+		return lastSolverOutput;
+	}
 }

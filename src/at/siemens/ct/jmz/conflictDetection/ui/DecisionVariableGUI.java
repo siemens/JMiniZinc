@@ -2,6 +2,11 @@ package at.siemens.ct.jmz.conflictDetection.ui;
 
 import java.awt.*;
 
+/**
+ * @author z003pczy (Mara Rosu) Class used for decision variables from the
+ *         interface
+ *
+ */
 public class DecisionVariableGUI implements Comparable<DecisionVariableGUI> {
 
 	private static int index = 0;
@@ -30,4 +35,5 @@ public class DecisionVariableGUI implements Comparable<DecisionVariableGUI> {
 	public Component getComponent() {
 		return component;
 	}
+
 }

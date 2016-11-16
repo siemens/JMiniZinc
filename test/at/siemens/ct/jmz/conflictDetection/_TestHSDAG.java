@@ -36,7 +36,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		}
 	}
 
-	public void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+	private void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
@@ -54,7 +54,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		}
 	}
 
-	public void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
@@ -72,7 +72,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		}
 	}
 
-	public void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+	private void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
@@ -83,21 +83,24 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 			String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "(c1 {x1 = 1}) (c5 {x3 = x2}) \r\n"
-					+ "(c1 {x1 = 1}) (c2 {x2 = 2}) (c6 {x3 > 2}) \r\n"
-					+ "(c1 {x1 = 1}) (c3 {x3 = 3}) (c6 {x3 > 2}) \r\n" 
+			String expectedOutput = "(c1 {x1 = 1}) (c2 {x2 = 2}) (c6 {x3 > x2}) \r\n"
+					+ "(c1 {x1 = 1}) (c3 {x3 = 3}) (c6 {x3 > x2}) \r\n"
+					+ "(c1 {x1 = 1}) (c5 {x3 = x2}) \r\n" 
+					+ "(c2 {x2 = 2}) (c3 {x3 = 3}) (c6 {x3 > x2}) \r\n"
+					+ "(c2 {x2 = 2}) (c4 {x2 = x1}) (c6 {x3 > x2}) \r\n"
 					+ "(c2 {x2 = 2}) (c5 {x3 = x2}) \r\n"
-					+ "(c2 {x2 = 2}) (c3 {x3 = 3}) (c6 {x3 > 2}) \r\n"
-					+ "(c2 {x2 = 2}) (c4 {x2 = x1}) (c6 {x3 > 2}) \r\n"
-					+ "(c4 {x2 = x1}) (c5 {x3 = x2}) \r\n"
-					+ "(c4 {x2 = x1}) (c3 {x3 = 3}) (c6 {x3 > 2}) \r\n";
+					+ "(c3 {x3 = 3}) (c4 {x2 = x1}) (c6 {x3 > x2}) \r\n"
+					+ "(c4 {x2 = x1}) (c5 {x3 = x2}) \r\n";
+			
+			
+		
 			assertEquals(expectedOutput, actualOutput);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
@@ -212,18 +215,6 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 	public void testDiagnoseProblemWithQuickXPlain8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
-	}
-
-	@Override
-	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
-		DebugUtils.writeOutput("ALL DIAGNOSES");
-		DebugUtils.writeOutput(diagnoseCollection.toString());
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
 	}
 
 	@Override

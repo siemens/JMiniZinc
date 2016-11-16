@@ -9,11 +9,27 @@ import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
 import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * @author z003pczy (Mara Rosu)
+ */
 public class FastDiag extends AbstractConflictDetection {
 
 	private DiagnoseProgressCallback progressCallback;
 	private List<Constraint> userConstraints;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param mznFullFileName
+	 *            The minizinc file which contains parameters, decision
+	 *            variables and constraints. The constraints from this file are
+	 *            the fixed ones. They must be consistent.
+	 * @param userConstraints
+	 *            Constraints sets by the user (Variable assignments)
+	 * @param progressCallback
+	 *            The callback for displaying messages on GUI
+	 * @throws FileNotFoundException
+	 */
 	public FastDiag(String mznFullFileName, List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback)
 			throws FileNotFoundException {
 		super(mznFullFileName);
@@ -21,8 +37,19 @@ public class FastDiag extends AbstractConflictDetection {
 		this.userConstraints = userConstraints;
 	}
 
+	/**
+	 * Function for compute diagnoses in FastDiag
+	 * 
+	 * @param d
+	 *            A subset from the user constraints
+	 * @param c
+	 *            A subset from the user constraints
+	 * @param ac
+	 *            user constraints
+	 * @return a diagnose
+	 * @throws Exception
+	 */
 	private List<Constraint> fd(List<Constraint> d, List<Constraint> c, List<Constraint> ac) throws Exception {
-		// removeFromAC = appendSets(removeFromAC, d);
 		if (!d.isEmpty() && consistencyChecker.isConsistent(ac, mznFile)) {
 			return Collections.emptyList();
 		}
@@ -43,7 +70,6 @@ public class FastDiag extends AbstractConflictDetection {
 
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
-		// TODO Auto-generated method stub
 		return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC),
 				Collections.unmodifiableList(constraintsSetC));
 	}

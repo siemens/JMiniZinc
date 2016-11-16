@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -61,7 +60,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	private Panel controlPanel;
 	private MiniZincCP mznCp;
 	private List<DecisionVariableGUI> mapWithControls;
-	private ArrayList<Element> decisionVariables;
+	private ArrayList<Variable<?, ?>> decisionVariables;
 	private File mznFile;
 	private TextArea textLog = new TextArea();
 	private List<Constraint> userConstraints;
@@ -73,11 +72,10 @@ public class VariableDialog implements DiagnoseProgressCallback {
 
 	private final String UNDEFINED = "Undefined";
 
-	public VariableDialog(File mznFile) throws IOException, IllegalArgumentException, IllegalAccessException {
+	public VariableDialog(File mznFile) throws IOException {
 		this.mznFile = mznFile;
 		mznCp = new MiniZincCP(mznFile);
-		decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements().filter(e -> e.isVariable() == true)
-				.collect(Collectors.toList());
+		decisionVariables = mznCp.getDecisionVariables();
 		mapWithControls = new ArrayList<DecisionVariableGUI>();
 
 		prepareGUI();
@@ -91,7 +89,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 
 	}
 
-	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
+	public static void main(String[] args) {
 
 		try {
 
@@ -104,11 +102,10 @@ public class VariableDialog implements DiagnoseProgressCallback {
 				return;
 			}
 
-			/* VariableDialog variableDialog = */ new VariableDialog(mznFile);
+			new VariableDialog(mznFile);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Input file mising", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -117,13 +114,10 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		final String FRAME_TITLE = "Minimal diagnoses";
 		mainFrame = new Frame(FRAME_TITLE);
 		mainFrame.setLayout(new FlowLayout());
-		// mainFrame.setLocationRelativeTo(null);
 
 		controlPanel = new Panel();
 		controlPanel.setLayout(new FlowLayout());
 		mainFrame.add(controlPanel);
-		// mainFrame.setVisible(true);
-		// mainFrame.setResizable(false);
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
@@ -144,7 +138,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 
 		algorithmType = new Choice();
 		algorithmType.add(SCD_HSDAG);
-		//algorithmType.add(QUICKXPLAIN_HSDAG);
+		algorithmType.add(QUICKXPLAIN_HSDAG);
 		algorithmType.add(FAST_DIAG);
 
 		algorithmChosing.add(algorithmType);
@@ -177,7 +171,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		// mainFrame.setVisible(true);
 	}
 
-	private <T> void addDecisionVariables() {
+	private void addDecisionVariables() {
 
 		Panel dvPanel = new Panel();
 		dvPanel.setMaximumSize(new Dimension(300, 500));
@@ -192,40 +186,35 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		Component textField = null;
 		Label label;
 
-		decisionVariables = (ArrayList<Element>) mznCp.getModelBuilder().elements().filter(e -> e.isVariable() == true)
-				.collect(Collectors.toList());
-
 		for (Element decisionVariable : decisionVariables) {
-			Variable<?, ?> var = null;
-			if (decisionVariable instanceof Variable<?, ?>) {
-				var = (Variable<?, ?>) decisionVariable;
-				if (var instanceof IntegerVariable) {
-					if (var.getType() instanceof RangeExpression) {
 
-						List<String> possibleValues;
-						RangeExpression variableRange = (RangeExpression) var.getType();
-						possibleValues = generateListFromRangeExpression(variableRange.getLb(), variableRange.getUb());
-						Choice variableValue = new Choice();
-						variableValue.add(UNDEFINED);
-						if (!possibleValues.isEmpty()) {
-							for (String string : possibleValues) {
-								variableValue.add(string);
-							}
-						}
-						textField = variableValue;
-					} else {
-						textField = new TextField();
-						textField.setPreferredSize(new Dimension(87, 20));
-					}
+			Variable<?, ?> var = (Variable<?, ?>) decisionVariable;
+			if (var instanceof IntegerVariable) {
+				if (var.getType() instanceof RangeExpression) {
 
-				} else if (var instanceof BooleanVariable) {
-
+					List<String> possibleValues;
+					RangeExpression variableRange = (RangeExpression) var.getType();
+					possibleValues = generateListFromRangeExpression(variableRange.getLb(), variableRange.getUb());
 					Choice variableValue = new Choice();
 					variableValue.add(UNDEFINED);
-					variableValue.add("true");
-					variableValue.add("false");
+					if (!possibleValues.isEmpty()) {
+						for (String string : possibleValues) {
+							variableValue.add(string);
+						}
+					}
 					textField = variableValue;
+				} else {
+					textField = new TextField();
+					textField.setPreferredSize(new Dimension(87, 20));
 				}
+
+			} else if (var instanceof BooleanVariable) {
+
+				Choice variableValue = new Choice();
+				variableValue.add(UNDEFINED);
+				variableValue.add("true");
+				variableValue.add("false");
+				textField = variableValue;
 			}
 
 			label = new Label(var.getName());
@@ -285,7 +274,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 	}
 
 	private Constraint createContraint(String variableName, String value) {
-		TypeInst<?, ?> variable = mznCp.getModelBuilder().getElementByName(variableName);
+		TypeInst<?, ?> variable = mznCp.getDecisionVariableByName(variableName);
 		BooleanExpression expression;
 
 		if (variable instanceof IntegerVariable) {
@@ -340,6 +329,7 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(controlPanel, String.format("An error occured! %s", ex.getMessage()), "Error",
 					JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
 		}
 	}
 
@@ -414,16 +404,6 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		}
 	}
 
-	@Override
-	public void allDiagnoses(DiagnosesCollection diagnoseCollection) {
-		StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append(System.lineSeparator()).append("All diagnoses: ").append(System.lineSeparator());
-		for (List<Constraint> list : diagnoseCollection) {
-			sBuilder.append("\t" + displayConstraintList(list));
-		}
-		textLog.append(sBuilder.toString());
-
-	}
 
 	private String displayConstraintList(List<Constraint> constraintList) {
 		if (constraintList == null) {
@@ -462,4 +442,5 @@ public class VariableDialog implements DiagnoseProgressCallback {
 		}
 		textLog.append(result);
 	}
+
 }
