@@ -28,7 +28,6 @@ public class ListUtils {
 				list.add(i);
 			}
 		}
-		assert list.size() == array.length;
 		return list;
 	}
 
