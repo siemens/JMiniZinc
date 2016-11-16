@@ -11,9 +11,18 @@ public interface IntegerExpression extends Expression<Integer> {
    * @return a new expression whose value is {@code this+delta}
    */
   default IntegerExpression add(int delta) {
-    // TODO: return new ArithmeticOperation(...)
-    return null;
+    if (delta > 0) {
+      return ArithmeticOperation.plus(this, delta);
+    } else if (delta < 0) {
+      return ArithmeticOperation.minus(this, -delta);
+    } else {
+      return this;
+    }
   }
+
+	default IntegerExpression addTo(Expression<Integer> otherSummand) {
+		return ArithmeticOperation.plus(otherSummand, this);
+	}
 
   /**
    * Checks if the given integer expression string is negative.
