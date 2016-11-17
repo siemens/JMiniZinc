@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.conflictDetection.HSDAG;
 
+import java.io.File;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -14,4 +15,5 @@ public interface DiagnoseProgressCallback {
 	public void constraintSelected(Constraint constraint);
 	public void displayMessage(String message);
 	public void ignoredDiagnose(List<Constraint> diagnose, DiagnoseMetadata diagnoseMetadata);	
+	public void displayStartMessage(File mznFile);
 }

@@ -70,13 +70,24 @@ public class FastDiag extends AbstractConflictDetection {
 
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
-		return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC),
-				Collections.unmodifiableList(constraintsSetC));
+
+		if (constraintsSetC.isEmpty()){
+			return Collections.emptyList();
+		} else if (consistencyChecker.isConsistent(constraintsSetC, mznFile)) {
+			progressCallback.displayMessage("All constraints are consistent. No solution can be found");
+			return Collections.emptyList();
+		} else {
+			return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC),
+					Collections.unmodifiableList(constraintsSetC));
+		}
+
 	}
 
 	public void diagnose() throws Exception {
 		List<Constraint> diagnoseFound = getMinConflictSet(userConstraints);
-		progressCallback.diagnoseFound(diagnoseFound);
+		if (!diagnoseFound.isEmpty()) {
+			progressCallback.diagnoseFound(diagnoseFound);
+		}
 	}
 
 }

@@ -37,21 +37,32 @@ public class MiniZincElementFactory {
 				defaultValue = matcher.group(DEFAULT_VALUE_INDEX);
 
 				if (type.equals(BOOL_TYPE)) {
-					if (instantiation.equals(VAR_TYPE) && instantiation != null) {
+					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
 						return new BooleanVariable(name);
 					} else {
-						Boolean parameterValue = Boolean.parseBoolean(defaultValue);
+						Boolean parameterValue;
+						if (isBooleean(defaultValue)) {
+							parameterValue = Boolean.parseBoolean(defaultValue);
+						} else {
+							BooleanConstant boolCt = (BooleanConstant) getElementByName(name).getValue();
+							parameterValue = boolCt.getValue();
+						}
 						BasicBoolean boolConstant = new BooleanConstant(parameterValue).toNamedConstant(name);
 						listWithParameters.add((BasicTypeInst<Boolean>) boolConstant);
 						return boolConstant;
 					}
 				}
-
 				if (type.equals(INT_TYPE)) {
-					if (instantiation != null && instantiation.equals(VAR_TYPE)) {
+					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
 						return new IntegerVariable(name);
 					} else {
-						int paramValue = Integer.parseInt(defaultValue);
+						int paramValue;
+						if (isNumeric(defaultValue)) {
+							paramValue = Integer.parseInt(defaultValue);
+						} else {
+							IntegerConstant boolCt = (IntegerConstant) getElementByName(name).getValue();
+							paramValue = boolCt.getValue();
+						}
 						BasicInteger intConstant = new IntegerConstant(paramValue).toNamedConstant(name);
 						listWithParameters.add((BasicTypeInst<Integer>) intConstant);
 						return intConstant;
@@ -69,21 +80,16 @@ public class MiniZincElementFactory {
 					} else {
 						lb = (IntegerExpression) getElementByName(min).getValue();
 					}
-
 					if (isNumeric(max)) {
 						ub = new IntegerConstant(Integer.parseInt(max));
 					} else {
 						ub = (IntegerExpression) getElementByName(max).getValue();
 					}
-
 					return new IntegerVariable(name, new RangeExpression(lb, ub));
-
 				}
-
 			}
 		}
 		return null;
-
 	}
 
 	private BasicTypeInst<?> getElementByName(String name) {
@@ -95,12 +101,18 @@ public class MiniZincElementFactory {
 		return null;
 	}
 
-	private Boolean isNumeric(String str) {
+	public static  Boolean isNumeric(String str) {
 		try {
 			Integer.parseInt(str);
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
 		return true;
+	}
+
+	public static Boolean isBooleean(String str) {
+		if (str.equals("true") || str.equals("false"))
+			return true;
+		return false;
 	}
 }

@@ -74,10 +74,14 @@ public class ConsistencyChecker {
 	private String callExecutor() throws Exception {
 		executor.startProcess();
 		executor.waitForSolution();
+		int lastExitCode = executor.getLastExitCode();
+		if (lastExitCode != IExecutor.EXIT_CODE_SUCCESS) {
+			if (executor.getLastSolverErrors().isEmpty()) {
+				throw new Exception("An error occured while running the solver. Some libraries are missing.");
+			} else {
+				throw new Exception("An error occured while running the solver." + executor.getLastSolverErrors());
+			}
 
-		if (executor.getLastExitCode() != IExecutor.EXIT_CODE_SUCCESS) {
-			throw new Exception("An error occured while running the solver. Some libraries are missing. \n"
-					+ executor.getLastSolverErrors());
 		}
 
 		String lastSolverOutput = executor.getLastSolverOutput();
