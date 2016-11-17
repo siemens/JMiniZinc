@@ -1,5 +1,6 @@
 package at.siemens.ct.jmz.conflictDetection;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,5 +235,11 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
+	}
+
+	@Override
+	public void displayStartMessage(File mznFile) {
+		// TODO Auto-generated method stub
+		
 	}
 }
