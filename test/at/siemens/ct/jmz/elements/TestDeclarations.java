@@ -12,6 +12,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.ExplicitIntegerList;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
+import at.siemens.ct.jmz.expressions.array.IntegerSetArray;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
@@ -187,5 +188,38 @@ public class TestDeclarations {
     String expectedDeclaration = "constraint x3 = 2;";
     Assert.assertEquals("Unexpected declaraion", expectedDeclaration, constraint.declare());
   }
+
+	@Test
+	public void testVariableArrayOfSpecificType() {
+		Set<Integer> range = new RangeExpression(1, 3).toNamedConstant("Range");
+		Set<Integer> type = new RangeExpression(1, 3).toNamedConstant("Type");
+		IntegerArray array = IntegerArray.createVariable("array", range, type);
+		Assert.assertEquals("array[Range] of var Type: array;", array.declare());
+	}
+
+	@Test
+	public void testConstantArrayOfSpecificType() {
+		Set<Integer> range = new RangeExpression(1, 3).toNamedConstant("Range");
+		Set<Integer> type = new RangeExpression(1, 3).toNamedConstant("Type");
+		IntegerArray array = IntegerArray.createConstant("array", range, type);
+		Assert.assertEquals("array[Range] of Type: array;", array.declare());
+	}
+
+	@Test
+	public void testVariableArrayOfSetsOfSpecificType() {
+		Set<Integer> range = new RangeExpression(1, 3).toNamedConstant("Range");
+		Set<Integer> type = new RangeExpression(1, 3).toNamedConstant("Type");
+		IntegerSetArray array = IntegerSetArray.createVariable("array", range, type);
+		Assert.assertEquals("array[Range] of var set of Type: array;", array.declare());
+	}
+
+	@Test
+	public void testConstantArrayOfSetsOfSpecificType() {
+		Set<Integer> range = new RangeExpression(1, 3).toNamedConstant("Range");
+		Set<Integer> type = new RangeExpression(1, 3).toNamedConstant("Type");
+		List<Set<Integer>> values = Arrays.asList(range, type);
+		IntegerSetArray array = IntegerSetArray.createConstant("array", range, type, values);
+		Assert.assertEquals("array[Range] of set of Type: array = [Range, Type];", array.declare());
+	}
 
 }

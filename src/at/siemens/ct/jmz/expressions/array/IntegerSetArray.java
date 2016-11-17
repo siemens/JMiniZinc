@@ -10,7 +10,6 @@ import at.siemens.ct.jmz.elements.Array;
 import at.siemens.ct.jmz.elements.BasicTypeInst;
 import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.expressions.Expression;
-import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 import at.siemens.ct.jmz.expressions.set.SetVariable;
 
@@ -28,8 +27,8 @@ public class IntegerSetArray extends Array<Integer, Set<Integer>> {
 
 	protected IntegerSetArray(List<? extends SetExpression<Integer>> range, TypeInst<Integer, Set<Integer>> innerTypeInst,
 			List<? extends Expression<Set<Integer>>> values) {
-		super(range, innerTypeInst, new ArrayLiteral<Integer, Set<Integer>>(range, innerTypeInst.getType(),
-				values));
+		super(range, innerTypeInst,
+				values == null ? null : new ArrayLiteral<Integer, Set<Integer>>(range, innerTypeInst.getType(), values));
 	}
 
 	private IntegerSetArray(String name, SetExpression<Integer> range, SetExpression<Integer> type,
@@ -47,12 +46,20 @@ public class IntegerSetArray extends Array<Integer, Set<Integer>> {
 		return new IntegerSetArray(name, range, type, values, false);
 	}
 
+	public static IntegerSetArray createVariable(String name, SetExpression<Integer> range, SetExpression<Integer> type) {
+		return createVariable(name, range, type, null);
+	}
+
+	public static IntegerSetArray createConstant(String name, SetExpression<Integer> range, SetExpression<Integer> type) {
+		return createConstant(name, range, type, null);
+	}
+
 	private static TypeInst<Integer, Set<Integer>> createInnerTypeInst(String name,
 			SetExpression<Integer> type, boolean variable) {
 		if (variable) {
 			return new SetVariable<>(new BasicTypeInst<>(name, type));
 		} else {
-			return new at.siemens.ct.jmz.elements.Set<>(name, IntegerSetExpression.INTEGER_UNIVERSE, type);
+			return new at.siemens.ct.jmz.elements.Set<>(name, type);
 		}
 	}
 
