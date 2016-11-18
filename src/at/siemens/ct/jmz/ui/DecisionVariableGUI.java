@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.ui;
+package at.siemens.ct.jmz.ui;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.HSDAG;
+package at.siemens.ct.jmz.diag.hsdag;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
-import at.siemens.ct.jmz.conflictDetection.ConflictDetectionAlgorithm;
-import at.siemens.ct.jmz.conflictDetection.ConsistencyChecker;
-import at.siemens.ct.jmz.conflictDetection.DebugUtils;
-import at.siemens.ct.jmz.conflictDetection.QuickXPlain;
-import at.siemens.ct.jmz.conflictDetection.SimpleConflictDetection;
+import at.siemens.ct.jmz.diag.AbstractConflictDetection;
+import at.siemens.ct.jmz.diag.ConsistencyChecker;
+import at.siemens.ct.jmz.diag.DebugUtils;
+import at.siemens.ct.jmz.diag.DiagnoseMetadata;
+import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.QuickXPlain;
+import at.siemens.ct.jmz.diag.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**

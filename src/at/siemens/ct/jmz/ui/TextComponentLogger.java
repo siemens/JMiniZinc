@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.ui;
+package at.siemens.ct.jmz.ui;
 
 import java.awt.TextArea;
 import java.io.BufferedReader;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseMetadata;
-import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.DiagnoseMetadata;
+import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**

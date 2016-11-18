@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.mznParser;
+package at.siemens.ct.jmz.mznparser;
 
 public enum PossibleVariablesDeclarationsPatterns {
 	BOOLEEAN_PATTERN("(var|par)? *(bool) *: *([A-Za-z][A-Za-z0-9_]*) *[=]? *(true|false)? *;"), 

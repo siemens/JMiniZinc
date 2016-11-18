@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.mznParser;
+package at.siemens.ct.jmz.mznparser;
 
 import java.util.*;
 import java.util.regex.*;

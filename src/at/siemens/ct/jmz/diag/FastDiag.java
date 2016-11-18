@@ -1,12 +1,10 @@
-package at.siemens.ct.jmz.conflictDetection.fastDiag;
+package at.siemens.ct.jmz.diag;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import at.siemens.ct.jmz.conflictDetection.AbstractConflictDetection;
-import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**

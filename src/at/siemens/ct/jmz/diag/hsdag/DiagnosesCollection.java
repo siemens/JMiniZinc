@@ -1,10 +1,11 @@
-package at.siemens.ct.jmz.conflictDetection.HSDAG;
+package at.siemens.ct.jmz.diag.hsdag;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import at.siemens.ct.jmz.diag.DiagnoseMetadata;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**

@@ -1,9 +1,9 @@
-package at.siemens.ct.jmz.conflictDetection;
+package at.siemens.ct.jmz.diag;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.conflictDetection.fastDiag.FastDiag;
+import at.siemens.ct.jmz.diag.FastDiag;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection;
+package at.siemens.ct.jmz.diag;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

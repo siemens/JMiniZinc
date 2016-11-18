@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.HSDAG;
+package at.siemens.ct.jmz.diag.hsdag;
 
 import java.util.List;
 

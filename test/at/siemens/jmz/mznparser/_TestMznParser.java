@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection;
+package at.siemens.jmz.mznparser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
-import at.siemens.ct.jmz.conflictDetection.mznParser.PossibleVariablesDeclarationsPatterns;
 import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.expressions.bool.BasicBoolean;
 import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
@@ -21,6 +19,8 @@ import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
+import at.siemens.ct.jmz.mznparser.MiniZincCP;
+import at.siemens.ct.jmz.mznparser.PossibleVariablesDeclarationsPatterns;
 
 public class _TestMznParser {
 

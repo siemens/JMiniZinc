@@ -1,4 +1,4 @@
-package at.siemens.ct.jmz.conflictDetection.ui;
+package at.siemens.ct.jmz.ui;
 
 import java.awt.Button;
 import java.awt.Choice;
@@ -30,11 +30,9 @@ import javax.swing.GroupLayout.SequentialGroup;
 
 import javax.swing.JOptionPane;
 
-import at.siemens.ct.jmz.conflictDetection.ConflictDetectionAlgorithm;
-import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
-import at.siemens.ct.jmz.conflictDetection.fastDiag.FastDiag;
-import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincCP;
-import at.siemens.ct.jmz.conflictDetection.mznParser.MiniZincElementFactory;
+import at.siemens.ct.jmz.diag.FastDiag;
+import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.elements.Variable;
@@ -48,6 +46,8 @@ import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
+import at.siemens.ct.jmz.mznparser.MiniZincCP;
+import at.siemens.ct.jmz.mznparser.MiniZincElementFactory;
 
 public class VariableDialog {
 

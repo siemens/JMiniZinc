@@ -1,13 +1,15 @@
-package at.siemens.ct.jmz.conflictDetection;
+package at.siemens.ct.jmz.diag;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseProgressCallback;
-import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnosesCollection;
-import at.siemens.ct.jmz.conflictDetection.HSDAG.HSDAG;
-import at.siemens.ct.jmz.conflictDetection.HSDAG.DiagnoseMetadata;
+import at.siemens.ct.jmz.diag.DebugUtils;
+import at.siemens.ct.jmz.diag.DiagnoseMetadata;
+import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.diag.hsdag.DiagnosesCollection;
+import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import junit.framework.TestCase;
