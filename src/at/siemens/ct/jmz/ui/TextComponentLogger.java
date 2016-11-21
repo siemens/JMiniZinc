@@ -37,9 +37,9 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet) {
+	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet,String message) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Check: ").append(displayConstraintList(inputConflictSet));
+		stringBuilder.append(message).append("Check: ").append(displayConstraintList(inputConflictSet));
 		if (minConflictSet == null) {
 			stringBuilder.append("No minimal conflict set.").append(System.lineSeparator());
 		} else {
@@ -50,8 +50,8 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void constraintSelected(Constraint constraint) {
-		String textToDIsplay = String.format("Selected constraint: { %s } %s", constraint.getConstraintName(),
+	public void constraintSelected(Constraint constraint, String constraintIndex) {
+		String textToDIsplay = String.format("%s Selected constraint: { %s } %s",constraintIndex, constraint.getConstraintName(),
 				System.lineSeparator());
 		target.append(textToDIsplay);
 
@@ -130,6 +130,20 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void diagnose(List<Constraint> diagnose, List<Constraint> inputConflictSet) {
+		// TODO Auto-generated method stub
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Check: ").append(displayConstraintList(inputConflictSet));
+		if (diagnose == null) {
+			stringBuilder.append("No diagnose.").append(System.lineSeparator());
+		} else {
+			stringBuilder.append("DIAGNOSIS: ");
+			stringBuilder.append(displayConstraintList(diagnose));
+		}
+		target.append(stringBuilder.toString());
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import at.siemens.ct.jmz.diag.AbstractConflictDetection;
@@ -14,6 +15,7 @@ import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.diag.QuickXPlain;
 import at.siemens.ct.jmz.diag.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.ui.TextComponentLogger;
 
 /**
  * This class implements HSDAG algorithm for detecting all diagnoses.
@@ -23,13 +25,21 @@ public class HSDAG {
 	private List<Constraint> userConstraints;
 	private File mznFile;
 	private DiagnoseProgressCallback progressCallback;
+	private LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+	public DiagnosesCollection conflictSets;
+	int indexOfConstraint;
 
 	/**
-	 * @param mznFullFileName The minizinc file which contains parameters, decision variables and constraints. 
-	 * The constraints from this file are the fixed ones. They must be consistent. 
-	 * @param userConstraints constraint that are sets (variable assignments)
+	 * @param mznFullFileName
+	 *            The minizinc file which contains parameters, decision
+	 *            variables and constraints. The constraints from this file are
+	 *            the fixed ones. They must be consistent.
+	 * @param userConstraints
+	 *            constraint that are sets (variable assignments)
 	 * @param progressCallback
-	 * @param conflictDetectionAlgorithm The algorithm used for finding conflict sets. It can be SimpleConflictDetection or QuickXPlain 
+	 * @param conflictDetectionAlgorithm
+	 *            The algorithm used for finding conflict sets. It can be
+	 *            SimpleConflictDetection or QuickXPlain
 	 * @throws Exception
 	 */
 	public HSDAG(String mznFullFileName, List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
@@ -54,10 +64,13 @@ public class HSDAG {
 
 	/**
 	 * Function that gets the diagnoses.
+	 * 
 	 * @return A collection with all diagnoses.
 	 * @throws Exception
 	 */
 	public DiagnosesCollection diagnose() throws Exception {
+		
+		conflictSets = new DiagnosesCollection();
 		DebugUtils.enabled = false;
 		DebugUtils.logLabel = "HSDAG";
 		DebugUtils.writeOutput("***********************************************");
@@ -82,32 +95,38 @@ public class HSDAG {
 				progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");
 			return new DiagnosesCollection();
 		}
-
-		if (progressCallback != null)
-			progressCallback.minConflictSet(minCS, userConstraints);
-
-		TreeNode rootNode = new TreeNode(minCS, userConstraints);
+		conflictSets.add(minCS);
+		TreeNode rootNode = new TreeNode(minCS, userConstraints, null);
 		DiagnosesCollection diagnosesCollection = new DiagnosesCollection(); // Here
 																				// are
 																				// stored
-																				// the
-																				// diagnoses
+		// diagnoses
+		if (progressCallback != null)
+			progressCallback.minConflictSet(minCS, userConstraints, "0) ");
 
 		buildDiagnosesTree(rootNode, diagnosesCollection);
 
 		if (progressCallback != null)
-			progressCallback.displayMessage(System.lineSeparator() + "All diagnoses :" + System.lineSeparator() + diagnosesCollection.toString());
-		;
+		{
+			progressCallback.displayMessage(System.lineSeparator() + "All minimal conflict sets :" + System.lineSeparator()
+			+ conflictSets.toString());
+			progressCallback.displayMessage(System.lineSeparator() + "All minimal diagnoses :" + System.lineSeparator()
+					+ diagnosesCollection.toString());
+			
+		}
 
 		DebugUtils.enabled = true;
 		return diagnosesCollection;
 	}
 
+	
+
 	private void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
 		List<Constraint> minCS;
 		List<Constraint> difference;
 		TreeNode treeNode;
-		List<TreeNode> conflicts = new ArrayList<TreeNode>();
+		
+	
 
 		DebugUtils.indent++;
 
@@ -118,23 +137,34 @@ public class HSDAG {
 		DebugUtils.printConstraintsSet("Input constraints set = ", root.getInitialConstraintsSet());
 		DebugUtils.indent--;
 		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
 		for (Constraint constraint : root.getData()) {
 			difference = removeConstraintFromList(root.getInitialConstraintsSet(), constraint);
 
 			if (progressCallback != null) {
 				progressCallback.displayMessage("");
-				progressCallback.constraintSelected(constraint);
+				indexOfConstraint = root.getData().indexOf(constraint) + 1;
+
+				String constraintIndex = String.valueOf(indexOfConstraint);
+
+				String index = constraintIndex + ")";
+
+				if (root.name != null) {
+					index = root.name + "." + constraintIndex + ")";
+				}
+
+				progressCallback.constraintSelected(constraint, index);
 			}
+
 			minCS = conflictDetection.getMinConflictSet(difference);
+		
 
 			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
 			if (progressCallback != null) {
-				progressCallback.minConflictSet(minCS, difference);
+				progressCallback.minConflictSet(minCS, difference, "");
 			}
 
 			if (minCS == null) {
-				treeNode = new TreeNode(null, null);
+				treeNode = new TreeNode(null, null, null);
 				root.addChild(constraint, treeNode);
 				List<Constraint> diagnose = getDiagnose(treeNode);
 				Collections.reverse(diagnose);
@@ -153,18 +183,26 @@ public class HSDAG {
 				}
 			} else {
 				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
+
 				DebugUtils.printConstraintsSet("Difference:", difference);
 
-				treeNode = new TreeNode(minCS, difference);
+				conflictSets.add(minCS);
+				treeNode = new TreeNode(minCS, difference, String.valueOf(indexOfConstraint));
+
 				root.addChild(constraint, treeNode);
-				conflicts.add(treeNode);
+
+				queue.add(treeNode);
+
 			}
+
 		}
 
-		for (TreeNode node : conflicts) {
+		while (!queue.isEmpty()) {
+
+			TreeNode node = queue.getFirst();
+			queue.removeFirst();
 			buildDiagnosesTree(node, diagnosesCollection);
 		}
-
 		DebugUtils.indent--;
 	}
 

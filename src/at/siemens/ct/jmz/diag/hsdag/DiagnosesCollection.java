@@ -9,65 +9,76 @@ import at.siemens.ct.jmz.diag.DiagnoseMetadata;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * This class stores all diagnoses for a configuration problem. 
+ * This class stores all diagnoses for a configuration problem.
  */
-public class DiagnosesCollection extends ArrayList<List<Constraint>>{	
+public class DiagnosesCollection extends ArrayList<List<Constraint>> {
 	private static final long serialVersionUID = 8940404145930730128L;
 
 	public DiagnosesCollection() {
-		super();		
+		super();
 	}
 
 	public DiagnosesCollection(Collection<? extends List<Constraint>> c) {
-		super(c);		
+		super(c);
 	}
 
 	public DiagnosesCollection(int initialCapacity) {
-		super(initialCapacity);		
+		super(initialCapacity);
 	}
 
-	public DiagnoseMetadata Contains(List<Constraint> diagnose){
-		for(List<Constraint> d : this){			
+	public DiagnoseMetadata Contains(List<Constraint> diagnose) {
+		for (List<Constraint> d : this) {
 			DiagnoseMetadata diagnoseMetadata = compareDiagnose(diagnose, d);
-			if (diagnoseMetadata != DiagnoseMetadata.Min) return diagnoseMetadata;
+			if (diagnoseMetadata != DiagnoseMetadata.Min)
+				return diagnoseMetadata;
 		}
 		return DiagnoseMetadata.Min;
 	}
-		
-	private DiagnoseMetadata compareDiagnose(List<Constraint> newDiagnose, List<Constraint> existingDiagnose){
-		for(Constraint c: existingDiagnose){
-			if (!newDiagnose.contains(c)) return DiagnoseMetadata.Min;
+
+	private DiagnoseMetadata compareDiagnose(List<Constraint> newDiagnose, List<Constraint> existingDiagnose) {
+		for (Constraint c : existingDiagnose) {
+			if (!newDiagnose.contains(c))
+				return DiagnoseMetadata.Min;
 		}
-		
-		if (newDiagnose.size() == existingDiagnose.size()) return DiagnoseMetadata.AlreadyExists;
+
+		if (newDiagnose.size() == existingDiagnose.size())
+			return DiagnoseMetadata.AlreadyExists;
 		return DiagnoseMetadata.NotMin;
 	}
-		
-	public java.lang.String toString() {		
+
+	public java.lang.String toString() {
 		List<String> lines = new ArrayList<String>();
-		
-		for (List<Constraint> diagnose : this){
-			
+
+		for (List<Constraint> diagnose : this) {
+
 			List<String> constraints = new ArrayList<String>();
-			for(Constraint c : diagnose){
-				constraints.add("(" + c.getConstraintName() + ") ");
+			for (Constraint c : diagnose) {
+				constraints.add(c.getConstraintName());
 			}
-			
+
 			Collections.sort(constraints);
 			StringBuilder line = new StringBuilder();
-			for(String c : constraints){
-				line.append(c); 
+			line.append("{ ");
+			for (String c : constraints) {
+				line.append(c);
+				if (constraints.indexOf(c) != constraints.size() - 1) {
+					line.append(", ");
+				}
 			}
+			line.append(" }");
 			lines.add(line.toString());
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		Collections.sort(lines);
-		for(String line : lines){
-			sb.append(line).append(System.lineSeparator());
+		for (String line : lines) {
+			sb.append(line);
+			if (lines.indexOf(line) != lines.size() - 1) {
+				sb.append(System.lineSeparator());
+			}
 		}
+
 		return sb.toString();
 	}
-	
-	
+
 }

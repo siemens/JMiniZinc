@@ -23,17 +23,27 @@ public class TreeNode {
 	/**
 	 * This is the constraint associated to the arch which comes to this node. Can be null for parent nodes.
 	 */
-	private Constraint constraint = null; 
+	private Constraint constraint = null;
+
+	public String name; 
 	
-	public TreeNode(List<Constraint> data, List<Constraint> initialConstraintsSet) {
+	public TreeNode(List<Constraint> data, List<Constraint> initialConstraintsSet, String name) {
 		super();
 		this.data = data;		
 		this.initialConstraintsSet = initialConstraintsSet;
+		this.name = name;
+		
+		
 	}
 
 	public void addChild(Constraint c, TreeNode child) {		
 		child.parent = this;
-		child.constraint = c;		
+		child.constraint = c;	
+		if(this.name!=null)
+		{
+			child.name = this.name + "." + child.name;
+		}
+		
 	}
 
 	public TreeNode getParentNode() {

@@ -53,7 +53,7 @@ public class VariableDialog {
 
 	private List<DecisionVariableGUI> mapWithControls;
 	private ArrayList<Variable<?, ?>> decisionVariables;
-	private File mznFile;
+	private static File mznFile;
 	private MiniZincCP mznCp;
 	private List<Constraint> userConstraints;
 
@@ -94,12 +94,22 @@ public class VariableDialog {
 
 		try {
 
-			final String PROPERTY_FILENAME = "filename";
-			String mznFileName = System.getProperty(PROPERTY_FILENAME, "").toString();
-			File mznFile = new File(mznFileName);
+			// final String PROPERTY_FILENAME = "filename"
+			String mznpath;
+
+			if (args.length > 0)
+			{
+				mznpath = args[0];
+			} else {
+				FileChooserDialog fcd = new FileChooserDialog();
+				mznpath = fcd.getFile();
+
+			}
+
+			mznFile = new File(mznpath);
 			if (!mznFile.exists()) {
-				JOptionPane.showMessageDialog(null, String.format("The file \"%s\" does not exist!", mznFileName),
-						"Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, String.format("The file \"%s\" does not exist!", args[0]), "Error",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -283,8 +293,9 @@ public class VariableDialog {
 			IntegerVariable integervariable = (IntegerVariable) variable;
 
 			if (!MiniZincElementFactory.isNumeric(value))
-				throw new Exception("Wrong value inserted for variable " + variableName + ". His value must be an integer.");
-				
+				throw new Exception(
+						"Wrong value inserted for variable " + variableName + ". His value must be an integer.");
+
 			int variableValue = integervariable.parseValue(value);
 			expression = new RelationalOperation<>(integervariable, RelationalOperator.EQ,
 					new IntegerConstant(variableValue));
@@ -301,13 +312,11 @@ public class VariableDialog {
 
 	}
 
-	private void generateSolution()  {
+	private void generateSolution() {
 		textLog.setText(null);
 
-		
-
 		try {
-			
+
 			userConstraints = getAllValuesFromTheInterface();
 
 			if (userConstraints.isEmpty()) {
@@ -315,7 +324,7 @@ public class VariableDialog {
 						"Information", JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
-			
+
 			String selectedAlgorithm = algorithmType.getSelectedItem();
 			HSDAG hsdag;
 			logger = new TextComponentLogger(textLog, userConstraints);

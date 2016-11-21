@@ -29,10 +29,10 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 			String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "(c1 {x1 = 1}) (c2 {x1 = 2}) \r\n" + "(c1 {x1 = 1}) (c3 {x2 = x1}) \r\n"
-					+ "(c1 {x1 = 1}) (c4 {x3 = x2}) \r\n" + "(c1 {x1 = 1}) (c5 {x3 > 2}) \r\n"
-					+ "(c2 {x1 = 2}) (c3 {x2 = x1}) \r\n" + "(c2 {x1 = 2}) (c4 {x3 = x2}) \r\n"
-					+ "(c2 {x1 = 2}) (c5 {x3 > 2}) \r\n";
+			String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }\r\n" + "{ c1 {x1 = 1}, c3 {x2 = x1} }\r\n"
+					+ "{ c1 {x1 = 1}, c4 {x3 = x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 > 2} }\r\n"
+					+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
+					+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
 			assertEquals(expectedOutput, actualOutput);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -50,7 +50,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 			String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "(c1 {x1 = 1}) (c2 {x2 = 2}) \r\n";
+			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2} }";
 			assertEquals(expectedOutput, actualOutput);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -68,7 +68,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 			String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "(constraint1 {x1 = 1}) \r\n(constraint2 {c1 = true}) \r\n";
+			String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
 			assertEquals(expectedOutput, actualOutput);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -86,17 +86,12 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 			String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "(c1 {x1 = 1}) (c2 {x2 = 2}) (c6 {x3 > x2}) \r\n"
-					+ "(c1 {x1 = 1}) (c3 {x3 = 3}) (c6 {x3 > x2}) \r\n"
-					+ "(c1 {x1 = 1}) (c5 {x3 = x2}) \r\n" 
-					+ "(c2 {x2 = 2}) (c3 {x3 = 3}) (c6 {x3 > x2}) \r\n"
-					+ "(c2 {x2 = 2}) (c4 {x2 = x1}) (c6 {x3 > x2}) \r\n"
-					+ "(c2 {x2 = 2}) (c5 {x3 = x2}) \r\n"
-					+ "(c3 {x3 = 3}) (c4 {x2 = x1}) (c6 {x3 > x2}) \r\n"
-					+ "(c4 {x2 = x1}) (c5 {x3 = x2}) \r\n";
-			
-			
-		
+			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }\r\n"
+					+ "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 = x2} }\r\n"
+					+ "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n"
+					+ "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c2 {x2 = 2}, c5 {x3 = x2} }\r\n"
+					+ "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c4 {x2 = x1}, c5 {x3 = x2} }";
+
 			assertEquals(expectedOutput, actualOutput);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -113,9 +108,23 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 			DiagnosesCollection diagCollection = hsdag.diagnose();
 
 			String actualOutput = diagCollection.toString();
-			String expectedOutput = "(c1 {x3 = 4}) (c2 {c = true}) (c4 {x2 = 3}) \r\n"
-					+ "(c1 {x3 = 4}) (c3 {x1 = 3}) (c4 {x2 = 3}) \r\n";
+			String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
+					+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
 			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm simpleconflictdetection) {
+		// TODO Auto-generated method stub
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
+			printProblem(constraintsSetC, fileName);
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
+			DiagnosesCollection diagCollection = hsdag.diagnose();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -133,19 +142,19 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet) {
+	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet,String indent) {
 		String oldLabel = DebugUtils.logLabel;
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
 		DebugUtils.logLabel = logLabel;
 		DebugUtils.printConstraintsSet("Input Conflict Set", inputConflictSet);
-		DebugUtils.printConstraintsSet("Min Conflict Set", minC);		
+		DebugUtils.printConstraintsSet("Min Conflict Set", minC);
 		DebugUtils.logLabel = oldLabel;
 		DebugUtils.indent = oldIndent;
 	}
 
 	@Override
-	public void constraintSelected(Constraint constraint) {
+	public void constraintSelected(Constraint constraint, String message) {
 		String oldLabel = DebugUtils.logLabel;
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
@@ -200,6 +209,10 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() {
+		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.SimpleConflictDetection);
+	}
+
 	public void testDiagnoseProblemWithQuickXPlain2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
@@ -241,6 +254,12 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 
 	@Override
 	public void displayStartMessage(File mznFile) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void diagnose(List<Constraint> diagnose, List<Constraint> inputSet) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,1 +1,1 @@
-javaw -Dfilename="testFiles/testConflictDetection6.mzn" -jar minimalDiagnoses.jar
+javaw -jar minimalDiagnoses.jar "testFiles/testConflictDetection6.mzn"

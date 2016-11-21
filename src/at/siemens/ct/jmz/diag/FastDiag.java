@@ -84,7 +84,8 @@ public class FastDiag extends AbstractConflictDetection {
 	public void diagnose() throws Exception {
 		List<Constraint> diagnoseFound = getMinConflictSet(userConstraints);
 		if (!diagnoseFound.isEmpty()) {
-			progressCallback.diagnoseFound(diagnoseFound);
+		
+			progressCallback.diagnose(diagnoseFound, userConstraints);
 		}
 	}
 
