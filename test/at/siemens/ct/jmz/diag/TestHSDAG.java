@@ -1,20 +1,20 @@
 package at.siemens.ct.jmz.diag;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.diag.DebugUtils;
-import at.siemens.ct.jmz.diag.DiagnoseMetadata;
-import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import org.junit.Test;
+
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.diag.hsdag.DiagnosesCollection;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import junit.framework.TestCase;
 
-public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
+public class TestHSDAG implements DiagnoseProgressCallback {
 	private static String logLabel = "TestHSDAG";
 
 	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
@@ -203,50 +203,62 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		DebugUtils.indent = oldIndent;
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCD2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCD5() {
 		diagnoseProblem5(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCD6() {
 		diagnoseProblem6(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCD7() {
 		diagnoseProblem7(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCD8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() {
 		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithQuickXPlain2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithQuickXPlain5() {
 		diagnoseProblem5(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithQuickXPlain6() {
 		diagnoseProblem6(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithQuickXPlain7() {
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
+	@Test
 	public void testDiagnoseProblemWithQuickXPlain8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
 	}

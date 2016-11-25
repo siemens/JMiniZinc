@@ -1,12 +1,15 @@
 package at.siemens.ct.jmz.diag;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.diag.AbstractConflictDetection;
-import at.siemens.ct.jmz.diag.DebugUtils;
-import at.siemens.ct.jmz.diag.SimpleConflictDetection;
+import org.junit.Test;
+
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -16,10 +19,10 @@ import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
-import junit.framework.TestCase;
 
-public class _TestSimpleConflictDetection extends TestCase {
+public class TestSimpleConflictDetection {
 
+	@Test
 	public void testSimpleConflictDetection_1() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -58,6 +61,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		assertNull(minCS);
 	}
 	
+	@Test
 	public void testSimpleConflictDetection_2() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -78,6 +82,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testSimpleConflictDetection_NoConflict() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -95,6 +100,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testSimpleConflictDetection_5() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -116,6 +122,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}		
 	}
 	
+	@Test
 	public void testSimpleConflictDetection_6() throws Exception{
 		List<Constraint> minCS = null;
 		try{									
@@ -137,6 +144,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testSimpleConflictDetection_7() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -158,6 +166,7 @@ public class _TestSimpleConflictDetection extends TestCase {
 		}
 	}
 
+	@Test
 	public void testSimpleConflictDetection_8() throws Exception{
 		List<Constraint> minCS = null;
 		try{

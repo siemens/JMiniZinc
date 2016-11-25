@@ -1,15 +1,18 @@
 package at.siemens.ct.jmz.diag;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.diag.FastDiag;
+import org.junit.Test;
+
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import junit.framework.TestCase;
 
-public class _ErrorSituations extends TestCase {
+public class ErrorSituations {
 
+	@Test
 	public void testWithSolveItemIncluded() {
 		boolean solveItemIncluded = false;
 		try {

@@ -1,17 +1,22 @@
 package at.siemens.ct.jmz.diag;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.diag.FastDiag;
+import org.junit.Test;
+
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import junit.framework.TestCase;
 
-public class _TestFastDiag extends TestCase {
+public class TestFastDiag {
 
 	// the diagnose that should be founded in the data set is D = {x2 = 3, x1 =
 	// 3, x3 = 4}
+	@Test
 	public void testFastDiagWithDataset8() {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -40,6 +45,7 @@ public class _TestFastDiag extends TestCase {
 
 	}
 
+	@Test
 	public void testFastDiagWithDataset7() {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -62,6 +68,7 @@ public class _TestFastDiag extends TestCase {
 		}
 	}
 
+	@Test
 	public void testFastDiagWithDataset6() {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -82,6 +89,7 @@ public class _TestFastDiag extends TestCase {
 		}
 	}
 
+	@Test
 	public void testFastDiagWithDataset5() {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -104,6 +112,7 @@ public class _TestFastDiag extends TestCase {
 		}
 	}
 
+	@Test
 	public void testFastDiagWithDataset2() {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();

@@ -1,13 +1,15 @@
 package at.siemens.ct.jmz.diag;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.siemens.ct.jmz.diag.AbstractConflictDetection;
-import at.siemens.ct.jmz.diag.ConsistencyChecker;
-import at.siemens.ct.jmz.diag.DebugUtils;
-import at.siemens.ct.jmz.diag.QuickXPlain;
+import org.junit.Test;
+
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -17,10 +19,10 @@ import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
-import junit.framework.TestCase;
 
-public class _TestQuickXPlain extends TestCase{
+public class TestQuickXPlain {
 	
+	@Test
 	public void testConsistencyChecker_2() throws Exception{
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
@@ -47,6 +49,7 @@ public class _TestQuickXPlain extends TestCase{
 		assertTrue(isConsistent);
 	}
 	
+	@Test
 	public void testConsistencyChecker_7() throws Exception{
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
@@ -73,6 +76,7 @@ public class _TestQuickXPlain extends TestCase{
 		assertTrue(isConsistent == false);
 	}
 	
+	@Test
 	public void testQuickXPlainMinCS_2() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -97,6 +101,7 @@ public class _TestQuickXPlain extends TestCase{
 		}
 	}
 	
+	@Test
 	public void testQuickXPlainMinCS_NoConflict() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -114,7 +119,7 @@ public class _TestQuickXPlain extends TestCase{
 		}
 	}
 	
-	
+	@Test
 	public void testQuickXPlainMinCS_5() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -136,6 +141,7 @@ public class _TestQuickXPlain extends TestCase{
 		}		
 	}
 	
+	@Test
 	public void testQuickXPlainMinCS_6() throws Exception{
 		List<Constraint> minCS = null;
 		try{									
@@ -156,6 +162,7 @@ public class _TestQuickXPlain extends TestCase{
 		}
 	}
 	
+	@Test
 	public void testQuickXPlainMinCS_7() throws Exception{
 		List<Constraint> minCS = null;
 		try{
@@ -178,6 +185,7 @@ public class _TestQuickXPlain extends TestCase{
 		}		
 	}
 	
+	@Test
 	public void testQuickXPlainMinCS_8() throws Exception{
 		List<Constraint> minCS = null;
 		try{									
