@@ -1,14 +1,11 @@
 package at.siemens.ct.jmz.mznparser;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import at.siemens.ct.common.utils.FileUtils;
-import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.TypeInst;
-import at.siemens.ct.jmz.elements.Variable;
+import at.siemens.ct.jmz.ui.Displayable;
 
 /**
  * @author z003pczy (Mara Rosu) parses output from MiniZincIde (.mzn files)
@@ -16,17 +13,17 @@ import at.siemens.ct.jmz.elements.Variable;
 
 public class MiniZincCP {
 
-	private List<Element> elementsFromFile;
+	private List<Displayable> elementsFromFile;
 
 	/**
 	 * creates an MiniZincCP object according to the .mzn file
 	 * 
 	 * @param mznFile
 	 *            - the .mzn File
-	 * @throws IOException
+	 * @throws Exception
 	 */
-	public MiniZincCP(File mznFile) throws IOException {
-		elementsFromFile = new ArrayList<Element>();
+	public MiniZincCP(File mznFile) throws Exception {
+		elementsFromFile = new ArrayList<Displayable>();
 		parseMZN(mznFile);
 	}
 
@@ -36,13 +33,13 @@ public class MiniZincCP {
 	 * 
 	 * @param mznFile
 	 *            - the MiniZinc file for the CP (constraint problem)
-	 * @throws IOException
+	 * @throws Exception
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	private void parseMZN(File mznFile) throws IOException {
+	private void parseMZN(File mznFile) throws Exception {
 		List<String> linesFromMznFile = FileUtils.readLines(mznFile);
-		Element mznElement;
+		Displayable mznElement;
 
 		MiniZincElementFactory mznElementFactory = new MiniZincElementFactory();
 		for (String line : linesFromMznFile) {
@@ -55,24 +52,28 @@ public class MiniZincCP {
 
 	}
 
-	public List<Element> getElementsFromFile() {
+	public List<Displayable> getElementsFromFile() {
 		return elementsFromFile;
 	}
 
-	public ArrayList<Variable<?, ?>> getDecisionVariables() {
-		ArrayList<Variable<?, ?>> dvList = new ArrayList<Variable<?, ?>>();
-		for (Element element : elementsFromFile) {
-			if (element.isVariable()) {
-				dvList.add((Variable<?, ?>) element);
+//	public ArrayList<TypeInst<?, ?>> getDecisionVariables() {
+//		ArrayList<TypeInst<?, ?>> dvList = new ArrayList<TypeInst<?, ?>>();
+//		for (Element element : elementsFromFile) {
+//
+//			if (element instanceof TypeInst<?, ?>) {
+//				TypeInst<?, ?> typeInst = (TypeInst<?, ?>) element;
+//				if (typeInst.isVariable() || typeInst.declare().contains("var")) {
+//					dvList.add(typeInst);
+//				}
+//
+//			}
+//		}
+//		return dvList;
+//	}
 
-			}
-		}
-		return dvList;
-	}
+	public Displayable getDecisionVariableByName(String name) {
 
-	public TypeInst<?, ?> getDecisionVariableByName(String name) {
-
-		for (Variable<?, ?> typeInst : getDecisionVariables()) {
+		for (Displayable typeInst : elementsFromFile) {
 			if (typeInst.getName().equals(name))
 				return typeInst;
 		}

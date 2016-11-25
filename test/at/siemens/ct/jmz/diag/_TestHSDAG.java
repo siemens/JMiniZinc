@@ -130,6 +130,20 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		}
 	}
 
+	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm simpleconflictdetection) {
+		// TODO Auto-generated method stub
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
+			printProblem(constraintsSetC, fileName);
+			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	@Override
 	public void diagnoseFound(List<Constraint> diagnose) {
 		String oldLabel = DebugUtils.logLabel;
@@ -142,7 +156,7 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet,String indent) {
+	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet, String indent) {
 		String oldLabel = DebugUtils.logLabel;
 		int oldIndent = DebugUtils.indent;
 		DebugUtils.indent = 0;
@@ -213,6 +227,10 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() {
+		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.SimpleConflictDetection);
+	}
+
 	public void testDiagnoseProblemWithQuickXPlain2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
@@ -261,6 +279,6 @@ public class _TestHSDAG extends TestCase implements DiagnoseProgressCallback {
 	@Override
 	public void diagnose(List<Constraint> diagnose, List<Constraint> inputSet) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

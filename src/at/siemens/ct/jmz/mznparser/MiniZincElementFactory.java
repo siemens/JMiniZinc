@@ -5,40 +5,77 @@ import java.util.regex.*;
 
 import at.siemens.ct.common.utils.StringUtils;
 import at.siemens.ct.jmz.elements.BasicTypeInst;
-import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.expressions.bool.*;
 import at.siemens.ct.jmz.expressions.integer.*;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
+import at.siemens.ct.jmz.ui.Displayable;
+import at.siemens.ct.jmz.ui.variables.*;
 
 public class MiniZincElementFactory {
 
-	private final int INSTANTIATION_INDEX = 1;
-	private final int TYPE_INDEX = 2;
-	private final int NAME_INDEX = 3;
-	private final int DEFAULT_VALUE_INDEX = 4;
 	private final String BOOL_TYPE = "bool";
 	private final String VAR_TYPE = "var";
 	private final String INT_TYPE = "int";
-	private final String RANGE_SEPARATOR = "..";
+	private static final String RANGE_SEPARATOR = "..";
 	private List<BasicTypeInst<?>> listWithParameters = new ArrayList<BasicTypeInst<?>>();
 
-	public Element getElementFromLine(String line) {
+	public Displayable getElementFromLine(String line) throws Exception {
 
-		String instantiation, name, type, defaultValue;
+		String instantiation, name, type, defaultValue, arrayIndex;
 		for (PossibleVariablesDeclarationsPatterns patternAsString : PossibleVariablesDeclarationsPatterns.values()) {
 			Pattern pattern = Pattern.compile(patternAsString.getPattern());
 			String trimmedLine = line.trim();
 			Matcher matcher = pattern.matcher(trimmedLine);
 			if (matcher.matches()) {
+				instantiation = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
+				type = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE);
+				name = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
+				defaultValue = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.DEFAULT_VALUE);
 
-				instantiation = matcher.group(INSTANTIATION_INDEX);
-				type = matcher.group(TYPE_INDEX);
-				name = matcher.group(NAME_INDEX);
-				defaultValue = matcher.group(DEFAULT_VALUE_INDEX);
+				try {
+					arrayIndex = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.ARRAY_INDEX_TYPE);
+				} catch (Exception e) {
+					arrayIndex = null;
+				}
+
+				if (arrayIndex != null) {
+					RangeExpression arraySize;
+					if (arrayIndex.contains(RANGE_SEPARATOR)) {
+						arraySize = createRange(arrayIndex);
+					} else {
+						throw new Exception("Unimplemented! define array range as m..n!");
+					}
+
+					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
+						if (type.equals(BOOL_TYPE)) {
+							// return BooleanArray.createVariable(name,
+							// arraySize);
+							return new DisplayableBooleanArray(name, arraySize);
+						}
+						if (type.equals(INT_TYPE)) {
+							// return IntegerArray.createVariable(name,
+							// arraySize);
+
+							return new DisplayableIntegerArray(name, arraySize);
+						}
+						if (type.contains(RANGE_SEPARATOR)) {
+							RangeExpression values = createRange(type);
+							// return IntegerArray.createVariable(name,
+							// arraySize, values);
+
+							return new DisplayableIntegerArray(name, arraySize, values);
+						}
+					} else {
+						// add to parameters list ?
+						return null;
+					}
+
+				}
 
 				if (type.equals(BOOL_TYPE)) {
 					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
-						return new BooleanVariable(name);
+						// return new BooleanVariable(name);
+						return new DisplayableBooleanVariable(name);
 					} else {
 						Boolean parameterValue;
 						if (isBooleean(defaultValue)) {
@@ -49,12 +86,13 @@ public class MiniZincElementFactory {
 						}
 						BasicBoolean boolConstant = new BooleanConstant(parameterValue).toNamedConstant(name);
 						listWithParameters.add((BasicTypeInst<Boolean>) boolConstant);
-						return boolConstant;
+						// return boolConstant;
 					}
 				}
 				if (type.equals(INT_TYPE)) {
 					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
-						return new IntegerVariable(name);
+						// return new IntegerVariable(name);
+						return new DisplayableIntegerVariable(name);
 					} else {
 						int paramValue;
 						if (isNumeric(defaultValue)) {
@@ -65,28 +103,32 @@ public class MiniZincElementFactory {
 						}
 						BasicInteger intConstant = new IntegerConstant(paramValue).toNamedConstant(name);
 						listWithParameters.add((BasicTypeInst<Integer>) intConstant);
-						return intConstant;
+						// return intConstant;
 					}
 				}
 				if (type.contains(RANGE_SEPARATOR)) {
-					String min, max;
-					IntegerExpression lb;
-					IntegerExpression ub;
-					min = StringUtils.removePostfix(type, RANGE_SEPARATOR);
-					max = StringUtils.removePrefix(type, RANGE_SEPARATOR);
-
-					if (isNumeric(min)) {
-						lb = new IntegerConstant(Integer.parseInt(min));
-					} else {
-						lb = (IntegerExpression) getElementByName(min).getValue();
-					}
-					if (isNumeric(max)) {
-						ub = new IntegerConstant(Integer.parseInt(max));
-					} else {
-						ub = (IntegerExpression) getElementByName(max).getValue();
-					}
-					return new IntegerVariable(name, new RangeExpression(lb, ub));
+					// String min, max;
+					// IntegerExpression lb;
+					// IntegerExpression ub;
+					// min = StringUtils.removePostfix(type, RANGE_SEPARATOR);
+					// max = StringUtils.removePrefix(type, RANGE_SEPARATOR);
+					//
+					// if (isNumeric(min)) {
+					// lb = new IntegerConstant(Integer.parseInt(min));
+					// } else {
+					// lb = (IntegerExpression)
+					// getElementByName(min).getValue();
+					// }
+					// if (isNumeric(max)) {
+					// ub = new IntegerConstant(Integer.parseInt(max));
+					// } else {
+					// ub = (IntegerExpression)
+					// getElementByName(max).getValue();
+					// }
+					// return new IntegerVariable(name, createRange(type));
+					return new DisplayableIntegerVariable(name, createRange(type));
 				}
+
 			}
 		}
 		return null;
@@ -101,7 +143,7 @@ public class MiniZincElementFactory {
 		return null;
 	}
 
-	public static  Boolean isNumeric(String str) {
+	public static Boolean isNumeric(String str) {
 		try {
 			Integer.parseInt(str);
 		} catch (NumberFormatException nfe) {
@@ -114,5 +156,27 @@ public class MiniZincElementFactory {
 		if (str.equals("true") || str.equals("false"))
 			return true;
 		return false;
+	}
+
+	private RangeExpression createRange(String range) {
+		String min, max;
+		IntegerExpression lb;
+		IntegerExpression ub;
+		min = StringUtils.removePostfix(range, RANGE_SEPARATOR);
+		max = StringUtils.removePrefix(range, RANGE_SEPARATOR);
+
+		if (isNumeric(min)) {
+			lb = new IntegerConstant(Integer.parseInt(min));
+		} else {
+			lb = (IntegerExpression) getElementByName(min).getValue();
+		}
+		if (isNumeric(max)) {
+			ub = new IntegerConstant(Integer.parseInt(max));
+		} else {
+			ub = (IntegerExpression) getElementByName(max).getValue();
+		}
+
+		return new RangeExpression(lb, ub);
+
 	}
 }

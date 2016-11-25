@@ -3,20 +3,18 @@ package at.siemens.ct.jmz.ui;
 import java.awt.Button;
 import java.awt.Choice;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.ScrollPane;
 import java.awt.TextArea;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,32 +25,18 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
-
 import javax.swing.JOptionPane;
 
 import at.siemens.ct.jmz.diag.FastDiag;
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
-import at.siemens.ct.jmz.elements.Element;
-import at.siemens.ct.jmz.elements.TypeInst;
-import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
-import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
-import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
-import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
-import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
-import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
-import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
-import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
-import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.mznparser.MiniZincCP;
-import at.siemens.ct.jmz.mznparser.MiniZincElementFactory;
 
 public class VariableDialog {
 
-	private List<DecisionVariableGUI> mapWithControls;
-	private ArrayList<Variable<?, ?>> decisionVariables;
+	private List<Displayable> decisionVariables;
+	ArrayList<DecisionVariableGUI> mapWithControls;
 	private static File mznFile;
 	private MiniZincCP mznCp;
 	private List<Constraint> userConstraints;
@@ -63,24 +47,22 @@ public class VariableDialog {
 	private Panel controlPanel;
 	private Choice algorithmType;
 	private TextComponentLogger logger;
-
-	private final String UNDEFINED = "Undefined";
-	private final String TRUE = "true";
-	private final String FALSE = "false";
+	private ScrollPane scrollPane;
 
 	private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
 	private final String QUICKXPLAIN_HSDAG = "QuickXPlain - HSDAG";
 	private final String FAST_DIAG = "FastDiag";
 
-	public VariableDialog(File mznFile) throws IOException {
-		this.mznFile = mznFile;
+	public VariableDialog(File mznFile) throws Exception {
+		VariableDialog.mznFile = mznFile;
 		mznCp = new MiniZincCP(mznFile);
-		decisionVariables = mznCp.getDecisionVariables();
+		decisionVariables = mznCp.getElementsFromFile();
 		mapWithControls = new ArrayList<DecisionVariableGUI>();
 		userConstraints = new ArrayList<Constraint>();
+		controlPanel = new Panel();
 
 		prepareGUI();
-		addDecisionVariables();
+		displayDecisionVariables();
 		addComponents();
 
 		mainFrame.pack();
@@ -97,27 +79,29 @@ public class VariableDialog {
 			// final String PROPERTY_FILENAME = "filename"
 			String mznpath;
 
-			if (args.length > 0)
-			{
+			if (args.length > 0) {
 				mznpath = args[0];
 			} else {
 				FileChooserDialog fcd = new FileChooserDialog();
 				mznpath = fcd.getFile();
-
 			}
 
-			mznFile = new File(mznpath);
-			if (!mznFile.exists()) {
-				JOptionPane.showMessageDialog(null, String.format("The file \"%s\" does not exist!", args[0]), "Error",
-						JOptionPane.ERROR_MESSAGE);
-				return;
+			if (!mznpath.isEmpty())
+
+			{
+				mznFile = new File(mznpath);
+				if (!mznFile.exists()) {
+					JOptionPane.showMessageDialog(null, String.format("The file \"%s\" does not exist!", args[0]),
+							"Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				new VariableDialog(mznFile);
 			}
-
-			new VariableDialog(mznFile);
-
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Input file mising", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "An error occured", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
+
 	}
 
 	private void prepareGUI() {
@@ -126,7 +110,6 @@ public class VariableDialog {
 		mainFrame = new Frame(FRAME_TITLE);
 		mainFrame.setLayout(new FlowLayout());
 
-		controlPanel = new Panel();
 		controlPanel.setLayout(new FlowLayout());
 		mainFrame.add(controlPanel);
 
@@ -182,10 +165,11 @@ public class VariableDialog {
 		controlPanel.add(panel);
 	}
 
-	private void addDecisionVariables() {
+	private void displayDecisionVariables() {
 
 		Panel dvPanel = new Panel();
-		dvPanel.setMaximumSize(new Dimension(300, 500));
+
+		scrollPane = new ScrollPane();
 
 		GroupLayout dvlayout = new GroupLayout(dvPanel);
 		dvlayout.setAutoCreateGaps(true);
@@ -194,121 +178,151 @@ public class VariableDialog {
 		ParallelGroup groupForElementsInLine = dvlayout.createParallelGroup(Alignment.LEADING);
 		SequentialGroup groupForElementsInColumns = dvlayout.createSequentialGroup();
 
-		Component textField = null;
-		Label label;
+		for (Displayable displayable : decisionVariables) {
 
-		for (Element decisionVariable : decisionVariables) {
+			List<InfoGUI> infos = displayable.getInfo();
 
-			Variable<?, ?> var = (Variable<?, ?>) decisionVariable;
-			if (var instanceof IntegerVariable) {
-				if (var.getType() instanceof RangeExpression) {
-
-					List<String> possibleValues;
-					RangeExpression variableRange = (RangeExpression) var.getType();
-					possibleValues = generateListFromRangeExpression(variableRange.getLb(), variableRange.getUb());
-					Choice variableValue = new Choice();
-					variableValue.add(UNDEFINED);
-					if (!possibleValues.isEmpty()) {
-						for (String string : possibleValues) {
-							variableValue.add(string);
-						}
-					}
-					textField = variableValue;
-				} else {
-					textField = new TextField();
-					textField.setPreferredSize(new Dimension(87, 20));
-				}
-
-			} else if (var instanceof BooleanVariable) {
-
-				Choice variableValue = new Choice();
-				variableValue.add(TRUE);
-				variableValue.add(FALSE);
-				variableValue.add(UNDEFINED);
-				textField = variableValue;
-
+			for (InfoGUI infoGUI : infos) {
+				DecisionVariableGUI dvGui1 = new DecisionVariableGUI(infoGUI);
+				groupForElementsInLine.addGroup((dvlayout.createSequentialGroup().addComponent(dvGui1.getLabel())
+						.addComponent(dvGui1.getComponent())));
+				groupForElementsInColumns.addGroup((dvlayout.createParallelGroup(Alignment.CENTER)
+						.addComponent(dvGui1.getLabel()).addComponent(dvGui1.getComponent())));
+				mapWithControls.add(dvGui1);
 			}
 
-			label = new Label(var.getName());
-			label.setMaximumSize(new Dimension(70, 20));
-
-			groupForElementsInLine
-					.addGroup((dvlayout.createSequentialGroup().addComponent(label).addComponent(textField)));
-			groupForElementsInColumns.addGroup(
-					(dvlayout.createParallelGroup(Alignment.CENTER).addComponent(label).addComponent(textField)));
-
-			DecisionVariableGUI dvGUI = new DecisionVariableGUI(label, textField);
-			mapWithControls.add(dvGUI);
 		}
 
 		dvlayout.setHorizontalGroup(groupForElementsInLine);
 		dvlayout.setVerticalGroup(groupForElementsInColumns);
 		dvPanel.setLayout(dvlayout);
 		dvPanel.setBackground(Color.lightGray);
-		Collections.sort(mapWithControls);
-		controlPanel.add(dvPanel);
-	}
 
-	private List<String> generateListFromRangeExpression(IntegerExpression lb, IntegerExpression ub) {
-		List<String> returnList = new ArrayList<String>();
-		if ((lb instanceof IntegerConstant) && (ub instanceof IntegerConstant)) {
-			IntegerConstant min = (IntegerConstant) lb;
-			IntegerConstant max = (IntegerConstant) ub;
-			for (Integer i = min.getValue(); i <= max.getValue(); i++) {
-				returnList.add(i.toString());
-			}
+		Collections.sort(mapWithControls);
+
+		Dimension scrollPaneDimension = new Dimension(dvPanel.getPreferredSize().width + 30,
+				dvPanel.getPreferredSize().height + 35);
+
+		scrollPane.setPreferredSize(new Dimension(250, 700));
+
+		if (scrollPaneDimension.height < scrollPane.getPreferredSize().height) {
+			scrollPane.setPreferredSize(scrollPaneDimension);
 		}
-		return returnList;
+
+		scrollPane.add(dvPanel);
+		controlPanel.add(scrollPane);
 	}
 
 	private List<Constraint> getAllValuesFromTheInterface() throws Exception {
 
 		ArrayList<Constraint> userConstraints = new ArrayList<Constraint>();
-		String text = null;
-		for (DecisionVariableGUI dvGui : mapWithControls) {
-			if (dvGui.getComponent() instanceof Choice) {
-				Choice choice = (Choice) dvGui.getComponent();
-				text = choice.getSelectedItem();
-			} else {
-				TextField textField = (TextField) dvGui.getComponent();
-				text = textField.getText();
-			}
-			if (!text.equals(UNDEFINED) && !text.isEmpty()) {
-				Constraint c = createContraint(dvGui.getLabel().getText(), text);
-				if (c != null) {
-					userConstraints.add(c);
-				}
+
+		for (Displayable dv : decisionVariables) {
+
+			List<DecisionVariableGUI> controls = getVariableControls(dv.getName());
+
+			String values = getControlsValues(controls);
+
+			List<Constraint> constraints = dv.createConstraint(values);
+
+			if (constraints != null) {
+				userConstraints.addAll(constraints);
 			}
 
 		}
+
 		return userConstraints;
 
 	}
 
-	private Constraint createContraint(String variableName, String value) throws Exception {
-		TypeInst<?, ?> variable = mznCp.getDecisionVariableByName(variableName);
-		BooleanExpression expression;
+	private String getControlsValues(List<DecisionVariableGUI> controls) {
 
-		if (variable instanceof IntegerVariable) {
-			IntegerVariable integervariable = (IntegerVariable) variable;
+		StringBuilder values = new StringBuilder();
 
-			if (!MiniZincElementFactory.isNumeric(value))
-				throw new Exception(
-						"Wrong value inserted for variable " + variableName + ". His value must be an integer.");
-
-			int variableValue = integervariable.parseValue(value);
-			expression = new RelationalOperation<>(integervariable, RelationalOperator.EQ,
-					new IntegerConstant(variableValue));
-		} else {
-			BooleanVariable booleanVariable = (BooleanVariable) variable;
-			boolean variableValue = booleanVariable.parseValue(value);
-			expression = new RelationalOperation<>(booleanVariable, RelationalOperator.EQ,
-					new BooleanConstant(variableValue));
+		for (DecisionVariableGUI decisionVariableGUI : controls) {
+			values.append(decisionVariableGUI.getVariableValue());
+			if (controls.indexOf(decisionVariableGUI) != controls.size() - 1) {
+				values.append(",");
+			}
 		}
 
-		Constraint constraint = new Constraint("userDefined", String.format("%s = %s", variableName, value),
-				expression);
-		return constraint;
+		return values.toString();
+		// return
+		// controls.stream().map(c->c.getVariableValue()).collect(Collectors.toList());
+
+	}
+
+	// private Constraint createContraint(DecisionVariableGUI dvGui, String
+	// value) throws Exception {
+	//
+	// TypeInst<?, ?> variable =
+	// mznCp.getDecisionVariableByName(dvGui.getVariableName());
+	// BooleanExpression expression;
+	//
+	// if (variable instanceof IntegerVariable) {
+	// IntegerVariable integervariable = (IntegerVariable) variable;
+	//
+	// if (!MiniZincElementFactory.isNumeric(value))
+	// throw new Exception("Wrong value inserted for variable " +
+	// dvGui.getVariableName()
+	// + ". His value must be an integer.");
+	//
+	// int variableValue = integervariable.parseValue(value);
+	// expression = new RelationalOperation<>(integervariable,
+	// RelationalOperator.EQ,
+	// new IntegerConstant(variableValue));
+	// } else if (variable instanceof BooleanVariable) {
+	// BooleanVariable booleanVariable = (BooleanVariable) variable;
+	// boolean variableValue = booleanVariable.parseValue(value);
+	// expression = new RelationalOperation<>(booleanVariable,
+	// RelationalOperator.EQ,
+	// new BooleanConstant(variableValue));
+	// } else if (variable instanceof IntegerArray) {
+	// IntegerArray integerArray = (IntegerArray) variable;
+	// String indices =
+	// dvGui.getLabel().getText().replace(dvGui.getVariableName(),
+	// "").replace("[", "")
+	// .replace("]", "").trim();
+	// int index = Integer.parseInt(indices);
+	// Integer variableValue = Integer.parseInt(value);
+	// expression = new RelationalOperation<>(integerArray.access(index),
+	// RelationalOperator.EQ,
+	// new IntegerConstant(variableValue));
+	// } else {
+	// BooleanArray integerArray = (BooleanArray) variable;
+	// String indices =
+	// dvGui.getLabel().getText().replace(dvGui.getVariableName(),
+	// "").replace("[", "")
+	// .replace("]", "").trim();
+	// int index = Integer.parseInt(indices);
+	// Boolean variableValue = Boolean.parseBoolean(value);
+	// expression = new RelationalOperation<>(integerArray.access(index),
+	// RelationalOperator.EQ,
+	// new BooleanConstant(variableValue));
+	// }
+	//
+	// Constraint constraint = new Constraint("userDefined",
+	// String.format("%s = %s", dvGui.getLabel().getText(), value), expression);
+	// return constraint;
+	//
+	// }
+
+	private List<DecisionVariableGUI> getVariableControls(String variableName) {
+
+		if (mapWithControls.isEmpty() || mapWithControls == null) {
+			return null;
+
+		}
+		List<DecisionVariableGUI> controls = new ArrayList<DecisionVariableGUI>();
+
+		for (DecisionVariableGUI decisionVariableGUI : mapWithControls) {
+
+			if (decisionVariableGUI.getVariableName() == variableName) {
+				controls.add(decisionVariableGUI);
+			}
+
+		}
+		return controls;
 
 	}
 
@@ -319,11 +333,12 @@ public class VariableDialog {
 
 			userConstraints = getAllValuesFromTheInterface();
 
-			if (userConstraints.isEmpty()) {
-				JOptionPane.showMessageDialog(controlPanel, "You must set some values for decision variables!",
-						"Information", JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
+			// if (userConstraints.isEmpty()) {
+			// JOptionPane.showMessageDialog(controlPanel, "You must set some
+			// values for decision variables!",
+			// "Information", JOptionPane.INFORMATION_MESSAGE);
+			// return;
+			// }
 
 			String selectedAlgorithm = algorithmType.getSelectedItem();
 			HSDAG hsdag;
@@ -351,6 +366,8 @@ public class VariableDialog {
 
 			JOptionPane.showMessageDialog(controlPanel, String.format("An error occured! %s", ex.getMessage()), "Error",
 					JOptionPane.ERROR_MESSAGE);
+
+			ex.printStackTrace();
 		}
 
 	}

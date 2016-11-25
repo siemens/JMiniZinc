@@ -15,8 +15,6 @@ import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.diag.QuickXPlain;
 import at.siemens.ct.jmz.diag.SimpleConflictDetection;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.ui.TextComponentLogger;
-
 /**
  * This class implements HSDAG algorithm for detecting all diagnoses.
  */
@@ -69,7 +67,7 @@ public class HSDAG {
 	 * @throws Exception
 	 */
 	public DiagnosesCollection diagnose() throws Exception {
-		
+
 		conflictSets = new DiagnosesCollection();
 		DebugUtils.enabled = false;
 		DebugUtils.logLabel = "HSDAG";
@@ -95,7 +93,10 @@ public class HSDAG {
 				progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");
 			return new DiagnosesCollection();
 		}
-		conflictSets.add(minCS);
+
+		if (!conflictSets.contains(minCS)) {
+			conflictSets.add(minCS);
+		}
 		TreeNode rootNode = new TreeNode(minCS, userConstraints, null);
 		DiagnosesCollection diagnosesCollection = new DiagnosesCollection(); // Here
 																				// are
@@ -106,27 +107,22 @@ public class HSDAG {
 
 		buildDiagnosesTree(rootNode, diagnosesCollection);
 
-		if (progressCallback != null)
-		{
-			progressCallback.displayMessage(System.lineSeparator() + "All minimal conflict sets :" + System.lineSeparator()
-			+ conflictSets.toString());
+		if (progressCallback != null) {
+			progressCallback.displayMessage(System.lineSeparator() + "All minimal conflict sets :"
+					+ System.lineSeparator() + conflictSets.toString());
 			progressCallback.displayMessage(System.lineSeparator() + "All minimal diagnoses :" + System.lineSeparator()
 					+ diagnosesCollection.toString());
-			
+
 		}
 
 		DebugUtils.enabled = true;
 		return diagnosesCollection;
 	}
 
-	
-
 	private void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
 		List<Constraint> minCS;
 		List<Constraint> difference;
 		TreeNode treeNode;
-		
-	
 
 		DebugUtils.indent++;
 
@@ -156,7 +152,6 @@ public class HSDAG {
 			}
 
 			minCS = conflictDetection.getMinConflictSet(difference);
-		
 
 			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
 			if (progressCallback != null) {
@@ -186,7 +181,12 @@ public class HSDAG {
 
 				DebugUtils.printConstraintsSet("Difference:", difference);
 
-				conflictSets.add(minCS);
+				
+				if(!conflictSets.contains(minCS))
+				{
+					conflictSets.add(minCS);
+				}
+				
 				treeNode = new TreeNode(minCS, difference, String.valueOf(indexOfConstraint));
 
 				root.addChild(constraint, treeNode);
