@@ -2,6 +2,9 @@ package at.siemens.ct.jmz.expressions.bool;
 
 import at.siemens.ct.jmz.expressions.Expression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public interface BooleanExpression extends Expression<Boolean> {
 
   /**

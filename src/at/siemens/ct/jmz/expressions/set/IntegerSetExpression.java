@@ -3,6 +3,9 @@ package at.siemens.ct.jmz.expressions.set;
 import at.siemens.ct.jmz.elements.BasicTypeInst;
 import at.siemens.ct.jmz.elements.Set;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public interface IntegerSetExpression extends SetExpression<Integer> {
 
   static final SetExpression<Integer> INTEGER_UNIVERSE = new Set<Integer>(

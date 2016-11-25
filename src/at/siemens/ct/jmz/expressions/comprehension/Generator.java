@@ -12,8 +12,7 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
 /**
  * Represents the generating part of a {@link Comprehension}.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class Generator<T> implements Expression<T[]> {
 

@@ -8,7 +8,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 /**
  * A factory for {@link Executor}s
  * 
- * @author z003ft4a (Richard Taupe)
+ * @author © Siemens AG, 2016
  *
  * @param <E>
  *          the type of Executors produced by this factory

@@ -8,8 +8,7 @@ import java.util.List;
 /**
  * Represents a single executable that can be executed via a system call.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public interface Executable {
 

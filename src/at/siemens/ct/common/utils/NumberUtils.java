@@ -5,8 +5,7 @@ import java.util.OptionalInt;
 /**
  * Provides utility funcions for {@link Number}s.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class NumberUtils {
 

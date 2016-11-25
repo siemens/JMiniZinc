@@ -16,8 +16,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 /**
  * Maintains names and group memberships of {@link Constraint}s.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class ConstraintRegistry {
 

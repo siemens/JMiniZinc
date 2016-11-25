@@ -3,8 +3,7 @@ package at.siemens.ct.jmz.parser;
 /**
  * Represents a message from MiniZinc indicating whether the search for solutions was successful, complete, ...
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public enum SolverMessage {
 

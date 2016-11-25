@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.expressions.set;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class SymmetricSetDifference extends BinarySetOperation {
 
   private static final String OPERATOR_SYMBOL = "symdiff";

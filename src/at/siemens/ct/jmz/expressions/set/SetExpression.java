@@ -4,6 +4,11 @@ import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ * 
+ * @param <T> The data type of the elements of this set
+ */
 public interface SetExpression<T> extends Expression<java.util.Set<T>> {
 
   final char LEFT_BRACKET = '{';

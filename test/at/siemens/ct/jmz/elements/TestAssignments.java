@@ -17,8 +17,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 /**
  * Tests various {@link Assignment}s.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestAssignments {
 

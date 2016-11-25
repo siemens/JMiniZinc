@@ -3,8 +3,7 @@ package at.siemens.ct.common.utils;
 /**
  * Provides utility functions for {@link String}s.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class StringUtils {
 

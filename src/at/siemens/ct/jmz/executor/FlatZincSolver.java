@@ -3,8 +3,7 @@ package at.siemens.ct.jmz.executor;
 /**
  * Enables the choice between different FlatZinc solvers (like Gecode, G12, ...)
  * 
- * @author z003ft4a
- *
+ * @author © Siemens AG, 2016
  */
 public enum FlatZincSolver {
 

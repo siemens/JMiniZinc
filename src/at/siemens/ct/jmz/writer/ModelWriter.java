@@ -21,8 +21,7 @@ import at.siemens.ct.jmz.files.TemporaryFiles;
 /**
  * Provides methods that write models built by a {@link IModelBuilder} somewhere.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class ModelWriter implements IModelWriter {
 

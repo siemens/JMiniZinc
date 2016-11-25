@@ -2,8 +2,7 @@ package at.siemens.ct.jmz.expressions.set;
 
 /**
  * TODO: unit tests (for all subclasses)
- * @author z003ft4a
- *
+ * @author © Siemens AG, 2016
  */
 public abstract class BinarySetOperation implements IntegerSetExpression {
 

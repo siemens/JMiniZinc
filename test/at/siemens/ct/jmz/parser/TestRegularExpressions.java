@@ -15,8 +15,7 @@ import at.siemens.ct.jmz.executor.TestExecutor;
  * 
  * See also {@link TestExecutor}, where the result parser is tested implicitly.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestRegularExpressions {
 

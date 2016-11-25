@@ -12,6 +12,9 @@ import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.set.BooleanSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class BooleanArray extends Array<Boolean, Boolean> {
 
   private static final SetExpression<Boolean> TYPE = BooleanSetExpression.BOOLEAN_UNIVERSE;

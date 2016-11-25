@@ -9,6 +9,11 @@ import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The data type of the elements of the array
+ */
 public interface ArrayExpression<T> extends Expression<T[]> {
 
   final char LEFT_BRACKET = '[';

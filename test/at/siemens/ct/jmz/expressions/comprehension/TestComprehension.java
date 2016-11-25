@@ -12,8 +12,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 /**
  * Tests {@link Comprehension} and its concrete implementations.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestComprehension {
 

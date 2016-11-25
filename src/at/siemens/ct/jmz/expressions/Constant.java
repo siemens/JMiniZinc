@@ -2,6 +2,12 @@ package at.siemens.ct.jmz.expressions;
 
 import java.util.Set;
 
+/**
+ * @author © Siemens AG, 2016
+ * 
+ * @param <T> The primitive type of this constant (e.g. {@link Integer})
+ * @param <V> The data type of this constant´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
+ */
 public class Constant<T, V> implements Expression<V> {
 
   private Expression<Set<T>> type;

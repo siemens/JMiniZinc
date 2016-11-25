@@ -9,6 +9,9 @@ import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class TestConditionalExpression {
 
   /**

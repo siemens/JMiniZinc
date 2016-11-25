@@ -7,6 +7,9 @@ import java.util.List;
 
 import at.siemens.ct.common.utils.ListUtils;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class MiniZincIDEExecutable implements Executable {
 
   private static final String EXE_NAME = "MiniZincIDE";

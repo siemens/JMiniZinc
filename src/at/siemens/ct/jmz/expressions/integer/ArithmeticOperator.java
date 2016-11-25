@@ -2,6 +2,9 @@ package at.siemens.ct.jmz.expressions.integer;
 
 import at.siemens.ct.jmz.expressions.Operator;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public enum ArithmeticOperator implements Operator {
 
   PLUS("+"), MINUS("-"), TIMES("*"), DIV_INT("div"), MODULO("mod");

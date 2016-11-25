@@ -6,6 +6,11 @@ import at.siemens.ct.jmz.elements.BasicTypeInst;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.Variable;
 
+/**
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The data type of the elements of this set
+ */
 public class SetVariable<T> extends Variable<T, java.util.Set<T>> implements SetExpression<T> {
 
 	public SetVariable(BasicTypeInst<T> innerTypeInst) {

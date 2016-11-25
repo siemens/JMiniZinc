@@ -2,6 +2,9 @@ package at.siemens.ct.jmz.elements.solving;
 
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class Optimize extends SolvingStrategy {
 
   private OptimizationType type;

@@ -13,6 +13,15 @@ import at.siemens.ct.jmz.expressions.array.ArrayExpression;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * Represents a MiniZinc array.
+ * Depending on the {@link TypeInst} contained within an instance of this class, the array can either be variable or constant.
+ * 
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The primitive type of the elements in this array (e.g. {@link Integer})
+ * @param <V> The data type of the values in this array (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
+ */
 public abstract class Array<T, V> extends TypeInst<T, V[]> implements ArrayExpression<V> {
 
 	private List<? extends SetExpression<Integer>> range;

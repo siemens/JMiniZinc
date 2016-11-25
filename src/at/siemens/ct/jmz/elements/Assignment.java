@@ -6,10 +6,10 @@ import at.siemens.ct.jmz.expressions.Expression;
 /**
  * Assigns a value to a previously unassigned variable.
  *
- * @author z003ft4a (Richard Taupe)
+ * @author © Siemens AG, 2016
  *
- * @param <V>
- *          the type of the variable.
+ * @param <T> The primitive type of the assignment (e.g. {@link Integer})
+ * @param <V> The data type of this assignment´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
  */
 public class Assignment<T, V> implements Element {
 

@@ -9,8 +9,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  * disadvantage of this is that we cannot kill grandchild processes, so this executor cannot guarantee that all
  * processes are terminated when it is interrupted.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class MiniZincExecutor extends Executor {
 

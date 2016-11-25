@@ -14,6 +14,9 @@ import at.siemens.ct.jmz.executor.PipedMiniZincExecutor;
 import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class ConsistencyChecker {
 
 	private static final String Unsatisfiable = "=====UNSATISFIABLE=====";

@@ -7,7 +7,7 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
 /**
  * Represents one (of potentially multiple) iterators in a {@link Generator}.
  *
- * @author z003ft4a (Richard Taupe)
+ * @author © Siemens AG, 2016
  */
 public class IteratorExpression<T> implements Expression<T> {
 

@@ -10,6 +10,9 @@ import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.elements.output.OutputStatement;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public interface IModelWriter {
 
   /**

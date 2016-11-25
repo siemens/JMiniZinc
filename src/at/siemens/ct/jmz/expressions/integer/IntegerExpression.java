@@ -2,6 +2,9 @@ package at.siemens.ct.jmz.expressions.integer;
 
 import at.siemens.ct.jmz.expressions.Expression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public interface IntegerExpression extends Expression<Integer> {
 
   /**

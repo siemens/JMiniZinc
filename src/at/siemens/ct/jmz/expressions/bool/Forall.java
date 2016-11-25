@@ -7,8 +7,7 @@ import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 /**
  * Represents a forall-expression, i.e. a conjunction of boolean expressions.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class Forall<T> implements BooleanExpression {
 

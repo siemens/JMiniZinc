@@ -1,8 +1,9 @@
 package at.siemens.ct.jmz.expressions;
 
 /**
- * @param <T>
- *          the type of the expression (e.g. {@link Integer} or {@link Boolean})
+ * @author © Siemens AG, 2016
+ * 
+ * @param <T> The data type of the expression (e.g. {@link Integer} or {@link Boolean})
  */
 public interface Expression<T> {
 

@@ -4,14 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import javax.jws.Oneway;
-
-import at.siemens.ct.jmz.elements.Assignment;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
-import at.siemens.ct.jmz.expressions.array.IntegerArrayAccessExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
@@ -21,6 +17,9 @@ import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class UtilsForTest {
 
 	public static String getTestDataset2(List<Constraint> constraintsSetC, List<Element> decisionsVariable)

@@ -14,6 +14,9 @@ import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class TestArrayAccess {
 
   /**

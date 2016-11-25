@@ -5,6 +5,15 @@ import java.util.regex.Pattern;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * Represents a MiniZinc set.
+ * The type of elements of the set is determined by the {@link TypeInst} contained within an instance of this class.
+ * If the set shall be variable, it has to be contained by a {@link Variable}.
+ * 
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The primitive type of the elements in this set (e.g. {@link Integer})
+ */
 public class Set<T> extends TypeInst<T, java.util.Set<T>> implements SetExpression<T> {
 
   private BasicTypeInst<T> innerTypeInst;

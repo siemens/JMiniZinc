@@ -9,8 +9,7 @@ import java.util.stream.Stream;
 /**
  * Provides utility methods for {@link Collection}s.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class CollectionUtils {
 

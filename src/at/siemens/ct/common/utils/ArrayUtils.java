@@ -3,6 +3,9 @@ package at.siemens.ct.common.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class ArrayUtils {
 
   /**

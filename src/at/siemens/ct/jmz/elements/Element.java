@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.elements;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public interface Element {
 
   /**

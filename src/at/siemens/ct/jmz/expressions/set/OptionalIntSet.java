@@ -4,8 +4,7 @@ package at.siemens.ct.jmz.expressions.set;
  * Represents a MiniZinc option type with an underlying integer set. This means that a variable of this type can either
  * be assigned an element of this set or, optionally, a null value.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class OptionalIntSet implements IntegerSetExpression {
 

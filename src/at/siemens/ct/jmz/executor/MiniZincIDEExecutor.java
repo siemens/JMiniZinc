@@ -8,8 +8,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  * Executes <i>MiniZincIDE</i> (i.e. shows the generated model on the screen) and should therefore only be used for
  * testing/presentation purposes.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class MiniZincIDEExecutor extends Executor {
 

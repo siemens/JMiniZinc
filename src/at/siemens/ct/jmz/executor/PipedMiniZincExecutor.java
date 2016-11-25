@@ -12,8 +12,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  * implementation should be preferred over {@link MiniZincExecutor} if a clean exit behaviour in case of interrupts is
  * required.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class PipedMiniZincExecutor extends Executor {
 

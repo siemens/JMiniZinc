@@ -5,6 +5,9 @@ import java.util.Set;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public abstract class SetComprehension<T> extends Comprehension<Integer, T, Set<T>>
     implements SetExpression<T> {
 

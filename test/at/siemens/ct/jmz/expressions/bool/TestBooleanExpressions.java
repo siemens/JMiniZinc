@@ -14,8 +14,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 /**
  * Tests {@link Expression}s in {@link at.siemens.ct.jmz.expressions.bool}.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestBooleanExpressions {
 
@@ -34,7 +33,7 @@ public class TestBooleanExpressions {
     RelationalOperation<Integer> arrayElementEqualsIndex = new RelationalOperation<>(
         array.access(iterator), RelationalOperator.EQ, iterator);
 
-    Forall forall = new Forall(generator, arrayElementEqualsIndex);
+		Forall<Integer> forall = new Forall<>(generator, arrayElementEqualsIndex);
 
     Assert.assertEquals("forall(i in 1..3 where i > 1)(a[i] = i)", forall.use());
   }

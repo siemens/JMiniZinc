@@ -3,8 +3,7 @@ package at.siemens.ct.jmz.expressions.bool;
 /**
  * Negates a {@link BooleanExpression}.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class Negation implements BooleanExpression {
 

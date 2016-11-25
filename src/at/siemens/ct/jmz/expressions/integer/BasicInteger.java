@@ -4,6 +4,9 @@ import at.siemens.ct.jmz.elements.BasicTypeInst;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class BasicInteger extends BasicTypeInst<Integer> implements IntegerExpression {
 
   public BasicInteger(BasicTypeInst<Integer> innerTypeInst) {

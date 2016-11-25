@@ -7,7 +7,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
  * This interface must be implemented to get messages sent by HSDAG. 
- *
+ * @author © Siemens AG, 2016
  */
 public interface DiagnoseProgressCallback {
 	public void diagnoseFound(List<Constraint> diagnose);

@@ -3,6 +3,9 @@ package at.siemens.ct.jmz.elements.solving;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public abstract class SolvingStrategy implements Element {
 
   public static final SolvingStrategy SOLVE_SATISFY = new SolveSatisfy();

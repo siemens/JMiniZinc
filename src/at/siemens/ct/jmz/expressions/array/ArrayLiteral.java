@@ -12,8 +12,10 @@ import at.siemens.ct.jmz.expressions.set.PseudoOptionalIntSet;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
+ * 
+ * @param <T> The primitive type of the elements in this array (e.g. {@link Integer})
+ * @param <V> The data type of the values in this array (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
  */
 public class ArrayLiteral<T, V> implements ArrayExpression<V> {
 

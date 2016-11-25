@@ -6,9 +6,9 @@ import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 /**
  * Represents an if-else-...-endif tree in MiniZinc. Each branch must be an expression of type {@code T}.
  * 
- * @author z003ft4a (Richard Taupe)
+ * @author © Siemens AG, 2016
  *
- * @param <T>
+ * @param <T> The data type of this expression
  */
 public class ConditionalExpression<T> implements Expression<T> {
 

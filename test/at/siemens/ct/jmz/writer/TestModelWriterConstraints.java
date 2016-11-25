@@ -20,8 +20,7 @@ import at.siemens.ct.jmz.expressions.set.SetLiteral;
 /**
  * Tests {@link ModelWriter} with {@link Element}s from {@link at.siemens.ct.jmz.elements.constraints}.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestModelWriterConstraints {
 

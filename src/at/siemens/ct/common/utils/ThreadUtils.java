@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Provides simple methods to use threads easily.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class ThreadUtils {
 

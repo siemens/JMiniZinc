@@ -10,8 +10,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 /**
  * Tests {@link Expression}s in {@link at.siemens.ct.jmz.expressions.integer}.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestIntegerExpressions {
 

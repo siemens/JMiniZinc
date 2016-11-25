@@ -7,8 +7,7 @@ import java.nio.file.Files;
 /**
  * Provides methods to create temporary files.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public abstract class TemporaryFiles {
 

@@ -6,9 +6,7 @@ import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
- * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public abstract class Comprehension<G, T, V> implements Expression<V> {
 

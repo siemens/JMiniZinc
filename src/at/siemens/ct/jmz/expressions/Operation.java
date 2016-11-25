@@ -1,5 +1,11 @@
 package at.siemens.ct.jmz.expressions;
 
+/**
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The primitive type of this operation (e.g. {@link Integer})
+ * @param <V> The data type of this operation´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
+ */
 public class Operation<T, V> implements Expression<V> {
 
 	private Expression<T> left;

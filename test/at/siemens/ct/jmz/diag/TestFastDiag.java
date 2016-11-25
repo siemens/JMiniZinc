@@ -12,6 +12,9 @@ import org.junit.Test;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class TestFastDiag {
 
 	// the diagnose that should be founded in the data set is D = {x2 = 3, x1 =

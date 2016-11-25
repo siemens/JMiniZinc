@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class ListUtils {
 
   /**

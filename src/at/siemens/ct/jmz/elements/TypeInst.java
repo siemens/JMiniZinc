@@ -7,11 +7,13 @@ import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
- * TODO: doc
+ * Represents a MiniZinc type-inst (in accordance with the MiniZinc specification 2.0),
+ * i.e. a type and a variable instantiation indicating whether the variable is fixed to a known value or not.
  * 
- * @author z003ft4a
+ * @author © Siemens AG, 2016
  *
- * @param <T>
+ * @param <T> The primitive type of this TypeInst (e.g. {@link Integer})
+ * @param <V> The data type of this TypeInst´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
  */
 public abstract class TypeInst<T, V> implements Element, Expression<V> {
 

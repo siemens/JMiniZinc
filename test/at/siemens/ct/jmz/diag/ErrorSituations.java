@@ -10,6 +10,9 @@ import org.junit.Test;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class ErrorSituations {
 
 	@Test

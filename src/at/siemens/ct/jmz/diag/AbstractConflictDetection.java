@@ -7,6 +7,9 @@ import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public abstract class AbstractConflictDetection {
 	protected File mznFile;
 	protected ConsistencyChecker consistencyChecker;

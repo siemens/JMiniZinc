@@ -9,8 +9,7 @@ import at.siemens.ct.jmz.elements.TypeInst;
 /**
  * An interface for MiniZinc model builders.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public interface IModelBuilder {
 

@@ -7,8 +7,7 @@ import at.siemens.ct.jmz.expressions.Expression;
 /**
  * Constrains the value of an integer expression to be an element of a specific set.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class IntegerExpressionInSet implements BooleanExpression {
 

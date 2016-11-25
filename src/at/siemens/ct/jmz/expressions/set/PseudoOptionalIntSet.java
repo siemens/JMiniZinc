@@ -10,8 +10,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
  * MiniZinc itself), we use an integer to represent nulls here. This element can be obtained by
  * {@link #getNullElement()}.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class PseudoOptionalIntSet implements IntegerSetExpression {
 

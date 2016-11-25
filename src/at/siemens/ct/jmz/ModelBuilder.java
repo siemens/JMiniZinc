@@ -14,8 +14,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 /**
  * A MiniZinc model builder.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class ModelBuilder implements IModelBuilder {
 

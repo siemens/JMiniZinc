@@ -20,6 +20,9 @@ import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class TestSimpleConflictDetection {
 
 	@Test

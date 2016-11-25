@@ -11,6 +11,9 @@ import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class ExplicitIntegerList extends ArrayLiteral<Integer, Integer> {
 
 	public ExplicitIntegerList(SetExpression<Integer> range, SetExpression<Integer> type, Collection<Integer> values) {

@@ -8,7 +8,7 @@ import java.util.List;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * @author z003pczy (Mara Rosu)
+ * @author © Siemens AG, 2016
  */
 public class FastDiag extends AbstractConflictDetection {
 

@@ -10,8 +10,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 /**
  * Represents the access to one element of an {@link ArrayExpression}.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class ArrayAccessExpression<T> implements Expression<T> {
 

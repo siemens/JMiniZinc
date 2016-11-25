@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.expressions.bool;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public enum BinaryLogicalOperator {
 
   And("/\\"), Or("\\/"), OnlyIf("<-"), Implies("->"), IfAndOnlyIf("<->");

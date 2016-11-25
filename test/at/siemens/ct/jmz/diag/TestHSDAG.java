@@ -14,6 +14,9 @@ import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class TestHSDAG implements DiagnoseProgressCallback {
 	private static String logLabel = "TestHSDAG";
 

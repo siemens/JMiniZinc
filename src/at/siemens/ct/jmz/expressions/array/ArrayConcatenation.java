@@ -4,6 +4,11 @@ import java.util.List;
 
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ * 
+ * @param <T> The data type of the elements of the array resulting from the concatenation
+ */
 public class ArrayConcatenation<T> implements ArrayExpression<T> {
 
 	private ArrayExpression<T> left;

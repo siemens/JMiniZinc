@@ -32,8 +32,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 /**
  * Tests declarations of various {@link Element}s
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestDeclarations {
 

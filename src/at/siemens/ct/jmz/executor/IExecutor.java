@@ -2,6 +2,9 @@ package at.siemens.ct.jmz.executor;
 
 import java.io.IOException;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public interface IExecutor {
 
   static final int EXIT_CODE_SUCCESS = 0;

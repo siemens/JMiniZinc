@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Variable;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class OutputAllVariables extends OutputStatement {
 
   private List<Variable<?, ?>> variables;

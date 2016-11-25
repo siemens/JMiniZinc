@@ -6,8 +6,7 @@ import at.siemens.ct.jmz.executor.IExecutor;
 /**
  * Parses output from {@link IExecutor}.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class MiniZincOutputParser {
 

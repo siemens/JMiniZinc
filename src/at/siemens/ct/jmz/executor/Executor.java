@@ -23,8 +23,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 /**
  * Runs a MiniZinc process and communicates with it.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public abstract class Executor implements IExecutor {
 

@@ -6,8 +6,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  * An implementation of this interface can be used to replace certain {@link Constraint}s by relaxed versions in a
  * {@link ModelBuilder}.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public interface IConstraintRelaxation {
 

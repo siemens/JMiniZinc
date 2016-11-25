@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class FileUtils {
 
   /**

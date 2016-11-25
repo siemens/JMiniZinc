@@ -1,17 +1,14 @@
-package at.siemens.jmz.mznparser;
+package at.siemens.ct.jmz.mznparser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-import at.siemens.ct.jmz.ModelBuilder;
-import at.siemens.ct.jmz.elements.TypeInst;
 import at.siemens.ct.jmz.expressions.bool.BasicBoolean;
 import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
@@ -23,7 +20,10 @@ import at.siemens.ct.jmz.mznparser.MiniZincCP;
 import at.siemens.ct.jmz.mznparser.PossibleVariablesDeclarationsPatterns;
 import at.siemens.ct.jmz.ui.Displayable;
 
-public class _TestMznParser {
+/**
+ * @author © Siemens AG, 2016
+ */
+public class TestMznParser {
 
 	MiniZincCP constraintProblem;
 

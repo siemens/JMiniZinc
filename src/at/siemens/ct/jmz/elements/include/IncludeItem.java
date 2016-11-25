@@ -5,6 +5,9 @@ import java.nio.file.Path;
 
 import at.siemens.ct.jmz.elements.Element;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class IncludeItem implements Element {
 
   public static final String FILENAME_SUFFIX = ".mzn";

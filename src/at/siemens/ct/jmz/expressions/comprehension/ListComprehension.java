@@ -4,8 +4,7 @@ import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.array.ArrayExpression;
 
 /**
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class ListComprehension<T> extends Comprehension<Integer, T, T[]>
     implements ArrayExpression<T> {

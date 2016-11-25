@@ -12,8 +12,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 /**
  * A set of integers that is defined as all integers between a lower and an upper bound.
  *
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class RangeExpression implements IntegerSetExpression {
 

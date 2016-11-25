@@ -1,5 +1,8 @@
 package at.siemens.ct.jmz.elements.solving;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public enum OptimizationType {
   MIN("minimize"), MAX("maximize");
 

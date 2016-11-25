@@ -5,6 +5,13 @@ import java.util.regex.Pattern;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * The most basic form of a {@link TypeInst}, which can be used for simple constants, or to build {@link Set}s, {@link Variable}s and {@link Array}s.
+ * 
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The primitive type of this TypeInst (e.g. {@link Integer})
+ */
 public class BasicTypeInst<T> extends TypeInst<T, T> {
 
   private String name;

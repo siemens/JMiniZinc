@@ -3,6 +3,9 @@ package at.siemens.ct.jmz.expressions.array;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class IntegerArrayAccessExpression extends ArrayAccessExpression<Integer> implements IntegerExpression {
 
 	public IntegerArrayAccessExpression(ArrayExpression<Integer> array, Expression<Integer> index) {

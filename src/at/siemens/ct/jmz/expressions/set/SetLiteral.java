@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class SetLiteral implements IntegerSetExpression {
 
 	private Collection<IntegerConstant> elements;

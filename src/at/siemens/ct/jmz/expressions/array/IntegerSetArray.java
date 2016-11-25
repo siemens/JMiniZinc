@@ -15,8 +15,7 @@ import at.siemens.ct.jmz.expressions.set.SetVariable;
 
 /**
  * An array of sets of integers.
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class IntegerSetArray extends Array<Integer, Set<Integer>> {
 

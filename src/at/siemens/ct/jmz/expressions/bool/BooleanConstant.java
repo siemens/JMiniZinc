@@ -3,6 +3,9 @@ package at.siemens.ct.jmz.expressions.bool;
 import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.set.BooleanSetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class BooleanConstant extends Constant<Boolean, Boolean> implements BooleanExpression {
 
 	public static final BooleanConstant TRUE = new BooleanConstant(true);

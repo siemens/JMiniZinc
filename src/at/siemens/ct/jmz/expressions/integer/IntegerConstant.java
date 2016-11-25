@@ -4,6 +4,9 @@ import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class IntegerConstant extends Constant<Integer, Integer>
     implements IntegerExpression, Comparable<IntegerConstant> {
 

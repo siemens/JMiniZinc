@@ -3,6 +3,9 @@ package at.siemens.ct.jmz.elements.constraints;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.expressions.Expression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class Constraint implements Element {
 
   protected final String constraintGroup;

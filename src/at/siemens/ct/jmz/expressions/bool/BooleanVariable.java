@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.expressions.set.BooleanSetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class BooleanVariable extends Variable<Boolean, Boolean> implements BooleanExpression {
 
 	public BooleanVariable(String name) {

@@ -8,6 +8,11 @@ import java.util.List;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.Operation;
 
+/**
+ * @author © Siemens AG, 2016
+ *
+ * @param <T> The data type of this expression
+ */
 public class ArithmeticOperation<T extends Number> extends Operation<T, T>
 		implements Expression<T> {
 

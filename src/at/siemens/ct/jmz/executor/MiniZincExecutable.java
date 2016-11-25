@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class MiniZincExecutable implements Executable {
 
   private static final String EXE_NAME = "minizinc";

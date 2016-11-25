@@ -16,6 +16,9 @@ import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.IntegerSetExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
+/**
+ * @author © Siemens AG, 2016
+ */
 public class IntegerArray extends Array<Integer, Integer> {
 
   private static final SetExpression<Integer> TYPE = IntegerSetExpression.INTEGER_UNIVERSE;

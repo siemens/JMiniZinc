@@ -11,8 +11,7 @@ import at.siemens.ct.jmz.executor.IExecutor;
 /**
  * Tests {@link MiniZincOutputParser}.
  * 
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 public class TestOutputParser {
 

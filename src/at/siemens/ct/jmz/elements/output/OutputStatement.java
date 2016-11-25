@@ -12,8 +12,7 @@ import at.siemens.ct.jmz.expressions.comprehension.ListComprehension;
  *             output format.
  * @see Variable#getPattern()
  * @see Variable#parseResults(String)
- * @author z003ft4a (Richard Taupe)
- *
+ * @author © Siemens AG, 2016
  */
 @Deprecated
 public abstract class OutputStatement implements Element {
