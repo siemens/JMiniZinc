@@ -1,15 +1,29 @@
+/**
+ * Copyright © Siemens AG, 2016
+ * 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package at.siemens.ct.jmz.mznparser;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import at.siemens.ct.common.utils.StringUtils;
 import at.siemens.ct.jmz.elements.BasicTypeInst;
-import at.siemens.ct.jmz.expressions.bool.*;
-import at.siemens.ct.jmz.expressions.integer.*;
+import at.siemens.ct.jmz.expressions.bool.BasicBoolean;
+import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
+import at.siemens.ct.jmz.expressions.integer.BasicInteger;
+import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
+import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.ui.Displayable;
-import at.siemens.ct.jmz.ui.variables.*;
+import at.siemens.ct.jmz.ui.variables.DisplayableBooleanArray;
+import at.siemens.ct.jmz.ui.variables.DisplayableBooleanVariable;
+import at.siemens.ct.jmz.ui.variables.DisplayableIntegerArray;
+import at.siemens.ct.jmz.ui.variables.DisplayableIntegerVariable;
 
 public class MiniZincElementFactory {
 

@@ -1,3 +1,9 @@
+/**
+ * Copyright © Siemens AG, 2016
+ * 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package at.siemens.ct.jmz.mznparser;
 
 import static org.junit.Assert.assertEquals;
@@ -16,8 +22,6 @@ import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
-import at.siemens.ct.jmz.mznparser.MiniZincCP;
-import at.siemens.ct.jmz.mznparser.PossibleVariablesDeclarationsPatterns;
 import at.siemens.ct.jmz.ui.Displayable;
 
 /**
