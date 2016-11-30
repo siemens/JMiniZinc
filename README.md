@@ -13,11 +13,11 @@ $ mvn clean install
 
 will automatically fetch all dependencies (declared in [`pom.xml`](pom.xml)) and compile the project.
 
-Artifacts generated will be placed in [`target/`](target/). Most notably you'll find there a JAR file called `jminizinc-1.0.jar`.
+Artifacts generated will be placed in `target/`. Most notably you'll find there a JAR file called `jminizinc-1.0.jar`.
 
 ## Usage
 
-You should be able to figure out quickly how to use JMiniZinc by looking at our [JUnit tests](test/).
+You should be able to figure out quickly how to use JMiniZinc by looking at our [JUnit tests](/test/at/siemens/ct/jmz/).
 First you construct a MiniZinc model by adding [`Variable`](src/at/siemens/ct/jmz/elements/Variable.java)s, [`Constraint`](src/at/siemens/ct/jmz/elements/constraints/Constraint.java)s etc. to a [`ModelBuilder`](src/at/siemens/ct/jmz/IModelBuilder.java),
 Then you add additional syntactical elements (e.g. a solving strategy) to a [`ModelWriter`](src/at/siemens/ct/jmz/writer/IModelWriter.java)
 and let the resulting model be solved by an [`Executor`](src/at/siemens/ct/jmz/executor/IExecutor.java).
