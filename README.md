@@ -21,9 +21,14 @@ You should be able to figure out quickly how to use JMiniZinc by looking at our 
 First you construct a MiniZinc model by adding [`Variable`](src/at/siemens/ct/jmz/elements/Variable.java)s, [`Constraint`](src/at/siemens/ct/jmz/elements/constraints/Constraint.java)s etc. to a [`ModelBuilder`](src/at/siemens/ct/jmz/IModelBuilder.java),
 Then you add additional syntactical elements (e.g. a solving strategy) to a [`ModelWriter`](src/at/siemens/ct/jmz/writer/IModelWriter.java)
 and let the resulting model be solved by an [`Executor`](src/at/siemens/ct/jmz/executor/IExecutor.java).
+For the Executors to work, executables `minizinc`, `mzn2fzn`, ... should be available on your `PATH`.
 
 ## Development Status
 
 JMiniZinc is still in development, so you´ll stumble upon some inline TODOs when looking through the code.
 However, it is stable enough for many use cases and has been successfully used in various projects already.
 Feel free to contribute by fixing open TODOs or adding features!
+
+## References
+
+The API design follows the official [MiniZinc specification](http://www.minizinc.org/doc-lib/minizinc-spec.pdf).
