@@ -80,7 +80,7 @@ public class MiniZincElementFactory {
 							return new DisplayableIntegerArray(name, arraySize, values);
 						}
 					} else {
-						// add to parameters list ?
+						// TODO: add to parameters list ?
 						return null;
 					}
 
@@ -121,25 +121,6 @@ public class MiniZincElementFactory {
 					}
 				}
 				if (type.contains(RANGE_SEPARATOR)) {
-					// String min, max;
-					// IntegerExpression lb;
-					// IntegerExpression ub;
-					// min = StringUtils.removePostfix(type, RANGE_SEPARATOR);
-					// max = StringUtils.removePrefix(type, RANGE_SEPARATOR);
-					//
-					// if (isNumeric(min)) {
-					// lb = new IntegerConstant(Integer.parseInt(min));
-					// } else {
-					// lb = (IntegerExpression)
-					// getElementByName(min).getValue();
-					// }
-					// if (isNumeric(max)) {
-					// ub = new IntegerConstant(Integer.parseInt(max));
-					// } else {
-					// ub = (IntegerExpression)
-					// getElementByName(max).getValue();
-					// }
-					// return new IntegerVariable(name, createRange(type));
 					return new DisplayableIntegerVariable(name, createRange(type));
 				}
 

@@ -14,9 +14,9 @@ import at.siemens.ct.common.utils.FileUtils;
 import at.siemens.ct.jmz.ui.Displayable;
 
 /**
- * @author z003pczy (Mara Rosu) parses output from MiniZincIde (.mzn files)
+ *  parses output from MiniZincIde (.mzn files)
+ * @author z003pczy (Mara Rosu)
  */
-
 public class MiniZincCP {
 
 	private List<Displayable> elementsFromFile;
@@ -61,21 +61,6 @@ public class MiniZincCP {
 	public List<Displayable> getElementsFromFile() {
 		return elementsFromFile;
 	}
-
-//	public ArrayList<TypeInst<?, ?>> getDecisionVariables() {
-//		ArrayList<TypeInst<?, ?>> dvList = new ArrayList<TypeInst<?, ?>>();
-//		for (Element element : elementsFromFile) {
-//
-//			if (element instanceof TypeInst<?, ?>) {
-//				TypeInst<?, ?> typeInst = (TypeInst<?, ?>) element;
-//				if (typeInst.isVariable() || typeInst.declare().contains("var")) {
-//					dvList.add(typeInst);
-//				}
-//
-//			}
-//		}
-//		return dvList;
-//	}
 
 	public Displayable getDecisionVariableByName(String name) {
 

@@ -111,7 +111,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection{
 		return differenceSet.get(0);
 	}
 	
-	//todo: maybe this is not necessary if it is used Set instead of List. 
+	//TODO: maybe this is not necessary if it is used Set instead of List. 
 	private void appendSet(List<Constraint> destSet, Constraint c){		
 		if (!destSet.contains(c)){
 			destSet.add(c);

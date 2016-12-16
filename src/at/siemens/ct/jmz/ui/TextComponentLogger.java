@@ -20,8 +20,8 @@ import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * @author z003pczy (Mara Rosu)
  * Class used to send messages to interface
+ * @author z003pczy (Mara Rosu)
  *
  */
 public class TextComponentLogger implements DiagnoseProgressCallback {

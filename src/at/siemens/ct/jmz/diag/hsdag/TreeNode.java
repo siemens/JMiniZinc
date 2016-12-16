@@ -11,7 +11,8 @@ import java.util.List;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * @author z003pczy (Rosu Mara) Class for a node from the HSDAG tree
+ * Class for a node from the HSDAG tree
+ * @author z003pczy (Rosu Mara)
  */
 public class TreeNode {	
 	/**

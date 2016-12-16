@@ -27,7 +27,6 @@ public class FileChooserDialog {
 		}
 		if (returnVal == JFileChooser.CANCEL_OPTION) {
 			chooser.setVisible(false);
-			//JOptionPane.showMessageDialog(null, "Task Canceled");
 		}
 
 	}
