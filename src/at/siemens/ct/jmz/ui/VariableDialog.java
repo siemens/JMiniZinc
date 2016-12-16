@@ -256,10 +256,10 @@ public class VariableDialog {
 
 	private List<DecisionVariableGUI> getVariableControls(String variableName) {
 
-		if (mapWithControls.isEmpty() || mapWithControls == null) {
+		if (mapWithControls == null || mapWithControls.isEmpty()) {
 			return null;
-
 		}
+
 		List<DecisionVariableGUI> controls = new ArrayList<DecisionVariableGUI>();
 
 		for (DecisionVariableGUI decisionVariableGUI : mapWithControls) {
