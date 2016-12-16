@@ -31,6 +31,8 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  */
 public class TestSimpleConflictDetection {
 
+	private DebugUtils debugUtils = new DebugUtils();
+
 	@Test
 	public void testSimpleConflictDetection_1() throws Exception{
 		List<Constraint> minCS = null;
@@ -62,7 +64,7 @@ public class TestSimpleConflictDetection {
 			AbstractConflictDetection conflictDetection = new SimpleConflictDetection(f.getAbsolutePath());			
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNull(minCS);
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_1:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_1:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -84,7 +86,7 @@ public class TestSimpleConflictDetection {
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_2:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_2:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -102,7 +104,7 @@ public class TestSimpleConflictDetection {
 
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNull(minCS);
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_Subset2:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_Subset2:", minCS);
 		} catch (Exception ex){
 			ex.printStackTrace();
 			throw ex;
@@ -120,7 +122,7 @@ public class TestSimpleConflictDetection {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_5:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_5:", minCS);
 			//todo: add some checks
 			//assertTrue(minCS.size() == 2);
 			//assertTrue(minCS.contains(constraintsSetC.get(0)));
@@ -142,7 +144,7 @@ public class TestSimpleConflictDetection {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_6:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_6:", minCS);
 			
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
@@ -164,7 +166,7 @@ public class TestSimpleConflictDetection {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_7:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_7:", minCS);
 			assertTrue(minCS.size() == 3);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
@@ -186,7 +188,7 @@ public class TestSimpleConflictDetection {
 															
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
-			DebugUtils.printConstraintsSet("testSimpleConflictDetection_8:", minCS);
+			debugUtils.printConstraintsSet("testSimpleConflictDetection_8:", minCS);
 
 			assertTrue(minCS.size() == 1);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));

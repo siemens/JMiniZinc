@@ -25,6 +25,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  * This class implements HSDAG algorithm for detecting all diagnoses.
  */
 public class HSDAG {
+	private DebugUtils debugUtils = new DebugUtils();
 	private AbstractConflictDetection conflictDetection;
 	private List<Constraint> userConstraints;
 	private File mznFile;
@@ -75,16 +76,16 @@ public class HSDAG {
 	public DiagnosesCollection diagnose() throws Exception {
 
 		conflictSets = new DiagnosesCollection();
-		DebugUtils.enabled = false;
-		DebugUtils.logLabel = "HSDAG";
-		DebugUtils.writeOutput("***********************************************");
-		DebugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
-		DebugUtils.printFile(mznFile.getAbsolutePath());
-		DebugUtils.writeOutput("***********************************************");
+		debugUtils.enabled = false;
+		debugUtils.logLabel = "HSDAG";
+		debugUtils.writeOutput("***********************************************");
+		debugUtils.printConstraintsSet("User Constraints Set:", userConstraints);
+		debugUtils.printFile(mznFile.getAbsolutePath());
+		debugUtils.writeOutput("***********************************************");
 
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
 		if (!consistencyChecker.isConsistent(mznFile)) {
-			DebugUtils.writeOutput("The input constraints set in not consistent!");
+			debugUtils.writeOutput("The input constraints set in not consistent!");
 			if (progressCallback != null)
 				progressCallback.displayMessage("The constraints set form the input file is not consistent.");
 			return new DiagnosesCollection();
@@ -94,7 +95,7 @@ public class HSDAG {
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 
 		if (minCS == null) {
-			DebugUtils.writeOutput("A minimal conflict set does not exist.");
+			debugUtils.writeOutput("A minimal conflict set does not exist.");
 			if (progressCallback != null)
 				progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");
 			return new DiagnosesCollection();
@@ -121,7 +122,7 @@ public class HSDAG {
 
 		}
 
-		DebugUtils.enabled = true;
+		debugUtils.enabled = true;
 		return diagnosesCollection;
 	}
 
@@ -130,15 +131,15 @@ public class HSDAG {
 		List<Constraint> difference;
 		TreeNode treeNode;
 
-		DebugUtils.indent++;
+		debugUtils.indent++;
 
-		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		DebugUtils.writeOutput("Build Diagnose tree for node");
-		DebugUtils.indent++;
-		DebugUtils.printConstraintsSet("MinCS = ", root.getData());
-		DebugUtils.printConstraintsSet("Input constraints set = ", root.getInitialConstraintsSet());
-		DebugUtils.indent--;
-		DebugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		debugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		debugUtils.writeOutput("Build Diagnose tree for node");
+		debugUtils.indent++;
+		debugUtils.printConstraintsSet("MinCS = ", root.getData());
+		debugUtils.printConstraintsSet("Input constraints set = ", root.getInitialConstraintsSet());
+		debugUtils.indent--;
+		debugUtils.writeOutput("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		for (Constraint constraint : root.getData()) {
 			difference = removeConstraintFromList(root.getInitialConstraintsSet(), constraint);
 
@@ -159,7 +160,7 @@ public class HSDAG {
 
 			minCS = conflictDetection.getMinConflictSet(difference);
 
-			DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
+			debugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
 			if (progressCallback != null) {
 				progressCallback.minConflictSet(minCS, difference, "");
 			}
@@ -175,17 +176,17 @@ public class HSDAG {
 					diagnosesCollection.add(diagnose);
 					if (progressCallback != null)
 						progressCallback.diagnoseFound(diagnose);
-					DebugUtils.writeOutput("No min conflict set found.");
-					DebugUtils.printConstraintsSet("DIAGNOSIS: ", diagnose);
+					debugUtils.writeOutput("No min conflict set found.");
+					debugUtils.printConstraintsSet("DIAGNOSIS: ", diagnose);
 				} else {
-					DebugUtils.writeOutput("Ignore diagnosis:" + diagnoseToString(diagnose));
+					debugUtils.writeOutput("Ignore diagnosis:" + diagnoseToString(diagnose));
 					if (progressCallback != null)
 						progressCallback.ignoredDiagnose(diagnose, diagnoseMetadata);
 				}
 			} else {
-				DebugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
+				debugUtils.printConstraintsSet("MIN ConflictSet:", minCS);
 
-				DebugUtils.printConstraintsSet("Difference:", difference);
+				debugUtils.printConstraintsSet("Difference:", difference);
 
 				
 				if(!conflictSets.contains(minCS))
@@ -209,7 +210,7 @@ public class HSDAG {
 			queue.removeFirst();
 			buildDiagnosesTree(node, diagnosesCollection);
 		}
-		DebugUtils.indent--;
+		debugUtils.indent--;
 	}
 
 	private List<Constraint> getDiagnose(TreeNode node) {

@@ -26,6 +26,8 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 public class TestHSDAG implements DiagnoseProgressCallback {
 	private static String logLabel = "TestHSDAG";
 
+	private DebugUtils debugUtils = new DebugUtils();
+
 	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
 		try {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -155,61 +157,61 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 
 	@Override
 	public void diagnoseFound(List<Constraint> diagnose) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
-		DebugUtils.printConstraintsSet("DIAGNOSIS", diagnose);
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
+		String oldLabel = debugUtils.logLabel;
+		int oldIndent = debugUtils.indent;
+		debugUtils.indent = 0;
+		debugUtils.logLabel = logLabel;
+		debugUtils.printConstraintsSet("DIAGNOSIS", diagnose);
+		debugUtils.logLabel = oldLabel;
+		debugUtils.indent = oldIndent;
 	}
 
 	@Override
 	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet, String indent) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
-		DebugUtils.printConstraintsSet("Input Conflict Set", inputConflictSet);
-		DebugUtils.printConstraintsSet("Min Conflict Set", minC);
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
+		String oldLabel = debugUtils.logLabel;
+		int oldIndent = debugUtils.indent;
+		debugUtils.indent = 0;
+		debugUtils.logLabel = logLabel;
+		debugUtils.printConstraintsSet("Input Conflict Set", inputConflictSet);
+		debugUtils.printConstraintsSet("Min Conflict Set", minC);
+		debugUtils.logLabel = oldLabel;
+		debugUtils.indent = oldIndent;
 	}
 
 	@Override
 	public void constraintSelected(Constraint constraint, String message) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
-		DebugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
+		String oldLabel = debugUtils.logLabel;
+		int oldIndent = debugUtils.indent;
+		debugUtils.indent = 0;
+		debugUtils.logLabel = logLabel;
+		debugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
+		debugUtils.logLabel = oldLabel;
+		debugUtils.indent = oldIndent;
 	}
 
 	@Override
 	public void displayMessage(String message) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
-		DebugUtils.writeOutput(message);
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
+		String oldLabel = debugUtils.logLabel;
+		int oldIndent = debugUtils.indent;
+		debugUtils.indent = 0;
+		debugUtils.logLabel = logLabel;
+		debugUtils.writeOutput(message);
+		debugUtils.logLabel = oldLabel;
+		debugUtils.indent = oldIndent;
 	}
 
 	private void printProblem(List<Constraint> constraintsSet, String fileName) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
-		DebugUtils.writeOutput("***********************************************");
-		DebugUtils.printConstraintsSet("User Constraints Set:", constraintsSet);
-		DebugUtils.printFile(fileName);
-		DebugUtils.writeOutput("***********************************************");
+		String oldLabel = debugUtils.logLabel;
+		int oldIndent = debugUtils.indent;
+		debugUtils.indent = 0;
+		debugUtils.logLabel = logLabel;
+		debugUtils.writeOutput("***********************************************");
+		debugUtils.printConstraintsSet("User Constraints Set:", constraintsSet);
+		debugUtils.printFile(fileName);
+		debugUtils.writeOutput("***********************************************");
 
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
+		debugUtils.logLabel = oldLabel;
+		debugUtils.indent = oldIndent;
 	}
 
 	@Test
@@ -274,21 +276,21 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 
 	@Override
 	public void ignoredDiagnose(List<Constraint> diagnose, DiagnoseMetadata reasonIgnoreDiagnose) {
-		String oldLabel = DebugUtils.logLabel;
-		int oldIndent = DebugUtils.indent;
-		DebugUtils.indent = 0;
-		DebugUtils.logLabel = logLabel;
+		String oldLabel = debugUtils.logLabel;
+		int oldIndent = debugUtils.indent;
+		debugUtils.indent = 0;
+		debugUtils.logLabel = logLabel;
 		switch (reasonIgnoreDiagnose) {
 		case AlreadyExists:
-			DebugUtils.printConstraintsSet("DIAGNOSE already exists", diagnose);
+			debugUtils.printConstraintsSet("DIAGNOSE already exists", diagnose);
 			break;
 		default:
-			DebugUtils.printConstraintsSet("Not a minimal DIAGNOSE", diagnose);
+			debugUtils.printConstraintsSet("Not a minimal DIAGNOSE", diagnose);
 			break;
 		}
 
-		DebugUtils.logLabel = oldLabel;
-		DebugUtils.indent = oldIndent;
+		debugUtils.logLabel = oldLabel;
+		debugUtils.indent = oldIndent;
 	}
 
 	@Override

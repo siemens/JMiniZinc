@@ -17,11 +17,11 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  * @author © Siemens AG, 2016
  */
 public class DebugUtils {
-	public static String logLabel = "";
-	public static int indent = 0;
-	public static boolean enabled = true;
+	public String logLabel = "";
+	public int indent = 0;
+	public boolean enabled = true;
 
-	public static void printConstraintsSet(String message, List<Constraint> cs){
+	public void printConstraintsSet(String message, List<Constraint> cs) {
 		if (!enabled) return;		
 		
 		if (cs == null){
@@ -40,7 +40,7 @@ public class DebugUtils {
 		}
 	}		
 	
-	public static void writeOutput(String message){
+	public void writeOutput(String message) {
 		if (!enabled) return;		
 		
 		String s = logLabel + "\t";		
@@ -51,7 +51,7 @@ public class DebugUtils {
 		System.out.println(s);
 	}
 	
-	public static void printFile(String fileName){
+	public void printFile(String fileName) {
 		if (!enabled) return;		
 		
 		writeOutput("Filename: " + fileName);
