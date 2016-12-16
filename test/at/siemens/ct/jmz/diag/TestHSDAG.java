@@ -29,99 +29,99 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 	private DebugUtils debugUtils = new DebugUtils();
 
 	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
 
-			DiagnosesCollection diagCollection = hsdag.diagnose();
+		DiagnosesCollection diagCollection = hsdag.diagnose();
 
-			String actualOutput = diagCollection.toString();
+		String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }\r\n" + "{ c1 {x1 = 1}, c3 {x2 = x1} }\r\n"
-					+ "{ c1 {x1 = 1}, c4 {x3 = x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 > 2} }\r\n"
-					+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
-					+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
-			assertEquals(expectedOutput, actualOutput);
+		String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }\r\n" + "{ c1 {x1 = 1}, c3 {x2 = x1} }\r\n"
+				+ "{ c1 {x1 = 1}, c4 {x3 = x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 > 2} }\r\n"
+				+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
+				+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
+		assertEquals(expectedOutput, actualOutput);
 	}
 
 	private void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			DiagnosesCollection diagCollection = hsdag.diagnose();
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+		DiagnosesCollection diagCollection = hsdag.diagnose();
 
-			String actualOutput = diagCollection.toString();
+		String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2} }";
-			assertEquals(expectedOutput, actualOutput);
+		String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2} }";
+		assertEquals(expectedOutput, actualOutput);
 	}
 
 	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			DiagnosesCollection diagCollection = hsdag.diagnose();
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+		DiagnosesCollection diagCollection = hsdag.diagnose();
 
-			String actualOutput = diagCollection.toString();
+		String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
-			assertEquals(expectedOutput, actualOutput);
+		String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
+		assertEquals(expectedOutput, actualOutput);
 	}
 
 	private void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			DiagnosesCollection diagCollection = hsdag.diagnose();
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+		DiagnosesCollection diagCollection = hsdag.diagnose();
 
-			String actualOutput = diagCollection.toString();
+		String actualOutput = diagCollection.toString();
 
-			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }\r\n"
-					+ "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 = x2} }\r\n"
-					+ "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n"
-					+ "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c2 {x2 = 2}, c5 {x3 = x2} }\r\n"
-					+ "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c4 {x2 = x1}, c5 {x3 = x2} }";
+		String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }\r\n"
+				+ "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 = x2} }\r\n"
+				+ "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n"
+				+ "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c2 {x2 = 2}, c5 {x3 = x2} }\r\n"
+				+ "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c4 {x2 = x1}, c5 {x3 = x2} }";
 
-			assertEquals(expectedOutput, actualOutput);
+		assertEquals(expectedOutput, actualOutput);
 	}
 
 	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-			DiagnosesCollection diagCollection = hsdag.diagnose();
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+		DiagnosesCollection diagCollection = hsdag.diagnose();
 
-			String actualOutput = diagCollection.toString();
-			String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
-					+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
-			assertEquals(expectedOutput, actualOutput);
+		String actualOutput = diagCollection.toString();
+		String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
+				+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
+		assertEquals(expectedOutput, actualOutput);
 	}
 
 	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm simpleconflictdetection) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
 		hsdag.diagnose();
 	}
 
 	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm simpleconflictdetection) throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
-			printProblem(constraintsSetC, fileName);
-			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
+		printProblem(constraintsSetC, fileName);
+		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
 		hsdag.diagnose();
 	}
 

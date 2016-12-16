@@ -29,11 +29,10 @@ public class ErrorSituations {
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDatasetWithSolveItemIncluded(constraintsSetC, decisionsVar);
 			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
-		    fastDiag.getMinConflictSet(constraintsSetC);
+			fastDiag.getMinConflictSet(constraintsSetC);
 		} catch (Exception e) {
-			
-			if(e.getMessage().contains("Only one solve item allowed"))
-			{
+
+			if (e.getMessage().contains("Only one solve item allowed")) {
 				solveItemIncluded = true;
 			}
 

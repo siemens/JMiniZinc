@@ -263,7 +263,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static  String getDataTestMinimalDiagnoses2(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getDataTestMinimalDiagnoses2(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
 		File f = new File("testFiles\\minimalDiagnoses2.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
@@ -273,7 +273,6 @@ public class UtilsForTest {
 		BooleanVariable c1 = new BooleanVariable("c1");
 		BooleanVariable c3 = new BooleanVariable("c3");
 		BooleanVariable c4 = new BooleanVariable("c4");
-
 
 		decisionsVar.add(setOneTwoThreeFour);
 		decisionsVar.add(a);
@@ -293,7 +292,7 @@ public class UtilsForTest {
 		BooleanExpression expression3 = new RelationalOperation<>(c1, RelationalOperator.EQ, new BooleanConstant(true));
 		Constraint constraint3 = new Constraint("group", "{c1 = true}", expression3);
 		constraintsSetC.add(constraint3);
-		
+
 		BooleanExpression expression4 = new RelationalOperation<>(c3, RelationalOperator.EQ, new BooleanConstant(true));
 		Constraint constraint4 = new Constraint("group", "{c3 = true}", expression4);
 		constraintsSetC.add(constraint4);
@@ -304,9 +303,8 @@ public class UtilsForTest {
 
 		return f.getAbsolutePath();
 	}
-	
-	
-	public static  String getDataTestMinimalDiagnoses2_1(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+
+	public static String getDataTestMinimalDiagnoses2_1(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
 		File f = new File("testFiles\\minimalDiagnoses2.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
@@ -317,7 +315,7 @@ public class UtilsForTest {
 		BooleanVariable c1 = new BooleanVariable("c1");
 		BooleanVariable c3 = new BooleanVariable("c3");
 		BooleanVariable c4 = new BooleanVariable("c4");
-		
+
 		IntegerArray integerArray = IntegerArray.createVariable("x", setOneTwoThreeFour);
 
 		decisionsVar.add(setOneTwoThreeFour);
@@ -338,7 +336,7 @@ public class UtilsForTest {
 		BooleanExpression expression3 = new RelationalOperation<>(c1, RelationalOperator.EQ, new BooleanConstant(true));
 		Constraint constraint3 = new Constraint("group", "{c1 = true}", expression3);
 		constraintsSetC.add(constraint3);
-		
+
 		BooleanExpression expression4 = new RelationalOperation<>(c3, RelationalOperator.EQ, new BooleanConstant(true));
 		Constraint constraint4 = new Constraint("group", "{c3 = true}", expression4);
 		constraintsSetC.add(constraint4);
@@ -346,26 +344,25 @@ public class UtilsForTest {
 		BooleanExpression expression5 = new RelationalOperation<>(c4, RelationalOperator.EQ, new BooleanConstant(true));
 		Constraint constraint5 = new Constraint("group", "{c4 = true}", expression5);
 		constraintsSetC.add(constraint5);
-		
+
 		BooleanExpression expression6 = new RelationalOperation<>(integerArray.access(1), RelationalOperator.EQ, a);
 		Constraint constraint6 = new Constraint("group", "{x[1] = a}", expression6);
 		constraintsSetC.add(constraint6);
-		
+
 		BooleanExpression expression7 = new RelationalOperation<>(integerArray.access(2), RelationalOperator.EQ, b);
 		Constraint constraint7 = new Constraint("group", "{x[2] = b}", expression7);
 		constraintsSetC.add(constraint7);
-		
-		BooleanExpression expression8 = new RelationalOperation<>(integerArray.access(3), RelationalOperator.EQ, integerArray.access(2));
+
+		BooleanExpression expression8 = new RelationalOperation<>(integerArray.access(3), RelationalOperator.EQ,
+				integerArray.access(2));
 		Constraint constraint8 = new Constraint("group", "{x[3] = x[2]}", expression8);
 		constraintsSetC.add(constraint8);
-		
+
 		BooleanExpression expression9 = new RelationalOperation<>(integerArray.access(4), RelationalOperator.EQ, d);
 		Constraint constraint9 = new Constraint("group", "{x[4] = d}", expression9);
 		constraintsSetC.add(constraint9);
 
 		return f.getAbsolutePath();
 	}
-	
-	
-	
+
 }

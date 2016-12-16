@@ -45,7 +45,7 @@ public class TestMznParser {
 		Displayable x5 = constraintProblem.getDecisionVariableByName("x5");
 		Displayable x6 = constraintProblem.getDecisionVariableByName("x6");
 		Displayable x7 = constraintProblem.getDecisionVariableByName("x7");
-		
+
 		assertTrue(x_1 != null);
 		assertTrue(x2 != null);
 		assertTrue(x3 != null);
@@ -53,7 +53,6 @@ public class TestMznParser {
 		assertTrue(x5 == null);
 		assertTrue(x6 != null);
 		assertTrue(x7 != null);
-
 
 		assertTrue(x_1 instanceof IntegerVariable);
 		assertTrue(x2 instanceof IntegerVariable);
@@ -119,11 +118,10 @@ public class TestMznParser {
 		assertEquals(matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.DEFAULT_VALUE), null);
 
 	}
-	
+
 	@Test
-	public void testRegularExpressionForArrays()
-	{
-		
+	public void testRegularExpressionForArrays() {
+
 		String inputIntDeclaration = "array[1..3] of int: h2 = [clara, bestman, ted, alice, ron];";
 		Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.ARRAY_PATTERN.getPattern());
 		Matcher matcher = pattern.matcher(inputIntDeclaration);

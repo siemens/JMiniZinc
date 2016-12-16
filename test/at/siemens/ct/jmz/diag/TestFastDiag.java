@@ -27,96 +27,96 @@ public class TestFastDiag {
 	// 3, x3 = 4}
 	@Test
 	public void testFastDiagWithDataset8() throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
-			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
-			List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
+		FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
+		List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
 
-			for (Constraint constraint : diag) {
-				System.out.println(constraint.toString());
-			}
+		for (Constraint constraint : diag) {
+			System.out.println(constraint.toString());
+		}
 
-			assertTrue(!diag.isEmpty());
-			assertEquals(diag.size(), 3);
+		assertTrue(!diag.isEmpty());
+		assertEquals(diag.size(), 3);
 
-			// D should be D = {c1:x2 = 3, c3:x1 = 3, c4:x3 = 4}
-			Constraint c1 = constraintsSetC.get(0);
-			Constraint c3 = constraintsSetC.get(2);
-			Constraint c4 = constraintsSetC.get(3);
-			assertSame(c1, diag.get(0));
-			assertSame(c3, diag.get(1));
-			assertSame(c4, diag.get(2));
+		// D should be D = {c1:x2 = 3, c3:x1 = 3, c4:x3 = 4}
+		Constraint c1 = constraintsSetC.get(0);
+		Constraint c3 = constraintsSetC.get(2);
+		Constraint c4 = constraintsSetC.get(3);
+		assertSame(c1, diag.get(0));
+		assertSame(c3, diag.get(1));
+		assertSame(c4, diag.get(2));
 
 	}
 
 	@Test
 	public void testFastDiagWithDataset7() throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
-			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
-			List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
+		FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
+		List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
 
-			assertTrue(!diag.isEmpty());
-			assertEquals(diag.size(), 2);
+		assertTrue(!diag.isEmpty());
+		assertEquals(diag.size(), 2);
 
-			// the expected output is D = { (c4 {x2 = x1}) (c5 {x3 = x2}) }
-			Constraint c4 = constraintsSetC.get(3);
-			Constraint c5 = constraintsSetC.get(4);
-			assertSame(c4, diag.get(0));
-			assertSame(c5, diag.get(1));
+		// the expected output is D = { (c4 {x2 = x1}) (c5 {x3 = x2}) }
+		Constraint c4 = constraintsSetC.get(3);
+		Constraint c5 = constraintsSetC.get(4);
+		assertSame(c4, diag.get(0));
+		assertSame(c5, diag.get(1));
 	}
 
 	@Test
 	public void testFastDiagWithDataset6() throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
-			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
-			List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
+		FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
+		List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
 
-			assertTrue(!diag.isEmpty());
-			assertEquals(diag.size(), 1);
+		assertTrue(!diag.isEmpty());
+		assertEquals(diag.size(), 1);
 
-			// the expected output is D = { constraint2 {c1 = true}}
-			Constraint c2 = constraintsSetC.get(1);
-			assertSame(c2, diag.get(0));
+		// the expected output is D = { constraint2 {c1 = true}}
+		Constraint c2 = constraintsSetC.get(1);
+		assertSame(c2, diag.get(0));
 	}
 
 	@Test
 	public void testFastDiagWithDataset5() throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
-			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
-			List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
+		FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
+		List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
 
-			assertTrue(!diag.isEmpty());
-			assertEquals(diag.size(), 2);
+		assertTrue(!diag.isEmpty());
+		assertEquals(diag.size(), 2);
 
-			// the expected output is D = { (c1 {x1 = 1}) (c2 {x2 = 2}) }
-			Constraint c1 = constraintsSetC.get(0);
-			Constraint c2 = constraintsSetC.get(1);
-			assertSame(c1, diag.get(0));
-			assertSame(c2, diag.get(1));
+		// the expected output is D = { (c1 {x1 = 1}) (c2 {x2 = 2}) }
+		Constraint c1 = constraintsSetC.get(0);
+		Constraint c2 = constraintsSetC.get(1);
+		assertSame(c1, diag.get(0));
+		assertSame(c2, diag.get(1));
 	}
 
 	@Test
 	public void testFastDiagWithDataset2() throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
-			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
-			List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
+		FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, null);
+		List<Constraint> diag = fastDiag.getMinConflictSet(constraintsSetC);
 
-			assertTrue(!diag.isEmpty());
-			assertEquals(diag.size(), 2);
+		assertTrue(!diag.isEmpty());
+		assertEquals(diag.size(), 2);
 
-			// the expected output is D = (c2 {x1 = 2}) (c5 {x3 > 2})
-			Constraint c2 = constraintsSetC.get(1);
-			Constraint c5 = constraintsSetC.get(4);
-			assertSame(c2, diag.get(0));
-			assertSame(c5, diag.get(1));
+		// the expected output is D = (c2 {x1 = 2}) (c5 {x3 > 2})
+		Constraint c2 = constraintsSetC.get(1);
+		Constraint c5 = constraintsSetC.get(4);
+		assertSame(c2, diag.get(0));
+		assertSame(c5, diag.get(1));
 	}
 }
