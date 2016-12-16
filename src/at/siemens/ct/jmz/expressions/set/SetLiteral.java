@@ -31,6 +31,10 @@ public class SetLiteral implements IntegerSetExpression {
     return subset(elements.stream().map(IntegerConstant::new).collect(Collectors.toSet()));
 	}
 
+	public static SetLiteral fromIntegers(Integer... elements) {
+		return fromIntegers(ListUtils.fromElements(elements));
+	}
+
 	public static SetLiteral singleton(IntegerConstant element) {
     return subset(ListUtils.fromElements(element));
 	}
@@ -44,7 +48,7 @@ public class SetLiteral implements IntegerSetExpression {
 
 	@Override
 	public Boolean contains(Integer value) {
-		return elements.contains(value);
+		return elements.contains(new IntegerConstant(value));
 	}
 
   @Override

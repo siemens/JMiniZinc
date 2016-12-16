@@ -53,4 +53,26 @@ public class IntegerConstant extends Constant<Integer, Integer>
     return this.getValue().compareTo(o.getValue());
   }
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Constant) {
+			Constant<?, ?> other = (Constant<?, ?>) obj;
+			if (getValue() == null) {
+				return other.getValue() == null;
+			} else {
+				return getValue().equals(other.getValue());
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		if (getValue() == null) {
+			return 0;
+		} else {
+			return getValue().hashCode();
+		}
+	}
+
 }
