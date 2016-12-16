@@ -34,9 +34,8 @@ public class TestSimpleConflictDetection {
 	private DebugUtils debugUtils = new DebugUtils();
 
 	@Test
-	public void testSimpleConflictDetection_1() throws Exception{
+	public void testSimpleConflictDetection_1() throws Exception {
 		List<Constraint> minCS = null;
-		try{
 			File f = new File ("testFiles\\testConflictDetection1.mzn");					
 			// Define some additional constraints 
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -65,17 +64,12 @@ public class TestSimpleConflictDetection {
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNull(minCS);
 			debugUtils.printConstraintsSet("testSimpleConflictDetection_1:", minCS);
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 		assertNull(minCS);
 	}
 	
 	@Test
 	public void testSimpleConflictDetection_2() throws Exception{
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -87,16 +81,11 @@ public class TestSimpleConflictDetection {
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
 			debugUtils.printConstraintsSet("testSimpleConflictDetection_2:", minCS);
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 	
 	@Test
 	public void testSimpleConflictDetection_NoConflict() throws Exception{
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2NoConflict(constraintsSetC, decisionsVar);
@@ -105,16 +94,11 @@ public class TestSimpleConflictDetection {
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNull(minCS);
 			debugUtils.printConstraintsSet("testSimpleConflictDetection_Subset2:", minCS);
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 	
 	@Test
 	public void testSimpleConflictDetection_5() throws Exception{
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
@@ -123,20 +107,15 @@ public class TestSimpleConflictDetection {
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNotNull(minCS);
 			debugUtils.printConstraintsSet("testSimpleConflictDetection_5:", minCS);
-			//todo: add some checks
+		//TODO: add some checks
 			//assertTrue(minCS.size() == 2);
 			//assertTrue(minCS.contains(constraintsSetC.get(0)));
 			//assertTrue(minCS.contains(constraintsSetC.get(1)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}		
 	}
 	
 	@Test
 	public void testSimpleConflictDetection_6() throws Exception{
 		List<Constraint> minCS = null;
-		try{									
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
@@ -149,16 +128,11 @@ public class TestSimpleConflictDetection {
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 	
 	@Test
 	public void testSimpleConflictDetection_7() throws Exception{
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
@@ -171,16 +145,11 @@ public class TestSimpleConflictDetection {
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
 			assertTrue(minCS.contains(constraintsSetC.get(3)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 
 	@Test
 	public void testSimpleConflictDetection_8() throws Exception{
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
@@ -192,9 +161,5 @@ public class TestSimpleConflictDetection {
 
 			assertTrue(minCS.size() == 1);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 }

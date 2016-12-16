@@ -34,7 +34,7 @@ public class TestQuickXPlain {
 	private DebugUtils debugUtils = new DebugUtils();
 	
 	@Test
-	public void testConsistencyChecker_2() throws Exception{
+	public void testConsistencyChecker_2() throws Exception {
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
 		File mznFile = new File ("testFiles\\testConflictDetection2.mzn");
@@ -61,7 +61,7 @@ public class TestQuickXPlain {
 	}
 	
 	@Test
-	public void testConsistencyChecker_7() throws Exception{
+	public void testConsistencyChecker_7() throws Exception {
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
 		File mznFile = new File ("testFiles\\testConflictDetection7.mzn");
@@ -88,9 +88,8 @@ public class TestQuickXPlain {
 	}
 	
 	@Test
-	public void testQuickXPlainMinCS_2() throws Exception{
+	public void testQuickXPlainMinCS_2() throws Exception {
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -106,16 +105,11 @@ public class TestQuickXPlain {
 			assertTrue(minCS.contains(constraintsSetC.get(2)));
 			assertTrue(minCS.contains(constraintsSetC.get(3)));
 			assertTrue(minCS.contains(constraintsSetC.get(4)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 	
 	@Test
-	public void testQuickXPlainMinCS_NoConflict() throws Exception{
+	public void testQuickXPlainMinCS_NoConflict() throws Exception {
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>(); 
 			String fileName = UtilsForTest.getTestDataset2NoConflict(constraintsSetC, decisionsVar);
@@ -124,16 +118,11 @@ public class TestQuickXPlain {
 			minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 			assertNull(minCS);			
 			debugUtils.printConstraintsSet("testQuickXPlainMinCS_Subset2:", minCS);
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 	
 	@Test
-	public void testQuickXPlainMinCS_5() throws Exception{
+	public void testQuickXPlainMinCS_5() throws Exception {
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
@@ -146,16 +135,11 @@ public class TestQuickXPlain {
 			// the expected output is c2
 			assertTrue(minCS.size() == 1);
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}		
 	}
 	
 	@Test
-	public void testQuickXPlainMinCS_6() throws Exception{
+	public void testQuickXPlainMinCS_6() throws Exception {
 		List<Constraint> minCS = null;
-		try{									
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
@@ -167,16 +151,11 @@ public class TestQuickXPlain {
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(0)));
 			assertTrue(minCS.contains(constraintsSetC.get(1)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
 	}
 	
 	@Test
-	public void testQuickXPlainMinCS_7() throws Exception{
+	public void testQuickXPlainMinCS_7() throws Exception {
 		List<Constraint> minCS = null;
-		try{
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
@@ -190,16 +169,11 @@ public class TestQuickXPlain {
 			assertTrue(minCS.size() == 2);
 			assertTrue(minCS.contains(constraintsSetC.get(4)));
 			assertTrue(minCS.contains(constraintsSetC.get(5)));
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}		
 	}
 	
 	@Test
-	public void testQuickXPlainMinCS_8() throws Exception{
+	public void testQuickXPlainMinCS_8() throws Exception {
 		List<Constraint> minCS = null;
-		try{									
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
@@ -211,10 +185,6 @@ public class TestQuickXPlain {
 			// expected output is c4
 			debugUtils.printConstraintsSet("testQuickXPlainMinCS_8:", minCS);
 			assertTrue(minCS.size() == 1);
-			assertTrue(minCS.contains(constraintsSetC.get(3)));			
-		} catch (Exception ex){
-			ex.printStackTrace();
-			throw ex;
-		}
+		assertTrue(minCS.contains(constraintsSetC.get(3)));
 	}
 }

@@ -28,8 +28,7 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 
 	private DebugUtils debugUtils = new DebugUtils();
 
-	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
-		try {
+	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -45,13 +44,9 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 					+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
 					+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
 			assertEquals(expectedOutput, actualOutput);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
-	private void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
-		try {
+	private void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
@@ -63,13 +58,9 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 
 			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2} }";
 			assertEquals(expectedOutput, actualOutput);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
-	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
-		try {
+	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
@@ -81,13 +72,9 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 
 			String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
 			assertEquals(expectedOutput, actualOutput);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
-	private void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
-		try {
+	private void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
@@ -104,13 +91,9 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 					+ "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c4 {x2 = x1}, c5 {x3 = x2} }";
 
 			assertEquals(expectedOutput, actualOutput);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
-	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
-		try {
+	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
@@ -122,37 +105,24 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 			String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
 					+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
 			assertEquals(expectedOutput, actualOutput);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
-	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm simpleconflictdetection) {
-		// TODO Auto-generated method stub
-		try {
+	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm simpleconflictdetection) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
-			DiagnosesCollection diagCollection = hsdag.diagnose();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		hsdag.diagnose();
 	}
 
-	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm simpleconflictdetection) {
-		// TODO Auto-generated method stub
-		try {
+	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm simpleconflictdetection) throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
 			printProblem(constraintsSetC, fileName);
 			HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
-			DiagnosesCollection diagCollection = hsdag.diagnose();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		hsdag.diagnose();
 	}
 
 	@Override
@@ -215,62 +185,62 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD2() {
+	public void testDiagnoseProblemWithSCD2() throws Exception {
 		diagnoseProblem2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD5() {
+	public void testDiagnoseProblemWithSCD5() throws Exception {
 		diagnoseProblem5(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD6() {
+	public void testDiagnoseProblemWithSCD6() throws Exception {
 		diagnoseProblem6(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD7() {
+	public void testDiagnoseProblemWithSCD7() throws Exception {
 		diagnoseProblem7(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD8() {
+	public void testDiagnoseProblemWithSCD8() throws Exception {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() {
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() throws Exception {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() {
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() throws Exception {
 		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain2() {
+	public void testDiagnoseProblemWithQuickXPlain2() throws Exception {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain5() {
+	public void testDiagnoseProblemWithQuickXPlain5() throws Exception {
 		diagnoseProblem5(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain6() {
+	public void testDiagnoseProblemWithQuickXPlain6() throws Exception {
 		diagnoseProblem6(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain7() {
+	public void testDiagnoseProblemWithQuickXPlain7() throws Exception {
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain8() {
+	public void testDiagnoseProblemWithQuickXPlain8() throws Exception {
 		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
@@ -295,13 +265,9 @@ public class TestHSDAG implements DiagnoseProgressCallback {
 
 	@Override
 	public void displayStartMessage(File mznFile) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void diagnose(List<Constraint> diagnose, List<Constraint> inputSet) {
-		// TODO Auto-generated method stub
-
 	}
 }
