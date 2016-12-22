@@ -62,25 +62,17 @@ public class MiniZincElementFactory {
 
 					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
 						if (type.equals(BOOL_TYPE)) {
-							// return BooleanArray.createVariable(name,
-							// arraySize);
 							return new DisplayableBooleanArray(name, arraySize);
 						}
 						if (type.equals(INT_TYPE)) {
-							// return IntegerArray.createVariable(name,
-							// arraySize);
-
 							return new DisplayableIntegerArray(name, arraySize);
 						}
 						if (type.contains(RANGE_SEPARATOR)) {
 							RangeExpression values = createRange(type);
-							// return IntegerArray.createVariable(name,
-							// arraySize, values);
-
 							return new DisplayableIntegerArray(name, arraySize, values);
 						}
 					} else {
-						// TODO: add to parameters list ?
+						//TODO: add to parameters list ?
 						return null;
 					}
 
@@ -88,7 +80,6 @@ public class MiniZincElementFactory {
 
 				if (type.equals(BOOL_TYPE)) {
 					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
-						// return new BooleanVariable(name);
 						return new DisplayableBooleanVariable(name);
 					} else {
 						Boolean parameterValue;
@@ -100,12 +91,10 @@ public class MiniZincElementFactory {
 						}
 						BasicBoolean boolConstant = new BooleanConstant(parameterValue).toNamedConstant(name);
 						listWithParameters.add((BasicTypeInst<Boolean>) boolConstant);
-						// return boolConstant;
 					}
 				}
 				if (type.equals(INT_TYPE)) {
 					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
-						// return new IntegerVariable(name);
 						return new DisplayableIntegerVariable(name);
 					} else {
 						int paramValue;
@@ -117,7 +106,6 @@ public class MiniZincElementFactory {
 						}
 						BasicInteger intConstant = new IntegerConstant(paramValue).toNamedConstant(name);
 						listWithParameters.add((BasicTypeInst<Integer>) intConstant);
-						// return intConstant;
 					}
 				}
 				if (type.contains(RANGE_SEPARATOR)) {

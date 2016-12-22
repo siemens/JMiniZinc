@@ -41,14 +41,18 @@ public class DisplayableBooleanVariable extends BooleanVariable implements Displ
 	@Override
 	public List<Constraint> createConstraint(String value) {
 		List<Constraint> constraints = new ArrayList<>();
-		boolean variableValue = this.parseValue(value);
-		BooleanExpression booleanExpression = new RelationalOperation<>(this, RelationalOperator.EQ,
-				new BooleanConstant(variableValue));
+		if (!value.isEmpty() && !value.equals("Undefined")) {
+			boolean variableValue = this.parseValue(value);
+			BooleanExpression booleanExpression = new RelationalOperation<>(this, RelationalOperator.EQ,
+					new BooleanConstant(variableValue));
 
-		Constraint constraint = new Constraint("userDefined",
-				String.format("%s = %s", this.getInfo().get(0).getLabelCaption(), value), booleanExpression);
-		constraints.add(constraint);
-		return constraints;
+			Constraint constraint = new Constraint("userDefined",
+					String.format("%s = %s", this.getInfo().get(0).getLabelCaption(), value), booleanExpression);
+			constraints.add(constraint);
+			return constraints;
+		}
+		return null;
+		
 
 	}
 

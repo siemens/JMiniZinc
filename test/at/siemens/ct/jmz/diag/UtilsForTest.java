@@ -27,6 +27,34 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  * @author © Siemens AG, 2016
  */
 public class UtilsForTest {
+	
+	public static String getTestDataset1(List<Constraint> constraintsSetC, List<Element> decisionsVar)
+			throws FileNotFoundException {
+		File f = new File("testFiles\\testConflictDetection1.mzn");
+
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
+		decisionsVar.add(setOneTwoThree);
+		decisionsVar.add(x1);
+		decisionsVar.add(x2);
+		decisionsVar.add(x3);
+
+		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(1));
+		Constraint c1 = new Constraint("group", "c1 {x1 = 1}", expression1);
+		constraintsSetC.add(c1);
+
+		BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(2));
+		Constraint c2 = new Constraint("group", "c2 {x2 = 2}", expression2);
+		constraintsSetC.add(c2);
+
+		BooleanExpression expression3 = new RelationalOperation<>(x3, RelationalOperator.EQ, new IntegerConstant(3));
+		Constraint c3 = new Constraint("group", "c3 {x3 = 3}", expression3);
+		constraintsSetC.add(c3);
+
+		return f.getAbsolutePath();
+	}
 
 	public static String getTestDataset2(List<Constraint> constraintsSetC, List<Element> decisionsVariable)
 			throws FileNotFoundException {
@@ -63,97 +91,10 @@ public class UtilsForTest {
 
 		return f.getAbsolutePath();
 	}
-
-	public static String getTestDataset2NoConflict(List<Constraint> constraintsSetC, List<Element> decisionsVariable)
+	
+	public static String getTestDataset2WithMoreConstraints(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
 		File f = new File("testFiles\\testConflictDetection2.mzn");
-
-		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
-		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
-		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
-		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
-		decisionsVariable.add(setOneTwoThree);
-		decisionsVariable.add(x1);
-		decisionsVariable.add(x2);
-		decisionsVariable.add(x3);
-
-		BooleanExpression expression3 = new RelationalOperation<>(x2, RelationalOperator.EQ, x1);
-		Constraint c3 = new Constraint("group", "c3 {x2 = x1}", expression3);
-		constraintsSetC.add(c3);
-
-		BooleanExpression expression4 = new RelationalOperation<>(x3, RelationalOperator.EQ, x2);
-		Constraint c4 = new Constraint("group", "c4 {x3 = x2}", expression4);
-		constraintsSetC.add(c4);
-
-		BooleanExpression expression5 = new RelationalOperation<>(x3, RelationalOperator.GT, new IntegerConstant(2));
-		Constraint c5 = new Constraint("group", "c5 {x3 > 2}", expression5);
-		constraintsSetC.add(c5);
-
-		return f.getAbsolutePath();
-	}
-
-	public static String getTestDataset5(List<Constraint> constraintsSetC, List<Element> decisionsVar)
-			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection5.mzn");
-
-		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
-		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
-		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
-		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
-		decisionsVar.add(setOneTwoThree);
-		decisionsVar.add(x1);
-		decisionsVar.add(x2);
-		decisionsVar.add(x3);
-
-		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(1));
-		Constraint c1 = new Constraint("group", "c1 {x1 = 1}", expression1);
-		constraintsSetC.add(c1);
-
-		BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(2));
-		Constraint c2 = new Constraint("group", "c2 {x2 = 2}", expression2);
-		constraintsSetC.add(c2);
-
-		BooleanExpression expression3 = new RelationalOperation<>(x3, RelationalOperator.EQ, new IntegerConstant(3));
-		Constraint c3 = new Constraint("group", "c3 {x3 = 3}", expression3);
-		constraintsSetC.add(c3);
-
-		return f.getAbsolutePath();
-	}
-
-	public static String getTestDataset6(List<Constraint> constraintsSetC, List<Element> decisionsVar)
-			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection6.mzn");
-
-		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
-		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
-		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
-		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
-		BooleanVariable c1 = new BooleanVariable("c1");
-		BooleanVariable c2 = new BooleanVariable("c2");
-		BooleanVariable c3 = new BooleanVariable("c3");
-
-		decisionsVar.add(setOneTwoThree);
-		decisionsVar.add(x1);
-		decisionsVar.add(x2);
-		decisionsVar.add(x3);
-		decisionsVar.add(c1);
-		decisionsVar.add(c2);
-		decisionsVar.add(c3);
-
-		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(1));
-		Constraint constraint1 = new Constraint("group", "constraint1 {x1 = 1}", expression1);
-		constraintsSetC.add(constraint1);
-
-		BooleanExpression expression2 = new RelationalOperation<>(c1, RelationalOperator.EQ, new BooleanConstant(true));
-		Constraint constraint2 = new Constraint("group", "constraint2 {c1 = true}", expression2);
-		constraintsSetC.add(constraint2);
-
-		return f.getAbsolutePath();
-	}
-
-	public static String getTestDataset7(List<Constraint> constraintsSetC, List<Element> decisionsVar)
-			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection7.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -191,6 +132,69 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
+	public static String getTestDataset2NoConflict(List<Constraint> constraintsSetC, List<Element> decisionsVariable)
+			throws FileNotFoundException {
+		File f = new File("testFiles\\testConflictDetection2.mzn");
+
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
+		decisionsVariable.add(setOneTwoThree);
+		decisionsVariable.add(x1);
+		decisionsVariable.add(x2);
+		decisionsVariable.add(x3);
+
+		BooleanExpression expression3 = new RelationalOperation<>(x2, RelationalOperator.EQ, x1);
+		Constraint c3 = new Constraint("group", "c3 {x2 = x1}", expression3);
+		constraintsSetC.add(c3);
+
+		BooleanExpression expression4 = new RelationalOperation<>(x3, RelationalOperator.EQ, x2);
+		Constraint c4 = new Constraint("group", "c4 {x3 = x2}", expression4);
+		constraintsSetC.add(c4);
+
+		BooleanExpression expression5 = new RelationalOperation<>(x3, RelationalOperator.GT, new IntegerConstant(2));
+		Constraint c5 = new Constraint("group", "c5 {x3 > 2}", expression5);
+		constraintsSetC.add(c5);
+
+		return f.getAbsolutePath();
+	}
+
+
+
+	public static String getTestDataset6(List<Constraint> constraintsSetC, List<Element> decisionsVar)
+			throws FileNotFoundException {
+		File f = new File("testFiles\\testConflictDetection6.mzn");
+
+		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
+		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
+		BooleanVariable c1 = new BooleanVariable("c1");
+		BooleanVariable c2 = new BooleanVariable("c2");
+		BooleanVariable c3 = new BooleanVariable("c3");
+
+		decisionsVar.add(setOneTwoThree);
+		decisionsVar.add(x1);
+		decisionsVar.add(x2);
+		decisionsVar.add(x3);
+		decisionsVar.add(c1);
+		decisionsVar.add(c2);
+		decisionsVar.add(c3);
+
+		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(1));
+		Constraint constraint1 = new Constraint("group", "constraint1 {x1 = 1}", expression1);
+		constraintsSetC.add(constraint1);
+
+		BooleanExpression expression2 = new RelationalOperation<>(c1, RelationalOperator.EQ, new BooleanConstant(true));
+		Constraint constraint2 = new Constraint("group", "constraint2 {c1 = true}", expression2);
+		constraintsSetC.add(constraint2);
+
+		return f.getAbsolutePath();
+	}
+
+	
+
 	public static String getTestDataset8(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
 		File f = new File("testFiles\\testConflictDetection8.mzn");
@@ -223,6 +227,21 @@ public class UtilsForTest {
 		BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(3));
 		Constraint constraint2 = new Constraint("group", "c4 {x2 = 3}", expression2);
 		constraintsSetC.add(constraint2);
+
+		return f.getAbsolutePath();
+	}
+
+	public static String getTestDataset8ConsistentKB(List<Constraint> constraintsSetC, List<Element> decisionsVar)
+			throws FileNotFoundException {
+		File f = new File("testFiles\\testConflictDetection8.mzn");
+
+		BooleanVariable c = new BooleanVariable("c");
+
+		decisionsVar.add(c);
+
+		BooleanExpression expression4 = new RelationalOperation<>(c, RelationalOperator.EQ, new BooleanConstant(true));
+		Constraint constraint4 = new Constraint("group", "c2 {c = true}", expression4);
+		constraintsSetC.add(constraint4);
 
 		return f.getAbsolutePath();
 	}
@@ -361,6 +380,36 @@ public class UtilsForTest {
 		BooleanExpression expression9 = new RelationalOperation<>(integerArray.access(4), RelationalOperator.EQ, d);
 		Constraint constraint9 = new Constraint("group", "{x[4] = d}", expression9);
 		constraintsSetC.add(constraint9);
+
+		return f.getAbsolutePath();
+	}
+
+	public static String getDataTestMinimalDiagnoses4(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+		File f = new File("testFiles\\minimalDiagnoses4.mzn");
+
+		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
+		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThreeFour);
+		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThreeFour);
+		IntegerVariable x3 = new IntegerVariable("x3");
+		BooleanVariable c3 = new BooleanVariable("c3");
+
+		decisionsVar.add(setOneTwoThreeFour);
+		decisionsVar.add(x1);
+		decisionsVar.add(x2);
+		decisionsVar.add(x3);
+		decisionsVar.add(c3);
+
+		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(3));
+		Constraint constraint1 = new Constraint("group", "{x1 = 3}", expression1);
+		constraintsSetC.add(constraint1);
+
+		BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(2));
+		Constraint constraint2 = new Constraint("group", "{x2 = 2}", expression2);
+		constraintsSetC.add(constraint2);
+
+		BooleanExpression expression4 = new RelationalOperation<>(c3, RelationalOperator.EQ, new BooleanConstant(true));
+		Constraint constraint4 = new Constraint("group", "{c3 = true}", expression4);
+		constraintsSetC.add(constraint4);
 
 		return f.getAbsolutePath();
 	}

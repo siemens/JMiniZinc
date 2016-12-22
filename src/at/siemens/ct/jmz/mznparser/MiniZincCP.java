@@ -14,9 +14,10 @@ import at.siemens.ct.common.utils.FileUtils;
 import at.siemens.ct.jmz.ui.Displayable;
 
 /**
- *  parses output from MiniZincIde (.mzn files)
- * @author z003pczy (Mara Rosu)
+ * Parses output from MiniZincIde (.mzn files)
+ * @author z003pczy (Mara Rosu) 
  */
+
 public class MiniZincCP {
 
 	private List<Displayable> elementsFromFile;
