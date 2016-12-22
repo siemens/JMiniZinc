@@ -60,7 +60,6 @@ public abstract class HSDAG {
 	 * @return A collection with all diagnoses.
 	 * @throws Exception
 	 */
-
 	public abstract DiagnosesCollection diagnose() throws Exception;
 
 	protected abstract void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception;

@@ -31,7 +31,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
 
-		if (constraintsSetC.size() == 0) {
+		if (constraintsSetC.isEmpty()) {
 			Collections.emptyList();
 		}
 

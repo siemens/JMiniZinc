@@ -27,8 +27,7 @@ public class TestFastDiag {
 	// the diagnose that should be founded in the data set is D = {x2 = 3, x1 =
 	// 3, x3 = 4}
 	@Test
-	public void testFastDiagWithDataset8() {
-		try {
+	public void testFastDiagWithDataset8() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
@@ -49,15 +48,10 @@ public class TestFastDiag {
 			assertSame(c1, diag.get(0));
 			assertSame(c3, diag.get(1));
 			assertSame(c4, diag.get(2));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	@Test
-	public void testFastDiagWithConsistentKB() {
-		try {
+	public void testFastDiagWithDataset8ConsistentKB() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8ConsistentKB(constraintsSetC, decisionsVar);
@@ -69,19 +63,13 @@ public class TestFastDiag {
 			}
 
 			assertTrue(diag.isEmpty());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	@Test
-	public void testFastDiagWithDataset7() {
-		try {
+	public void testFastDiagWithDataset2WithMoreConstraints() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
+			String fileName = UtilsForTest.getTestDataset2WithMoreConstraints(constraintsSetC, decisionsVar);
 			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, ConflictDetectionAlgorithm.FastDiag, null);
 			List<Constraint> diag = fastDiag.getPreferredDiagnosis(constraintsSetC, false);
 
@@ -93,15 +81,10 @@ public class TestFastDiag {
 			Constraint c5 = constraintsSetC.get(4);
 			assertSame(c4, diag.get(0));
 			assertSame(c5, diag.get(1));
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	@Test
-	public void testFastDiagWithDataset6() {
-		try {
+	public void testFastDiagWithDataset6() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
@@ -114,18 +97,13 @@ public class TestFastDiag {
 			// the expected output is D = { constraint2 {c1 = true}}
 			Constraint c2 = constraintsSetC.get(1);
 			assertSame(c2, diag.get(0));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	public void testFastDiagWithDataset5() {
-		try {
+	public void testFastDiagWithDataset1() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
+			String fileName = UtilsForTest.getTestDataset1(constraintsSetC, decisionsVar);
 			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, ConflictDetectionAlgorithm.FastDiag, null);
 			List<Constraint> diag = fastDiag.getPreferredDiagnosis(constraintsSetC, false);
 
@@ -137,15 +115,10 @@ public class TestFastDiag {
 			Constraint c2 = constraintsSetC.get(1);
 			assertSame(c1, diag.get(0));
 			assertSame(c2, diag.get(1));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	public void testFastDiagWithDataset2() {
-		try {
+	public void testFastDiagWithDataset2() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -160,14 +133,9 @@ public class TestFastDiag {
 			Constraint c5 = constraintsSetC.get(4);
 			assertSame(c2, diag.get(0));
 			assertSame(c5, diag.get(1));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
-	public void testFastDiagWithMinimalDiagnoses4() {
-		try {
+	public void testFastDiagWithMinimalDiagnoses4() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -182,15 +150,10 @@ public class TestFastDiag {
 			Constraint c5 = constraintsSetC.get(4);
 			assertSame(c2, diag.get(0));
 			assertSame(c5, diag.get(1));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	public void testFastDiagWithMinimalDiagnoses2() {
-		try {
+	public void testFastDiagWithMinimalDiagnoses2() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
@@ -205,10 +168,6 @@ public class TestFastDiag {
 			Constraint c5 = constraintsSetC.get(4);
 			assertSame(c4, diag.get(0));
 			assertSame(c5, diag.get(1));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

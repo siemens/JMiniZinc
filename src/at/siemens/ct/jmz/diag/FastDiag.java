@@ -233,13 +233,13 @@ public class FastDiag {
 		Boolean searchForDiagnosis = consistencyChecker.isConsistent(ACWithoutC, mznFile);
 
 		if (!searchForDiagnosis) {
-
+			if (progressCalback != null) {
 			String isInconsistentMessage = String.format(
 					"Check : %sKB with %s is inconsistent, therefore no diagnosis. %s",
 					progressCalback.displayConstraintList(constraintsSetC),
 					progressCalback.displayConstraintList(ACWithoutC).trim(), LINE_SEPARATOR);
 
-			if (progressCalback != null) {
+			
 				progressCalback.displayMessage(isInconsistentMessage);
 			}
 

@@ -31,8 +31,6 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  */
 public class TestQuickXPlain {
 
-	private DebugUtils debugUtils = new DebugUtils();
-
 	@Test
 	public void testConsistencyChecker_2() throws Exception {
 		ConsistencyChecker checker = new ConsistencyChecker();
@@ -61,10 +59,10 @@ public class TestQuickXPlain {
 	}
 
 	@Test
-	public void testConsistencyChecker_7() throws Exception {
+	public void testConsistencyChecker_2WithOtherConstraints() throws Exception {
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
-		File mznFile = new File("testFiles\\testConflictDetection7.mzn");
+		File mznFile = new File("testFiles\\testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -96,7 +94,6 @@ public class TestQuickXPlain {
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-		debugUtils.printConstraintsSet("testQuickXPlainMinCS_2:", minCS);
 		assertNotNull(minCS);
 
 		// the expected out is (c2,c3,c4,c5)
@@ -108,6 +105,24 @@ public class TestQuickXPlain {
 	}
 
 	@Test
+	public void testQuickXPlainMinCS_2WithMoreConstraints() throws Exception {
+		List<Constraint> minCS = null;
+		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+		List<Element> decisionsVar = new ArrayList<Element>();
+		String fileName = UtilsForTest.getTestDataset2WithMoreConstraints(constraintsSetC, decisionsVar);
+		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
+
+		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+		assertNotNull(minCS);
+
+		//the expected output is c5, c6
+		assertTrue(minCS.size() == 2);
+		assertTrue(minCS.contains(constraintsSetC.get(4)));
+		assertTrue(minCS.contains(constraintsSetC.get(5)));
+	}
+	
+	
+	@Test
 	public void testQuickXPlainMinCS_NoConflict() throws Exception {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
@@ -116,8 +131,7 @@ public class TestQuickXPlain {
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-		assertNull(minCS);
-		debugUtils.printConstraintsSet("testQuickXPlainMinCS_Subset2:", minCS);
+		assertTrue(minCS.isEmpty());;
 	}
 
 	@Test
@@ -125,12 +139,11 @@ public class TestQuickXPlain {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
+		String fileName = UtilsForTest.getTestDataset1(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 		assertNotNull(minCS);
-		debugUtils.printConstraintsSet("testQuickXPlainMinCS_5:", minCS);
 
 		// the expected output is c2
 		assertTrue(minCS.size() == 1);
@@ -147,29 +160,12 @@ public class TestQuickXPlain {
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 		assertNotNull(minCS);
-		debugUtils.printConstraintsSet("testQuickXPlainMinCS_6:", minCS);
 		assertTrue(minCS.size() == 2);
 		assertTrue(minCS.contains(constraintsSetC.get(0)));
 		assertTrue(minCS.contains(constraintsSetC.get(1)));
 	}
 
-	@Test
-	public void testQuickXPlainMinCS_7() throws Exception {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
-		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
-
-		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-		assertNotNull(minCS);
-		debugUtils.printConstraintsSet("testQuickXPlainMinCS_7:", minCS);
-
-		//the expected output is c5, c6
-		assertTrue(minCS.size() == 2);
-		assertTrue(minCS.contains(constraintsSetC.get(4)));
-		assertTrue(minCS.contains(constraintsSetC.get(5)));
-	}
+	
 
 	@Test
 	public void testQuickXPlainMinCS_8() throws Exception {
@@ -183,7 +179,6 @@ public class TestQuickXPlain {
 		assertNotNull(minCS);
 
 		// expected output is c4
-		debugUtils.printConstraintsSet("testQuickXPlainMinCS_8:", minCS);
 		assertTrue(minCS.size() == 1);
 		assertTrue(minCS.contains(constraintsSetC.get(3)));
 	}

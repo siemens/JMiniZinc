@@ -20,10 +20,8 @@ var int: d;
 
  constraint x[1] = a;
  constraint x[2] = b;
-
-
-constraint x[3] = x[2];
-constraint x[4] = d;
+ constraint x[3] = x[2];    
+ constraint x[4] = d;
 %constraint x[4] > 1;
 
 %solve satisfy;
