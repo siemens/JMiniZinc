@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import at.siemens.ct.jmz.diag.DiagnoseMetadata;
+import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
@@ -27,6 +27,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 public class TextComponentLogger implements DiagnoseProgressCallback {
 	private final TextArea target;
 	private List<Constraint> userConstraints;
+	private final String LINE_SEPARATOR = System.lineSeparator();
 
 	public TextComponentLogger(TextArea target, List<Constraint> userConstraints) {
 		this.target = target;
@@ -34,43 +35,51 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void diagnoseFound(List<Constraint> diagnose) {
+	public void diagnosisFound(List<Constraint> diagnose) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("DIAGNOSIS: ");
-		stringBuilder.append(displayConstraintList(diagnose));
+		if (!diagnose.isEmpty()) {
+			stringBuilder.append("Minimal diagnosis found: ").append(displayConstraintList(diagnose)).append(LINE_SEPARATOR);
+		}
 		target.append(stringBuilder.toString());
 
 	}
 
-	@Override
-	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet,String message) {
+	public void displayInputSet(List<Constraint> inputSet, String nodeIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(message).append("Check: ").append(displayConstraintList(inputConflictSet));
-		if (minConflictSet == null) {
-			stringBuilder.append("No minimal conflict set.").append(System.lineSeparator());
+		stringBuilder.append(nodeIndex).append("Check: ").append(displayConstraintList(inputSet));
+		target.append(stringBuilder.toString());
+	}
+
+	@Override
+	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet, String nodeIndex) {
+		StringBuilder stringBuilder = new StringBuilder();
+		displayInputSet(inputConflictSet, nodeIndex);
+		if (minConflictSet.isEmpty()) {
+			stringBuilder.append("No minimal conflict set.").append(LINE_SEPARATOR);
 		} else {
 			stringBuilder.append("Minimal conflict set: ");
 			stringBuilder.append(displayConstraintList(minConflictSet));
 		}
+
 		target.append(stringBuilder.toString());
 	}
 
 	@Override
 	public void constraintSelected(Constraint constraint, String constraintIndex) {
-		String textToDIsplay = String.format("%s Selected constraint: { %s } %s",constraintIndex, constraint.getConstraintName(),
-				System.lineSeparator());
+		String textToDIsplay = String.format("%s Selected constraint: { %s } %s", constraintIndex,
+				constraint.getConstraintName(), LINE_SEPARATOR);
 		target.append(textToDIsplay);
 
 	}
 
 	@Override
 	public void displayMessage(String message) {
-		target.append(message + System.lineSeparator());
-
+		target.append(message);
+		target.append(LINE_SEPARATOR);
 	}
 
 	@Override
-	public void ignoredDiagnose(List<Constraint> diagnose, DiagnoseMetadata diagnoseMetadata) {
+	public void ignoredDiagnosis(List<Constraint> diagnose, DiagnosisMetadata diagnoseMetadata) {
 		String result = "";
 		switch (diagnoseMetadata) {
 		case AlreadyExists:
@@ -84,39 +93,39 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 
 	}
 
-	private String displayConstraintList(List<Constraint> constraintList) {
-		if (constraintList == null) {
-			return "No elements in constraints set.";
-		}
-
-		SortedMap<Integer, Constraint> sortedConstraints = new TreeMap<Integer, Constraint>();
-		for (Constraint c : constraintList) {
-			sortedConstraints.put(userConstraints.indexOf(c), c);
-		}
-
+	public String displayConstraintList(List<Constraint> constraintList) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{ ");
-		for (Constraint c : sortedConstraints.values()) {
-			stringBuilder.append(c.getConstraintName()).append(", ");
-		}
+		if (constraintList.isEmpty()) {
+			stringBuilder.append("{ }");
+		} else {
+			SortedMap<Integer, Constraint> sortedConstraints = new TreeMap<Integer, Constraint>();
+			for (Constraint c : constraintList) {
+				sortedConstraints.put(userConstraints.indexOf(c), c);
+			}
 
-		int index = stringBuilder.lastIndexOf(",");
-		if (index >= 0) {
-			stringBuilder.delete(index, index + 1);
+			stringBuilder.append("{ ");
+			for (Constraint c : sortedConstraints.values()) {
+				stringBuilder.append(c.getConstraintName()).append(", ");
+			}
+
+			int index = stringBuilder.lastIndexOf(",");
+			if (index >= 0) {
+				stringBuilder.delete(index, index + 1);
+			}
+			stringBuilder.append("}");
 		}
-		stringBuilder.append("}").append(System.lineSeparator());
+		stringBuilder.append(LINE_SEPARATOR);
 		return stringBuilder.toString();
 	}
 
-	@Override
 	public void displayStartMessage(File mznFile) {
 		displayMessage("********************************************************");
-		printFile(mznFile.getAbsolutePath());
+		displayFile(mznFile.getAbsolutePath());
 		target.append("User constraints: " + displayConstraintList(userConstraints));
 		displayMessage("********************************************************");
 	}
 
-	public void printFile(String fileName) {
+	public void displayFile(String fileName) {
 
 		displayMessage("Filename: " + fileName);
 		displayMessage("");
@@ -139,17 +148,82 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void diagnose(List<Constraint> diagnose, List<Constraint> inputConflictSet) {
+	public void displayPartOfDiagnosis(List<Constraint> diagnose, List<Constraint> inputConflictSet, String message,
+			String indent) throws Exception {
 		// TODO Auto-generated method stub
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Check: ").append(displayConstraintList(inputConflictSet));
-		if (diagnose == null) {
-			stringBuilder.append("No diagnose.").append(System.lineSeparator());
+		displayInputSet(inputConflictSet, message);
+		if (!indent.isEmpty())
+			stringBuilder.append(indent);
+
+		String variable = trimLevel(message);
+		String level = getLevel(message);
+		if (diagnose.isEmpty()) {
+			stringBuilder.append(level).append(" ").append("No part of diagnosis found.");
 		} else {
-			stringBuilder.append("DIAGNOSIS: ");
-			stringBuilder.append(displayConstraintList(diagnose));
+			stringBuilder.append(level).append(" ").append("Part of diagnosis found: ");
+
 		}
+		stringBuilder.append(variable);
+		stringBuilder.append(displayConstraintList(diagnose));
 		target.append(stringBuilder.toString());
 	}
 
+	@Override
+	public void displayPreferredDiagnosis(List<Constraint> diagnose, List<Constraint> inputSet) {
+		StringBuilder stringBuilder = new StringBuilder();
+		displayInputSet(inputSet, "");
+		if (diagnose.isEmpty()) {
+			stringBuilder.append("No diagnosis found.");
+		} else {
+			stringBuilder.append("Diagnosis found:").append(displayConstraintList(diagnose));
+		}
+		stringBuilder.append(LINE_SEPARATOR);
+
+		target.append(stringBuilder.toString());
+
+	}
+
+	@Override
+	public void diagnosisFound(List<Constraint> diagnosis, List<Constraint> inputConflictSet, String message) {
+		// TODO Auto-generated method stub
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(message);
+		if (!inputConflictSet.isEmpty()) {
+			displayInputSet(inputConflictSet, message);
+		}
+		if (diagnosis.isEmpty()) {
+			stringBuilder.append("No diagnosis found.");
+		} else {
+			stringBuilder.append("Minimal diagnosis found: ");
+			stringBuilder.append(displayConstraintList(diagnosis));
+		}
+		stringBuilder.append(LINE_SEPARATOR);
+		target.append(stringBuilder.toString());
+
+	}
+
+	private String trimLevel(String message) throws Exception {
+		int paranthesisIndex = 0;
+		if (message != null && !message.isEmpty()) {
+			paranthesisIndex = message.indexOf(")");
+		}
+		if (paranthesisIndex < 0) {
+			throw new Exception(String.format("Message %s do not contains \\')\\' ", message));
+		}
+
+		return message.substring(paranthesisIndex + 1, message.length());
+	}
+
+	private String getLevel(String message) throws Exception {
+		int paranthesisIndex = 0;
+		if (message != null && !message.isEmpty()) {
+			paranthesisIndex = message.indexOf(")");
+		}
+		if (paranthesisIndex < 0) {
+			throw new Exception(String.format("Message %s do not contains \\')\\' ", message));
+		}
+
+		return message.substring(0, paranthesisIndex + 1).trim();
+	}
 }

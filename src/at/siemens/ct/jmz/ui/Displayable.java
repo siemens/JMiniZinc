@@ -13,7 +13,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 /**
  * An interface for variables that can be displayed on {@link VariableDialog}.
  * 
- * @author z003pczy
+ * @author Siemens AG
  *
  */
 public interface Displayable {
@@ -21,10 +21,7 @@ public interface Displayable {
 	public List<Constraint> createConstraint(String values) throws Exception;
 
 	public List<InfoGUI> getInfo();
-	
-	
+
 	public String getName();
-
-
 
 }

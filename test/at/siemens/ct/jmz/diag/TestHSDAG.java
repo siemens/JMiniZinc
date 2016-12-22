@@ -10,12 +10,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
 
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.DiagnosesCollection;
+import at.siemens.ct.jmz.diag.hsdag.DiagnosisHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -23,251 +26,488 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 /**
  * @author © Siemens AG, 2016
  */
-public class TestHSDAG implements DiagnoseProgressCallback {
-	private static String logLabel = "TestHSDAG";
+public class TestHSDAG {
+	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
 
-	private DebugUtils debugUtils = new DebugUtils();
 
-	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+			String actualOutput;
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC,null, conflictDetectionAlgorithm);
+
+			}
+
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+			actualOutput = diagCollection.toString();
+
+			String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }\r\n" + "{ c1 {x1 = 1}, c3 {x2 = x1} }\r\n"
+					+ "{ c1 {x1 = 1}, c4 {x3 = x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 > 2} }\r\n"
+					+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
+					+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
+			String actualOutput;
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC,null, conflictDetectionAlgorithm);
+
+			}
+
+			actualOutput = hsdag.diagnose().toString();
+			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2} }";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			}
+			String actualOutput = hsdag.diagnose().toString();
+			String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
+			String actualOutput;
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			}
+
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+			actualOutput = diagCollection.toString();
+
+			String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }\r\n"
+					+ "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 = x2} }\r\n"
+					+ "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n"
+					+ "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c2 {x2 = 2}, c5 {x3 = x2} }\r\n"
+					+ "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c4 {x2 = x1}, c5 {x3 = x2} }";
+
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
+			String actualOutput;
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			}
+
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+			actualOutput = diagCollection.toString();
+			String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
+					+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
+			assertEquals(expectedOutput, actualOutput);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		// TODO Auto-generated method stub
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
+			String actualOutput;
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			}
+
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+			actualOutput = diagCollection.toString();
+
+			String expectedOutput = "{ c4 = true}, {a = 1}, {c1 = true} }\r\n{ c4 = true}, {c3 = true} }";
+			assertEquals(expectedOutput, actualOutput);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		// TODO Auto-generated method stub
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			}
+
+			DiagnosesCollection diagCollection = hsdag.diagnose();
+
+			String actualOutput = diagCollection.toString();
+			String expectedOutput = "{ {a = 1}, {c1 = true}, {c4 = true} }\r\n{ {c3 = true}, {c4 = true} }";
+
+			assertEquals(expectedOutput, actualOutput);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm algorithm) throws Exception {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
+		String fileName = UtilsForTest.getTestDataset8ConsistentKB(constraintsSetC, decisionsVar);
+		String actualOutput;
+		HSDAG hsdag = null;
+		String expectedOutput = "";
+		switch (algorithm) {
+		case SimpleConflictDetection:
+			hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null,
+					ConflictDetectionAlgorithm.SimpleConflictDetection);
+			break;
+		case QuickXPlain:
+			hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, ConflictDetectionAlgorithm.QuickXPlain);
+			break;
+		case FastDiagAll:
+			hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, ConflictDetectionAlgorithm.FastDiagAll);
+			break;
+		}
 
-		DiagnosesCollection diagCollection = hsdag.diagnose();
+		actualOutput = hsdag.diagnose().toString();
 
-		String actualOutput = diagCollection.toString();
-
-		String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }\r\n" + "{ c1 {x1 = 1}, c3 {x2 = x1} }\r\n"
-				+ "{ c1 {x1 = 1}, c4 {x3 = x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 > 2} }\r\n"
-				+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
-				+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblem5(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset5(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-		DiagnosesCollection diagCollection = hsdag.diagnose();
+	private void diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+		try {
+			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
+			List<Element> decisionsVar = new ArrayList<Element>();
+			String fileName = UtilsForTest.getDataTestMinimalDiagnoses4(constraintsSetC, decisionsVar);
+			String actualOutput;
+			HSDAG hsdag;
+			if (conflictDetectionAlgorithm == ConflictDetectionAlgorithm.FastDiagAll) {
+				/*
+				 * FastDiag fastDiag = new FastDiag(fileName, constraintsSetC,
+				 * ConflictDetectionAlgorithm.FastDiagAll); DiagnosesCollection
+				 * diagCollection = fastDiag.diagnose(null); actualOutput =
+				 * diagCollection.toString();
+				 */
 
-		String actualOutput = diagCollection.toString();
+				hsdag = new DiagnosisHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
 
-		String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2} }";
-		assertEquals(expectedOutput, actualOutput);
+			} else {
+				/*
+				 * HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this,
+				 * conflictDetectionAlgorithm); DiagnosesCollection
+				 * diagCollection = hsdag.diagnose(); actualOutput =
+				 * diagCollection.toString();
+				 */
+
+				hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
+
+			}
+			actualOutput = hsdag.diagnose().toString();
+
+			String expectedOutput = "{ {c3 = true} }\r\n" + "{ {x1 = 3} }";
+			assertEquals(expectedOutput, actualOutput);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
-
-	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-		DiagnosesCollection diagCollection = hsdag.diagnose();
-
-		String actualOutput = diagCollection.toString();
-
-		String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
-		assertEquals(expectedOutput, actualOutput);
-	}
-
-	private void diagnoseProblem7(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset7(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-		DiagnosesCollection diagCollection = hsdag.diagnose();
-
-		String actualOutput = diagCollection.toString();
-
-		String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }\r\n"
-				+ "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 = x2} }\r\n"
-				+ "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n"
-				+ "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c2 {x2 = 2}, c5 {x3 = x2} }\r\n"
-				+ "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n" + "{ c4 {x2 = x1}, c5 {x3 = x2} }";
-
-		assertEquals(expectedOutput, actualOutput);
-	}
-
-	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, conflictDetectionAlgorithm);
-		DiagnosesCollection diagCollection = hsdag.diagnose();
-
-		String actualOutput = diagCollection.toString();
-		String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
-				+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
-		assertEquals(expectedOutput, actualOutput);
-	}
-
-	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm simpleconflictdetection) throws Exception {
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
-		hsdag.diagnose();
-	}
-
-	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm simpleconflictdetection) throws Exception {
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
-		String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
-		printProblem(constraintsSetC, fileName);
-		HSDAG hsdag = new HSDAG(fileName, constraintsSetC, this, simpleconflictdetection);
-		hsdag.diagnose();
-	}
-
-	@Override
-	public void diagnoseFound(List<Constraint> diagnose) {
-		String oldLabel = debugUtils.logLabel;
-		int oldIndent = debugUtils.indent;
-		debugUtils.indent = 0;
-		debugUtils.logLabel = logLabel;
-		debugUtils.printConstraintsSet("DIAGNOSIS", diagnose);
-		debugUtils.logLabel = oldLabel;
-		debugUtils.indent = oldIndent;
-	}
-
-	@Override
-	public void minConflictSet(List<Constraint> minC, List<Constraint> inputConflictSet, String indent) {
-		String oldLabel = debugUtils.logLabel;
-		int oldIndent = debugUtils.indent;
-		debugUtils.indent = 0;
-		debugUtils.logLabel = logLabel;
-		debugUtils.printConstraintsSet("Input Conflict Set", inputConflictSet);
-		debugUtils.printConstraintsSet("Min Conflict Set", minC);
-		debugUtils.logLabel = oldLabel;
-		debugUtils.indent = oldIndent;
-	}
-
-	@Override
-	public void constraintSelected(Constraint constraint, String message) {
-		String oldLabel = debugUtils.logLabel;
-		int oldIndent = debugUtils.indent;
-		debugUtils.indent = 0;
-		debugUtils.logLabel = logLabel;
-		debugUtils.writeOutput("Selected constraint: " + constraint.getConstraintName());
-		debugUtils.logLabel = oldLabel;
-		debugUtils.indent = oldIndent;
-	}
-
-	@Override
-	public void displayMessage(String message) {
-		String oldLabel = debugUtils.logLabel;
-		int oldIndent = debugUtils.indent;
-		debugUtils.indent = 0;
-		debugUtils.logLabel = logLabel;
-		debugUtils.writeOutput(message);
-		debugUtils.logLabel = oldLabel;
-		debugUtils.indent = oldIndent;
-	}
-
-	private void printProblem(List<Constraint> constraintsSet, String fileName) {
-		String oldLabel = debugUtils.logLabel;
-		int oldIndent = debugUtils.indent;
-		debugUtils.indent = 0;
-		debugUtils.logLabel = logLabel;
-		debugUtils.writeOutput("***********************************************");
-		debugUtils.printConstraintsSet("User Constraints Set:", constraintsSet);
-		debugUtils.printFile(fileName);
-		debugUtils.writeOutput("***********************************************");
-
-		debugUtils.logLabel = oldLabel;
-		debugUtils.indent = oldIndent;
+	@Test
+	public void testDiagnoseProblemWithFastDiag2() {
+		diagnoseProblem2(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD2() throws Exception {
+	public void testDiagnoseProblemWithFastDiag5() {
+		diagnoseProblem5(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithFastDiag6() {
+		diagnoseProblem6(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithFastDiag7() {
+		diagnoseProblem7(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithFastDiag8() {
+		diagnoseProblem8(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+	
+	@Test
+	public void testDiagnoseProblemWithFastDiag8ConsistentKB() throws Exception {
+		diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithFastDiagMinimalDiagnoses2() {
+		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithFastDiagMinimalDiagnoses2_1() {
+		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithFastDiagMinimalDiagnoses4() {
+		diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm.FastDiagAll);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithSCD2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD5() throws Exception {
+	public void testDiagnoseProblemWithSCD5() {
 		diagnoseProblem5(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD6() throws Exception {
+	public void testDiagnoseProblemWithSCD6() {
 		diagnoseProblem6(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD7() throws Exception {
+	public void testDiagnoseProblemWithSCD7() {
 		diagnoseProblem7(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD8() throws Exception {
+	public void testDiagnoseProblemWithSCD8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
+	}
+	
+	@Test
+	public void testDiagnoseProblemWithSCD8ConsistentKB() throws Exception {
+		diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() throws Exception {
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() throws Exception {
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() {
 		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain2() throws Exception {
+	public void testDiagnoseProblemWithSCDMinimalDiagnoses4() {
+		diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm.SimpleConflictDetection);
+	}
+
+	@Test
+	public void testDiagnoseProblemWithQuickXPlain2() {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain5() throws Exception {
+	public void testDiagnoseProblemWithQuickXPlain5() {
 		diagnoseProblem5(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain6() throws Exception {
+	public void testDiagnoseProblemWithQuickXPlain6() {
 		diagnoseProblem6(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain7() throws Exception {
+	public void testDiagnoseProblemWithQuickXPlain7() {
 		diagnoseProblem7(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain8() throws Exception {
+	public void testDiagnoseProblemWithQuickXPlain8() {
 		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
 	}
-
-	@Override
-	public void ignoredDiagnose(List<Constraint> diagnose, DiagnoseMetadata reasonIgnoreDiagnose) {
-		String oldLabel = debugUtils.logLabel;
-		int oldIndent = debugUtils.indent;
-		debugUtils.indent = 0;
-		debugUtils.logLabel = logLabel;
-		switch (reasonIgnoreDiagnose) {
-		case AlreadyExists:
-			debugUtils.printConstraintsSet("DIAGNOSE already exists", diagnose);
-			break;
-		default:
-			debugUtils.printConstraintsSet("Not a minimal DIAGNOSE", diagnose);
-			break;
-		}
-
-		debugUtils.logLabel = oldLabel;
-		debugUtils.indent = oldIndent;
+	
+	@Test
+	public void testDiagnoseProblemWithQuickXPlain8ConsistentKB() throws Exception {
+		diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
-	@Override
-	public void displayStartMessage(File mznFile) {
+	@Test
+	public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses2() {
+		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
-	@Override
-	public void diagnose(List<Constraint> diagnose, List<Constraint> inputSet) {
+	@Test
+	public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses2_1() {
+		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.QuickXPlain);
 	}
+
+	@Test
+	public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses4() {
+		diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm.QuickXPlain);
+	}
+
+	
+
+	
+
 }

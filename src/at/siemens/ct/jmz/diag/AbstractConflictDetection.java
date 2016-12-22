@@ -30,6 +30,14 @@ public abstract class AbstractConflictDetection {
 	}
 
 	// TODO: Shall use Set instead of List?
+	/**
+	 * Search for a conflict set in a given set
+	 * 
+	 * @param constraintsSetC
+	 *            a set of constraint
+	 * @return a conflict set
+	 * @throws Exception
+	 */
 	public abstract List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception;
 
 	public static List<Constraint> appendSets(List<Constraint> CS1, List<Constraint> CS2) {

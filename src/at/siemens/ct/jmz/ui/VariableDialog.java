@@ -33,8 +33,9 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JOptionPane;
 
-import at.siemens.ct.jmz.diag.FastDiag;
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionHSDAG;
+import at.siemens.ct.jmz.diag.hsdag.DiagnosisHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.mznparser.MiniZincCP;
@@ -57,7 +58,8 @@ public class VariableDialog {
 
 	private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
 	private final String QUICKXPLAIN_HSDAG = "QuickXPlain - HSDAG";
-	private final String FAST_DIAG = "FastDiag";
+	private final String FAST_DIAG_ALL = "FastDiag - all minimal diagnoses";
+	private final String FAST_DIAG = "FastDiag - first minimal diagnosis";
 
 	public VariableDialog(File mznFile) throws Exception {
 		VariableDialog.mznFile = mznFile;
@@ -138,6 +140,7 @@ public class VariableDialog {
 		algorithmType = new Choice();
 		algorithmType.add(QUICKXPLAIN_HSDAG);
 		algorithmType.add(SCD_HSDAG);
+		algorithmType.add(FAST_DIAG_ALL);
 		algorithmType.add(FAST_DIAG);
 
 		algorithmChosing.add(algorithmType);
@@ -279,27 +282,30 @@ public class VariableDialog {
 		try {
 
 			userConstraints = getAllValuesFromTheInterface();
-
 			String selectedAlgorithm = algorithmType.getSelectedItem();
 			HSDAG hsdag;
 			logger = new TextComponentLogger(textLog, userConstraints);
+			logger.displayStartMessage(mznFile);
 			switch (selectedAlgorithm) {
 			case SCD_HSDAG:
-				hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+				hsdag = new ConflictDetectionHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
 						ConflictDetectionAlgorithm.SimpleConflictDetection);
-				logger.displayStartMessage(mznFile);
 				hsdag.diagnose();
 				break;
 			case QUICKXPLAIN_HSDAG:
-				hsdag = new HSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+				hsdag = new ConflictDetectionHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
 						ConflictDetectionAlgorithm.QuickXPlain);
-				logger.displayStartMessage(mznFile);
+				hsdag.diagnose();
+				break;
+			case FAST_DIAG_ALL:
+				hsdag = new DiagnosisHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+						ConflictDetectionAlgorithm.FastDiagAll);
 				hsdag.diagnose();
 				break;
 			case FAST_DIAG:
-				FastDiag fastDiag = new FastDiag(mznFile.getAbsolutePath(), userConstraints, logger);
-				logger.displayStartMessage(mznFile);
-				fastDiag.diagnose();
+				hsdag = new DiagnosisHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+						ConflictDetectionAlgorithm.FastDiag);
+				hsdag.diagnose();
 			}
 
 		} catch (Exception ex) {

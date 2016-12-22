@@ -38,6 +38,11 @@ public class ConsistencyChecker {
 		executor = new PipedMiniZincExecutor("consistencyChecker", modelWriter);
 	}
 
+	/** Determines the consistency of a mzn file (Background KB) 
+	 * @param mznFile - the mzn file which contains the background KB
+	 * @return true if is consistent
+	 * @throws Exception
+	 */
 	public boolean isConsistent(File mznFile) throws Exception {
 		initialization();
 
@@ -51,6 +56,12 @@ public class ConsistencyChecker {
 		return (isSolverResultConsistent(res));
 	}
 
+	/** Determines the consistency of given constraints set with the background KB
+	 * @param constraintsSet - the given constraints set
+	 * @param mznFile - the mzn file which contains the background KB
+	 * @return true if the given set is consistent with background KB
+	 * @throws Exception
+	 */
 	public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws Exception {
 		initialization();
 		modelBuilder.reset();

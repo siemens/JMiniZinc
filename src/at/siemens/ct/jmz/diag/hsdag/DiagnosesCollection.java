@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import at.siemens.ct.jmz.diag.DiagnoseMetadata;
+import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -32,24 +32,24 @@ public class DiagnosesCollection extends ArrayList<List<Constraint>> {
 		super(initialCapacity);
 	}
 
-	public DiagnoseMetadata Contains(List<Constraint> diagnose) {
+	public DiagnosisMetadata Contains(List<Constraint> diagnose) {
 		for (List<Constraint> d : this) {
-			DiagnoseMetadata diagnoseMetadata = compareDiagnose(diagnose, d);
-			if (diagnoseMetadata != DiagnoseMetadata.Min)
+			DiagnosisMetadata diagnoseMetadata = compareDiagnose(diagnose, d);
+			if (diagnoseMetadata != DiagnosisMetadata.Min)
 				return diagnoseMetadata;
 		}
-		return DiagnoseMetadata.Min;
+		return DiagnosisMetadata.Min;
 	}
 
-	private DiagnoseMetadata compareDiagnose(List<Constraint> newDiagnose, List<Constraint> existingDiagnose) {
+	private DiagnosisMetadata compareDiagnose(List<Constraint> newDiagnose, List<Constraint> existingDiagnose) {
 		for (Constraint c : existingDiagnose) {
 			if (!newDiagnose.contains(c))
-				return DiagnoseMetadata.Min;
+				return DiagnosisMetadata.Min;
 		}
-
+		
 		if (newDiagnose.size() == existingDiagnose.size())
-			return DiagnoseMetadata.AlreadyExists;
-		return DiagnoseMetadata.NotMin;
+			return DiagnosisMetadata.AlreadyExists;
+		return DiagnosisMetadata.NotMin;
 	}
 
 	public java.lang.String toString() {
