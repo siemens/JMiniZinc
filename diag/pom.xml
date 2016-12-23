@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>at.siemens.ct</groupId>
+		<artifactId>jminizinc</artifactId>
+		<version>1.1</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>at.siemens.ct.jminizinc</groupId>
+	<artifactId>diag</artifactId>
+	<packaging>pom</packaging>
+
+	<name>JMiniZinc Diagnosis</name>
+	<description>JMiniZinc is a Java interface to the constraint modeling language MiniZinc. It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.</description>
+	<url>https://code.siemens.com/richard.taupe/JMiniZinc</url>
+	<inceptionYear>2016</inceptionYear>
+
+	<modules>
+		<module>ui</module>
+	</modules>
+
+</project>
