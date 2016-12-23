@@ -22,7 +22,6 @@ import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
-import at.siemens.ct.jmz.ui.Displayable;
 
 /**
  * @author © Siemens AG, 2016

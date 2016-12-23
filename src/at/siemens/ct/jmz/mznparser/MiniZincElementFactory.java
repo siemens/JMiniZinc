@@ -19,11 +19,6 @@ import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
-import at.siemens.ct.jmz.ui.Displayable;
-import at.siemens.ct.jmz.ui.variables.DisplayableBooleanArray;
-import at.siemens.ct.jmz.ui.variables.DisplayableBooleanVariable;
-import at.siemens.ct.jmz.ui.variables.DisplayableIntegerArray;
-import at.siemens.ct.jmz.ui.variables.DisplayableIntegerVariable;
 
 public class MiniZincElementFactory {
 

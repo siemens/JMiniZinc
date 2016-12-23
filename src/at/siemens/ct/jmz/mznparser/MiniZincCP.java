@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.siemens.ct.common.utils.FileUtils;
-import at.siemens.ct.jmz.ui.Displayable;
 
 /**
  * Parses output from MiniZincIde (.mzn files)

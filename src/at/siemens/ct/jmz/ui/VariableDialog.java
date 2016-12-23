@@ -38,6 +38,8 @@ import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.DiagnosisHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.mznparser.Displayable;
+import at.siemens.ct.jmz.mznparser.InfoGUI;
 import at.siemens.ct.jmz.mznparser.MiniZincCP;
 
 public class VariableDialog {
