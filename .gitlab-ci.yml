@@ -6,6 +6,6 @@ before_script:
 
 build:
   script:
-    - mvn clean install
+    - mvn clean install -DskipTests
   tags:
     - MAVEN
