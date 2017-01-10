@@ -22,7 +22,7 @@
 	</licenses>
 
 	<modules>
-		<module>diag</module>
+		<module>../at.siemens.ct.jminizinc.diag</module>
 	</modules>
 
 	<organization>

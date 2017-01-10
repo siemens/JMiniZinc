@@ -6,6 +6,7 @@
 		<groupId>at.siemens.ct</groupId>
 		<artifactId>jminizinc</artifactId>
 		<version>1.1</version>
+		<relativePath>../at.siemens.ct.jminizinc</relativePath>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -19,7 +20,7 @@
 	<inceptionYear>2016</inceptionYear>
 
 	<modules>
-		<module>ui</module>
+		<module>../at.siemens.ct.jminizinc.diag.ui</module>
 	</modules>
 
 </project>
