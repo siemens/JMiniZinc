@@ -3,6 +3,13 @@
 JMiniZinc is a Java interface to the constraint modeling language [MiniZinc](http://www.minizinc.org/).
 It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.
 
+## Project Structure
+
+JMiniZinc is separated into three subprojects:
+* [`core`](at.siemens.ct.jminizinc.core) contains the core functionality for generating and solving MiniZinc models.
+* [`diag`](at.siemens.ct.jminizinc.diag) contains various tools for model-based diagnosis.
+* [`diag.ui`](at.siemens.ct.jminizinc.diag.ui) adds a user interface on top of the `diag` component.
+
 ## Building
 
 JMiniZinc uses [Maven](https://maven.apache.org) to manage its building process. Executing
@@ -11,9 +18,10 @@ JMiniZinc uses [Maven](https://maven.apache.org) to manage its building process.
 $ mvn clean install
 ```
 
-will automatically fetch all dependencies (declared in [`pom.xml`](pom.xml)) and compile the project.
+in any of the subprojects will automatically fetch all dependencies (declared in [`pom.xml`](pom.xml)) and compile the project.
+Executing this command in the [`at.siemens.ct.jminizinc`](at.siemens.ct.jminizinc) subfolder will build all components at once.
 
-Artifacts generated will be placed in `target/`. Most notably you'll find there a JAR file called `jminizinc-1.0.jar`.
+Artifacts generated will be placed in the `target/` folders in the subprojects. Most notably you'll find there JAR files called `core-1.1.jar`, `diag-1.1.jar` and so on.
 
 ## Usage
 
