@@ -1,1 +1,0 @@
-javaw -jar minimalDiagnoses.jar "testFiles/testConflictDetection6.mzn"
