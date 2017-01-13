@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>at.siemens.ct.jmz</groupId>
+	<groupId>at.siemens.ct</groupId>
 	<artifactId>jminizinc</artifactId>
-	<version>1.0</version>
-	<packaging>jar</packaging>
+	<version>1.1</version>
+	<packaging>pom</packaging>
 
 	<name>JMiniZinc</name>
 	<description>JMiniZinc is a Java interface to the constraint modeling language MiniZinc. It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.</description>
@@ -20,6 +20,12 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+	<modules>
+		<module>../at.siemens.ct.jminizinc.core</module>
+		<module>../at.siemens.ct.jminizinc.diag</module>
+		<module>../at.siemens.ct.jminizinc.diag.ui</module>
+	</modules>
 
 	<organization>
 		<name>Siemens AG Österreich</name>
@@ -46,8 +52,8 @@
 
 		<!-- since the project does not follow the default maven directory structure 
 			standard we have to specify these -->
-		<sourceDirectory>${project.basedir}/src</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/test</testSourceDirectory>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 	</build>
 
 	<dependencies>
@@ -58,6 +64,26 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>at.siemens.ct.jminizinc</groupId>
+				<artifactId>core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>at.siemens.ct.jminizinc</groupId>
+				<artifactId>diag</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>at.siemens.ct.jminizinc.diag</groupId>
+				<artifactId>ui</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
