@@ -1,5 +1,5 @@
 /**
- * Copyright © Siemens AG, 2016
+ * Copyright Siemens AG, 2016
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -16,7 +16,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 /**
  * Represents the access to one element of an {@link ArrayExpression}.
  *
- * @author © Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016
  */
 public class ArrayAccessExpression<T> implements Expression<T> {
 

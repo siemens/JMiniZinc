@@ -1,8 +1,9 @@
 /**
- * Copyright © Siemens AG, 2016
+ * Copyright (c) Siemens AG, 2016
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
- * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * If a copy of the MPL was not distributed with this file, You can obtain one at
+ * http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.jmz.elements;
 
@@ -14,10 +15,10 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
  * This class can be used to build variable {@link BasicTypeInst}s and {@link Set}s.
  * To build a variable array, an {@link Array} of {@link Variable}s has to be created.
  * 
- * @author © Siemens AG, 2016
+ * @author ï¿½ Siemens AG, 2016
  *
  * @param <T> The primitive type of this variable (e.g. {@link Integer})
- * @param <V> The data type of this variable´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
+ * @param <V> The data type of this variable's value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
  */
 public abstract class Variable<T, V> extends TypeInst<T, V> {
 
