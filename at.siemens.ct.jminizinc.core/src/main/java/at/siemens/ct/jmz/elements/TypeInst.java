@@ -1,5 +1,5 @@
 /**
- * Copyright © Siemens AG, 2016
+ * Copyright Siemens AG, 2016
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -16,10 +16,10 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
  * Represents a MiniZinc type-inst (in accordance with the MiniZinc specification 2.0),
  * i.e. a type and a variable instantiation indicating whether the variable is fixed to a known value or not.
  * 
- * @author © Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016
  *
  * @param <T> The primitive type of this TypeInst (e.g. {@link Integer})
- * @param <V> The data type of this TypeInst´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
+ * @param <V> The data type of this TypeInst's value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
  */
 public abstract class TypeInst<T, V> implements Element, Expression<V> {
 

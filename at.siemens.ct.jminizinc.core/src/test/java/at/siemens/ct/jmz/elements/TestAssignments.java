@@ -1,5 +1,5 @@
 /**
- * Copyright © Siemens AG, 2016
+ * Copyright Siemens AG, 2016
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -23,7 +23,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
 /**
  * Tests various {@link Assignment}s.
  *
- * @author © Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016
  */
 public class TestAssignments {
 
