@@ -1,0 +1,26 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Set diff modes for specific languages.
+# This is only done for files that might
+# appear in this repo by chance.
+# See list of predefined hunk headers at
+# https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html#_defining_a_custom_hunk_header
+*.java	text diff=java
+*.prefs	text
+*.MF	text
+*.bat	text
+*.jardesc	text
+*.mzn	text
+*.md	text
+*.xml	text
+
+# Binary files to be handled by Git LFS
+*.jpg  filter=lfs diff=lfs merge=lfs binary
+*.png  filter=lfs diff=lfs merge=lfs binary
+*.pdf  filter=lfs diff=lfs merge=lfs binary
+*.tiff filter=lfs diff=lfs merge=lfs binary
+*.gpg  filter=lfs diff=lfs merge=lfs binary
+*.bin  filter=lfs diff=lfs merge=lfs binary
+*.jar  filter=lfs diff=lfs merge=lfs binary
+*.eap  filter=lfs diff=lfs merge=lfs binary
