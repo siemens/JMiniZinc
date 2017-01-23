@@ -10,7 +10,7 @@
 
 	<name>JMiniZinc</name>
 	<description>JMiniZinc is a Java interface to the constraint modeling language MiniZinc. It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.</description>
-	<url>https://code.siemens.com/richard.taupe/JMiniZinc</url>
+	<url>https://github.com/siemens/JMiniZinc</url>
 	<inceptionYear>2016</inceptionYear>
 
 	<licenses>
