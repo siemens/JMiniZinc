@@ -18,17 +18,17 @@ JMiniZinc uses [Maven](https://maven.apache.org) to manage its building process.
 $ mvn clean install
 ```
 
-in any of the subprojects will automatically fetch all dependencies (declared in [`pom.xml`](pom.xml)) and compile the project.
+in any of the subprojects will automatically fetch all dependencies (declared in [`pom.xml`](/at.siemens.ct.jminizinc/pom.xml)) and compile the project.
 Executing this command in the [`at.siemens.ct.jminizinc`](at.siemens.ct.jminizinc) subfolder will build all components at once.
 
 Artifacts generated will be placed in the `target/` folders in the subprojects. Most notably you'll find there JAR files called `core-1.1.jar`, `diag-1.1.jar` and so on.
 
 ## Usage
 
-You should be able to figure out quickly how to use JMiniZinc by looking at our [JUnit tests](/test/at/siemens/ct/jmz/).
-First you construct a MiniZinc model by adding [`Variable`](src/at/siemens/ct/jmz/elements/Variable.java)s, [`Constraint`](src/at/siemens/ct/jmz/elements/constraints/Constraint.java)s etc. to a [`ModelBuilder`](src/at/siemens/ct/jmz/IModelBuilder.java),
-Then you add additional syntactical elements (e.g. a solving strategy) to a [`ModelWriter`](src/at/siemens/ct/jmz/writer/IModelWriter.java)
-and let the resulting model be solved by an [`Executor`](src/at/siemens/ct/jmz/executor/IExecutor.java).
+You should be able to figure out quickly how to use JMiniZinc by looking at our [JUnit tests](/at.siemens.ct.jminizinc.core/src/test/java/at/siemens/ct/jmz).
+First you construct a MiniZinc model by adding [`Variable`](/at.siemens.ct.jminizinc.core/src/main/java/at/siemens/ct/jmz/elements/Variable.java)s, [`Constraint`](/at.siemens.ct.jminizinc.core/src/main/java/at/siemens/ct/jmz/elements/constraints/Constraint.java)s etc. to a [`ModelBuilder`](/at.siemens.ct.jminizinc.core/src/main/java/at/siemens/ct/jmz/IModelBuilder.java),
+Then you add additional syntactical elements (e.g. a solving strategy) to a [`ModelWriter`](/at.siemens.ct.jminizinc.core/src/main/java/at/siemens/ct/jmz/writer/IModelWriter.java)
+and let the resulting model be solved by an [`Executor`](/at.siemens.ct.jminizinc.core/src/main/java/at/siemens/ct/jmz/executor/IExecutor.java).
 For the Executors to work, executables `minizinc`, `mzn2fzn`, ... should be available on your `PATH`.
 
 ## Development Status
