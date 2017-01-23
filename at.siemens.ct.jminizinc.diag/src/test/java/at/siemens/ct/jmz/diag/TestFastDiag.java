@@ -135,23 +135,6 @@ public class TestFastDiag {
 			assertSame(c5, diag.get(1));
 	}
 
-	public void testFastDiagWithMinimalDiagnoses4() throws Exception {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
-			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
-			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, ConflictDetectionAlgorithm.FastDiag, null);
-			List<Constraint> diag = fastDiag.getPreferredDiagnosis(constraintsSetC, false);
-
-			assertTrue(!diag.isEmpty());
-			assertEquals(diag.size(), 2);
-
-			// the expected output is D = (c2 {x1 = 2}) (c5 {x3 > 2})
-			Constraint c2 = constraintsSetC.get(1);
-			Constraint c5 = constraintsSetC.get(4);
-			assertSame(c2, diag.get(0));
-			assertSame(c5, diag.get(1));
-	}
-
 	@Test
 	public void testFastDiagWithMinimalDiagnoses2() throws Exception {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();

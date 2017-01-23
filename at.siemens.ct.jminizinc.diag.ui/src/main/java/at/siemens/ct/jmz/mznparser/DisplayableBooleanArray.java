@@ -4,7 +4,7 @@
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package at.siemens.ct.jmz.ui.variables;
+package at.siemens.ct.jmz.mznparser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,9 @@ import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
+import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
-import at.siemens.ct.jmz.ui.ComponentType;
-import at.siemens.ct.jmz.ui.Displayable;
-import at.siemens.ct.jmz.ui.InfoGUI;
 
 public class DisplayableBooleanArray implements Displayable {
 
@@ -30,15 +28,26 @@ public class DisplayableBooleanArray implements Displayable {
 	}
 
 	@Override
-	public List<Constraint> createConstraint(String value) {
+	public List<Constraint> createConstraint(String value) throws Exception {
 
 		List<Constraint> constraints = new ArrayList<>();
 		Constraint constraint;
 
 		String[] booleanArrayValues = value.split(",");
+		SetExpression<Integer> type = this.boolArray.getRange().get(0);
+		
+		if(!(type instanceof RangeExpression))
+		{
+			throw new Exception(String.format("This type of variable: %s cannot be used as index for array", type.use()));
+		}
+		
+		RangeExpression arrayIndexRange = (RangeExpression) type;
+		IntegerConstant startIndex = (IntegerConstant) arrayIndexRange.getLb();
+		Integer startIndexInteger = startIndex.getValue();
 
 		for (int i = 0; i < booleanArrayValues.length; i++) {
-			int index = i + 1;
+
+			Integer index = startIndexInteger;
 			if (booleanArrayValues[i] != "Undefined") {
 
 				Boolean variablevalue = Boolean.parseBoolean(booleanArrayValues[i]);
@@ -49,6 +58,8 @@ public class DisplayableBooleanArray implements Displayable {
 						String.format("%s = %s", this.getInfo().get(i).getLabelCaption(), variablevalue), booleanExpression);
 				constraints.add(constraint);
 			}
+			
+			index++;
 
 		}
 

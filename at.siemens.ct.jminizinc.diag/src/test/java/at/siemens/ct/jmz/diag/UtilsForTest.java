@@ -390,26 +390,18 @@ public class UtilsForTest {
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThreeFour);
 		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThreeFour);
-		IntegerVariable x3 = new IntegerVariable("x3");
+		IntegerArray x = IntegerArray.createVariable("x", new RangeExpression(3, 4));
 		BooleanVariable c3 = new BooleanVariable("c3");
 
 		decisionsVar.add(setOneTwoThreeFour);
 		decisionsVar.add(x1);
 		decisionsVar.add(x2);
-		decisionsVar.add(x3);
+		decisionsVar.add(x);
 		decisionsVar.add(c3);
 
-		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(3));
-		Constraint constraint1 = new Constraint("group", "{x1 = 3}", expression1);
+		BooleanExpression expression1 = new RelationalOperation<>(x.access(3), RelationalOperator.EQ, new IntegerConstant(3));
+		Constraint constraint1 = new Constraint("group", "{x[1] = 3}", expression1);
 		constraintsSetC.add(constraint1);
-
-		BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(2));
-		Constraint constraint2 = new Constraint("group", "{x2 = 2}", expression2);
-		constraintsSetC.add(constraint2);
-
-		BooleanExpression expression4 = new RelationalOperation<>(c3, RelationalOperator.EQ, new BooleanConstant(true));
-		Constraint constraint4 = new Constraint("group", "{c3 = true}", expression4);
-		constraintsSetC.add(constraint4);
 
 		return f.getAbsolutePath();
 	}

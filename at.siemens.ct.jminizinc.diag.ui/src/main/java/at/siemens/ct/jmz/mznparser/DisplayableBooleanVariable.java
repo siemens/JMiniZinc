@@ -4,7 +4,7 @@
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package at.siemens.ct.jmz.ui.variables;
+package at.siemens.ct.jmz.mznparser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,6 @@ import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
-import at.siemens.ct.jmz.ui.ComponentType;
-import at.siemens.ct.jmz.ui.Displayable;
-import at.siemens.ct.jmz.ui.InfoGUI;
 
 public class DisplayableBooleanVariable extends BooleanVariable implements Displayable {
 

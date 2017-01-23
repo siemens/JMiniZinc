@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Siemens AG, 2016
+ * Copyright Siemens AG, 2016
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at
@@ -39,6 +39,8 @@ import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.DiagnosisHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.mznparser.Displayable;
+import at.siemens.ct.jmz.mznparser.InfoGUI;
 import at.siemens.ct.jmz.mznparser.MiniZincCP;
 
 public class VariableDialog {

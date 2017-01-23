@@ -13,6 +13,9 @@ import java.awt.Label;
 import java.awt.TextField;
 import java.util.List;
 
+import at.siemens.ct.jmz.mznparser.ComponentType;
+import at.siemens.ct.jmz.mznparser.InfoGUI;
+
 /**
  * Class used for decision variables from the interface
  * @author z003pczy (Mara Rosu)

@@ -206,7 +206,7 @@ public class TestHSDAG {
 		}
 		actualOutput = hsdag.diagnose().toString();
 
-		String expectedOutput = "{ {c3 = true} }\r\n" + "{ {x1 = 3} }";
+		String expectedOutput = "";
 		assertEquals(expectedOutput, actualOutput);
 
 	}

@@ -22,7 +22,6 @@ import at.siemens.ct.jmz.expressions.integer.BasicInteger;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
-import at.siemens.ct.jmz.ui.Displayable;
 
 /**
  * @author Copyright Siemens AG, 2016
@@ -33,7 +32,7 @@ public class TestMznParser {
 
 	@Test
 	public void testMznParser() throws Exception {
-		File miniZincFile = new File("testFiles\\testConflictDetection4.mzn");
+		File miniZincFile = new File("src/test/java/testConflictDetection4.mzn");
 		constraintProblem = new MiniZincCP(miniZincFile);
 		int noOfVar = constraintProblem.getElementsFromFile().size();
 		//assertEquals(noOfVar, 9);
