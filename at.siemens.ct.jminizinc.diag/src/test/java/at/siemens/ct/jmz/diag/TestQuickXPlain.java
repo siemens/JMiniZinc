@@ -35,7 +35,7 @@ public class TestQuickXPlain {
 	public void testConsistencyChecker_2() throws Exception {
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
-		File mznFile = new File("testFiles\\testConflictDetection2.mzn");
+		File mznFile = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -62,7 +62,7 @@ public class TestQuickXPlain {
 	public void testConsistencyChecker_2WithOtherConstraints() throws Exception {
 		ConsistencyChecker checker = new ConsistencyChecker();
 		List<Constraint> constraintsSetC = new ArrayList<>();
-		File mznFile = new File("testFiles\\testConflictDetection2.mzn");
+		File mznFile = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);

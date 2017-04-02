@@ -35,7 +35,7 @@ public class TestSimpleConflictDetection {
 	@Test
 	public void testSimpleConflictDetection_1() throws Exception {
 		List<Constraint> minCS = null;
-		File f = new File("testFiles\\testConflictDetection1.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection1.mzn");
 		// Define some additional constraints 
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 
