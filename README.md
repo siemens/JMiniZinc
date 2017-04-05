@@ -1,7 +1,5 @@
 # JMiniZinc
 
-**This project has been archived because it has been made open-source on https://github.com/siemens/JMiniZinc.**
-
 JMiniZinc is a Java interface to the constraint modeling language [MiniZinc](http://www.minizinc.org/).
 It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.
 
