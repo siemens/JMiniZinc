@@ -26,6 +26,8 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  */
 public class TestHSDAG {
 
+  private final String lineSeparator = System.lineSeparator();
+
 	private void diagnoseProblem1(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -60,9 +62,12 @@ public class TestHSDAG {
 		DiagnosesCollection diagCollection = hsdag.diagnose();
 		actualOutput = diagCollection.toString();
 
-		String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }\r\n" + "{ c1 {x1 = 1}, c3 {x2 = x1} }\r\n"
-				+ "{ c1 {x1 = 1}, c4 {x3 = x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 > 2} }\r\n"
-				+ "{ c2 {x1 = 2}, c3 {x2 = x1} }\r\n" + "{ c2 {x1 = 2}, c4 {x3 = x2} }\r\n"
+    String expectedOutput = "{ c1 {x1 = 1}, c2 {x1 = 2} }" + lineSeparator
+        + "{ c1 {x1 = 1}, c3 {x2 = x1} }" + lineSeparator
+        + "{ c1 {x1 = 1}, c4 {x3 = x2} }" + lineSeparator
+        + "{ c1 {x1 = 1}, c5 {x3 > 2} }" + lineSeparator
+        + "{ c2 {x1 = 2}, c3 {x2 = x1} }" + lineSeparator
+        + "{ c2 {x1 = 2}, c4 {x3 = x2} }" + lineSeparator
 				+ "{ c2 {x1 = 2}, c5 {x3 > 2} }";
 		assertEquals(expectedOutput, actualOutput);
 	}
@@ -84,10 +89,13 @@ public class TestHSDAG {
 		DiagnosesCollection diagCollection = hsdag.diagnose();
 		actualOutput = diagCollection.toString();
 
-		String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }\r\n"
-				+ "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c1 {x1 = 1}, c5 {x3 = x2} }\r\n"
-				+ "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }\r\n" + "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n"
-				+ "{ c2 {x2 = 2}, c5 {x3 = x2} }\r\n" + "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }\r\n"
+    String expectedOutput = "{ c1 {x1 = 1}, c2 {x2 = 2}, c6 {x3 > x2} }" + lineSeparator
+        + "{ c1 {x1 = 1}, c3 {x3 = 3}, c6 {x3 > x2} }" + lineSeparator
+        + "{ c1 {x1 = 1}, c5 {x3 = x2} }" + lineSeparator
+        + "{ c2 {x2 = 2}, c3 {x3 = 3}, c6 {x3 > x2} }" + lineSeparator
+        + "{ c2 {x2 = 2}, c4 {x2 = x1}, c6 {x3 > x2} }" + lineSeparator
+        + "{ c2 {x2 = 2}, c5 {x3 = x2} }" + lineSeparator
+        + "{ c3 {x3 = 3}, c4 {x2 = x1}, c6 {x3 > x2} }" + lineSeparator
 				+ "{ c4 {x2 = x1}, c5 {x3 = x2} }";
 
 		assertEquals(expectedOutput, actualOutput);
@@ -104,7 +112,8 @@ public class TestHSDAG {
 			hsdag = new ConflictDetectionHSDAG(fileName, constraintsSetC, null, conflictDetectionAlgorithm);
 		}
 		String actualOutput = hsdag.diagnose().toString();
-		String expectedOutput = "{ constraint1 {x1 = 1} }\r\n{ constraint2 {c1 = true} }";
+    String expectedOutput = "{ constraint1 {x1 = 1} }" + lineSeparator
+        + "{ constraint2 {c1 = true} }";
 		assertEquals(expectedOutput, actualOutput);
 	}
 
@@ -122,7 +131,7 @@ public class TestHSDAG {
 
 		DiagnosesCollection diagCollection = hsdag.diagnose();
 		actualOutput = diagCollection.toString();
-		String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }\r\n"
+    String expectedOutput = "{ c1 {x3 = 4}, c2 {c = true}, c4 {x2 = 3} }" + lineSeparator
 				+ "{ c1 {x3 = 4}, c3 {x1 = 3}, c4 {x2 = 3} }";
 		assertEquals(expectedOutput, actualOutput);
 	}
@@ -143,7 +152,8 @@ public class TestHSDAG {
 		DiagnosesCollection diagCollection = hsdag.diagnose();
 		actualOutput = diagCollection.toString();
 
-		String expectedOutput = "{ c4 = true}, {a = 1}, {c1 = true} }\r\n{ c4 = true}, {c3 = true} }";
+    String expectedOutput = "{ c4 = true}, {a = 1}, {c1 = true} }" + lineSeparator
+        + "{ c4 = true}, {c3 = true} }";
 		assertEquals(expectedOutput, actualOutput);
 	}
 
@@ -162,7 +172,8 @@ public class TestHSDAG {
 		DiagnosesCollection diagCollection = hsdag.diagnose();
 
 		String actualOutput = diagCollection.toString();
-		String expectedOutput = "{ {a = 1}, {c1 = true}, {c4 = true} }\r\n{ {c3 = true}, {c4 = true} }";
+    String expectedOutput = "{ {a = 1}, {c1 = true}, {c4 = true} }" + lineSeparator
+        + "{ {c3 = true}, {c4 = true} }";
 
 		assertEquals(expectedOutput, actualOutput);
 	}
