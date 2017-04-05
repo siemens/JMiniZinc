@@ -30,7 +30,7 @@ public class UtilsForTest {
 	
 	public static String getTestDataset1(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection1.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection1.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -58,7 +58,7 @@ public class UtilsForTest {
 
 	public static String getTestDataset2(List<Constraint> constraintsSetC, List<Element> decisionsVariable)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection2.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -94,7 +94,7 @@ public class UtilsForTest {
 	
 	public static String getTestDataset2WithMoreConstraints(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection2.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -134,7 +134,7 @@ public class UtilsForTest {
 
 	public static String getTestDataset2NoConflict(List<Constraint> constraintsSetC, List<Element> decisionsVariable)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection2.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -164,7 +164,7 @@ public class UtilsForTest {
 
 	public static String getTestDataset6(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection6.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection6.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -197,7 +197,7 @@ public class UtilsForTest {
 
 	public static String getTestDataset8(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection8.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection8.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -233,7 +233,7 @@ public class UtilsForTest {
 
 	public static String getTestDataset8ConsistentKB(List<Constraint> constraintsSetC, List<Element> decisionsVar)
 			throws FileNotFoundException {
-		File f = new File("testFiles\\testConflictDetection8.mzn");
+		File f = new File("testFiles" + File.separator + "testConflictDetection8.mzn");
 
 		BooleanVariable c = new BooleanVariable("c");
 
@@ -248,7 +248,7 @@ public class UtilsForTest {
 
 	public static String getTestDatasetWithSolveItemIncluded(List<Constraint> constraintsSetC,
 			List<Element> decisionsVar) throws FileNotFoundException {
-		File f = new File("testFiles\\testWithSolveItemIncluded.mzn");
+		File f = new File("testFiles" + File.separator + "testWithSolveItemIncluded.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
@@ -283,7 +283,7 @@ public class UtilsForTest {
 	}
 
 	public static String getDataTestMinimalDiagnoses2(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
-		File f = new File("testFiles\\minimalDiagnoses2.mzn");
+		File f = new File("testFiles" + File.separator + "minimalDiagnoses2.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
 		IntegerVariable a = new IntegerVariable("a", setOneTwoThreeFour);
@@ -324,7 +324,7 @@ public class UtilsForTest {
 	}
 
 	public static String getDataTestMinimalDiagnoses2_1(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
-		File f = new File("testFiles\\minimalDiagnoses2.mzn");
+		File f = new File("testFiles" + File.separator + "minimalDiagnoses2.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
 		IntegerVariable a = new IntegerVariable("a", setOneTwoThreeFour);
@@ -385,7 +385,7 @@ public class UtilsForTest {
 	}
 
 	public static String getDataTestMinimalDiagnoses4(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
-		File f = new File("testFiles\\minimalDiagnoses4.mzn");
+		File f = new File("testFiles" + File.separator + "minimalDiagnoses4.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThreeFour);
