@@ -74,4 +74,9 @@ public class Constraint implements Element {
     return expression;
   }
 
+  @Override
+  public String toString() {
+    return getExpressionString();
+  }
+
 }
