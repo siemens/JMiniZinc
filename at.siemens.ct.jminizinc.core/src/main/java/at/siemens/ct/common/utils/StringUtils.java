@@ -1,15 +1,17 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.common.utils;
 
+import java.util.List;
+
 /**
  * Provides utility functions for {@link String}s.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class StringUtils {
 
@@ -93,6 +95,30 @@ public class StringUtils {
       String postfixSeparator) {
     String inputFront = StringUtils.removePostfixCaseInsensitive(input, postfixSeparator);
     return removePrefixCaseInsensitive(inputFront, prefixSeparator);
+  }
+
+  /**
+   * Enumerates in "prose" the given items. For example, a list {@code [item1, item2]} becomes "item1 and item2", and {@code [item1, item2, item3]} becomes "item1, item2, and item3".
+   */
+  public static <T> String enumerate(List<T> items) {
+    StringBuilder enumeration = new StringBuilder();
+    int size = items.size();
+
+    for (int i = 0; i < size; i++) {
+      if (i > 0) {
+        if (size > 2) {
+          enumeration.append(", ");
+        } else {
+          enumeration.append(" ");
+        }
+        if (i == size - 1) {
+          enumeration.append("and ");
+        }
+      }
+      enumeration.append(items.get(i).toString());
+    }
+
+    return enumeration.toString();
   }
 
 }
