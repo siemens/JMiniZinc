@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -22,7 +22,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 /**
  * Maintains names and group memberships of {@link Constraint}s.
  * 
- * @author Siemens AG, 2016
+ * @author Siemens AG, 2016-2017
  */
 public class ConstraintRegistry {
 
@@ -30,6 +30,7 @@ public class ConstraintRegistry {
 
   private final Map<String, Set<String>> mapGroupToNames = new HashMap<>();
   private final Map<List<String>, Constraint> mapGroupAndNameToConstraint = new HashMap<>();
+  private final Set<Constraint> unnamedConstraints = new HashSet<>();
   private final Set<String> ignoredGroups = new HashSet<>();
   private final Set<List<String>> ignoredKeys = new HashSet<>();
 
@@ -40,8 +41,13 @@ public class ConstraintRegistry {
   public void register(Constraint constraint) {
     String group = constraint.getConstraintGroup();
     String name = constraint.getConstraintName();
-    mapGroupToName(group, name);
-    mapGroupAndNameToConstraint(group, name, constraint);
+
+    if (group != null && name != null) {
+      mapGroupToName(group, name);
+      mapGroupAndNameToConstraint(group, name, constraint);
+    } else {
+      unnamedConstraints.add(constraint);
+    }
   }
 
   private void mapGroupToName(String group, String name) {
@@ -74,7 +80,7 @@ public class ConstraintRegistry {
     String group = constraint.getConstraintGroup();
     String name = constraint.getConstraintName();
 
-    return ignoredGroups.contains(group) || ignoredKeys.contains(key(group, name));
+    return group != null && name != null && (ignoredGroups.contains(group) || ignoredKeys.contains(key(group, name)));
   }
 
   private List<String> key(String group, String name) {
@@ -102,6 +108,7 @@ public class ConstraintRegistry {
   }
 
   public void reset() {
+    unnamedConstraints.clear();
     mapGroupToNames.clear();
     mapGroupAndNameToConstraint.clear();
     ignoredGroups.clear();
