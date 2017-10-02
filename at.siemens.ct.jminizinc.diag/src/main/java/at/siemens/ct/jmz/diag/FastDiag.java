@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,18 +9,21 @@ package at.siemens.ct.jmz.diag;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class FastDiag {
 	private List<Constraint> userRequirements;
 	private File mznFile;
+  private Collection<? extends Element> fixedModel;
 	private ConsistencyChecker consistencyChecker;
 	private DiagnoseProgressCallback progressCalback;
 	private Boolean displayfastDiagSteps;
@@ -29,30 +32,49 @@ public class FastDiag {
 	private final String LINE_SEPARATOR = System.lineSeparator();
 
 	/**
-	 * Constructor
-	 * 
-	 * @param mznFullFileName
-	 *            The minizinc file which contains parameters, decision
-	 *            variables and constraints. The constraints from this file are
-	 *            the fixed ones. They must be consistent.
-	 * @param userConstraints
-	 *            Constraints sets by the user (Variable assignments)
-	 * @param progressCallback
-	 *            The callback for displaying messages on GUI
-	 * @throws FileNotFoundException
-	 */
+   * Prepares FastDiag for diagnosing {@code userConstraints}, where {@code mznFullFileName} (optional) is regarded as fixed (i.e. the knowledge base).
+   * 
+   * @param mznFullFileName
+   *            The minizinc file which contains parameters, decision
+   *            variables and constraints. The constraints from this file are
+   *            the fixed ones. They must be consistent.
+   * @param userConstraints
+   *            Constraints sets by the user (Variable assignments)
+   * @param progressCallback
+   *            The callback for displaying messages on GUI
+   * @throws FileNotFoundException
+   */
 	public FastDiag(String mznFullFileName, List<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
 			DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
+    this(mznFullFileName, Collections.emptySet(), userConstraints, algorithm, progressCallback);
+  }
 
-		mznFile = new File(mznFullFileName);
-		if (!mznFile.exists()) {
-			throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
-		}
-		consistencyChecker = new ConsistencyChecker();
-		this.userRequirements = userConstraints;
-		this.progressCalback = progressCallback;
+  /**
+   * Prepares FastDiag for diagnosing {@code userConstraints}, where {@code fixedModel} (can be empty) is regarded as fixed (i.e. the knowledge base).
+   */
+  public FastDiag(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+      ConflictDetectionAlgorithm algorithm, DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
+    this(null, fixedModel, userConstraints, algorithm, progressCallback);
+  }
 
+  private FastDiag(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+      ConflictDetectionAlgorithm algorithm, DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
+    this(userConstraints, algorithm, progressCallback);
+    if (mznFullFileName != null) {
+      mznFile = new File(mznFullFileName);
+      if (!mznFile.exists()) {
+        throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
+      }
+    }
+    this.fixedModel = fixedModel;
 	}
+
+  private FastDiag(List<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
+      DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
+    consistencyChecker = new ConsistencyChecker();
+    this.userRequirements = userConstraints;
+    this.progressCalback = progressCallback;
+  }
 
 	/**
 	 * Function that computes diagnoses in FastDiag
@@ -79,7 +101,7 @@ public class FastDiag {
 			progressCalback.displayMessage(fdCall);
 		}
 
-		boolean isConsistent = consistencyChecker.isConsistent(AC, mznFile);
+    boolean isConsistent = consistencyChecker.isConsistent(AC, fixedModel, mznFile);
 		int q = C.size();
 
 		if (!D.isEmpty()) {
@@ -220,7 +242,7 @@ public class FastDiag {
 			return Collections.emptyList();
 		}
 
-		if (consistencyChecker.isConsistent(userRequirements, mznFile)) {
+    if (consistencyChecker.isConsistent(userRequirements, fixedModel, mznFile)) {
 			if (progressCalback != null) {
 				progressCalback.displayMessage(String.format("KB with %s is consistent, no solution can be found",
 						progressCalback.displayConstraintList(userRequirements).trim()));
@@ -230,7 +252,7 @@ public class FastDiag {
 		}
 		List<Constraint> ACWithoutC = AbstractConflictDetection.diffSets(userRequirements, constraintsSetC);
 
-		Boolean searchForDiagnosis = consistencyChecker.isConsistent(ACWithoutC, mznFile);
+    Boolean searchForDiagnosis = consistencyChecker.isConsistent(ACWithoutC, fixedModel, mznFile);
 
 		if (!searchForDiagnosis) {
 			if (progressCalback != null) {

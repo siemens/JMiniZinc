@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,6 +7,8 @@
 package at.siemens.ct.jmz.diag;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.IModelBuilder;
@@ -21,7 +23,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class ConsistencyChecker {
 
@@ -45,15 +47,23 @@ public class ConsistencyChecker {
 	 */
 	public boolean isConsistent(File mznFile) throws Exception {
 		initialization();
-
 		modelBuilder.reset();
 
 		IncludeItem includeItem = new IncludeItem(mznFile);
 		modelWriter.addIncludeItem(includeItem);
 
 		String res = callExecutor();
+    return (isSolverResultConsistent(res));
+  }
 
-		return (isSolverResultConsistent(res));
+  public boolean isConsistent(Collection<? extends Element> fixedElements) throws Exception {
+    initialization();
+    modelBuilder.reset();
+
+    modelBuilder.add(fixedElements);
+
+    String res = callExecutor();
+    return (isSolverResultConsistent(res));
 	}
 
 	/** Determines the consistency of given constraints set with the background KB
@@ -63,12 +73,20 @@ public class ConsistencyChecker {
 	 * @throws Exception
 	 */
 	public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws Exception {
+    return isConsistent(constraintsSet, Collections.emptySet(), mznFile);
+  }
+
+  public boolean isConsistent(List<Constraint> constraintsSet, Collection<? extends Element> fixedModel, File mznFile)
+      throws Exception {
 		initialization();
 		modelBuilder.reset();
 
-		IncludeItem includeItem = new IncludeItem(mznFile);
-		modelWriter.addIncludeItem(includeItem);
+    if (mznFile != null) {
+      IncludeItem includeItem = new IncludeItem(mznFile);
+      modelWriter.addIncludeItem(includeItem);
+    }
 
+    modelBuilder.add(fixedModel);
 		modelBuilder.add(constraintsSet);
 
 		String res = callExecutor();
@@ -101,7 +119,6 @@ public class ConsistencyChecker {
 			} else {
 				throw new Exception("An error occured while running the solver." + executor.getLastSolverErrors());
 			}
-
 		}
 
 		String lastSolverOutput = executor.getLastSolverOutput();

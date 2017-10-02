@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -14,16 +14,18 @@ import java.util.List;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public abstract class AbstractConflictDetection {
 	protected File mznFile;
 	protected ConsistencyChecker consistencyChecker;
 
 	public AbstractConflictDetection(String mznFullFileName) throws FileNotFoundException {
-		mznFile = new File(mznFullFileName);
-		if (!mznFile.exists()) {
-			throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
+    if (mznFullFileName != null) {
+      mznFile = new File(mznFullFileName);
+      if (!mznFile.exists()) {
+        throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
+      }
 		}
 
 		consistencyChecker = new ConsistencyChecker();
