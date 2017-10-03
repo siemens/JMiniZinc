@@ -9,8 +9,10 @@ package at.siemens.ct.jmz.diag;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -18,15 +20,18 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  */
 public abstract class AbstractConflictDetection {
 	protected File mznFile;
+  protected Collection<? extends Element> fixedModel;
 	protected ConsistencyChecker consistencyChecker;
 
-	public AbstractConflictDetection(String mznFullFileName) throws FileNotFoundException {
+  public AbstractConflictDetection(String mznFullFileName, Collection<? extends Element> fixedModel)
+      throws FileNotFoundException {
     if (mznFullFileName != null) {
       mznFile = new File(mznFullFileName);
       if (!mznFile.exists()) {
         throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
       }
 		}
+    this.fixedModel = fixedModel;
 
 		consistencyChecker = new ConsistencyChecker();
 	}

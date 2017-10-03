@@ -6,6 +6,7 @@
  */
 package at.siemens.ct.jmz.diag.hsdag;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,17 +14,30 @@ import at.siemens.ct.jmz.diag.ConsistencyChecker;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.FastDiag;
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public class DiagnosisHSDAG extends HSDAG {
 
 	private FastDiag fastDiag;
 
-	public DiagnosisHSDAG(String mznFullFileName, List<Constraint> userConstraints,
-			DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-			throws Exception {
-		super(mznFullFileName, userConstraints, progressCallback, conflictDetectionAlgorithm);
-		fastDiag = new FastDiag(mznFullFileName, userConstraints, conflictDetectionAlgorithm, progressCallback);
+  public DiagnosisHSDAG(String mznFullFileName, List<Constraint> userConstraints,
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+          throws Exception {
+    this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
+  }
+
+  public DiagnosisHSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+          throws Exception {
+    this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
+  }
+
+  public DiagnosisHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
+      List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
+      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+    super(mznFullFileName, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
+    fastDiag = new FastDiag(mznFullFileName, fixedModel, userConstraints, conflictDetectionAlgorithm, progressCallback);
 	}
 
 	/**
@@ -37,12 +51,16 @@ public class DiagnosisHSDAG extends HSDAG {
 	@Override
 	public DiagnosesCollection diagnose() throws Exception {
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
-		if (!consistencyChecker.isConsistent(mznFile)) {
-			if (progressCallback != null)
-				progressCallback.displayMessage("The constraints set from the input file is not consistent.");
-
-			return new DiagnosesCollection();
-		}
+    if (mznFile != null && !consistencyChecker.isConsistent(mznFile)) {
+      if (progressCallback != null)
+        progressCallback.displayMessage("The constraints set form the input file is not consistent.");
+      return new DiagnosesCollection();
+    }
+    if (!fixedModel.isEmpty() && !consistencyChecker.isConsistent(fixedModel)) {
+      if (progressCallback != null)
+        progressCallback.displayMessage("The fixed model is not consistent.");
+      return new DiagnosesCollection();
+    }
 
 		if (userConstraints.isEmpty()) {
 			progressCallback.displayMessage("The user constraints set is empty.");

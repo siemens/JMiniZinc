@@ -7,9 +7,11 @@
 package at.siemens.ct.jmz.diag;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -17,17 +19,14 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  */
 public class QuickXPlain extends AbstractConflictDetection {
 
-	public QuickXPlain(String mznFullFileName) throws FileNotFoundException {
-		super(mznFullFileName);
+  public QuickXPlain(String mznFullFileName) throws FileNotFoundException {
+    this(mznFullFileName, Collections.emptySet());
+  }
+
+  public QuickXPlain(String mznFullFileName, Collection<? extends Element> fixedModel) throws FileNotFoundException {
+    super(mznFullFileName, fixedModel);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * at.siemens.ct.jmz.diag.AbstractConflictDetection#getMinConflictSet(java.
-	 * util.List)
-	 */
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
 
@@ -35,7 +34,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 			Collections.emptyList();
 		}
 
-		if (consistencyChecker.isConsistent(constraintsSetC, mznFile))
+    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile))
 			return Collections.emptyList();
 
 		List<Constraint> minCS = quickXPlain(Collections.emptyList(), constraintsSetC, Collections.emptyList());
@@ -60,7 +59,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 	private List<Constraint> quickXPlain(List<Constraint> D, List<Constraint> C, List<Constraint> B) throws Exception {
 
 		if (!D.isEmpty()) {
-			boolean isConsistent = consistencyChecker.isConsistent(B, mznFile);
+      boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel, mznFile);
 			if (!isConsistent) {
 				return Collections.emptyList();
 			}

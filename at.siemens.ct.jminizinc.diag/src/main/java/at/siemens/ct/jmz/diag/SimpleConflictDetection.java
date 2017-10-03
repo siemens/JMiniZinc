@@ -8,9 +8,11 @@ package at.siemens.ct.jmz.diag;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -24,25 +26,23 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 	 *            The minizinc file which contains parameters, decision
 	 *            variables and constraints. The constraints from this file are
 	 *            the fixed ones. They must be consistent.
-	 * @param declarations
-	 *            The list of decision variables and parameters.
 	 * @throws FileNotFoundException
 	 */
-	// TODO: Maybe declarations are not necessary any more
-	public SimpleConflictDetection(String mznFullFileName) throws FileNotFoundException {
-		super(mznFullFileName);
-	}
+  public SimpleConflictDetection(String mznFullFileName) throws FileNotFoundException {
+    this(mznFullFileName, Collections.emptySet());
+  }
 
-	/* (non-Javadoc)
-	 * @see at.siemens.ct.jmz.diag.AbstractConflictDetection#getMinConflictSet(java.util.List)
-	 */
+  public SimpleConflictDetection(String mznFullFileName, Collection<? extends Element> fixedModel)
+      throws FileNotFoundException {
+    super(mznFullFileName, fixedModel);
+	}
 	
 	@Override
 	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
 
 		List<Constraint> cs = new ArrayList<Constraint>();
 
-		if (consistencyChecker.isConsistent(constraintsSetC, mznFile)) {
+    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile)) {
 			return Collections.emptyList();
 		}
 
@@ -60,12 +60,12 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 				}
 
 				intermediaryCS.add(c);
-				isInconsistent = !consistencyChecker.isConsistent(intermediaryCS, mznFile);
+        isInconsistent = !consistencyChecker.isConsistent(intermediaryCS, fixedModel, mznFile);
 			} while (!isInconsistent);
 
 			appendSet(cs, c);
 
-			isInconsistent = !consistencyChecker.isConsistent(cs, mznFile);
+      isInconsistent = !consistencyChecker.isConsistent(cs, fixedModel, mznFile);
 
 		} while (!isInconsistent);
 

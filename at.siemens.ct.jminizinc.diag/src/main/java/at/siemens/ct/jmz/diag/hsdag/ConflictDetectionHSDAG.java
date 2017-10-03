@@ -7,15 +7,17 @@
 package at.siemens.ct.jmz.diag.hsdag;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.diag.AbstractConflictDetection;
 import at.siemens.ct.jmz.diag.ConsistencyChecker;
-import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.QuickXPlain;
 import at.siemens.ct.jmz.diag.SimpleConflictDetection;
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public class ConflictDetectionHSDAG extends HSDAG {
@@ -23,24 +25,34 @@ public class ConflictDetectionHSDAG extends HSDAG {
 	private DiagnosesCollection conflictSets;
 	private AbstractConflictDetection conflictDetection;
 
-	public ConflictDetectionHSDAG(String mznFullFileName, List<Constraint> userConstraints,
-			DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-			throws Exception {
-		super(mznFullFileName, userConstraints, progressCallback, conflictDetectionAlgorithm);
+  public ConflictDetectionHSDAG(String mznFullFileName, List<Constraint> userConstraints,
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+          throws Exception {
+    this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
+  }
 
-		conflictSets = new DiagnosesCollection();
-		switch (conflictDetectionAlgorithm) {
-		case SimpleConflictDetection:
-			this.conflictDetection = new SimpleConflictDetection(mznFullFileName);
-			break;
-		case QuickXPlain:
-			this.conflictDetection = new QuickXPlain(mznFullFileName);
-			break;
-		default:
-			throw new Exception(String.format("No such conflict detection algoritm: %s", conflictDetectionAlgorithm));
-		}
+  public ConflictDetectionHSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+          throws Exception {
+    this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
+  }
 
-	}
+  public ConflictDetectionHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
+      List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
+      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+    super(mznFullFileName, userConstraints, progressCallback, conflictDetectionAlgorithm);
+    conflictSets = new DiagnosesCollection();
+    switch (conflictDetectionAlgorithm) {
+    case SimpleConflictDetection:
+      this.conflictDetection = new SimpleConflictDetection(mznFullFileName, fixedModel);
+      break;
+    case QuickXPlain:
+      this.conflictDetection = new QuickXPlain(mznFullFileName, fixedModel);
+      break;
+    default:
+      throw new Exception(String.format("No such conflict detection algoritm: %s", conflictDetectionAlgorithm));
+    }
+  }
 
 	@Override
 	protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
@@ -113,11 +125,16 @@ public class ConflictDetectionHSDAG extends HSDAG {
 	public DiagnosesCollection diagnose() throws Exception {
 
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
-		if (!consistencyChecker.isConsistent(mznFile)) {
+    if (mznFile != null && !consistencyChecker.isConsistent(mznFile)) {
 			if (progressCallback != null)
 				progressCallback.displayMessage("The constraints set form the input file is not consistent.");
 			return new DiagnosesCollection();
 		}
+    if (!fixedModel.isEmpty() && !consistencyChecker.isConsistent(fixedModel)) {
+      if (progressCallback != null)
+        progressCallback.displayMessage("The fixed model is not consistent.");
+      return new DiagnosesCollection();
+    }
 
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 
