@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,7 +65,7 @@ public class VariableDialog {
 	private final String FAST_DIAG_ALL = "FastDiag - all minimal diagnoses";
 	private final String FAST_DIAG = "FastDiag - first minimal diagnosis";
 
-	public VariableDialog(File mznFile) throws Exception {
+  public VariableDialog(File mznFile) throws IOException {
 		VariableDialog.mznFile = mznFile;
 		mznCp = new MiniZincCP(mznFile);
 		decisionVariables = mznCp.getElementsFromFile();
@@ -92,7 +93,7 @@ public class VariableDialog {
 			if (args.length > 0) {
 				mznpath = args[0];
 			} else {
-				FileChooserDialog fcd = new FileChooserDialog();
+        FileChooserDialog fcd = new FileChooserDialog();
 				mznpath = fcd.getFile();
 			}
 
@@ -224,7 +225,7 @@ public class VariableDialog {
 		controlPanel.add(scrollPane);
 	}
 
-	private List<Constraint> getAllValuesFromTheInterface() throws Exception {
+  private List<Constraint> getAllValuesFromTheInterface() {
 
 		ArrayList<Constraint> userConstraints = new ArrayList<Constraint>();
 

@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,14 +25,14 @@ import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class TestMznParser {
 
 	MiniZincCP constraintProblem;
 
 	@Test
-	public void testMznParser() throws Exception {
+  public void testMznParser() throws IOException {
 		File miniZincFile = new File("src/test/java/testConflictDetection4.mzn");
 		constraintProblem = new MiniZincCP(miniZincFile);
 		int noOfVar = constraintProblem.getElementsFromFile().size();

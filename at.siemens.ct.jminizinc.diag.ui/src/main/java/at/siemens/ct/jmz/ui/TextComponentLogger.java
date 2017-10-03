@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 /**
@@ -148,8 +148,8 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void displayPartOfDiagnosis(List<Constraint> diagnose, List<Constraint> inputConflictSet, String message,
-			String indent) throws Exception {
+  public void displayPartOfDiagnosis(List<Constraint> diagnose, List<Constraint> inputConflictSet, String message,
+      String indent) {
 		// TODO Auto-generated method stub
 		StringBuilder stringBuilder = new StringBuilder();
 		displayInputSet(inputConflictSet, message);
@@ -203,25 +203,25 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 
 	}
 
-	private String trimLevel(String message) throws Exception {
+  private String trimLevel(String message) {
 		int paranthesisIndex = 0;
 		if (message != null && !message.isEmpty()) {
 			paranthesisIndex = message.indexOf(")");
 		}
 		if (paranthesisIndex < 0) {
-			throw new Exception(String.format("Message %s do not contains \\')\\' ", message));
+      throw new IllegalArgumentException(String.format("Message %s do not contains \\')\\' ", message));
 		}
 
 		return message.substring(paranthesisIndex + 1, message.length());
 	}
 
-	private String getLevel(String message) throws Exception {
+  private String getLevel(String message) {
 		int paranthesisIndex = 0;
 		if (message != null && !message.isEmpty()) {
 			paranthesisIndex = message.indexOf(")");
 		}
 		if (paranthesisIndex < 0) {
-			throw new Exception(String.format("Message %s do not contains \\')\\' ", message));
+      throw new IllegalArgumentException(String.format("Message %s do not contains \\')\\' ", message));
 		}
 
 		return message.substring(0, paranthesisIndex + 1).trim();
