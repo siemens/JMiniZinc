@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,10 +7,10 @@
 package at.siemens.ct.jmz.diag;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class TestSimpleConflictDetection {
 
 
 	@Test
-	public void testSimpleConflictDetection_1() throws Exception {
+  public void testSimpleConflictDetection_1() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		File f = new File("testFiles" + File.separator + "testConflictDetection1.mzn");
 		// Define some additional constraints 
@@ -65,7 +65,7 @@ public class TestSimpleConflictDetection {
 	}
 
 	@Test
-	public void testSimpleConflictDetection_2() throws Exception {
+  public void testSimpleConflictDetection_2() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -80,7 +80,7 @@ public class TestSimpleConflictDetection {
 	}
 	
 	@Test
-	public void testSimpleConflictDetection_2WithMoreConstraints() throws Exception {
+  public void testSimpleConflictDetection_2WithMoreConstraints() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -96,7 +96,7 @@ public class TestSimpleConflictDetection {
 	}
 
 	@Test
-	public void testSimpleConflictDetection_NoConflict() throws Exception {
+  public void testSimpleConflictDetection_NoConflict() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -108,7 +108,7 @@ public class TestSimpleConflictDetection {
 	}
 
 	@Test
-	public void testSimpleConflictDetection_5() throws Exception {
+  public void testSimpleConflictDetection_5() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -124,7 +124,7 @@ public class TestSimpleConflictDetection {
 	}
 
 	@Test
-	public void testSimpleConflictDetection_6() throws Exception {
+  public void testSimpleConflictDetection_6() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -142,7 +142,7 @@ public class TestSimpleConflictDetection {
 	
 
 	@Test
-	public void testSimpleConflictDetection_8() throws Exception {
+  public void testSimpleConflictDetection_8() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();

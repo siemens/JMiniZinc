@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -8,6 +8,7 @@ package at.siemens.ct.jmz.diag;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class TestHSDAG {
 
   private final String lineSeparator = System.lineSeparator();
 
-	private void diagnoseProblem1(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+  private void diagnoseProblem1(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getTestDataset1(constraintsSetC, decisionsVar);
@@ -45,7 +47,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+  private void diagnoseProblem2(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -72,8 +75,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblem2WithMoreConstraints(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-			throws Exception {
+  private void diagnoseProblem2WithMoreConstraints(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
@@ -101,7 +104,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+  private void diagnoseProblem6(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
@@ -117,7 +121,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+  private void diagnoseProblem8(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
@@ -136,8 +141,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-			throws Exception {
+  private void diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);
@@ -157,8 +162,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-			throws Exception {
+  private void diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getDataTestMinimalDiagnoses2_1(constraintsSetC, decisionsVar);
@@ -178,7 +183,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm algorithm) throws Exception {
+  private void diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm algorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getTestDataset8ConsistentKB(constraintsSetC, decisionsVar);
@@ -203,7 +209,8 @@ public class TestHSDAG {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	private void diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+  private void diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+      throws FileNotFoundException, DiagnosisException {
 		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 		List<Element> decisionsVar = new ArrayList<Element>();
 		String fileName = UtilsForTest.getDataTestMinimalDiagnoses4(constraintsSetC, decisionsVar);
@@ -223,137 +230,138 @@ public class TestHSDAG {
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiag2() throws Exception {
+  public void testDiagnoseProblemWithFastDiag2() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem2(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiag2WithMoreConstraints() throws Exception {
+  public void testDiagnoseProblemWithFastDiag2WithMoreConstraints() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem2WithMoreConstraints(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiag1() throws Exception {
+  public void testDiagnoseProblemWithFastDiag1() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem1(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiag6() throws Exception {
+  public void testDiagnoseProblemWithFastDiag6() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem6(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiag8() throws Exception {
+  public void testDiagnoseProblemWithFastDiag8() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem8(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiag8ConsistentKB() throws Exception {
+  public void testDiagnoseProblemWithFastDiag8ConsistentKB() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiagMinimalDiagnoses2() throws Exception {
+  public void testDiagnoseProblemWithFastDiagMinimalDiagnoses2() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiagMinimalDiagnoses2_1() throws Exception {
+  public void testDiagnoseProblemWithFastDiagMinimalDiagnoses2_1() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithFastDiagMinimalDiagnoses4() throws Exception {
+  public void testDiagnoseProblemWithFastDiagMinimalDiagnoses4() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm.FastDiagAll);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD2() throws Exception {
+  public void testDiagnoseProblemWithSCD2() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD2WithMoreConstraints() throws Exception {
+  public void testDiagnoseProblemWithSCD2WithMoreConstraints() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem2WithMoreConstraints(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD1() throws Exception {
+  public void testDiagnoseProblemWithSCD1() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem1(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD6() throws Exception {
+  public void testDiagnoseProblemWithSCD6() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem6(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD8() throws Exception {
+  public void testDiagnoseProblemWithSCD8() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem8(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCD8ConsistentKB() throws Exception {
+  public void testDiagnoseProblemWithSCD8ConsistentKB() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses2() throws Exception {
+  public void testDiagnoseProblemWithSCDMinimalDiagnoses2() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() throws Exception {
+  public void testDiagnoseProblemWithSCDMinimalDiagnoses2_1() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithSCDMinimalDiagnoses4() throws Exception {
+  public void testDiagnoseProblemWithSCDMinimalDiagnoses4() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm.SimpleConflictDetection);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain2() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlain2() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain2WithMoreConstraints() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlain2WithMoreConstraints()
+      throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem2WithMoreConstraints(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain1() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlain1() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem1(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain6() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlain6() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem6(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain8() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlain8() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblem8(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlain8ConsistentKB() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlain8ConsistentKB() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemWithConsistentKB(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses2() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses2() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDiagnoses2(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses2_1() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses2_1() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDiagnoses2_1(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 
 	@Test
-	public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses4() throws Exception {
+  public void testDiagnoseProblemWithQuickXPlainMinimalDiagnoses4() throws FileNotFoundException, DiagnosisException {
 		diagnoseProblemMinimalDianoses4(ConflictDetectionAlgorithm.QuickXPlain);
 	}
 

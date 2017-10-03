@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -38,7 +38,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 	}
 	
 	@Override
-	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
+  public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
 
 		List<Constraint> cs = new ArrayList<Constraint>();
 

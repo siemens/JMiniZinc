@@ -1,17 +1,19 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.jmz.diag.hsdag;
 
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.diag.ConsistencyChecker;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.DiagnosisException;
 import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.FastDiag;
 import at.siemens.ct.jmz.elements.Element;
@@ -23,33 +25,33 @@ public class DiagnosisHSDAG extends HSDAG {
 
   public DiagnosisHSDAG(String mznFullFileName, List<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-          throws Exception {
+          throws FileNotFoundException {
     this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
   public DiagnosisHSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-          throws Exception {
+          throws FileNotFoundException {
     this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
   public DiagnosisHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
       List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
-      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
     super(mznFullFileName, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
     fastDiag = new FastDiag(mznFullFileName, fixedModel, userConstraints, conflictDetectionAlgorithm, progressCallback);
 	}
 
 	/**
-	 * Function used to display messages on the GUI and to build the HSDAG tree
-	 * for computing all minimal diagnoses
-	 * 
-	 * @param progressCallback
-	 * @return
-	 * @throws Exception
-	 */
+   * Function used to display messages on the GUI and to build the HSDAG tree
+   * for computing all minimal diagnoses
+   * 
+   * @param progressCallback
+   * @return
+   * @throws DiagnosisException 
+   */
 	@Override
-	public DiagnosesCollection diagnose() throws Exception {
+  public DiagnosesCollection diagnose() throws DiagnosisException {
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
     if (mznFile != null && !consistencyChecker.isConsistent(mznFile)) {
       if (progressCallback != null)
@@ -107,7 +109,7 @@ public class DiagnosisHSDAG extends HSDAG {
 	}
 
 	@Override
-	protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnoses) throws Exception {
+  protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnoses) throws DiagnosisException {
 		TreeNode treeNode;
 		List<Constraint> difference;
 		List<Constraint> diagnosisFromWhichConstraintsMustBeDeleted = root.getData();

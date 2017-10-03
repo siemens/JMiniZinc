@@ -1,11 +1,12 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.jmz.diag.hsdag;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.List;
 import at.siemens.ct.jmz.diag.AbstractConflictDetection;
 import at.siemens.ct.jmz.diag.ConsistencyChecker;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.DiagnosisException;
 import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.QuickXPlain;
 import at.siemens.ct.jmz.diag.SimpleConflictDetection;
@@ -27,19 +29,19 @@ public class ConflictDetectionHSDAG extends HSDAG {
 
   public ConflictDetectionHSDAG(String mznFullFileName, List<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-          throws Exception {
+          throws FileNotFoundException {
     this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
   public ConflictDetectionHSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-          throws Exception {
+          throws FileNotFoundException {
     this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
   public ConflictDetectionHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
       List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
-      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws Exception {
+      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
     super(mznFullFileName, userConstraints, progressCallback, conflictDetectionAlgorithm);
     conflictSets = new DiagnosesCollection();
     switch (conflictDetectionAlgorithm) {
@@ -50,12 +52,13 @@ public class ConflictDetectionHSDAG extends HSDAG {
       this.conflictDetection = new QuickXPlain(mznFullFileName, fixedModel);
       break;
     default:
-      throw new Exception(String.format("No such conflict detection algoritm: %s", conflictDetectionAlgorithm));
+      throw new IllegalArgumentException(
+          String.format("No such conflict detection algoritm: %s", conflictDetectionAlgorithm));
     }
   }
 
 	@Override
-	protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws Exception {
+  protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws DiagnosisException {
 		List<Constraint> minCS;
 		List<Constraint> difference;
 		TreeNode treeNode;
@@ -122,7 +125,7 @@ public class ConflictDetectionHSDAG extends HSDAG {
 	}
 
 	@Override
-	public DiagnosesCollection diagnose() throws Exception {
+  public DiagnosesCollection diagnose() throws DiagnosisException {
 
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
     if (mznFile != null && !consistencyChecker.isConsistent(mznFile)) {

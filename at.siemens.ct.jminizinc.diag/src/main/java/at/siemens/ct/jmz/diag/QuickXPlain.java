@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -28,7 +28,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 	}
 
 	@Override
-	public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws Exception {
+  public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
 
 		if (constraintsSetC.isEmpty()) {
 			Collections.emptyList();
@@ -45,18 +45,19 @@ public class QuickXPlain extends AbstractConflictDetection {
 	}
 
 	/**
-	 * Function that computes minimal conflict sets in QuickXPlain
-	 * 
-	 * @param D
-	 *            A subset from the user constraints set
-	 * @param C
-	 *            A subset from the user constraints set
-	 * @param AC
-	 *            user constraints
-	 * @return a minimal conflict set
-	 * @throws Exception
-	 */
-	private List<Constraint> quickXPlain(List<Constraint> D, List<Constraint> C, List<Constraint> B) throws Exception {
+   * Function that computes minimal conflict sets in QuickXPlain
+   * 
+   * @param D
+   *            A subset from the user constraints set
+   * @param C
+   *            A subset from the user constraints set
+   * @param AC
+   *            user constraints
+   * @return a minimal conflict set
+   * @throws DiagnosisException 
+   */
+  private List<Constraint> quickXPlain(List<Constraint> D, List<Constraint> C, List<Constraint> B)
+      throws DiagnosisException {
 
 		if (!D.isEmpty()) {
       boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel, mznFile);

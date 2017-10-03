@@ -77,19 +77,19 @@ public class FastDiag {
   }
 
 	/**
-	 * Function that computes diagnoses in FastDiag
-	 * 
-	 * @param D
-	 *            A subset from the user constraints
-	 * @param C
-	 *            A subset from the user constraints
-	 * @param AC
-	 *            user constraints
-	 * @return a diagnose
-	 * @throws Exception
-	 */
+   * Function that computes diagnoses in FastDiag
+   * 
+   * @param D
+   *            A subset from the user constraints
+   * @param C
+   *            A subset from the user constraints
+   * @param AC
+   *            user constraints
+   * @return a diagnose
+   * @throws DiagnosisException 
+   */
 	private List<Constraint> fd(List<Constraint> D, List<Constraint> C, List<Constraint> AC, int level, int indent,
-			int innerIndex) throws Exception {
+      int innerIndex) throws DiagnosisException {
 
 		this.level = level;
 
@@ -237,16 +237,16 @@ public class FastDiag {
 	}
 
 	/**
-	 * Function for computing a minimal preferred diagnosis with FastDiag
-	 * algorithm
-	 * 
-	 * @param constraintsSetC
-	 *            - a subset from the user requirements
-	 * @return a preferred diagnosis.
-	 * @throws Exception
-	 */
-	public List<Constraint> getPreferredDiagnosis(List<Constraint> constraintsSetC, Boolean displayFastDiagSteps)
-			throws Exception {
+   * Function for computing a minimal preferred diagnosis with FastDiag
+   * algorithm
+   * 
+   * @param constraintsSetC
+   *            - a subset from the user requirements
+   * @return a preferred diagnosis.
+   * @throws DiagnosisException 
+   */
+  public List<Constraint> getPreferredDiagnosis(List<Constraint> constraintsSetC, Boolean displayFastDiagSteps)
+      throws DiagnosisException {
 
 		this.displayfastDiagSteps = displayFastDiagSteps;
 		if (constraintsSetC.isEmpty()) {

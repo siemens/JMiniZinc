@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.diag;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -41,11 +42,11 @@ public class ConsistencyChecker {
 	}
 
 	/** Determines the consistency of a mzn file (Background KB) 
-	 * @param mznFile - the mzn file which contains the background KB
-	 * @return true if is consistent
-	 * @throws Exception
-	 */
-	public boolean isConsistent(File mznFile) throws Exception {
+   * @param mznFile - the mzn file which contains the background KB
+   * @return true if is consistent
+   * @throws DiagnosisException 
+   */
+  public boolean isConsistent(File mznFile) throws DiagnosisException {
 		initialization();
 		modelBuilder.reset();
 
@@ -56,7 +57,7 @@ public class ConsistencyChecker {
     return (isSolverResultConsistent(res));
   }
 
-  public boolean isConsistent(Collection<? extends Element> fixedElements) throws Exception {
+  public boolean isConsistent(Collection<? extends Element> fixedElements) throws DiagnosisException {
     initialization();
     modelBuilder.reset();
 
@@ -67,17 +68,17 @@ public class ConsistencyChecker {
 	}
 
 	/** Determines the consistency of given constraints set with the background KB
-	 * @param constraintsSet - the given constraints set
-	 * @param mznFile - the mzn file which contains the background KB
-	 * @return true if the given set is consistent with background KB
-	 * @throws Exception
-	 */
-	public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws Exception {
+   * @param constraintsSet - the given constraints set
+   * @param mznFile - the mzn file which contains the background KB
+   * @return true if the given set is consistent with background KB
+   * @throws DiagnosisException 
+   */
+  public boolean isConsistent(List<Constraint> constraintsSet, File mznFile) throws DiagnosisException {
     return isConsistent(constraintsSet, Collections.emptySet(), mznFile);
   }
 
   public boolean isConsistent(List<Constraint> constraintsSet, Collection<? extends Element> fixedModel, File mznFile)
-      throws Exception {
+      throws DiagnosisException {
 		initialization();
 		modelBuilder.reset();
 
@@ -94,7 +95,8 @@ public class ConsistencyChecker {
 		return (isSolverResultConsistent(res));
 	}
 
-	public boolean isConsistent(List<Constraint> constraintsSet, List<Element> decisionVariables) throws Exception {
+  public boolean isConsistent(List<Constraint> constraintsSet, List<Element> decisionVariables)
+      throws DiagnosisException {
 		initialization();
 		modelBuilder.reset();
 		modelBuilder.add(constraintsSet);
@@ -109,15 +111,21 @@ public class ConsistencyChecker {
 		return res;
 	}
 
-	private String callExecutor() throws Exception {
-		executor.startProcess();
-		executor.waitForSolution();
+  private String callExecutor() throws DiagnosisException {
+    try {
+      executor.startProcess();
+      executor.waitForSolution();
+    } catch (IOException e) {
+      throw new DiagnosisException("Solver could not be started", e);
+    } catch (InterruptedException e) {
+    }
+
 		int lastExitCode = executor.getLastExitCode();
 		if (lastExitCode != IExecutor.EXIT_CODE_SUCCESS) {
 			if (executor.getLastSolverErrors().isEmpty()) {
-				throw new Exception("An error occured while running the solver. Some libraries are missing.");
+        throw new DiagnosisException("An error occured while running the solver. Some libraries are missing.");
 			} else {
-				throw new Exception("An error occured while running the solver." + executor.getLastSolverErrors());
+        throw new DiagnosisException("An error occured while running the solver." + executor.getLastSolverErrors());
 			}
 		}
 

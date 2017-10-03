@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -28,7 +28,7 @@ public class DisplayableBooleanArray implements Displayable {
 	}
 
 	@Override
-	public List<Constraint> createConstraint(String value) throws Exception {
+  public List<Constraint> createConstraint(String value) {
 
 		List<Constraint> constraints = new ArrayList<>();
 		Constraint constraint;
@@ -38,7 +38,8 @@ public class DisplayableBooleanArray implements Displayable {
 		
 		if(!(type instanceof RangeExpression))
 		{
-			throw new Exception(String.format("This type of variable: %s cannot be used as index for array", type.use()));
+      throw new UnsupportedOperationException(
+          String.format("This type of variable: %s cannot be used as index for array", type.use()));
 		}
 		
 		RangeExpression arrayIndexRange = (RangeExpression) type;

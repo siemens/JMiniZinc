@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -33,7 +33,7 @@ public class DisplayableIntegerArray implements Displayable {
 	}
 
 	@Override
-	public List<Constraint> createConstraint(String value) throws Exception {
+  public List<Constraint> createConstraint(String value) {
 		List<Constraint> constraints = new ArrayList<>();
 
 		String[] integerArrayValues = value.split(",");
@@ -41,7 +41,8 @@ public class DisplayableIntegerArray implements Displayable {
 		SetExpression<Integer> type = this.getIntegerArray().getRange().get(0);
 		if(!(type instanceof RangeExpression))
 		{
-			throw new Exception(String.format("This type of variable: %s cannot be used as index for array", type.use()));
+      throw new UnsupportedOperationException(
+          String.format("This type of variable: %s cannot be used as index for array", type.use()));
 		}
 		RangeExpression arrayIndexRange = (RangeExpression) type;
 		
@@ -54,7 +55,7 @@ public class DisplayableIntegerArray implements Displayable {
 
 			if (integerArrayValues[i] != "Undefined" && !integerArrayValues[i].isEmpty()) {
 				if (!MiniZincElementFactory.isNumeric(integerArrayValues[i]))
-					throw new Exception(
+          throw new UnsupportedOperationException(
 							"Wrong value inserted for variable " + this.getName() + ". His value must be an integer.");
 
 				int variablevalue = Integer.parseInt(integerArrayValues[i]);

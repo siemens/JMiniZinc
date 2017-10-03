@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.mznparser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,28 +23,26 @@ public class MiniZincCP {
 	private List<Displayable> elementsFromFile;
 
 	/**
-	 * creates an MiniZincCP object according to the .mzn file
-	 * 
-	 * @param mznFile
-	 *            - the .mzn File
-	 * @throws Exception
-	 */
-	public MiniZincCP(File mznFile) throws Exception {
+   * creates an MiniZincCP object according to the .mzn file
+   * 
+   * @param mznFile
+   *            - the .mzn File
+   * @throws IOException 
+   */
+  public MiniZincCP(File mznFile) throws IOException {
 		elementsFromFile = new ArrayList<Displayable>();
 		parseMZN(mznFile);
 	}
 
 	/**
-	 * Parses a .mzn file and populates lists with decision variables and
-	 * constraints
-	 * 
-	 * @param mznFile
-	 *            - the MiniZinc file for the CP (constraint problem)
-	 * @throws Exception
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 */
-	private void parseMZN(File mznFile) throws Exception {
+   * Parses a .mzn file and populates lists with decision variables and
+   * constraints
+   * 
+   * @param mznFile
+   *            - the MiniZinc file for the CP (constraint problem)
+   * @throws IOException 
+   */
+  private void parseMZN(File mznFile) throws IOException {
 		List<String> linesFromMznFile = FileUtils.readLines(mznFile);
 		Displayable mznElement;
 

@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -36,7 +36,7 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 	}
 
 	@Override
-	public List<Constraint> createConstraint(String value) throws Exception {
+  public List<Constraint> createConstraint(String value) {
 		List<Constraint> constraints = new ArrayList<>();
 		String variableName = this.getName();
 
@@ -44,7 +44,7 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 			return null;
 
 		if (!MiniZincElementFactory.isNumeric(value))
-			throw new Exception(
+      throw new IllegalArgumentException(
 					"Wrong value inserted for variable " + variableName + ". His value must be an integer.");
 
 		int variableValue = this.parseValue(value);

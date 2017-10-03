@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -31,7 +31,7 @@ public interface DiagnoseProgressCallback {
 	public void ignoredDiagnosis(List<Constraint> diagnosis, DiagnosisMetadata diagnosisMetadata);
 
 	public void displayPartOfDiagnosis(List<Constraint> diagnosis, List<Constraint> inputConflictSet, String nodeIndex,
-			String indent) throws Exception;
+      String indent);
 
 	public void displayPreferredDiagnosis(List<Constraint> diagnosis, List<Constraint> inputConflictSet);
 	

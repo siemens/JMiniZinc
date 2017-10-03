@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class TestFastDiag {
 	// the diagnose that should be founded in the data set is D = {x2 = 3, x1 =
 	// 3, x3 = 4}
 	@Test
-	public void testFastDiagWithDataset8() throws Exception {
+  public void testFastDiagWithDataset8() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
@@ -51,7 +52,7 @@ public class TestFastDiag {
 	}
 
 	@Test
-	public void testFastDiagWithDataset8ConsistentKB() throws Exception {
+  public void testFastDiagWithDataset8ConsistentKB() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset8ConsistentKB(constraintsSetC, decisionsVar);
@@ -66,7 +67,7 @@ public class TestFastDiag {
 	}
 
 	@Test
-	public void testFastDiagWithDataset2WithMoreConstraints() throws Exception {
+  public void testFastDiagWithDataset2WithMoreConstraints() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset2WithMoreConstraints(constraintsSetC, decisionsVar);
@@ -84,7 +85,7 @@ public class TestFastDiag {
 	}
 
 	@Test
-	public void testFastDiagWithDataset6() throws Exception {
+  public void testFastDiagWithDataset6() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
@@ -100,7 +101,7 @@ public class TestFastDiag {
 	}
 
 	@Test
-	public void testFastDiagWithDataset1() throws Exception {
+  public void testFastDiagWithDataset1() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset1(constraintsSetC, decisionsVar);
@@ -118,7 +119,7 @@ public class TestFastDiag {
 	}
 
 	@Test
-	public void testFastDiagWithDataset2() throws Exception {
+  public void testFastDiagWithDataset2() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
@@ -136,7 +137,7 @@ public class TestFastDiag {
 	}
 
 	@Test
-	public void testFastDiagWithMinimalDiagnoses2() throws Exception {
+  public void testFastDiagWithMinimalDiagnoses2() throws FileNotFoundException, DiagnosisException {
 			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
 			List<Element> decisionsVar = new ArrayList<Element>();
 			String fileName = UtilsForTest.getDataTestMinimalDiagnoses2(constraintsSetC, decisionsVar);

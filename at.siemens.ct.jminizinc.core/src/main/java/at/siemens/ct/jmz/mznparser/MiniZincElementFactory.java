@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -28,7 +28,7 @@ public class MiniZincElementFactory {
 	private static final String RANGE_SEPARATOR = "..";
 	private List<BasicTypeInst<?>> listWithParameters = new ArrayList<BasicTypeInst<?>>();
 
-	public Displayable getElementFromLine(String line) throws Exception {
+  public Displayable getElementFromLine(String line) {
 
 		String instantiation, name, type, defaultValue, arrayIndex;
 		for (PossibleVariablesDeclarationsPatterns patternAsString : PossibleVariablesDeclarationsPatterns.values()) {
@@ -52,7 +52,7 @@ public class MiniZincElementFactory {
 					if (arrayIndex.contains(RANGE_SEPARATOR)) {
 						arraySize = createRange(arrayIndex);
 					} else {
-						throw new Exception("Unimplemented! define array range as m..n!");
+            throw new UnsupportedOperationException("Unimplemented! define array range as m..n!");
 					}
 
 					if (instantiation != null && instantiation.equals(VAR_TYPE) && defaultValue == null) {
