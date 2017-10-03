@@ -95,10 +95,10 @@ public class FastDiag {
 
 		stepNumber = indent(indent, innerIndex, stepNumber);
 
-		String displayConstraintListC = progressCalback.displayConstraintList(C);
+    String displayConstraintListC = progressCalback == null ? null : progressCalback.displayConstraintList(C);
     if (displayfastDiagSteps && progressCalback != null && displayConstraintListC != null) {
 			String displayConstraintListD = progressCalback.displayConstraintList(D);
-      if (displayConstraintListD != null) {
+      if (displayConstraintListC != null && displayConstraintListD != null) {
         String fdCall = String.format("%sCall FD with D: %s, C: %s", stepNumber, displayConstraintListD.trim(),
             displayConstraintListC.trim());
         progressCalback.displayMessage(fdCall);
@@ -108,7 +108,7 @@ public class FastDiag {
     boolean isConsistent = consistencyChecker.isConsistent(AC, fixedModel, mznFile);
 		int q = C.size();
 
-		String displayConstraintListAC = progressCalback.displayConstraintList(AC);
+    String displayConstraintListAC = progressCalback == null ? null : progressCalback.displayConstraintList(AC);
     if (!D.isEmpty()) {
 			if (isConsistent) {
 				if (displayfastDiagSteps && progressCalback != null) {
