@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.diag.ConsistencyChecker;
-import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
+import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.diag.FastDiag;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
@@ -62,8 +62,10 @@ public class DiagnosisHSDAG extends HSDAG {
 		if (!diagnoseFound.isEmpty()) {
 
 			if (progressCallback != null) {
-				progressCallback.displayMessage(
-						"0) Check: " + progressCallback.displayConstraintList(this.userConstraints).trim());
+				String displayConstraintList = progressCallback.displayConstraintList(this.userConstraints);
+        if (displayConstraintList != null) {
+          progressCallback.displayMessage("0) Check: " + displayConstraintList.trim());
+        }
 				progressCallback.diagnosisFound(diagnoseFound);
 			}
 

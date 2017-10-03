@@ -57,7 +57,7 @@ public class FastDiag {
     this(null, fixedModel, userConstraints, algorithm, progressCallback);
   }
 
-  private FastDiag(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+  public FastDiag(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
       ConflictDetectionAlgorithm algorithm, DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
     this(userConstraints, algorithm, progressCallback);
     if (mznFullFileName != null) {
@@ -95,22 +95,29 @@ public class FastDiag {
 
 		stepNumber = indent(indent, innerIndex, stepNumber);
 
-		if (displayfastDiagSteps && progressCalback != null) {
-			String fdCall = String.format("%sCall FD with D: %s, C: %s", stepNumber,
-					progressCalback.displayConstraintList(D).trim(), progressCalback.displayConstraintList(C).trim());
-			progressCalback.displayMessage(fdCall);
+		String displayConstraintListC = progressCalback.displayConstraintList(C);
+    if (displayfastDiagSteps && progressCalback != null && displayConstraintListC != null) {
+			String displayConstraintListD = progressCalback.displayConstraintList(D);
+      if (displayConstraintListD != null) {
+        String fdCall = String.format("%sCall FD with D: %s, C: %s", stepNumber, displayConstraintListD.trim(),
+            displayConstraintListC.trim());
+        progressCalback.displayMessage(fdCall);
+      }
 		}
 
     boolean isConsistent = consistencyChecker.isConsistent(AC, fixedModel, mznFile);
 		int q = C.size();
 
-		if (!D.isEmpty()) {
+		String displayConstraintListAC = progressCalback.displayConstraintList(AC);
+    if (!D.isEmpty()) {
 			if (isConsistent) {
 				if (displayfastDiagSteps && progressCalback != null) {
-					String isConsistentMessage = String.format(
-							"%s KB with %s is consistent and therefore does not contribute to diagnosis", stepNumber,
-							progressCalback.displayConstraintList(AC).trim());
-					progressCalback.displayMessage(isConsistentMessage);
+          if (displayConstraintListAC != null) {
+            String isConsistentMessage = String.format(
+                "%s KB with %s is consistent and therefore does not contribute to diagnosis", stepNumber,
+                displayConstraintListAC.trim());
+            progressCalback.displayMessage(isConsistentMessage);
+          }
 
 					stepNumber = outdent(indent, innerIndex, stepNumber);
 
@@ -128,9 +135,9 @@ public class FastDiag {
 
 		}
 
-		if (displayfastDiagSteps && progressCalback != null) {
+    if (displayfastDiagSteps && progressCalback != null && displayConstraintListAC != null) {
 			String isConsistentMessage = String.format("%sKB with %s is inconsistent", stepNumber,
-					progressCalback.displayConstraintList(AC).trim());
+					displayConstraintListAC.trim());
 			progressCalback.displayMessage(isConsistentMessage);
 		}
 
@@ -143,8 +150,9 @@ public class FastDiag {
 
 				if (innerIndex == 0)
 					innerIndex++;
-				progressCalback.displayMessage(
-						String.format("%sD%s: %s", stepNumber, innerIndex, progressCalback.displayConstraintList(C)));
+        if (displayConstraintListC != null) {
+          progressCalback.displayMessage(String.format("%sD%s: %s", stepNumber, innerIndex, displayConstraintListC));
+        }
 			}
 
 			return new ArrayList<Constraint>(C);
@@ -155,11 +163,15 @@ public class FastDiag {
 		List<Constraint> C2 = C.subList(k, q);
 		if (displayfastDiagSteps) {
 			if (progressCalback != null) {
+				String displayConstraintListC1 = progressCalback.displayConstraintList(C1);
+        if (displayConstraintListC1 != null) {
+          progressCalback.displayMessage(String.format("%sC1: %s ", stepNumber, displayConstraintListC1.trim()));
+        }
 
-				progressCalback.displayMessage(
-						String.format("%sC1: %s ", stepNumber, progressCalback.displayConstraintList(C1).trim()));
-				progressCalback.displayMessage(
-						String.format("%sC2: %s ", stepNumber, progressCalback.displayConstraintList(C2)));
+				String displayConstraintListC2 = progressCalback.displayConstraintList(C2);
+        if (displayConstraintListC2 != null) {
+          progressCalback.displayMessage(String.format("%sC2: %s ", stepNumber, displayConstraintListC2));
+        }
 			}
 		}
 
@@ -172,8 +184,11 @@ public class FastDiag {
 		if (displayfastDiagSteps && progressCalback != null) {
 			stepNumber = outdent(indent, level, stepNumber);
 			if (innerIndex != 0) {
-				progressCalback.displayMessage(stepNumber + "D" + innerIndex + ": "
-						+ progressCalback.displayConstraintList(AbstractConflictDetection.appendSets(D1, D2)));
+				String displayConstraintListD1D2 = progressCalback.displayConstraintList(AbstractConflictDetection.appendSets(D1, D2));
+        if (displayConstraintListD1D2 != null) {
+          progressCalback.displayMessage(stepNumber + "D" + innerIndex + ": "
+              + displayConstraintListD1D2);
+        }
 			}
 
 		}
@@ -244,9 +259,11 @@ public class FastDiag {
 
     if (consistencyChecker.isConsistent(userRequirements, fixedModel, mznFile)) {
 			if (progressCalback != null) {
-				progressCalback.displayMessage(String.format("KB with %s is consistent, no solution can be found",
-						progressCalback.displayConstraintList(userRequirements).trim()));
-
+				String displayConstraintListUserRequirements = progressCalback.displayConstraintList(userRequirements);
+        if (displayConstraintListUserRequirements != null) {
+          progressCalback.displayMessage(String.format("KB with %s is consistent, no solution can be found",
+              displayConstraintListUserRequirements.trim()));
+        }
 			}
 			return Collections.emptyList();
 		}
@@ -256,13 +273,14 @@ public class FastDiag {
 
 		if (!searchForDiagnosis) {
 			if (progressCalback != null) {
-			String isInconsistentMessage = String.format(
-					"Check : %sKB with %s is inconsistent, therefore no diagnosis. %s",
-					progressCalback.displayConstraintList(constraintsSetC),
-					progressCalback.displayConstraintList(ACWithoutC).trim(), LINE_SEPARATOR);
-
-			
-				progressCalback.displayMessage(isInconsistentMessage);
+        String displayConstraintListConstraintsSetC = progressCalback.displayConstraintList(constraintsSetC);
+        String displayConstraintListACWithoutC = progressCalback.displayConstraintList(ACWithoutC);
+        if (displayConstraintListConstraintsSetC != null && displayConstraintListACWithoutC != null) {
+          String isInconsistentMessage = String.format(
+              "Check : %sKB with %s is inconsistent, therefore no diagnosis. %s", displayConstraintListConstraintsSetC,
+              displayConstraintListACWithoutC.trim(), LINE_SEPARATOR);
+          progressCalback.displayMessage(isInconsistentMessage);
+        }
 			}
 
 			return Collections.emptyList();
