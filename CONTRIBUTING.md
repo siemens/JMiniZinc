@@ -16,7 +16,7 @@ The mentioned links from Atlassian are the recommended docs to read and understa
 
 ## Commits
 
-We're using the [conventional changelog style](https://wiki.siemens.com/display/en/Conventional+Changelog) for our commit messages (`TYPE(SCOPE): SUBJECT`).
+We're following the [Conventional Commits Specification](https://conventionalcommits.org/) for our commit messages (`TYPE(SCOPE): SUBJECT`).
 
 ## Codestyle
 
