@@ -31,7 +31,7 @@ public class QuickXPlain extends AbstractConflictDetection {
   public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
 
 		if (constraintsSetC.isEmpty()) {
-			Collections.emptyList();
+      return Collections.emptyList();
 		}
 
     if (consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile))
