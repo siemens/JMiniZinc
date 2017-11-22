@@ -21,7 +21,7 @@ $ mvn clean install
 in any of the subprojects will automatically fetch all dependencies (declared in [`pom.xml`](/at.siemens.ct.jminizinc/pom.xml)) and compile the project.
 Executing this command in the [`at.siemens.ct.jminizinc`](at.siemens.ct.jminizinc) subfolder will build all components at once.
 
-Artifacts generated will be placed in the `target/` folders in the subprojects. Most notably you'll find there JAR files called `core-1.1.jar`, `diag-1.1.jar` and so on.
+Artifacts generated will be placed in the `target/` folders in the subprojects. Most notably you'll find there JAR files called `core-1.2.jar`, `diag-1.2.jar` and so on.
 
 ## Usage
 
