@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -11,7 +11,7 @@ import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  * 
  * @param <T> The data type of the elements of this set
  */
@@ -44,5 +44,8 @@ public interface SetExpression<T> extends Expression<java.util.Set<T>> {
 	}
 
   SetExpression<T> getType();
+
+  @Override
+  SetExpression<T> substitute(String name, Object value);
 
 }

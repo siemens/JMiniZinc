@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -12,15 +12,15 @@ import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 /**
  * Represents an if-else-...-endif tree in MiniZinc. Each branch must be an expression of type {@code T}.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  *
  * @param <T> The data type of this expression
  */
 public class ConditionalExpression<T> implements Expression<T> {
 
-  private BooleanExpression condition;
-  private Expression<T> thenBranch;
-  private Expression<T> elseBranch;
+  protected BooleanExpression condition;
+  protected Expression<T> thenBranch;
+  protected Expression<T> elseBranch;
 
   public ConditionalExpression(BooleanExpression condition, Expression<T> thenBranch,
       Expression<T> elseBranch) {
@@ -33,6 +33,12 @@ public class ConditionalExpression<T> implements Expression<T> {
   public String use() {
     return String.format("if %s then %s else %s endif", condition.use(), thenBranch.use(),
         elseBranch.use());
+  }
+
+  @Override
+  public Expression<T> substitute(String name, Object value) {
+    //    TODO: implement
+    throw new UnsupportedOperationException();
   }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -12,7 +12,7 @@ import at.siemens.ct.jmz.elements.Variable;
 import at.siemens.ct.jmz.expressions.set.BooleanSetExpression;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class BooleanVariable extends Variable<Boolean, Boolean> implements BooleanExpression {
 
@@ -62,5 +62,10 @@ public class BooleanVariable extends Variable<Boolean, Boolean> implements Boole
 	public boolean isComposite() {
 		return false;
 	}
+
+  @Override
+  public BooleanVariable substitute(String name, Object value) {
+    return new BooleanVariable(this.getName(), ((BooleanExpression) this.value).substitute(name, value));
+  }
 
 }

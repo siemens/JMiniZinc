@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -12,12 +12,12 @@ import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public abstract class Comprehension<G, T, V> implements Expression<V> {
 
   protected Generator<G> generator;
-  private Expression<T> expression;
+  protected Expression<T> expression;
 
   public Comprehension(Generator<G> generator, Expression<T> expression) {
     this.generator = generator;

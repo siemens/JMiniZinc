@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,7 +13,7 @@ import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class SetLiteral implements IntegerSetExpression {
 
@@ -54,6 +54,11 @@ public class SetLiteral implements IntegerSetExpression {
   @Override
   public String toString() {
     return use();
+  }
+
+  @Override
+  public SetLiteral substitute(String name, Object value) {
+    return new SetLiteral(elements.stream().map(e -> e.substitute(name, value)).collect(Collectors.toSet()));
   }
 
 }

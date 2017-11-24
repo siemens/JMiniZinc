@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -18,7 +18,7 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
 /**
  * Represents the generating part of a {@link Comprehension}.
  *
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class Generator<T> implements Expression<T[]> {
 
@@ -69,6 +69,12 @@ public class Generator<T> implements Expression<T[]> {
 	public Generator<T> restrict(RelationalOperation<T> restriction) {
     // TODO: if this generator already contains a restriction, combine it with the new restriction using logical and
     return new Generator<T>(restriction, iterators);
+  }
+
+  @Override
+  public Generator<T> substitute(String name, Object value) {
+    //    TODO: implement
+    throw new UnsupportedOperationException();
   }
 
 }

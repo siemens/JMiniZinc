@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -16,12 +16,12 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 /**
  * Represents the access to one element of an {@link ArrayExpression}.
  *
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class ArrayAccessExpression<T> implements Expression<T> {
 
-  private ArrayExpression<T> array;
-	private List<Expression<Integer>> indices;
+  protected ArrayExpression<T> array;
+  protected List<Expression<Integer>> indices;
 
 	public ArrayAccessExpression(ArrayExpression<T> array, Expression<Integer> index) {
 		this(array, ListUtils.fromElements(index));
@@ -58,6 +58,12 @@ public class ArrayAccessExpression<T> implements Expression<T> {
   public String use() {
 		return String.format("%s[%s]", array.use(),
 				indices.stream().map(Expression::use).collect(Collectors.joining(",")));
+  }
+
+  @Override
+  public ArrayAccessExpression<T> substitute(String name, Object value) {
+    return new ArrayAccessExpression<T>(array.substitute(name, value),
+        indices.stream().map(e -> e.substitute(name, value)).collect(Collectors.toList()));
   }
 
 }

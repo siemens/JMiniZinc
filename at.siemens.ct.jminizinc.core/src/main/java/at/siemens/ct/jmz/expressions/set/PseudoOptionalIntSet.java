@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -16,7 +16,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
  * MiniZinc itself), we use an integer to represent nulls here. This element can be obtained by
  * {@link #getNullElement()}.
  *
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class PseudoOptionalIntSet implements IntegerSetExpression {
 
@@ -24,15 +24,20 @@ public class PseudoOptionalIntSet implements IntegerSetExpression {
 	private IntegerExpression nullElement;
 
 	public PseudoOptionalIntSet(RangeExpression originalSet) {
-		this.nullElement = originalSet.getLb().add(-1);
-		this.innerSet = new RangeExpression(nullElement, originalSet.getUb());
+    this.nullElement = originalSet.getLb().add(-1);
+    this.innerSet = new RangeExpression(nullElement, originalSet.getUb());
 	}
 
   public PseudoOptionalIntSet(Set<Integer> intSet) {
-		IntegerConstant nullElement = determineNullElement(intSet);
-		this.nullElement = nullElement;
-		this.innerSet = new Union(intSet, SetLiteral.singleton(nullElement));
+    IntegerConstant nullElement = determineNullElement(intSet);
+    this.nullElement = nullElement;
+    this.innerSet = new Union(intSet, SetLiteral.singleton(nullElement));
 	}
+
+  private PseudoOptionalIntSet(SetExpression<Integer> innerSet, IntegerExpression nullElement) {
+    this.innerSet = innerSet;
+    this.nullElement = nullElement;
+  }
 
   private IntegerConstant determineNullElement(Set<Integer> intSet) {
 		// TODO: determine least element of intSet in a more intelligent way (set must be constant anyway)
@@ -63,6 +68,11 @@ public class PseudoOptionalIntSet implements IntegerSetExpression {
   @Override
   public String toString() {
     return use();
+  }
+  
+  @Override
+  public PseudoOptionalIntSet substitute(String name, Object value) {
+    return new PseudoOptionalIntSet(innerSet.substitute(name, value), nullElement.substitute(name, value));
   }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -16,7 +16,7 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
  * The type of elements of the set is determined by the {@link TypeInst} contained within an instance of this class.
  * If the set shall be variable, it has to be contained by a {@link Variable}.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  *
  * @param <T> The primitive type of the elements in this set (e.g. {@link Integer})
  */
@@ -78,6 +78,12 @@ public class Set<T> extends TypeInst<T, java.util.Set<T>> implements SetExpressi
     } else {
       return null;
     }
+  }
+
+  @Override
+  public Set<T> substitute(String name, Object value) {
+    //    TODO: return new Set(innerTypeInst.substitute(name, value));
+    throw new UnsupportedOperationException();
   }
 
 }
