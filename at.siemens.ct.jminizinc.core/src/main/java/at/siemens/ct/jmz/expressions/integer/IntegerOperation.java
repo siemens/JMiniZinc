@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.expressions.integer;
 
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.UnknownExpressionValueException;
 
 /**
  * @author Copyright Siemens AG, 2016-2017
@@ -25,6 +26,24 @@ public class IntegerOperation extends ArithmeticOperation<Integer> implements In
   public IntegerOperation substitute(String name, Object value) {
     return new IntegerOperation(((IntegerOperation) left).substitute(name, value), (ArithmeticOperator) operator,
         ((IntegerOperation) right).substitute(name, value));
+  }
+
+  @Override
+  public Integer value() throws UnknownExpressionValueException {
+    switch (getOperator()) {
+    case PLUS:
+      return left.value() + right.value();
+    case MINUS:
+      return left.value() - right.value();
+    case TIMES:
+      return left.value() * right.value();
+    case DIV_INT:
+      return left.value() / right.value();
+    case MODULO:
+      return left.value() % right.value();
+    default:
+      throw new UnknownExpressionValueException(this);
+    }
   }
 
 }

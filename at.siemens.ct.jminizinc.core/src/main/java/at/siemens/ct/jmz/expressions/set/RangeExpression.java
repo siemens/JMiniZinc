@@ -10,8 +10,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.UnknownExpressionValueException;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 
@@ -129,6 +132,15 @@ public class RangeExpression implements IntegerSetExpression {
   @Override
   public RangeExpression substitute(String name, Object value) {
     return new RangeExpression(lb.substitute(name, value), ub.substitute(name, value));
+  }
+
+  @Override
+  public Set<Integer> value() throws UnknownExpressionValueException {
+    Set<Integer> set = new LinkedHashSet<>();
+    for (int i = lb.value(); i <= ub.value(); i++) {
+      set.add(i);
+    }
+    return set;
   }
 
 }

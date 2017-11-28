@@ -44,4 +44,9 @@ public class Constant<T, V> implements Expression<V> {
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public V value() {
+    return getValue();
+  }
+
 }

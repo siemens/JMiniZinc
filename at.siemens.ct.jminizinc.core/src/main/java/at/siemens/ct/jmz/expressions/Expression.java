@@ -26,4 +26,13 @@ public interface Expression<T> {
    */
   Expression<T> substitute(String name, Object value);
 
+  /**
+   * Evaluates this expression
+   * @return the value of this expression
+   * @throws UnknownExpressionValueException if evaluation would necessitate a solver or if the evaluation method is not (yet) implemented in JMiniZinc
+   */
+  default T value() throws UnknownExpressionValueException {
+    throw new UnknownExpressionValueException(this);
+  }
+
 }

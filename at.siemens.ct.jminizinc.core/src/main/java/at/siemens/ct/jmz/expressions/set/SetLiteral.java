@@ -7,9 +7,11 @@
 package at.siemens.ct.jmz.expressions.set;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
+import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 
 /**
@@ -59,6 +61,11 @@ public class SetLiteral implements IntegerSetExpression {
   @Override
   public SetLiteral substitute(String name, Object value) {
     return new SetLiteral(elements.stream().map(e -> e.substitute(name, value)).collect(Collectors.toSet()));
+  }
+
+  @Override
+  public Set<Integer> value() {
+    return elements.stream().map(Constant::getValue).collect(Collectors.toSet());
   }
 
 }

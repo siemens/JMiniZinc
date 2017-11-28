@@ -6,6 +6,11 @@
  */
 package at.siemens.ct.jmz.expressions.set;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import at.siemens.ct.jmz.expressions.UnknownExpressionValueException;
+
 /**
  * @author Copyright Siemens AG, 2016-2017
  */
@@ -30,6 +35,14 @@ public class Union extends BinarySetOperation {
   @Override
   public Union substitute(String name, Object value) {
     return new Union(operand1.substitute(name, value), operand2.substitute(name, value));
+  }
+
+  @Override
+  public Set<Integer> value() throws UnknownExpressionValueException {
+    Set<Integer> values = new LinkedHashSet<>();
+    values.addAll(operand1.value());
+    values.addAll(operand2.value());
+    return values;
   }
 
 }

@@ -22,7 +22,7 @@ import at.siemens.ct.jmz.expressions.Operation;
 public class ArithmeticOperation<T extends Number> extends Operation<T, T>
 		implements Expression<T> {
 
-  public ArithmeticOperation(Expression<T> left, ArithmeticOperator operator, Expression<T> right) {
+  protected ArithmeticOperation(Expression<T> left, ArithmeticOperator operator, Expression<T> right) {
     super(left, operator, right);
   }
 
