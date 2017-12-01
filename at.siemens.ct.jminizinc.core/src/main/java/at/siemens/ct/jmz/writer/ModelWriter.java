@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,7 +31,6 @@ import at.siemens.ct.jmz.files.TemporaryFiles;
 public class ModelWriter implements IModelWriter {
 
   private IModelBuilder modelBuilder;
-  private Collection<IncludeItem> includeItems = new ArrayList<>(1);
   private SolvingStrategy solvingStrategy;
   private OutputStatement outputStatement;
 
@@ -43,7 +41,7 @@ public class ModelWriter implements IModelWriter {
 
   @Override
   public void addIncludeItem(IncludeItem includeItem) {
-    includeItems.add(includeItem);
+    this.modelBuilder.add(includeItem);
   }
 
   @Override
@@ -100,15 +98,17 @@ public class ModelWriter implements IModelWriter {
   }
 
   private Stream<Element> allElements() {
-    return Stream
-        .concat(includeItems.stream(),
-            Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement)))
+    return Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement))
         .filter(s -> s != null).filter(s -> s.declare() != null);
+  }
+
+  private Stream<IncludeItem> includeItems() {
+    return allElements().filter(e -> e instanceof IncludeItem).map(e -> (IncludeItem) e);
   }
 
   @Override
   public Collection<Path> getSearchDirectories() {
-    return includeItems.stream().map(IncludeItem::getDirectory).filter(dir -> dir != null)
+    return includeItems().map(IncludeItem::getDirectory).filter(dir -> dir != null)
         .collect(Collectors.toSet());
   }
 
