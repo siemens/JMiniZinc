@@ -29,7 +29,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 
 	@Override
   public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
-    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile)) {
+    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel)) {
       return null; // no conflict
     }
 
@@ -56,7 +56,7 @@ public class QuickXPlain extends AbstractConflictDetection {
       throws DiagnosisException {
 
 		if (!D.isEmpty()) {
-      boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel, mznFile);
+      boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel);
 			if (!isConsistent) {
 				return Collections.emptyList();
 			}

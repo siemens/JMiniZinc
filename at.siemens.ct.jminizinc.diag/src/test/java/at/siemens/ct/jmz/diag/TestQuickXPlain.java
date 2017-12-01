@@ -23,6 +23,7 @@ import org.junit.Test;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
@@ -59,7 +60,7 @@ public class TestQuickXPlain {
 		Constraint c5 = new Constraint("group", "c5 {x3 > 2}", expression5);
 		constraintsSetC.add(c5);
 
-		boolean isConsistent = checker.isConsistent(constraintsSetC, mznFile);
+    boolean isConsistent = checker.isConsistent(constraintsSetC, Arrays.asList(new IncludeItem(mznFile)));
 		assertTrue(isConsistent);
 	}
 
@@ -86,7 +87,7 @@ public class TestQuickXPlain {
 		Constraint c6 = new Constraint("group", "c6 {x3 > 2}", expression6);
 		constraintsSetC.add(c6);
 
-		boolean isConsistent = checker.isConsistent(constraintsSetC, mznFile);
+    boolean isConsistent = checker.isConsistent(constraintsSetC, Arrays.asList(new IncludeItem(mznFile)));
 		assertTrue(isConsistent == false);
 	}
 

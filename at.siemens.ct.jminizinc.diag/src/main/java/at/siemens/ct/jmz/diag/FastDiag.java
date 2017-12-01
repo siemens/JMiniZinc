@@ -11,19 +11,20 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
 
 /**
  * @author Copyright Siemens AG, 2016-2017
  */
 public class FastDiag {
 	private List<Constraint> userRequirements;
-	private File mznFile;
-  private Collection<? extends Element> fixedModel;
+  private Collection<Element> fixedModel;
 	private ConsistencyChecker consistencyChecker;
 	private DiagnoseProgressCallback progressCalback;
 	private Boolean displayfastDiagSteps;
@@ -60,13 +61,16 @@ public class FastDiag {
   public FastDiag(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
       ConflictDetectionAlgorithm algorithm, DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
     this(userConstraints, algorithm, progressCallback);
+    this.fixedModel = new HashSet<>();
+    this.fixedModel.addAll(fixedModel);
+
     if (mznFullFileName != null) {
-      mznFile = new File(mznFullFileName);
+      File mznFile = new File(mznFullFileName);
       if (!mznFile.exists()) {
         throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
       }
+      this.fixedModel.add(new IncludeItem(mznFile));
     }
-    this.fixedModel = fixedModel;
 	}
 
   private FastDiag(List<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
@@ -105,7 +109,7 @@ public class FastDiag {
       }
 		}
 
-    boolean isConsistent = consistencyChecker.isConsistent(AC, fixedModel, mznFile);
+    boolean isConsistent = consistencyChecker.isConsistent(AC, fixedModel);
 		int q = C.size();
 
     String displayConstraintListAC = progressCalback == null ? null : progressCalback.displayConstraintList(AC);
@@ -257,7 +261,7 @@ public class FastDiag {
 			return Collections.emptyList();
 		}
 
-    if (consistencyChecker.isConsistent(userRequirements, fixedModel, mznFile)) {
+    if (consistencyChecker.isConsistent(userRequirements, fixedModel)) {
 			if (progressCalback != null) {
 				String displayConstraintListUserRequirements = progressCalback.displayConstraintList(userRequirements);
         if (displayConstraintListUserRequirements != null) {
@@ -269,7 +273,7 @@ public class FastDiag {
 		}
 		List<Constraint> ACWithoutC = AbstractConflictDetection.diffSets(userRequirements, constraintsSetC);
 
-    Boolean searchForDiagnosis = consistencyChecker.isConsistent(ACWithoutC, fixedModel, mznFile);
+    Boolean searchForDiagnosis = consistencyChecker.isConsistent(ACWithoutC, fixedModel);
 
 		if (!searchForDiagnosis) {
 			if (progressCalback != null) {
