@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.diag;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,11 @@ public class QuickXPlain extends AbstractConflictDetection {
       return Collections.emptyList();
 		}
 
-    return quickXPlain(Collections.emptyList(), constraintsSetC, Collections.emptyList());
+    List<Constraint> fixedConstraints = new ArrayList<Constraint>();
+    fixedModel.stream().filter(e -> e instanceof Constraint).map(e -> (Constraint) e)
+        .forEach(e -> fixedConstraints.add(e));
+
+    return quickXPlain(fixedConstraints, constraintsSetC, fixedConstraints);
 	}
 
 	/**

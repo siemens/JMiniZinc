@@ -88,7 +88,7 @@ public class ConflictDetectionHSDAG extends HSDAG {
 				progressCallback.minConflictSet(minCS, difference, "");
 			}
 
-			if (minCS.isEmpty()) {
+      if (minCS == null || minCS.isEmpty()) {
 				treeNode = new TreeNode(null, null, null);
 				root.addChild(constraint, treeNode);
 
@@ -145,7 +145,7 @@ public class ConflictDetectionHSDAG extends HSDAG {
 
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 
-		if (minCS.isEmpty()) {
+    if (minCS == null || minCS.isEmpty()) {
 			if (progressCallback != null)
 				progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");
 
