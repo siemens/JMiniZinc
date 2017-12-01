@@ -6,6 +6,7 @@
  */
 package at.siemens.ct.jmz.expressions.comprehension;
 
+import at.siemens.ct.jmz.expressions.Constant;
 import at.siemens.ct.jmz.expressions.Expression;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
@@ -58,8 +59,12 @@ public class IteratorExpression<T> implements Expression<T> {
 		return new Generator<T>(comparisonExpression, this);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Expression<T> substitute(String name, Object value) {
+    if (this.name.equals(name)) {
+      return new Constant<T, T>(range, (T) value);
+    }
     return new IteratorExpression<T>(range.substitute(name, value), this.name);
   }
 

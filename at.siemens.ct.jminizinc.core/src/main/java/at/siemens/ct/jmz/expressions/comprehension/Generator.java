@@ -7,12 +7,17 @@
 package at.siemens.ct.jmz.expressions.comprehension;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.ListUtils;
 import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.UnknownExpressionValueException;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
+import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
 
 /**
@@ -75,6 +80,19 @@ public class Generator<T> implements Expression<T[]> {
   public Generator<T> substitute(String name, Object value) {
     //    TODO: implement
     throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Maps each {@link IteratorExpression} in this generator to an evaluation of its range ({@link RangeExpression#value()}).
+   * @return a {@link Map} mapping each {@link IteratorExpression} in this generator to an evaluation of its range ({@link RangeExpression#value()}).
+   * @throws UnknownExpressionValueException if any of the necessary evaluations does not succeed
+   */
+  public Map<IteratorExpression<T>, Set<T>> getIteratorRangeValues() throws UnknownExpressionValueException {
+    Map<IteratorExpression<T>, Set<T>> result = new HashMap<>();
+    for (IteratorExpression<T> iteratorExpression : iterators) {
+      result.put(iteratorExpression, iteratorExpression.getRange().value());
+    }
+    return result;
   }
 
 }

@@ -38,10 +38,14 @@ public class Constant<T, V> implements Expression<V> {
     return String.valueOf(value);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public Expression<V> substitute(String name, Object value) {
-    //    TODO: implement
-    throw new UnsupportedOperationException();
+  public Constant<T, V> substitute(String name, Object value) {
+    if (this.value.getClass().isAssignableFrom(value.getClass())) {
+      return new Constant<T, V>(type, (V) value);
+    } else {
+      throw new IllegalArgumentException("value must be assignable to " + this.value.getClass());
+    }
   }
 
   @Override

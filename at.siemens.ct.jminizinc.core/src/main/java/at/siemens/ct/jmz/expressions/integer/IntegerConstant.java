@@ -77,7 +77,7 @@ public class IntegerConstant extends Constant<Integer, Integer>
 
   @Override
   public IntegerConstant substitute(String name, Object value) {
-    return new IntegerConstant(((SetExpression<Integer>) type).substitute(name, value), this.getValue());
+    return new IntegerConstant((SetExpression<Integer>) type, this.getValue());
   }
 
 }
