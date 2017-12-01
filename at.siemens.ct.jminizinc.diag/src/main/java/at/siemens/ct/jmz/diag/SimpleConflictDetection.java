@@ -43,7 +43,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 		List<Constraint> cs = new ArrayList<Constraint>();
 
     if (consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile)) {
-			return Collections.emptyList();
+      return null;
 		}
 
 		List<Constraint> intermediaryCS = new ArrayList<Constraint>();

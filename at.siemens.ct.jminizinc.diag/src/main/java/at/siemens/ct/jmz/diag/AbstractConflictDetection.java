@@ -42,7 +42,7 @@ public abstract class AbstractConflictDetection {
    * 
    * @param constraintsSetC
    *            a set of constraint
-   * @return a conflict set
+   * @return a conflict set if the input is inconsistent, else {@code null}
    * @throws DiagnosisException 
    */
   public abstract List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException;
