@@ -10,28 +10,32 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
 
 /**
  * @author Copyright Siemens AG, 2016-2017
  */
 public abstract class AbstractConflictDetection {
-	protected File mznFile;
-  protected Collection<? extends Element> fixedModel;
+  protected Collection<Element> fixedModel;
 	protected ConsistencyChecker consistencyChecker;
 
   public AbstractConflictDetection(String mznFullFileName, Collection<? extends Element> fixedModel)
       throws FileNotFoundException {
+    this.fixedModel = new HashSet<>();
+    this.fixedModel.addAll(fixedModel);
+
     if (mznFullFileName != null) {
-      mznFile = new File(mznFullFileName);
+      File mznFile = new File(mznFullFileName);
       if (!mznFile.exists()) {
         throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
       }
+      this.fixedModel.add(new IncludeItem(mznFile));
 		}
-    this.fixedModel = fixedModel;
 
 		consistencyChecker = new ConsistencyChecker();
 	}
@@ -42,7 +46,7 @@ public abstract class AbstractConflictDetection {
    * 
    * @param constraintsSetC
    *            a set of constraint
-   * @return a conflict set
+   * @return a conflict set if the input is inconsistent, else {@code null}
    * @throws DiagnosisException 
    */
   public abstract List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException;

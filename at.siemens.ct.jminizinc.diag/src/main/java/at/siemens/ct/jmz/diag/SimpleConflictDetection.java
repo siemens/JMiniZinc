@@ -42,8 +42,8 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 
 		List<Constraint> cs = new ArrayList<Constraint>();
 
-    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile)) {
-			return Collections.emptyList();
+    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel)) {
+      return null;
 		}
 
 		List<Constraint> intermediaryCS = new ArrayList<Constraint>();
@@ -60,12 +60,12 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 				}
 
 				intermediaryCS.add(c);
-        isInconsistent = !consistencyChecker.isConsistent(intermediaryCS, fixedModel, mznFile);
+        isInconsistent = !consistencyChecker.isConsistent(intermediaryCS, fixedModel);
 			} while (!isInconsistent);
 
 			appendSet(cs, c);
 
-      isInconsistent = !consistencyChecker.isConsistent(cs, fixedModel, mznFile);
+      isInconsistent = !consistencyChecker.isConsistent(cs, fixedModel);
 
 		} while (!isInconsistent);
 

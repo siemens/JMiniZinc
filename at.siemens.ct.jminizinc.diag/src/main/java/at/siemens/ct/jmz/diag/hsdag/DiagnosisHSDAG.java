@@ -53,11 +53,6 @@ public class DiagnosisHSDAG extends HSDAG {
 	@Override
   public DiagnosesCollection diagnose() throws DiagnosisException {
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
-    if (mznFile != null && !consistencyChecker.isConsistent(mznFile)) {
-      if (progressCallback != null)
-        progressCallback.displayMessage("The constraints set form the input file is not consistent.");
-      return new DiagnosesCollection();
-    }
     if (!fixedModel.isEmpty() && !consistencyChecker.isConsistent(fixedModel)) {
       if (progressCallback != null)
         progressCallback.displayMessage("The fixed model is not consistent.");

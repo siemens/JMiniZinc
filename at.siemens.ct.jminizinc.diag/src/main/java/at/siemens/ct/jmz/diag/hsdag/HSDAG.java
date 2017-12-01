@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.diag.DiagnosisException;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
 
 /**
  * This class implements HSDAG algorithm for detecting all diagnoses.
@@ -25,8 +27,7 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 public abstract class HSDAG {
 
 	protected List<Constraint> userConstraints;
-	protected File mznFile;
-  protected Collection<? extends Element> fixedModel;
+  protected Collection<Element> fixedModel;
 	protected DiagnoseProgressCallback progressCallback;
 	protected LinkedList<TreeNode> queue;
 	protected ConflictDetectionAlgorithm algorithmtype;
@@ -56,23 +57,27 @@ public abstract class HSDAG {
    * Prepares HSDAG for diagnosing {@code userConstraints}, where {@code fixedModel} (can be empty) is regarded as fixed (i.e. the knowledge base).
    * @throws FileNotFoundException 
    */
-  public HSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
-      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-          throws FileNotFoundException {
-    this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
+  public HSDAG(Collection<Element> fixedModel, List<Constraint> userConstraints,
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+    this(userConstraints, progressCallback, conflictDetectionAlgorithm);
+    this.fixedModel = fixedModel;
   }
 
   protected HSDAG(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
-      DiagnoseProgressCallback progressCallback,
-      ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
+          throws FileNotFoundException {
     this(userConstraints, progressCallback, conflictDetectionAlgorithm);
+
+    this.fixedModel = new HashSet<>();
+    this.fixedModel.addAll(fixedModel);
+
     if (mznFullFileName != null) {
-      mznFile = new File(mznFullFileName);
+      File mznFile = new File(mznFullFileName);
       if (!mznFile.exists()) {
         throw new FileNotFoundException("Cannot find the file " + mznFile.getAbsolutePath());
       }
+      this.fixedModel.add(new IncludeItem(mznFile));
     }
-    this.fixedModel = fixedModel;
   }
 
   public HSDAG(List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,

@@ -33,27 +33,36 @@ public class ConflictDetectionHSDAG extends HSDAG {
     this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
-  public ConflictDetectionHSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
-      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
-          throws FileNotFoundException {
-    this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
+  public ConflictDetectionHSDAG(Collection<Element> fixedModel, List<Constraint> userConstraints,
+      DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+    super(fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
+    init(null, fixedModel, conflictDetectionAlgorithm);
   }
 
   public ConflictDetectionHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
       List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
       ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
     super(mznFullFileName, userConstraints, progressCallback, conflictDetectionAlgorithm);
-    conflictSets = new DiagnosesCollection();
-    switch (conflictDetectionAlgorithm) {
-    case SimpleConflictDetection:
-      this.conflictDetection = new SimpleConflictDetection(mznFullFileName, fixedModel);
-      break;
-    case QuickXPlain:
-      this.conflictDetection = new QuickXPlain(mznFullFileName, fixedModel);
-      break;
-    default:
-      throw new IllegalArgumentException(
-          String.format("No such conflict detection algoritm: %s", conflictDetectionAlgorithm));
+    init(mznFullFileName, fixedModel, conflictDetectionAlgorithm);
+  }
+
+  private void init(String mznFullFileName, Collection<? extends Element> fixedModel,
+      ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
+    try {
+      conflictSets = new DiagnosesCollection();
+      switch (conflictDetectionAlgorithm) {
+      case SimpleConflictDetection:
+        this.conflictDetection = new SimpleConflictDetection(mznFullFileName, fixedModel);
+        break;
+      case QuickXPlain:
+        this.conflictDetection = new QuickXPlain(mznFullFileName, fixedModel);
+        break;
+      default:
+        throw new IllegalArgumentException(
+            String.format("No such conflict detection algoritm: %s", conflictDetectionAlgorithm));
+      }
+    } catch (FileNotFoundException fnfe) {
+      fnfe.printStackTrace();
     }
   }
 
@@ -79,7 +88,7 @@ public class ConflictDetectionHSDAG extends HSDAG {
 				progressCallback.minConflictSet(minCS, difference, "");
 			}
 
-			if (minCS.isEmpty()) {
+      if (minCS == null || minCS.isEmpty()) {
 				treeNode = new TreeNode(null, null, null);
 				root.addChild(constraint, treeNode);
 
@@ -128,11 +137,6 @@ public class ConflictDetectionHSDAG extends HSDAG {
   public DiagnosesCollection diagnose() throws DiagnosisException {
 
 		ConsistencyChecker consistencyChecker = new ConsistencyChecker();
-    if (mznFile != null && !consistencyChecker.isConsistent(mznFile)) {
-			if (progressCallback != null)
-				progressCallback.displayMessage("The constraints set form the input file is not consistent.");
-			return new DiagnosesCollection();
-		}
     if (!fixedModel.isEmpty() && !consistencyChecker.isConsistent(fixedModel)) {
       if (progressCallback != null)
         progressCallback.displayMessage("The fixed model is not consistent.");
@@ -141,7 +145,7 @@ public class ConflictDetectionHSDAG extends HSDAG {
 
 		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 
-		if (minCS.isEmpty()) {
+    if (minCS == null || minCS.isEmpty()) {
 			if (progressCallback != null)
 				progressCallback.displayMessage("A minimal conflict set does not exist for the user-set constraints.");
 
@@ -170,4 +174,11 @@ public class ConflictDetectionHSDAG extends HSDAG {
 		}
 		return diagnosesCollection;
 	}
+
+  /**
+   * @return the collection of conflict sets encountered in the diagnosis process
+   */
+  public DiagnosesCollection getConflictSets() {
+    return conflictSets;
+  }
 }

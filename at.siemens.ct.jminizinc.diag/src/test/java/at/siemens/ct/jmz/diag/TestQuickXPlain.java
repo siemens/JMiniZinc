@@ -7,11 +7,15 @@
 package at.siemens.ct.jmz.diag;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -19,6 +23,8 @@ import org.junit.Test;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
+import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
 import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
 import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
@@ -27,7 +33,7 @@ import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016-2017
  */
 public class TestQuickXPlain {
 
@@ -54,7 +60,7 @@ public class TestQuickXPlain {
 		Constraint c5 = new Constraint("group", "c5 {x3 > 2}", expression5);
 		constraintsSetC.add(c5);
 
-		boolean isConsistent = checker.isConsistent(constraintsSetC, mznFile);
+    boolean isConsistent = checker.isConsistent(constraintsSetC, Arrays.asList(new IncludeItem(mznFile)));
 		assertTrue(isConsistent);
 	}
 
@@ -81,7 +87,7 @@ public class TestQuickXPlain {
 		Constraint c6 = new Constraint("group", "c6 {x3 > 2}", expression6);
 		constraintsSetC.add(c6);
 
-		boolean isConsistent = checker.isConsistent(constraintsSetC, mznFile);
+    boolean isConsistent = checker.isConsistent(constraintsSetC, Arrays.asList(new IncludeItem(mznFile)));
 		assertTrue(isConsistent == false);
 	}
 
@@ -121,7 +127,6 @@ public class TestQuickXPlain {
 		assertTrue(minCS.contains(constraintsSetC.get(5)));
 	}
 	
-	
 	@Test
   public void testQuickXPlainMinCS_NoConflict() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
@@ -131,7 +136,7 @@ public class TestQuickXPlain {
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-		assertTrue(minCS.isEmpty());;
+    assertNull(minCS);
 	}
 
 	@Test
@@ -165,8 +170,6 @@ public class TestQuickXPlain {
 		assertTrue(minCS.contains(constraintsSetC.get(1)));
 	}
 
-	
-
 	@Test
   public void testQuickXPlainMinCS_8() throws FileNotFoundException, DiagnosisException {
 		List<Constraint> minCS = null;
@@ -182,4 +185,26 @@ public class TestQuickXPlain {
 		assertTrue(minCS.size() == 1);
 		assertTrue(minCS.contains(constraintsSetC.get(3)));
 	}
+
+  @Test
+  public void testQuickXPlain_InconsistentKB_EmptyC() throws FileNotFoundException, DiagnosisException {
+    testQuickXPlain_InconsistentKB(Collections.emptyList());
+  }
+
+  @Test
+  public void testQuickXPlain_InconsistentKB_NonEmptyC() throws FileNotFoundException, DiagnosisException {
+    testQuickXPlain_InconsistentKB(Arrays.asList(new Constraint(BooleanConstant.TRUE)));
+  }
+
+  private void testQuickXPlain_InconsistentKB(List<Constraint> constraintsSetC)
+      throws FileNotFoundException, DiagnosisException {
+    Constraint inconsistentConstraint = new Constraint(
+        new RelationalOperation<Integer>(new IntegerConstant(1), RelationalOperator.EQ, new IntegerConstant(2)));
+    Collection<Element> inconsistentKB = Arrays.asList(inconsistentConstraint);
+    AbstractConflictDetection conflictDetection = new QuickXPlain(null, inconsistentKB);
+
+    List<Constraint> minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+    assertNotNull(minCS);
+    assertTrue(minCS.toString(), minCS.isEmpty());
+  }
 }

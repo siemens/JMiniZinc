@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.diag;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -29,12 +30,19 @@ public class QuickXPlain extends AbstractConflictDetection {
 
 	@Override
   public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
+    if (consistencyChecker.isConsistent(constraintsSetC, fixedModel)) {
+      return null; // no conflict
+    }
 
-    if (constraintsSetC.isEmpty() || consistencyChecker.isConsistent(constraintsSetC, fixedModel, mznFile)) {
+    if (constraintsSetC.isEmpty()) {
       return Collections.emptyList();
 		}
 
-    return quickXPlain(Collections.emptyList(), constraintsSetC, Collections.emptyList());
+    List<Constraint> fixedConstraints = new ArrayList<Constraint>();
+    fixedModel.stream().filter(e -> e instanceof Constraint).map(e -> (Constraint) e)
+        .forEach(e -> fixedConstraints.add(e));
+
+    return quickXPlain(fixedConstraints, constraintsSetC, fixedConstraints);
 	}
 
 	/**
@@ -53,7 +61,7 @@ public class QuickXPlain extends AbstractConflictDetection {
       throws DiagnosisException {
 
 		if (!D.isEmpty()) {
-      boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel, mznFile);
+      boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel);
 			if (!isConsistent) {
 				return Collections.emptyList();
 			}

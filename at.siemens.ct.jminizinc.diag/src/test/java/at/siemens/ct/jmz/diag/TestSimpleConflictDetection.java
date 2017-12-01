@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.diag;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -61,7 +62,7 @@ public class TestSimpleConflictDetection {
 
 		AbstractConflictDetection conflictDetection = new SimpleConflictDetection(f.getAbsolutePath());
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-		assertTrue(minCS.isEmpty());
+    assertNull(minCS);
 	}
 
 	@Test
@@ -104,7 +105,7 @@ public class TestSimpleConflictDetection {
 		AbstractConflictDetection conflictDetection = new SimpleConflictDetection(fileName);
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
-		assertTrue(minCS.isEmpty());
+    assertNull(minCS);
 	}
 
 	@Test
