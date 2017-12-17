@@ -49,7 +49,7 @@ public class DisplayableBooleanArray implements Displayable {
 		for (int i = 0; i < booleanArrayValues.length; i++) {
 
 			Integer index = startIndexInteger;
-			if (booleanArrayValues[i] != "Undefined") {
+			if (!booleanArrayValues[i].equals("Undefined")) {
 
 				Boolean variablevalue = Boolean.parseBoolean(booleanArrayValues[i]);
 				BooleanExpression booleanExpression = new RelationalOperation<>(this.boolArray.access(index),

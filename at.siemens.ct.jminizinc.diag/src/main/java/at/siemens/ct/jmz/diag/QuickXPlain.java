@@ -40,7 +40,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 
     List<Constraint> fixedConstraints = new ArrayList<Constraint>();
     fixedModel.stream().filter(e -> e instanceof Constraint).map(e -> (Constraint) e)
-        .forEach(e -> fixedConstraints.add(e));
+        .forEach(fixedConstraints::add);
 
     return quickXPlain(fixedConstraints, constraintsSetC, fixedConstraints);
 	}
@@ -52,7 +52,7 @@ public class QuickXPlain extends AbstractConflictDetection {
    *            A subset from the user constraints set
    * @param C
    *            A subset from the user constraints set
-   * @param AC
+   * @param B
    *            user constraints
    * @return a minimal conflict set
    * @throws DiagnosisException 
@@ -78,8 +78,7 @@ public class QuickXPlain extends AbstractConflictDetection {
 		List<Constraint> C2 = C.subList(k, q);
 		List<Constraint> CS1 = quickXPlain(C2, C1, appendSets(B, C2));
 		List<Constraint> CS2 = quickXPlain(CS1, C2, appendSets(B, CS1));
-		List<Constraint> tempCS = appendSets(CS1, CS2);
 
-		return tempCS;
+    return appendSets(CS1, CS2);
 	}
 }

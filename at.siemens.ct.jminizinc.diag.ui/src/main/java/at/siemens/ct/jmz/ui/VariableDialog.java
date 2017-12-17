@@ -271,7 +271,7 @@ public class VariableDialog {
 
 		for (DecisionVariableGUI decisionVariableGUI : mapWithControls) {
 
-			if (decisionVariableGUI.getVariableName() == variableName) {
+			if (decisionVariableGUI.getVariableName().equals(variableName)) {
 				controls.add(decisionVariableGUI);
 			}
 

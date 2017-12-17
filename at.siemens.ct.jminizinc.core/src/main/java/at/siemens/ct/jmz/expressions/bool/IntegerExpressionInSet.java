@@ -23,7 +23,7 @@ public class IntegerExpressionInSet implements BooleanExpression {
   /**
    * Constrains the integer {@code intExpression} to be an element of {@code allowedValues}.
    *
-   * @param arrayAccess
+   * @param intExpression
    * @param allowedValues
    */
 	public IntegerExpressionInSet(Expression<Integer> intExpression, Expression<Set<Integer>> allowedValues) {

@@ -78,7 +78,7 @@ public class MiniZincElementFactory {
 						return new DisplayableBooleanVariable(name);
 					} else {
 						Boolean parameterValue;
-						if (isBooleean(defaultValue)) {
+						if (isBoolean(defaultValue)) {
 							parameterValue = Boolean.parseBoolean(defaultValue);
 						} else {
 							BooleanConstant boolCt = (BooleanConstant) getElementByName(name).getValue();
@@ -130,11 +130,9 @@ public class MiniZincElementFactory {
 		return true;
 	}
 
-	public static Boolean isBooleean(String str) {
-		if (str.equals("true") || str.equals("false"))
-			return true;
-		return false;
-	}
+	public static Boolean isBoolean(String str) {
+    return str.equals("true") || str.equals("false");
+  }
 
 	private RangeExpression createRange(String range) {
 		String min, max;

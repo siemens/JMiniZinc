@@ -102,7 +102,7 @@ public class FastDiag {
     String displayConstraintListC = progressCalback == null ? null : progressCalback.displayConstraintList(C);
     if (displayfastDiagSteps && progressCalback != null && displayConstraintListC != null) {
 			String displayConstraintListD = progressCalback.displayConstraintList(D);
-      if (displayConstraintListC != null && displayConstraintListD != null) {
+      if (displayConstraintListD != null) {
         String fdCall = String.format("%sCall FD with D: %s, C: %s", stepNumber, displayConstraintListD.trim(),
             displayConstraintListC.trim());
         progressCalback.displayMessage(fdCall);

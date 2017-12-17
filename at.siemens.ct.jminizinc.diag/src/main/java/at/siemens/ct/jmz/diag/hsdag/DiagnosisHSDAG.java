@@ -46,7 +46,6 @@ public class DiagnosisHSDAG extends HSDAG {
    * Function used to display messages on the GUI and to build the HSDAG tree
    * for computing all minimal diagnoses
    * 
-   * @param progressCallback
    * @return
    * @throws DiagnosisException 
    */
