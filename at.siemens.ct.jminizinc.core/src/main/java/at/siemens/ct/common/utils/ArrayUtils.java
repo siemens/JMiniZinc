@@ -61,7 +61,7 @@ public class ArrayUtils {
       int width = array[i].length;
       boxed[i] = new Integer[width];
       for (int j = 0; j < width; j++) {
-        boxed[i][j] = Integer.valueOf(array[i][j]);
+        boxed[i][j] = array[i][j];
       }
     }
     return boxed;

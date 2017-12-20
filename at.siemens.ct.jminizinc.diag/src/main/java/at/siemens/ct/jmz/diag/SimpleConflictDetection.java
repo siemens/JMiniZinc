@@ -85,8 +85,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 		if (differenceSet.size() == 0)
 			return null;
 
-		Constraint c = differenceSet.get(0);
-		return c;
+    return differenceSet.get(0);
 	}
 
 	// TODO: maybe this is not necessary if it is used Set instead of List.

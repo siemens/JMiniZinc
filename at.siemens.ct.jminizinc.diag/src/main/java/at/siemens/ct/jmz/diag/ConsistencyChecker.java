@@ -80,8 +80,7 @@ public class ConsistencyChecker {
 	}
 
 	private boolean isSolverResultConsistent(String result) {
-		boolean res = !result.contains(Unsatisfiable);
-		return res;
+    return !result.contains(Unsatisfiable);
 	}
 
   private String callExecutor() throws DiagnosisException {
@@ -102,7 +101,6 @@ public class ConsistencyChecker {
 			}
 		}
 
-		String lastSolverOutput = executor.getLastSolverOutput();
-		return lastSolverOutput;
+    return executor.getLastSolverOutput();
 	}
 }

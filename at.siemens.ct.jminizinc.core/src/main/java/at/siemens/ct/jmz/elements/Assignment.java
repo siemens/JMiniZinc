@@ -15,7 +15,7 @@ import at.siemens.ct.jmz.expressions.Expression;
  * @author Copyright Siemens AG, 2016
  *
  * @param <T> The primitive type of the assignment (e.g. {@link Integer})
- * @param <V> The data type of this assignment´s value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
+ * @param <V> The data type of this assignment's value (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
  */
 public class Assignment<T, V> implements Element {
 

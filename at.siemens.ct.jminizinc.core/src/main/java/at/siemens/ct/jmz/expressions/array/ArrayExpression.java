@@ -75,9 +75,6 @@ public interface ArrayExpression<T> extends Expression<T[]> {
 	 * Returns the operation call to coerce the given collection of {@code values} to an array whose dimensions are
 	 * defined by {@code range}.
 	 *
-	 * @param range
-	 * @param type
-	 * @param values
 	 * @return TODO: Return operation object instead of string
 	 */
   default String use() {

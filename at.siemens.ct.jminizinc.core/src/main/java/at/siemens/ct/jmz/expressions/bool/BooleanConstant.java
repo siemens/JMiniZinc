@@ -22,7 +22,7 @@ public class BooleanConstant extends Constant<Boolean, Boolean> implements Boole
 	}
 
 	public BooleanConstant(boolean value) {
-    super(BooleanSetExpression.BOOLEAN_UNIVERSE, Boolean.valueOf(value));
+    super(BooleanSetExpression.BOOLEAN_UNIVERSE, value);
 	}
 
 	@Override

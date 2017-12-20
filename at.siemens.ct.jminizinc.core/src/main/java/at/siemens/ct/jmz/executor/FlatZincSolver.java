@@ -26,7 +26,7 @@ public enum FlatZincSolver {
   }
 
   /**
-   * @return the name of the solver´s executable
+   * @return the name of the solver's executable
    */
   public String getSolverName() {
     return solverName;

@@ -53,7 +53,7 @@ public class DisplayableIntegerArray implements Displayable {
 
 			Integer index = startIndexInteger;
 
-			if (integerArrayValues[i] != "Undefined" && !integerArrayValues[i].isEmpty()) {
+			if (!integerArrayValues[i].equals("Undefined") && !integerArrayValues[i].isEmpty()) {
 				if (!MiniZincElementFactory.isNumeric(integerArrayValues[i]))
           throw new UnsupportedOperationException(
 							"Wrong value inserted for variable " + this.getName() + ". His value must be an integer.");

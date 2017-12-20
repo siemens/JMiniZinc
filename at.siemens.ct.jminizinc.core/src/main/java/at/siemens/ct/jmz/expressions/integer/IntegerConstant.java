@@ -30,7 +30,7 @@ public class IntegerConstant extends Constant<Integer, Integer>
 	 */
 	@Override
 	public IntegerExpression add(int delta) {
-		return new IntegerConstant(getValue().intValue() + delta);
+		return new IntegerConstant(getValue() + delta);
 		// TODO: what if has name?
 	}
 

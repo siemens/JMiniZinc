@@ -6,6 +6,7 @@
  */
 package at.siemens.ct.jmz.diag;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -88,7 +89,7 @@ public class TestQuickXPlain {
 		constraintsSetC.add(c6);
 
     boolean isConsistent = checker.isConsistent(constraintsSetC, Arrays.asList(new IncludeItem(mznFile)));
-		assertTrue(isConsistent == false);
+		assertFalse(isConsistent);
 	}
 
 	@Test

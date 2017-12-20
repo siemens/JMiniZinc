@@ -44,12 +44,6 @@ public class TestSimpleConflictDetection {
 		IntegerVariable x1 = new IntegerVariable("x1", setOneTwoThree);
 		IntegerVariable x2 = new IntegerVariable("x2", setOneTwoThree);
 		IntegerVariable x3 = new IntegerVariable("x3", setOneTwoThree);
-		List<Element> decisionsVariable = new ArrayList<Element>();
-
-		decisionsVariable.add(setOneTwoThree);
-		decisionsVariable.add(x1);
-		decisionsVariable.add(x2);
-		decisionsVariable.add(x3);
 
 		BooleanExpression expression1 = new RelationalOperation<>(x1, RelationalOperator.EQ, new IntegerConstant(3));
 		BooleanExpression expression2 = new RelationalOperation<>(x2, RelationalOperator.EQ, new IntegerConstant(3));

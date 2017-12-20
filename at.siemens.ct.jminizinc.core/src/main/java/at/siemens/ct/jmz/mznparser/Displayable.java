@@ -19,10 +19,10 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  */
 public interface Displayable {
 
-  public List<Constraint> createConstraint(String values);
+  List<Constraint> createConstraint(String values);
 
-	public List<InfoGUI> getInfo();
+	List<InfoGUI> getInfo();
 
-	public String getName();
+	String getName();
 
 }
