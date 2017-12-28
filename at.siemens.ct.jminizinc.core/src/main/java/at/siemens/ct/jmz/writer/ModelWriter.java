@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -99,7 +100,7 @@ public class ModelWriter implements IModelWriter {
 
   private Stream<Element> allElements() {
     return Stream.concat(modelBuilder.elements(), Stream.of(solvingStrategy, outputStatement))
-        .filter(s -> s != null).filter(s -> s.declare() != null);
+        .filter(Objects::nonNull).filter(s -> s.declare() != null);
   }
 
   private Stream<IncludeItem> includeItems() {
@@ -108,7 +109,7 @@ public class ModelWriter implements IModelWriter {
 
   @Override
   public Collection<Path> getSearchDirectories() {
-    return includeItems().map(IncludeItem::getDirectory).filter(dir -> dir != null)
+    return includeItems().map(IncludeItem::getDirectory).filter(Objects::nonNull)
         .collect(Collectors.toSet());
   }
 

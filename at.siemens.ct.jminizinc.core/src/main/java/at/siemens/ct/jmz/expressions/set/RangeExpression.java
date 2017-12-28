@@ -82,7 +82,6 @@ public class RangeExpression implements IntegerSetExpression {
 	/**
 	 * Creates a set covering the given values ({@code min(possibleValues)..max(possibleValues)}).
 	 *
-	 * @param name
 	 * @param possibleValues
 	 * @return a reference to the created set.
 	 */

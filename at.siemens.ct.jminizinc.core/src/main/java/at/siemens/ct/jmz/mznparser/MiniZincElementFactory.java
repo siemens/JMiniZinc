@@ -85,7 +85,7 @@ public class MiniZincElementFactory {
 							parameterValue = boolCt.getValue();
 						}
 						BasicBoolean boolConstant = new BooleanConstant(parameterValue).toNamedConstant(name);
-						listWithParameters.add((BasicTypeInst<Boolean>) boolConstant);
+						listWithParameters.add(boolConstant);
 					}
 				}
 				if (type.equals(INT_TYPE)) {
@@ -100,7 +100,7 @@ public class MiniZincElementFactory {
 							paramValue = boolCt.getValue();
 						}
 						BasicInteger intConstant = new IntegerConstant(paramValue).toNamedConstant(name);
-						listWithParameters.add((BasicTypeInst<Integer>) intConstant);
+						listWithParameters.add(intConstant);
 					}
 				}
 				if (type.contains(RANGE_SEPARATOR)) {
