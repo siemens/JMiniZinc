@@ -141,7 +141,7 @@ public class IntegerArray extends Array<Integer, Integer> {
     if (variable) {
       return new IntegerVariable(name, type);
     } else {
-      return new BasicTypeInst<Integer>(name, type);
+      return new BasicTypeInst<>(name, type);
     }
   }
 
@@ -152,7 +152,7 @@ public class IntegerArray extends Array<Integer, Integer> {
 
   @Override
   protected IntFunction<Integer[]> getArrayGenerator() {
-    return size -> new Integer[size];
+    return Integer[]::new;
   }
 
 	@Override

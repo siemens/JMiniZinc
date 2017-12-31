@@ -38,7 +38,7 @@ public class QuickXPlain extends AbstractConflictDetection {
       return Collections.emptyList();
 		}
 
-    List<Constraint> fixedConstraints = new ArrayList<Constraint>();
+    List<Constraint> fixedConstraints = new ArrayList<>();
     fixedModel.stream().filter(e -> e instanceof Constraint).map(e -> (Constraint) e)
         .forEach(fixedConstraints::add);
 

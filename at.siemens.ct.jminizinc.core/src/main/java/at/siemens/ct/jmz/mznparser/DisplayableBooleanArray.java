@@ -72,10 +72,10 @@ public class DisplayableBooleanArray implements Displayable {
 	public List<InfoGUI> getInfo() {
 
 		RangeExpression arrayIndexRange = (RangeExpression) boolArray.getRange().get(0);
-		List<InfoGUI> infos = new ArrayList<InfoGUI>();
+		List<InfoGUI> infos = new ArrayList<>();
 		InfoGUI info;
 		List<String> indices;
-		List<String> values = new ArrayList<String>();
+		List<String> values = new ArrayList<>();
 		values.add("true");
 		values.add("false");
 		values.add("Undefided");
@@ -89,10 +89,6 @@ public class DisplayableBooleanArray implements Displayable {
 			infos.add(info);
 		}
 		return infos;
-	}
-
-	public BooleanArray getBooleanArray() {
-		return boolArray;
 	}
 
 	@Override

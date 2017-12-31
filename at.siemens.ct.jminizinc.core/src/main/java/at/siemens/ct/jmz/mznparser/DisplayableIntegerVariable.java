@@ -37,15 +37,13 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 
 	@Override
   public List<Constraint> createConstraint(String value) {
-		List<Constraint> constraints = new ArrayList<>();
-		String variableName = this.getName();
 
 		if (value.equals("Undefined") || value.isEmpty())
 			return null;
 
 		if (!MiniZincElementFactory.isNumeric(value))
       throw new IllegalArgumentException(
-					"Wrong value inserted for variable " + variableName + ". His value must be an integer.");
+					"Wrong value inserted for variable " + getName() + ". His value must be an integer.");
 
 		int variableValue = this.parseValue(value);
 		BooleanExpression expression = new RelationalOperation<>(this, RelationalOperator.EQ,
@@ -53,9 +51,8 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 
 		Constraint constraint = new Constraint("userDefined",
 				String.format("%s = %s", this.getInfo().get(0).getLabelCaption(), variableValue), expression);
-		constraints.add(constraint);
 
-		return constraints;
+		return Collections.singletonList(constraint);
 
 	}
 
@@ -65,7 +62,7 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 		RangeExpression variableRange;
 		SetExpression<Integer> type = this.getType();
 		List<String> possibleValues;
-		List<InfoGUI> infos = new ArrayList<InfoGUI>();
+		List<InfoGUI> infos = new ArrayList<>();
 		InfoGUI info;
 		String variableName = this.getName();
 
@@ -85,7 +82,7 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 	}
 
 	public static List<String> generateListFromRangeExpression(IntegerExpression lb, IntegerExpression ub) {
-		List<String> returnList = new ArrayList<String>();
+		List<String> returnList = new ArrayList<>();
 		if ((lb instanceof IntegerConstant) && (ub instanceof IntegerConstant)) {
 			IntegerConstant min = (IntegerConstant) lb;
 			IntegerConstant max = (IntegerConstant) ub;

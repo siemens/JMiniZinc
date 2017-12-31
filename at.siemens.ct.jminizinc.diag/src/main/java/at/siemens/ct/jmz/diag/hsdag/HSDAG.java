@@ -55,7 +55,6 @@ public abstract class HSDAG {
 
   /**
    * Prepares HSDAG for diagnosing {@code userConstraints}, where {@code fixedModel} (can be empty) is regarded as fixed (i.e. the knowledge base).
-   * @throws FileNotFoundException 
    */
   public HSDAG(Collection<Element> fixedModel, List<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
@@ -85,7 +84,7 @@ public abstract class HSDAG {
     this.userConstraints = userConstraints;
     this.progressCallback = progressCallback;
     this.algorithmtype = conflictDetectionAlgorithm;
-    queue = new LinkedList<TreeNode>();
+    queue = new LinkedList<>();
   }
 
   /**
@@ -104,13 +103,13 @@ public abstract class HSDAG {
 		int count = diagnose.size();
 		for (int i = count - 1; i >= 0; i--) {
 			Constraint c = diagnose.get(i);
-			sb.append(c.getConstraintName() + "; ");
+			sb.append(c.getConstraintName()).append("; ");
 		}
 		return sb.toString();
 	}
 
 	protected List<Constraint> removeConstraintFromList(List<Constraint> constraints, Constraint constraint) {
-		List<Constraint> returnList = new ArrayList<Constraint>();
+		List<Constraint> returnList = new ArrayList<>();
 		if (constraint != null) {
 			for (Constraint ct : constraints) {
 				if (!ct.getConstraintName().equals(constraint.getConstraintName())) {

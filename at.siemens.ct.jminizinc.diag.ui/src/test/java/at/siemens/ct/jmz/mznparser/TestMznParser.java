@@ -29,14 +29,10 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  */
 public class TestMznParser {
 
-	MiniZincCP constraintProblem;
-
-	@Test
+  @Test
   public void testMznParser() throws IOException {
 		File miniZincFile = new File("src/test/java/testConflictDetection4.mzn");
-		constraintProblem = new MiniZincCP(miniZincFile);
-		int noOfVar = constraintProblem.getElementsFromFile().size();
-		//assertEquals(noOfVar, 9);
+    MiniZincCP constraintProblem = new MiniZincCP(miniZincFile);
 
 		Displayable x_1 = constraintProblem.getDecisionVariableByName("x_1");
 		Displayable x2 = constraintProblem.getDecisionVariableByName("x2");
@@ -63,10 +59,9 @@ public class TestMznParser {
 
 	@Test
 	public void testRegularExpressionForBool()
-
 	{
 
-		Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.BOOLEEAN_PATTERN.getPattern());
+		Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.BOOLEAN_PATTERN.getPattern());
 
 		BasicBoolean boolCt = new BooleanConstant(false).toNamedConstant("isTrue");
 		String inputbooleanDeclaration = boolCt.declare();
@@ -91,8 +86,7 @@ public class TestMznParser {
 	}
 
 	@Test
-	public void testRegularExpressionForIntegger()
-
+	public void testRegularExpressionForInteger()
 	{
 		BasicInteger intCt = new IntegerConstant(3).toNamedConstant("my_integer_value");
 		String inputIntDeclaration = intCt.declare();
@@ -138,4 +132,19 @@ public class TestMznParser {
 		String GroupName5 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE);
 		assertEquals("int", GroupName5);
 	}
+
+  @Test
+  public void testRegularExpressionForEnumVariable() {
+    String enumVariable = "var Size: s;";
+    Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.ENUM_VARIABLE_PATTERN.getPattern());
+    Matcher matcher = pattern.matcher(enumVariable);
+    boolean match = matcher.matches();
+    assertTrue(match);
+    String GroupName1 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
+    assertEquals("var", GroupName1);
+    String GroupName2 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE);
+    assertEquals("Size", GroupName2);
+    String GroupName3 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
+    assertEquals("s", GroupName3);
+  }
 }
