@@ -31,8 +31,8 @@ public class StringSetExpression implements SetExpression<String> {
 
   @Override
   public SetExpression<String> substitute(String name, Object value) {
-    // TODO finish it
-    return this;
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException();
   }
 
   @Override

@@ -2,12 +2,14 @@
 int: nc = 3;
 int: min = 4;
 int: max = 5;
+enum Size = { XS, S, M, L, XL };
 
 % decision variables
 var 1..nc: x_1; 
 var min..max: x2; 
 var bool: x3;
 var int: x4;
+var Size: s;
 
 array[1..2] of var bool: x5 = [true,true];
 array[1..max] of var bool: x6;

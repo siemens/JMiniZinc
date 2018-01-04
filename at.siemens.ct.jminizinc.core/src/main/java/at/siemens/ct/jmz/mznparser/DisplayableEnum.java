@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
+import at.siemens.ct.jmz.expressions.set.StringSetExpression;
+import at.siemens.ct.jmz.expressions.string.StringConstant;
 
-public class DisplayableEnum implements Displayable  {
+public class DisplayableEnum implements Displayable, Expression<String> {
 
   private final String name;
   private Set<String> range;
@@ -27,7 +33,13 @@ public class DisplayableEnum implements Displayable  {
       throw new IllegalArgumentException("Value not in domain: " + value);
     }
 
-    return null;
+    BooleanExpression expression = new RelationalOperation<>(this, RelationalOperator.EQ,
+      new StringConstant(new StringSetExpression(range), value));
+
+    Constraint constraint = new Constraint("userDefined",
+      String.format("%s = %s", this.getInfo().get(0).getLabelCaption(), value), expression);
+
+    return Collections.singletonList(constraint);
   }
 
   @Override
@@ -41,5 +53,20 @@ public class DisplayableEnum implements Displayable  {
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String use() {
+    return getName();
+  }
+
+  @Override
+  public Expression<String> substitute(String name, Object value) {
+    return null;
+  }
+
+  @Override
+  public String value() {
+    return null;
   }
 }

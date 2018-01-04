@@ -54,7 +54,7 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet, String nodeIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
 		displayInputSet(inputConflictSet, nodeIndex);
-		if (minConflictSet.isEmpty()) {
+		if (minConflictSet == null || minConflictSet.isEmpty()) {
 			stringBuilder.append("No minimal conflict set.").append(LINE_SEPARATOR);
 		} else {
 			stringBuilder.append("Minimal conflict set: ");

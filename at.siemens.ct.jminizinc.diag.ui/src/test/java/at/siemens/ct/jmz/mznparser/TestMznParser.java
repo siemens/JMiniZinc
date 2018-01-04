@@ -7,6 +7,8 @@
 package at.siemens.ct.jmz.mznparser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -41,14 +43,16 @@ public class TestMznParser {
 		Displayable x5 = constraintProblem.getDecisionVariableByName("x5");
 		Displayable x6 = constraintProblem.getDecisionVariableByName("x6");
 		Displayable x7 = constraintProblem.getDecisionVariableByName("x7");
+    Displayable s = constraintProblem.getDecisionVariableByName("s");
 
-		assertTrue(x_1 != null);
-		assertTrue(x2 != null);
-		assertTrue(x3 != null);
-		assertTrue(x4 != null);
-		assertTrue(x5 == null);
-		assertTrue(x6 != null);
-		assertTrue(x7 != null);
+		assertNotNull(x_1);
+    assertNotNull(x2);
+    assertNotNull(x3);
+    assertNotNull(x4);
+    assertNull(x5);
+    assertNotNull(x6);
+    assertNotNull(x7);
+    assertNotNull(s);
 
 		assertTrue(x_1 instanceof IntegerVariable);
 		assertTrue(x2 instanceof IntegerVariable);
@@ -124,7 +128,7 @@ public class TestMznParser {
 		String array_index = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.ARRAY_INDEX_TYPE);
 		assertEquals("1..3", array_index);
 		String GroupName2 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
-		assertEquals(null, GroupName2);
+		assertNull(GroupName2);
 		String GroupName3 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
 		assertEquals("h2", GroupName3);
 		String GroupName4 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.DEFAULT_VALUE);
