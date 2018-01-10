@@ -68,7 +68,7 @@ public class TestMznParser {
         BasicBoolean boolCt = new BooleanConstant(false).toNamedConstant("isTrue");
         String inputbooleanDeclaration = boolCt.declare();
         Matcher matcher = pattern.matcher(inputbooleanDeclaration);
-        boolean match = matcher.matches();
+        boolean match = matcher.find();
         assertTrue(match);
         assertEquals(matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME),
                 "isTrue");
@@ -81,7 +81,7 @@ public class TestMznParser {
         BooleanVariable boolVar = new BooleanVariable("my_boolean_variable");
         inputbooleanDeclaration = boolVar.declare();
         matcher = pattern.matcher(inputbooleanDeclaration);
-        match = matcher.matches();
+        match = matcher.find();
         assertEquals(matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME),
                 "my_boolean_variable");
         assertEquals(matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE), "bool");
@@ -100,7 +100,7 @@ public class TestMznParser {
         Pattern pattern = Pattern
                 .compile(PossibleVariablesDeclarationsPatterns.INTEGER_PATTERN.getPattern());
         Matcher matcher = pattern.matcher(inputIntDeclaration);
-        boolean match = matcher.matches();
+        boolean match = matcher.find();
         assertTrue(match);
         assertEquals(matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME),
                 "my_integer_value");
@@ -115,7 +115,7 @@ public class TestMznParser {
         IntegerVariable intVar = new IntegerVariable("myIntDeclararion", new RangeExpression(1, 3));
         String inputIntDeclaration2 = intVar.declare();
         matcher = pattern.matcher(inputIntDeclaration2);
-        Boolean match1 = matcher.matches();
+        Boolean match1 = matcher.find();
         assertTrue(match1);
         assertEquals(matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME),
                 "myIntDeclararion");
@@ -129,11 +129,11 @@ public class TestMznParser {
     @Test
     public void testRegularExpressionForArrays() {
 
-        String inputIntDeclaration = "array[1..3] of int: h2 = [clara, bestman, ted, alice, ron];";
+        String inputIntDeclaration = "array[1..3] of int: h2 = [clara, bestman, ted, alice, ron]; %DND";
         Pattern pattern = Pattern
                 .compile(PossibleVariablesDeclarationsPatterns.ARRAY_PATTERN.getPattern());
         Matcher matcher = pattern.matcher(inputIntDeclaration);
-        boolean match = matcher.matches();
+        boolean match = matcher.find();
         assertTrue(match);
         String array_index = matcher
                 .group(PossibleVariablesDeclarationsPatterns.GroupNames.ARRAY_INDEX_TYPE);
@@ -156,7 +156,7 @@ public class TestMznParser {
         Pattern pattern = Pattern
                 .compile(PossibleVariablesDeclarationsPatterns.ENUM_VARIABLE_PATTERN.getPattern());
         Matcher matcher = pattern.matcher(enumVariable);
-        boolean match = matcher.matches();
+        boolean match = matcher.find();
         assertTrue(match);
         String instantiation = matcher
                 .group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
