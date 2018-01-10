@@ -30,8 +30,8 @@ public class MiniZincElementFactory {
 	private final String BOOL_TYPE = "bool";
 	private final String VAR_TYPE = "var";
 	private final String INT_TYPE = "int";
-  private final Pattern enumDefinitionPattern =
-    Pattern.compile("(?<inst>enum)? *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(\\{(?<defaultValue>([a-zA-Z0-9_, ]*)*)\\})? *;");
+    private final Pattern enumDefinitionPattern = Pattern.compile(
+            "(?<inst>enum) *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(\\{(?<defaultValue>([a-zA-Z0-9_, ]*)*)\\})? *;");
 	private static final String RANGE_SEPARATOR = "..";
 	private List<BasicTypeInst<?>> listWithParameters = new ArrayList<>();
   private Map<String, Set<String>> enums = new HashMap<>();
