@@ -8,4 +8,4 @@ jdk:
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y minizinc
+  - sudo apt-get install -y minizinc-ide
