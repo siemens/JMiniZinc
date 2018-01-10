@@ -1,5 +1,7 @@
 # JMiniZinc
 
+[![Travis-CI Build Status](https://travis-ci.org/siemens/JMiniZinc.svg?branch=master)](https://travis-ci.org/siemens/JMiniZinc)
+
 JMiniZinc is a Java interface to the constraint modeling language [MiniZinc](http://www.minizinc.org/).
 It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.
 
