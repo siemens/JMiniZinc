@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2018
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -30,7 +30,7 @@ public class TestRegularExpressions {
     Pattern pattern = Pattern.compile("\\w+ = \\d+;");
     String input = "totalCO2 = 1092654;";
     Matcher matcher = pattern.matcher(input);
-    Assert.assertTrue(matcher.matches());
+        Assert.assertTrue(matcher.find());
   }
 
   @Test
@@ -39,7 +39,7 @@ public class TestRegularExpressions {
     String input = "totalCO2 = 1092654;";
     Matcher matcher = pattern.matcher(input);
 
-    boolean match = matcher.matches();
+        boolean match = matcher.find();
     Assert.assertTrue("No match in pattern", match);
     String foundValue = matcher.group(1);
     Assert.assertEquals("Unexpected matching value", "1092654", foundValue);
@@ -50,7 +50,7 @@ public class TestRegularExpressions {
     Pattern pattern = Pattern.compile("\\w+ = \\[(\\d+, )*\\d+\\];");
     String input = "productionStepsService = [98, 116, 102];";
     Matcher matcher = pattern.matcher(input);
-    Assert.assertTrue(matcher.matches());
+        Assert.assertTrue(matcher.find());
   }
 
   @Test
@@ -60,7 +60,7 @@ public class TestRegularExpressions {
     Matcher matcher = pattern.matcher(input);
     Assert.assertEquals("Unexpected number of groups in regex", 3, matcher.groupCount());
 
-    boolean match = matcher.matches();
+        boolean match = matcher.find();
     Assert.assertTrue("No match in pattern", match);
     String foundValue = matcher.group(1);
     Assert.assertEquals("Unexpected matching value", "98, 116, 102", foundValue);
@@ -71,7 +71,7 @@ public class TestRegularExpressions {
     Pattern pattern = Pattern.compile("\\w+ = (true|false);");
     String input = "x = true;";
     Matcher matcher = pattern.matcher(input);
-    Assert.assertTrue(matcher.matches());
+        Assert.assertTrue(matcher.find());
   }
 
   @Test
@@ -80,7 +80,7 @@ public class TestRegularExpressions {
     String input = "x = true;";
     Matcher matcher = pattern.matcher(input);
 
-    boolean match = matcher.matches();
+        boolean match = matcher.find();
     Assert.assertTrue("No match in pattern", match);
     String foundValue = matcher.group(1);
     Assert.assertEquals("Unexpected matching value", "true", foundValue);
