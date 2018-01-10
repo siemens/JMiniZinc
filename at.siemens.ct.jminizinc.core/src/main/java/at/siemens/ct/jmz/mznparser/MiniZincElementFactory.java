@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016-2017
+ * Copyright Siemens AG, 2016-2018
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -43,7 +43,7 @@ public class MiniZincElementFactory {
 		for (PossibleVariablesDeclarationsPatterns patternAsString : PossibleVariablesDeclarationsPatterns.values()) {
 			Pattern pattern = Pattern.compile(patternAsString.getPattern());
 			Matcher matcher = pattern.matcher(trimmedLine);
-			if (matcher.matches()) {
+            if (matcher.find()) {
 				instantiation = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
 				type = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE);
 				name = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
@@ -121,7 +121,7 @@ public class MiniZincElementFactory {
 		}
 
     Matcher matcher = enumDefinitionPattern.matcher(trimmedLine);
-    if (matcher.matches()) {
+        if (matcher.find()) {
       name = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
       defaultValue = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.DEFAULT_VALUE);
       enums.put(name, parseEnumValues(defaultValue));
