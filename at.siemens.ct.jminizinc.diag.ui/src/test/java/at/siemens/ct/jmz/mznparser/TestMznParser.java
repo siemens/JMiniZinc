@@ -7,6 +7,8 @@
 package at.siemens.ct.jmz.mznparser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -29,14 +31,10 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  */
 public class TestMznParser {
 
-	MiniZincCP constraintProblem;
-
-	@Test
+  @Test
   public void testMznParser() throws IOException {
 		File miniZincFile = new File("src/test/java/testConflictDetection4.mzn");
-		constraintProblem = new MiniZincCP(miniZincFile);
-		int noOfVar = constraintProblem.getElementsFromFile().size();
-		//assertEquals(noOfVar, 9);
+    MiniZincCP constraintProblem = new MiniZincCP(miniZincFile);
 
 		Displayable x_1 = constraintProblem.getDecisionVariableByName("x_1");
 		Displayable x2 = constraintProblem.getDecisionVariableByName("x2");
@@ -45,14 +43,16 @@ public class TestMznParser {
 		Displayable x5 = constraintProblem.getDecisionVariableByName("x5");
 		Displayable x6 = constraintProblem.getDecisionVariableByName("x6");
 		Displayable x7 = constraintProblem.getDecisionVariableByName("x7");
+    Displayable s = constraintProblem.getDecisionVariableByName("s");
 
-		assertTrue(x_1 != null);
-		assertTrue(x2 != null);
-		assertTrue(x3 != null);
-		assertTrue(x4 != null);
-		assertTrue(x5 == null);
-		assertTrue(x6 != null);
-		assertTrue(x7 != null);
+		assertNotNull(x_1);
+    assertNotNull(x2);
+    assertNotNull(x3);
+    assertNotNull(x4);
+    assertNull(x5);
+    assertNotNull(x6);
+    assertNotNull(x7);
+    assertNotNull(s);
 
 		assertTrue(x_1 instanceof IntegerVariable);
 		assertTrue(x2 instanceof IntegerVariable);
@@ -63,10 +63,9 @@ public class TestMznParser {
 
 	@Test
 	public void testRegularExpressionForBool()
-
 	{
 
-		Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.BOOLEEAN_PATTERN.getPattern());
+		Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.BOOLEAN_PATTERN.getPattern());
 
 		BasicBoolean boolCt = new BooleanConstant(false).toNamedConstant("isTrue");
 		String inputbooleanDeclaration = boolCt.declare();
@@ -91,8 +90,7 @@ public class TestMznParser {
 	}
 
 	@Test
-	public void testRegularExpressionForIntegger()
-
+	public void testRegularExpressionForInteger()
 	{
 		BasicInteger intCt = new IntegerConstant(3).toNamedConstant("my_integer_value");
 		String inputIntDeclaration = intCt.declare();
@@ -130,7 +128,7 @@ public class TestMznParser {
 		String array_index = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.ARRAY_INDEX_TYPE);
 		assertEquals("1..3", array_index);
 		String GroupName2 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
-		assertEquals(null, GroupName2);
+		assertNull(GroupName2);
 		String GroupName3 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
 		assertEquals("h2", GroupName3);
 		String GroupName4 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.DEFAULT_VALUE);
@@ -138,4 +136,19 @@ public class TestMznParser {
 		String GroupName5 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE);
 		assertEquals("int", GroupName5);
 	}
+
+  @Test
+  public void testRegularExpressionForEnumVariable() {
+    String enumVariable = "var Size: s;";
+    Pattern pattern = Pattern.compile(PossibleVariablesDeclarationsPatterns.ENUM_VARIABLE_PATTERN.getPattern());
+    Matcher matcher = pattern.matcher(enumVariable);
+    boolean match = matcher.matches();
+    assertTrue(match);
+    String GroupName1 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
+    assertEquals("var", GroupName1);
+    String GroupName2 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.TYPE);
+    assertEquals("Size", GroupName2);
+    String GroupName3 = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
+    assertEquals("s", GroupName3);
+  }
 }

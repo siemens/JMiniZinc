@@ -7,9 +7,14 @@
 package at.siemens.ct.jmz.mznparser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import at.siemens.ct.common.utils.StringUtils;
 import at.siemens.ct.jmz.elements.BasicTypeInst;
@@ -25,15 +30,18 @@ public class MiniZincElementFactory {
 	private final String BOOL_TYPE = "bool";
 	private final String VAR_TYPE = "var";
 	private final String INT_TYPE = "int";
+  private final Pattern enumDefinitionPattern =
+    Pattern.compile("(?<inst>enum)? *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(\\{(?<defaultValue>([a-zA-Z0-9_, ]*)*)\\})? *;");
 	private static final String RANGE_SEPARATOR = "..";
-	private List<BasicTypeInst<?>> listWithParameters = new ArrayList<BasicTypeInst<?>>();
+	private List<BasicTypeInst<?>> listWithParameters = new ArrayList<>();
+  private Map<String, Set<String>> enums = new HashMap<>();
 
   public Displayable getElementFromLine(String line) {
 
+    String trimmedLine = line.trim();
 		String instantiation, name, type, defaultValue, arrayIndex;
 		for (PossibleVariablesDeclarationsPatterns patternAsString : PossibleVariablesDeclarationsPatterns.values()) {
 			Pattern pattern = Pattern.compile(patternAsString.getPattern());
-			String trimmedLine = line.trim();
 			Matcher matcher = pattern.matcher(trimmedLine);
 			if (matcher.matches()) {
 				instantiation = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.INSTANTIATION);
@@ -85,7 +93,7 @@ public class MiniZincElementFactory {
 							parameterValue = boolCt.getValue();
 						}
 						BasicBoolean boolConstant = new BooleanConstant(parameterValue).toNamedConstant(name);
-						listWithParameters.add((BasicTypeInst<Boolean>) boolConstant);
+						listWithParameters.add(boolConstant);
 					}
 				}
 				if (type.equals(INT_TYPE)) {
@@ -100,15 +108,25 @@ public class MiniZincElementFactory {
 							paramValue = boolCt.getValue();
 						}
 						BasicInteger intConstant = new IntegerConstant(paramValue).toNamedConstant(name);
-						listWithParameters.add((BasicTypeInst<Integer>) intConstant);
+						listWithParameters.add(intConstant);
 					}
 				}
 				if (type.contains(RANGE_SEPARATOR)) {
 					return new DisplayableIntegerVariable(name, createRange(type));
 				}
-
+				if (enums.containsKey(type)) {
+          return new DisplayableEnum(name.trim(), enums.get(type));
+        }
 			}
 		}
+
+    Matcher matcher = enumDefinitionPattern.matcher(trimmedLine);
+    if (matcher.matches()) {
+      name = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.NAME);
+      defaultValue = matcher.group(PossibleVariablesDeclarationsPatterns.GroupNames.DEFAULT_VALUE);
+      enums.put(name, parseEnumValues(defaultValue));
+    }
+
 		return null;
 	}
 
@@ -120,6 +138,10 @@ public class MiniZincElementFactory {
 		}
 		return null;
 	}
+
+	private Set<String> parseEnumValues(String values) {
+    return Arrays.stream(values.split(",")).map(String::trim).collect(Collectors.toSet());
+  }
 
 	public static Boolean isNumeric(String str) {
 		try {

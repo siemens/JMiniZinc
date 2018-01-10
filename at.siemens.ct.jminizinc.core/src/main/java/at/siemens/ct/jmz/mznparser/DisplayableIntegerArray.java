@@ -28,7 +28,6 @@ public class DisplayableIntegerArray implements Displayable {
 	}
 
 	public DisplayableIntegerArray(String name, SetExpression<Integer> range, SetExpression<Integer> type) {
-
 		integerArray = IntegerArray.createVariable(name, range, type);
 	}
 
@@ -80,7 +79,7 @@ public class DisplayableIntegerArray implements Displayable {
 
 		List<String> indices;
 		List<String> possibleValues;
-		List<InfoGUI> infos = new ArrayList<InfoGUI>();
+		List<InfoGUI> infos = new ArrayList<>();
 		InfoGUI info;
 		String arrayName = this.getIntegerArray().getName();
 

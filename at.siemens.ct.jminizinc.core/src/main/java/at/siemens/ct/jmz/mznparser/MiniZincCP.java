@@ -30,7 +30,7 @@ public class MiniZincCP {
    * @throws IOException 
    */
   public MiniZincCP(File mznFile) throws IOException {
-		elementsFromFile = new ArrayList<Displayable>();
+		elementsFromFile = new ArrayList<>();
 		parseMZN(mznFile);
 	}
 

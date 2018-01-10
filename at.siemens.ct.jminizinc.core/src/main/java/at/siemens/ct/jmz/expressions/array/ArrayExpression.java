@@ -22,8 +22,8 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
  */
 public interface ArrayExpression<T> extends Expression<T[]> {
 
-  final char LEFT_BRACKET = '[';
-  final char RIGHT_BRACKET = ']';
+  char LEFT_BRACKET = '[';
+  char RIGHT_BRACKET = ']';
 
   List<? extends SetExpression<Integer>> getRange();
 

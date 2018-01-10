@@ -47,30 +47,27 @@ import at.siemens.ct.jmz.mznparser.MiniZincCP;
 public class VariableDialog {
 
 	private List<Displayable> decisionVariables;
-	ArrayList<DecisionVariableGUI> mapWithControls;
+	private ArrayList<DecisionVariableGUI> mapWithControls;
 	private static File mznFile;
-	private MiniZincCP mznCp;
-	private List<Constraint> userConstraints;
+  private List<Constraint> userConstraints;
 
 	private TextArea textLog;
 	private Button generateSolution;
 	private Frame mainFrame;
 	private Panel controlPanel;
 	private Choice algorithmType;
-	private TextComponentLogger logger;
-	private ScrollPane scrollPane;
 
-	private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
+  private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
 	private final String QUICKXPLAIN_HSDAG = "QuickXPlain - HSDAG";
 	private final String FAST_DIAG_ALL = "FastDiag - all minimal diagnoses";
 	private final String FAST_DIAG = "FastDiag - first minimal diagnosis";
 
   public VariableDialog(File mznFile) throws IOException {
 		VariableDialog.mznFile = mznFile;
-		mznCp = new MiniZincCP(mznFile);
+    MiniZincCP mznCp = new MiniZincCP(mznFile);
 		decisionVariables = mznCp.getElementsFromFile();
-		mapWithControls = new ArrayList<DecisionVariableGUI>();
-		userConstraints = new ArrayList<Constraint>();
+		mapWithControls = new ArrayList<>();
+		userConstraints = new ArrayList<>();
 		controlPanel = new Panel();
 
 		prepareGUI();
@@ -181,7 +178,7 @@ public class VariableDialog {
 
 		Panel dvPanel = new Panel();
 
-		scrollPane = new ScrollPane();
+    ScrollPane scrollPane = new ScrollPane();
 
 		GroupLayout dvlayout = new GroupLayout(dvPanel);
 		dvlayout.setAutoCreateGaps(true);
@@ -288,7 +285,7 @@ public class VariableDialog {
 			userConstraints = getAllValuesFromTheInterface();
 			String selectedAlgorithm = algorithmType.getSelectedItem();
 			HSDAG hsdag;
-			logger = new TextComponentLogger(textLog, userConstraints);
+      TextComponentLogger logger = new TextComponentLogger(textLog, userConstraints);
 			logger.displayStartMessage(mznFile);
 			switch (selectedAlgorithm) {
 			case SCD_HSDAG:

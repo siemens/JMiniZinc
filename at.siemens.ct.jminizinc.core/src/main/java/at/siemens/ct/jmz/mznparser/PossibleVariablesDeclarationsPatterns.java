@@ -8,13 +8,15 @@ package at.siemens.ct.jmz.mznparser;
 
 public enum PossibleVariablesDeclarationsPatterns {
 
-	BOOLEEAN_PATTERN("(?<inst>var|par)? *(?<type>bool) *: *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(?<defaultValue>true|false)? *;"),
+	BOOLEAN_PATTERN("(?<inst>var|par)? *(?<type>bool) *: *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(?<defaultValue>true|false)? *;"),
 	INTEGER_PATTERN("(?<inst>var|par)? *(?<type>int) *: *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(?<defaultValue>-?\\d+)? *;"), 
 	INTEGER_WITH_RANGE_PATTERN("(?<inst>var|par)? *(?<type>(?:[a-zA-Z]+|\\d+) *[.]+ *(?:[a-zA-Z]+|\\d+)) *: *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(?<defaultValue>-?\\d+)? *;"),
-	ARRAY_PATTERN("array\\[(?<index>int|(?:(?:[a-zA-Z]+|\\d+) *[.]+ *(?:[a-zA-Z]+|\\d+)))*\\] * of *(?<inst>var|par)? ?(?<type>int|bool|(?:[A-Za-z][A-Za-z0-9_]*)|(?:(?:[a-zA-Z]+|\\d+) *[.]+ *(?:[a-zA-Z]+|\\d+))) *: *(?<name>[A-Za-z][A-Za-z0-9_]*)* *[=]? *(\\[(?<defaultValue>([a-zA-Z0-9_, ]*)*)\\])?;");
+	ARRAY_PATTERN("array\\[(?<index>int|(?:(?:[a-zA-Z]+|\\d+) *[.]+ *(?:[a-zA-Z]+|\\d+)))*\\] * of *(?<inst>var|par)? ?(?<type>int|bool|(?:[A-Za-z][A-Za-z0-9_]*)|(?:(?:[a-zA-Z]+|\\d+) *[.]+ *(?:[a-zA-Z]+|\\d+))) *: *(?<name>[A-Za-z][A-Za-z0-9_]*)* *[=]? *(\\[(?<defaultValue>([a-zA-Z0-9_, ]*)*)\\])?;"),
+  ENUM_VARIABLE_PATTERN("(?<inst>var|par)? *(?<type>[A-Za-z][A-Za-z0-9_]*) *: *(?<name>[A-Za-z][A-Za-z0-9_]*) *[=]? *(?<defaultValue>[A-Za-z][A-Za-z0-9_]*)? *;");
+
 	private String pattern;
 
-	private PossibleVariablesDeclarationsPatterns(String pattern) {
+	PossibleVariablesDeclarationsPatterns(String pattern) {
 		this.pattern = pattern;
 	}
 

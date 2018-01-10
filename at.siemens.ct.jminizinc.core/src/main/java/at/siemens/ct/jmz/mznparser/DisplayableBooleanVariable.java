@@ -6,7 +6,8 @@
  */
 package at.siemens.ct.jmz.mznparser;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -18,13 +19,12 @@ import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 
 public class DisplayableBooleanVariable extends BooleanVariable implements Displayable {
 
-	public static final String UNDEFINED = "Undefined";
-	public static final String TRUE = "true";
-	public static final String FALSE = "false";
+	private static final String UNDEFINED = "Undefined";
+	private static final String TRUE = "true";
+	private static final String FALSE = "false";
 
 	public DisplayableBooleanVariable(String name) {
 		super(name);
-
 	}
 
 	public DisplayableBooleanVariable(String name, boolean value) {
@@ -37,37 +37,22 @@ public class DisplayableBooleanVariable extends BooleanVariable implements Displ
 
 	@Override
 	public List<Constraint> createConstraint(String value) {
-		List<Constraint> constraints = new ArrayList<>();
-		if (!value.isEmpty() && !value.equals("Undefined")) {
+		if (!value.isEmpty() && !value.equals(UNDEFINED)) {
 			boolean variableValue = this.parseValue(value);
 			BooleanExpression booleanExpression = new RelationalOperation<>(this, RelationalOperator.EQ,
 					new BooleanConstant(variableValue));
 
 			Constraint constraint = new Constraint("userDefined",
 					String.format("%s = %s", this.getInfo().get(0).getLabelCaption(), value), booleanExpression);
-			constraints.add(constraint);
-			return constraints;
+			return Collections.singletonList(constraint);
 		}
 		return null;
-		
-
 	}
 
 	@Override
 	public List<InfoGUI> getInfo() {
-
-		String variableName = this.getName();
-		List<String> values = new ArrayList<String>();
-		List<InfoGUI> infos = new ArrayList<InfoGUI>();
-
-		values.add(TRUE);
-		values.add(FALSE);
-		values.add(UNDEFINED);
-
-		InfoGUI info = new InfoGUI(variableName, variableName, ComponentType.CHOICE, values);
-		infos.add(info);
-		return infos;
-
+		return Collections.singletonList(new InfoGUI(getName(), getName(),
+      ComponentType.CHOICE, Arrays.asList(TRUE, FALSE, UNDEFINED)));
 	}
 
 }
