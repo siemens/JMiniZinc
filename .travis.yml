@@ -9,4 +9,5 @@ jdk:
 before_install:
   - wget https://github.com/MiniZinc/libminizinc/releases/download/2.1.6/minizinc-2.1.6-linux64.tar.gz
   - tar -xzf minizinc-2.1.6-linux64.tar.gz
-  - PATH="$PATH:$HOME/minizinc-2.1.6/bin"
+  - export PATH="$HOME/minizinc-2.1.6/bin:$PATH"
+  - cd at.siemens.ct.jminizinc
