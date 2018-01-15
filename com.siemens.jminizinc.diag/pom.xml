@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>at.siemens.ct</groupId>
+		<groupId>com.siemens</groupId>
 		<artifactId>jminizinc</artifactId>
 		<version>1.2</version>
-		<relativePath>../at.siemens.ct.jminizinc</relativePath>
+		<relativePath>../com.siemens.jminizinc</relativePath>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>at.siemens.ct.jminizinc</groupId>
+	<groupId>com.siemens.jminizinc</groupId>
 	<artifactId>diag</artifactId>
 
 	<name>JMiniZinc Diagnosis</name>
@@ -21,7 +21,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>at.siemens.ct.jminizinc</groupId>
+			<groupId>com.siemens.jminizinc</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
 	</dependencies>

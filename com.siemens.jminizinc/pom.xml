@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>at.siemens.ct</groupId>
+	<groupId>com.siemens</groupId>
 	<artifactId>jminizinc</artifactId>
 	<version>1.2</version>
 	<packaging>pom</packaging>
@@ -22,9 +22,9 @@
 	</licenses>
 
 	<modules>
-		<module>../at.siemens.ct.jminizinc.core</module>
-		<module>../at.siemens.ct.jminizinc.diag</module>
-		<module>../at.siemens.ct.jminizinc.diag.ui</module>
+		<module>../com.siemens.jminizinc.core</module>
+		<module>../com.siemens.jminizinc.diag</module>
+		<module>../com.siemens.jminizinc.diag.ui</module>
 	</modules>
 
 	<organization>
@@ -68,17 +68,17 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>at.siemens.ct.jminizinc</groupId>
+				<groupId>com.siemens.jminizinc</groupId>
 				<artifactId>core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>at.siemens.ct.jminizinc</groupId>
+				<groupId>com.siemens.jminizinc</groupId>
 				<artifactId>diag</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>at.siemens.ct.jminizinc.diag</groupId>
+				<groupId>com.siemens.jminizinc.diag</groupId>
 				<artifactId>ui</artifactId>
 				<version>${project.version}</version>
 			</dependency>
