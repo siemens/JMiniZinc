@@ -10,4 +10,9 @@ before_install:
   - wget https://github.com/MiniZinc/MiniZincIDE/releases/download/2.0.7/MiniZincIDE-2.0.7-bundle-linux-x86_64.tgz
   - tar -xzf MiniZincIDE-2.0.7-bundle-linux-x86_64.tgz
   - export PATH=$PWD/MiniZincIDE-2.0.7-bundle-linux-x86_64:$PATH
+  - mzn2fzn --version
+  - which mzn2fzn
+  - which fzn-gecode
+  - apt-get -qq update
+  - apt-get -qq install -y libqt5printsupport5
   - cd at.siemens.ct.jminizinc
