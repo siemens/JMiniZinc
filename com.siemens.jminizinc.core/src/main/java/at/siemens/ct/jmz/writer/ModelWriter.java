@@ -41,11 +41,6 @@ public class ModelWriter implements IModelWriter {
   }
 
   @Override
-  public void addIncludeItem(IncludeItem includeItem) {
-    this.modelBuilder.add(includeItem);
-  }
-
-  @Override
   public SolvingStrategy getSolvingStrategy() {
     return solvingStrategy;
   }

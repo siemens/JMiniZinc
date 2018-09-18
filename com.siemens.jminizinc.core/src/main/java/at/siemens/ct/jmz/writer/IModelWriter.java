@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Collection;
 
-import at.siemens.ct.jmz.elements.include.IncludeItem;
 import at.siemens.ct.jmz.elements.output.OutputStatement;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 
@@ -46,8 +45,6 @@ public interface IModelWriter {
    * Writes the element declarations to an {@link OutputStream}, each in a separate line.
    */
   void toOutputStream(OutputStream outputStream);
-
-  void addIncludeItem(IncludeItem includeItem);
 
   SolvingStrategy getSolvingStrategy();
 

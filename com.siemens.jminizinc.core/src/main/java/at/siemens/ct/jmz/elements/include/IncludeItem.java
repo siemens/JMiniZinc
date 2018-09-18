@@ -7,7 +7,10 @@
 package at.siemens.ct.jmz.elements.include;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import at.siemens.ct.jmz.elements.Element;
 
@@ -27,7 +30,11 @@ public class IncludeItem implements Element {
    * @param fileName
    *          the name of the file (without suffix .mzn)
    */
-  public IncludeItem(String fileName) {
+  public static IncludeItem standard(String fileName) {
+	return new IncludeItem(fileName);
+  }
+
+  private IncludeItem(String fileName) {
     this(null, fileName);
   }
 
@@ -40,9 +47,24 @@ public class IncludeItem implements Element {
    * @param fileName
    *          the name of the file (without suffix .mzn)
    */
-  public IncludeItem(Path directory, String fileName) {
+  public static IncludeItem file(Path directory, String fileName) {
+	  return new IncludeItem(directory, fileName);
+  }
+  
+  private IncludeItem(Path directory, String fileName) {
     this.directory = directory;
     this.fileName = removeSuffix(fileName);
+  }
+  
+  /**
+   * Includes the resource with the given name (which will be loaded using {@link ClassLoader#getResource(String)}).
+   * @param resourceName
+   * @throws URISyntaxException 
+   */
+  public static IncludeItem resource(String resourceName) throws URISyntaxException {
+    Path workingDirectory = Paths.get(".").toAbsolutePath().getParent();
+    URI uri = Thread.currentThread().getContextClassLoader().getResource(resourceName).toURI();
+	return new IncludeItem(workingDirectory.relativize(Paths.get(uri)).toString().replace('\\', '/'));
   }
 
   public IncludeItem(File file) {
