@@ -62,9 +62,13 @@ public class IncludeItem implements Element {
    * @throws URISyntaxException 
    */
   public static IncludeItem resource(String resourceName) throws URISyntaxException {
-    Path workingDirectory = Paths.get(".").toAbsolutePath().getParent();
-    URI uri = Thread.currentThread().getContextClassLoader().getResource(resourceName).toURI();
-	return new IncludeItem(workingDirectory.relativize(Paths.get(uri)).toString().replace('\\', '/'));
+	Path relativePath = Paths.get(resourceName);
+    if (!relativePath.toFile().exists()) {
+        Path workingDirectory = Paths.get(".").toAbsolutePath().getParent();
+        URI uri = Thread.currentThread().getContextClassLoader().getResource(resourceName).toURI();
+        relativePath = workingDirectory.relativize(Paths.get(uri));
+    }
+	return new IncludeItem(relativePath.toString().replace('\\', '/'));
   }
 
   public IncludeItem(File file) {
