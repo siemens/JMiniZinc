@@ -82,7 +82,9 @@ public class ModelWriter implements IModelWriter {
   @Override
   public void toOutputStream(OutputStream outputStream) {
     PrintWriter writer = new PrintWriter(outputStream);
-    allElements().forEach(element -> writer.println(element.declare()));
+    for (Element element : allElements().collect(Collectors.toList())) {
+		writer.println(element.declare());
+	}
     writer.flush();
   }
 
