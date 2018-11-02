@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashSet;
 
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class TestQuickXPlain {
 	@Test
   public void testConsistencyChecker_2() throws DiagnosisException {
 		ConsistencyChecker checker = new ConsistencyChecker();
-		List<Constraint> constraintsSetC = new ArrayList<>();
+		LinkedHashSet<Constraint> constraintsSetC = new LinkedHashSet<>();
 		File mznFile = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -68,7 +68,7 @@ public class TestQuickXPlain {
 	@Test
   public void testConsistencyChecker_2WithOtherConstraints() throws DiagnosisException {
 		ConsistencyChecker checker = new ConsistencyChecker();
-		List<Constraint> constraintsSetC = new ArrayList<>();
+		LinkedHashSet<Constraint> constraintsSetC = new LinkedHashSet<>();
 		File mznFile = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -94,9 +94,9 @@ public class TestQuickXPlain {
 
 	@Test
   public void testQuickXPlainMinCS_2() throws FileNotFoundException, DiagnosisException {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
+		java.util.Set<Constraint> minCS = null;
+		java.util.Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+		java.util.Set<Element> decisionsVar = new LinkedHashSet<Element>();
 		String fileName = UtilsForTest.getTestDataset2(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
@@ -105,17 +105,17 @@ public class TestQuickXPlain {
 
 		// the expected out is (c2,c3,c4,c5)
 		assertTrue(minCS.size() == 4);
-		assertTrue(minCS.contains(constraintsSetC.get(1)));
-		assertTrue(minCS.contains(constraintsSetC.get(2)));
-		assertTrue(minCS.contains(constraintsSetC.get(3)));
-		assertTrue(minCS.contains(constraintsSetC.get(4)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(1)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(2)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(3)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(4)));
 	}
 
 	@Test
   public void testQuickXPlainMinCS_2WithMoreConstraints() throws FileNotFoundException, DiagnosisException {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
+		java.util.Set<Constraint> minCS = null;
+		java.util.Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+		java.util.Set<Element> decisionsVar = new LinkedHashSet<Element>();
 		String fileName = UtilsForTest.getTestDataset2WithMoreConstraints(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
@@ -124,15 +124,15 @@ public class TestQuickXPlain {
 
 		//the expected output is c5, c6
 		assertTrue(minCS.size() == 2);
-		assertTrue(minCS.contains(constraintsSetC.get(4)));
-		assertTrue(minCS.contains(constraintsSetC.get(5)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(4)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(5)));
 	}
 	
 	@Test
   public void testQuickXPlainMinCS_NoConflict() throws FileNotFoundException, DiagnosisException {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
+		java.util.Set<Constraint> minCS = null;
+		java.util.Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+		java.util.Set<Element> decisionsVar = new LinkedHashSet<Element>();
 		String fileName = UtilsForTest.getTestDataset2NoConflict(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
@@ -142,9 +142,9 @@ public class TestQuickXPlain {
 
 	@Test
   public void testQuickXPlainMinCS_5() throws FileNotFoundException, DiagnosisException {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
+		java.util.Set<Constraint> minCS = null;
+		java.util.Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+		java.util.Set<Element> decisionsVar = new LinkedHashSet<Element>();
 		String fileName = UtilsForTest.getTestDataset1(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
@@ -153,29 +153,29 @@ public class TestQuickXPlain {
 
 		// the expected output is c2
 		assertTrue(minCS.size() == 1);
-		assertTrue(minCS.contains(constraintsSetC.get(1)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(1)));
 	}
 
 	@Test
   public void testQuickXPlainMinCS_6() throws FileNotFoundException, DiagnosisException {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
+		java.util.Set<Constraint> minCS = null;
+		java.util.Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+		java.util.Set<Element> decisionsVar = new LinkedHashSet<Element>();
 		String fileName = UtilsForTest.getTestDataset6(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
 		minCS = conflictDetection.getMinConflictSet(constraintsSetC);
 		assertNotNull(minCS);
 		assertTrue(minCS.size() == 2);
-		assertTrue(minCS.contains(constraintsSetC.get(0)));
-		assertTrue(minCS.contains(constraintsSetC.get(1)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(0)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(1)));
 	}
 
 	@Test
   public void testQuickXPlainMinCS_8() throws FileNotFoundException, DiagnosisException {
-		List<Constraint> minCS = null;
-		List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-		List<Element> decisionsVar = new ArrayList<Element>();
+		java.util.Set<Constraint> minCS = null;
+		java.util.Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+		java.util.Set<Element> decisionsVar = new LinkedHashSet<Element>();
 		String fileName = UtilsForTest.getTestDataset8(constraintsSetC, decisionsVar);
 		AbstractConflictDetection conflictDetection = new QuickXPlain(fileName);
 
@@ -184,27 +184,27 @@ public class TestQuickXPlain {
 
 		// expected output is c4
 		assertTrue(minCS.size() == 1);
-		assertTrue(minCS.contains(constraintsSetC.get(3)));
+		assertTrue(minCS.contains(new ArrayList<>(constraintsSetC).get(3)));
 	}
 
   @Test
   public void testQuickXPlain_InconsistentKB_EmptyC() throws FileNotFoundException, DiagnosisException {
-    testQuickXPlain_InconsistentKB(Collections.emptyList());
+    testQuickXPlain_InconsistentKB(Collections.emptySet());
   }
 
   @Test
   public void testQuickXPlain_InconsistentKB_NonEmptyC() throws FileNotFoundException, DiagnosisException {
-    testQuickXPlain_InconsistentKB(Arrays.asList(new Constraint(BooleanConstant.TRUE)));
+    testQuickXPlain_InconsistentKB(new LinkedHashSet<Constraint>(Arrays.asList(new Constraint(BooleanConstant.TRUE))));
   }
 
-  private void testQuickXPlain_InconsistentKB(List<Constraint> constraintsSetC)
+  private void testQuickXPlain_InconsistentKB(java.util.Set<Constraint> constraintsSetC)
       throws FileNotFoundException, DiagnosisException {
     Constraint inconsistentConstraint = new Constraint(
         new RelationalOperation<Integer>(new IntegerConstant(1), RelationalOperator.EQ, new IntegerConstant(2)));
     Collection<Element> inconsistentKB = Arrays.asList(inconsistentConstraint);
     AbstractConflictDetection conflictDetection = new QuickXPlain(null, inconsistentKB);
 
-    List<Constraint> minCS = conflictDetection.getMinConflictSet(constraintsSetC);
+    java.util.Set<Constraint> minCS = conflictDetection.getMinConflictSet(constraintsSetC);
     assertNotNull(minCS);
     assertTrue(minCS.toString(), minCS.isEmpty());
   }

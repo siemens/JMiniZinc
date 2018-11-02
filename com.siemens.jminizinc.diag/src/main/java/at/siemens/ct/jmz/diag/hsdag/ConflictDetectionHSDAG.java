@@ -10,7 +10,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import at.siemens.ct.jmz.diag.AbstractConflictDetection;
 import at.siemens.ct.jmz.diag.ConsistencyChecker;
@@ -27,20 +28,20 @@ public class ConflictDetectionHSDAG extends HSDAG {
 	private DiagnosesCollection conflictSets;
 	private AbstractConflictDetection conflictDetection;
 
-  public ConflictDetectionHSDAG(String mznFullFileName, List<Constraint> userConstraints,
+  public ConflictDetectionHSDAG(String mznFullFileName, Set<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
           throws FileNotFoundException {
     this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
-  public ConflictDetectionHSDAG(Collection<Element> fixedModel, List<Constraint> userConstraints,
+  public ConflictDetectionHSDAG(Collection<Element> fixedModel, Set<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
     super(fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
     init(null, fixedModel, conflictDetectionAlgorithm);
   }
 
   public ConflictDetectionHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
-      List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
+      Set<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
       ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
     super(mznFullFileName, userConstraints, progressCallback, conflictDetectionAlgorithm);
     init(mznFullFileName, fixedModel, conflictDetectionAlgorithm);
@@ -68,12 +69,12 @@ public class ConflictDetectionHSDAG extends HSDAG {
 
 	@Override
   protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnosesCollection) throws DiagnosisException {
-		List<Constraint> minCS;
-		List<Constraint> difference;
+		Set<Constraint> minCS;
+		Set<Constraint> difference;
 		TreeNode treeNode;
 
-		List<Constraint> rootData = root.getData();
-		List<Constraint> rootInitialConstraintsSet = root.getInitialConstraintsSet();
+		Set<Constraint> rootData = root.getData();
+		Set<Constraint> rootInitialConstraintsSet = root.getInitialConstraintsSet();
 
 		for (Constraint constraint : rootData) {
 			difference = removeConstraintFromList(rootInitialConstraintsSet, constraint);
@@ -92,8 +93,8 @@ public class ConflictDetectionHSDAG extends HSDAG {
 				treeNode = new TreeNode(null, null, null);
 				root.addChild(constraint, treeNode);
 
-				List<Constraint> diagnose = getDiagnose(treeNode);
-				Collections.reverse(diagnose);
+				Set<Constraint> diagnose = getDiagnose(treeNode);
+				Collections.reverse(new ArrayList<>(diagnose));
 
 				DiagnosisMetadata diagnoseMetadata = diagnosesCollection.Contains(diagnose);
 				if (diagnoseMetadata == DiagnosisMetadata.Min) {
@@ -121,8 +122,8 @@ public class ConflictDetectionHSDAG extends HSDAG {
 		}
 	}
 
-	private List<Constraint> getDiagnose(TreeNode node) {
-		List<Constraint> diagnoses = new ArrayList<Constraint>();
+	private Set<Constraint> getDiagnose(TreeNode node) {
+		Set<Constraint> diagnoses = new LinkedHashSet<Constraint>();
 
 		if (node.getConstraint() != null) {
 			diagnoses.add(node.getConstraint());
@@ -143,7 +144,7 @@ public class ConflictDetectionHSDAG extends HSDAG {
       return new DiagnosesCollection();
     }
 
-		List<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
+    Set<Constraint> minCS = conflictDetection.getMinConflictSet(userConstraints);
 
     if (minCS == null || minCS.isEmpty()) {
 			if (progressCallback != null)

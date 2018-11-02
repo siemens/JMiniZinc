@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,9 +31,9 @@ public class ConstraintRegistry {
 
   private final Map<String, Set<String>> mapGroupToNames = new HashMap<>();
   private final Map<List<String>, Constraint> mapGroupAndNameToConstraint = new HashMap<>();
-  private final Set<Constraint> unnamedConstraints = new HashSet<>();
-  private final Set<String> ignoredGroups = new HashSet<>();
-  private final Set<List<String>> ignoredKeys = new HashSet<>();
+  private final Set<Constraint> unnamedConstraints = new LinkedHashSet<>();
+  private final Set<String> ignoredGroups = new LinkedHashSet<>();
+  private final Set<List<String>> ignoredKeys = new LinkedHashSet<>();
 
   /**
    * Registers a constraint.
@@ -52,7 +53,7 @@ public class ConstraintRegistry {
 
   private void mapGroupToName(String group, String name) {
     if (!mapGroupToNames.containsKey(group)) {
-      mapGroupToNames.put(group, new HashSet<>());
+      mapGroupToNames.put(group, new LinkedHashSet<>());
     }
     mapGroupToNames.get(group).add(name);
   }

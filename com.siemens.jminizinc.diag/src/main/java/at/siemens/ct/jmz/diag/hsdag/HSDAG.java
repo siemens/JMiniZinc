@@ -11,9 +11,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.diag.DiagnosisException;
@@ -26,8 +27,8 @@ import at.siemens.ct.jmz.elements.include.IncludeItem;
  */
 public abstract class HSDAG {
 
-	protected List<Constraint> userConstraints;
-  protected Collection<Element> fixedModel;
+	protected Set<Constraint> userConstraints;
+	protected Collection<Element> fixedModel;
 	protected DiagnoseProgressCallback progressCallback;
 	protected LinkedList<TreeNode> queue;
 	protected ConflictDetectionAlgorithm algorithmtype;
@@ -48,7 +49,7 @@ public abstract class HSDAG {
    *            SimpleConflictDetection or QuickXPlain
    * @throws FileNotFoundException 
    */
-  public HSDAG(String mznFullFileName, List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
+  public HSDAG(String mznFullFileName, Set<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
       ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
     this(mznFullFileName, Collections.emptyList(), userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
@@ -56,18 +57,18 @@ public abstract class HSDAG {
   /**
    * Prepares HSDAG for diagnosing {@code userConstraints}, where {@code fixedModel} (can be empty) is regarded as fixed (i.e. the knowledge base).
    */
-  public HSDAG(Collection<Element> fixedModel, List<Constraint> userConstraints,
+  public HSDAG(Collection<Element> fixedModel, Set<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
     this(userConstraints, progressCallback, conflictDetectionAlgorithm);
     this.fixedModel = fixedModel;
   }
 
-  protected HSDAG(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+  protected HSDAG(String mznFullFileName, Collection<? extends Element> fixedModel, Set<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
           throws FileNotFoundException {
     this(userConstraints, progressCallback, conflictDetectionAlgorithm);
 
-    this.fixedModel = new HashSet<>();
+    this.fixedModel = new LinkedHashSet<>();
     this.fixedModel.addAll(fixedModel);
 
     if (mznFullFileName != null) {
@@ -79,7 +80,7 @@ public abstract class HSDAG {
     }
   }
 
-  public HSDAG(List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
+  public HSDAG(Set<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
       ConflictDetectionAlgorithm conflictDetectionAlgorithm) {
     this.userConstraints = userConstraints;
     this.progressCallback = progressCallback;
@@ -108,8 +109,8 @@ public abstract class HSDAG {
 		return sb.toString();
 	}
 
-	protected List<Constraint> removeConstraintFromList(List<Constraint> constraints, Constraint constraint) {
-		List<Constraint> returnList = new ArrayList<>();
+	protected Set<Constraint> removeConstraintFromList(Set<Constraint> constraints, Constraint constraint) {
+		Set<Constraint> returnList = new LinkedHashSet<>();
 		if (constraint != null) {
 			for (Constraint ct : constraints) {
 				if (!ct.getConstraintName().equals(constraint.getConstraintName())) {
@@ -123,7 +124,7 @@ public abstract class HSDAG {
 	
 	protected void displayNodeConstraint(TreeNode node, Constraint constraint)
 	{
-		indexOfConstraint = node.getData().indexOf(constraint) + 1;
+		indexOfConstraint = new ArrayList<>(node.getData()).indexOf(constraint) + 1;
 		String constraintIndex = String.valueOf(indexOfConstraint);
 		String index = constraintIndex + ")";
 		String rootName = node.name;

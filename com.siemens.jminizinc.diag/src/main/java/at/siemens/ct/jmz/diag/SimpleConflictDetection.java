@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -38,15 +40,15 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 	}
 	
 	@Override
-  public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
+  public Set<Constraint> getMinConflictSet(Set<Constraint> constraintsSetC) throws DiagnosisException {
 
-		List<Constraint> cs = new ArrayList<Constraint>();
+		Set<Constraint> cs = new LinkedHashSet<Constraint>();
 
     if (consistencyChecker.isConsistent(constraintsSetC, fixedModel)) {
       return null;
 		}
 
-		List<Constraint> intermediaryCS = new ArrayList<Constraint>();
+		Set<Constraint> intermediaryCS = new LinkedHashSet<Constraint>();
 		boolean isInconsistent;
 		do {
 
@@ -56,7 +58,7 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 			do {
 				c = getElement(constraintsSetC, intermediaryCS);
 				if (c == null) {
-					return Collections.emptyList();
+					return Collections.emptySet();
 				}
 
 				intermediaryCS.add(c);
@@ -69,12 +71,12 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 
 		} while (!isInconsistent);
 
-		Collections.reverse(cs);
+		Collections.reverse(new ArrayList<>(cs));
 		return cs;
 	}
 
-	private Constraint getElement(List<Constraint> constraintsSetC, List<Constraint> intermediaryCS) {
-		List<Constraint> differenceSet = new ArrayList<Constraint>();
+	private Constraint getElement(Set<Constraint> constraintsSetC, Set<Constraint> intermediaryCS) {
+		Set<Constraint> differenceSet = new LinkedHashSet<Constraint>();
 
 		for (Constraint c : constraintsSetC) {
 			if (!intermediaryCS.contains(c)) {
@@ -85,11 +87,11 @@ public class SimpleConflictDetection extends AbstractConflictDetection {
 		if (differenceSet.size() == 0)
 			return null;
 
-    return differenceSet.get(0);
+    return new ArrayList<>(differenceSet).get(0);
 	}
 
 	// TODO: maybe this is not necessary if it is used Set instead of List.
-	private void appendSet(List<Constraint> destSet, Constraint c) {
+	private void appendSet(Set<Constraint> destSet, Constraint c) {
 		if (!destSet.contains(c)) {
 			destSet.add(c);
 		}

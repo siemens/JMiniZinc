@@ -7,8 +7,6 @@
 package at.siemens.ct.jmz.diag;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.Set;
@@ -28,7 +26,7 @@ import at.siemens.ct.jmz.expressions.set.RangeExpression;
  */
 public class UtilsForTest {
 	
-	public static String getTestDataset1(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getTestDataset1(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection1.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -55,7 +53,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getTestDataset2(List<Constraint> constraintsSetC, List<Element> decisionsVariable) {
+	public static String getTestDataset2(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVariable) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -90,7 +88,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 	
-	public static String getTestDataset2WithMoreConstraints(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getTestDataset2WithMoreConstraints(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -129,7 +127,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getTestDataset2NoConflict(List<Constraint> constraintsSetC, List<Element> decisionsVariable) {
+	public static String getTestDataset2NoConflict(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVariable) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection2.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -158,7 +156,7 @@ public class UtilsForTest {
 
 
 
-	public static String getTestDataset6(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getTestDataset6(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection6.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -190,7 +188,7 @@ public class UtilsForTest {
 
 	
 
-	public static String getTestDataset8(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getTestDataset8(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection8.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -225,7 +223,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getTestDataset8ConsistentKB(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getTestDataset8ConsistentKB(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "testConflictDetection8.mzn");
 
 		BooleanVariable c = new BooleanVariable("c");
@@ -239,8 +237,8 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getTestDatasetWithSolveItemIncluded(List<Constraint> constraintsSetC,
-			List<Element> decisionsVar) {
+	public static String getTestDatasetWithSolveItemIncluded(java.util.Set<Constraint> constraintsSetC,
+			java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "testWithSolveItemIncluded.mzn");
 
 		Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
@@ -275,7 +273,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getDataTestMinimalDiagnoses2(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getDataTestMinimalDiagnoses2(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "minimalDiagnoses2.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
@@ -316,7 +314,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getDataTestMinimalDiagnoses2_1(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getDataTestMinimalDiagnoses2_1(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "minimalDiagnoses2.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");
@@ -377,7 +375,7 @@ public class UtilsForTest {
 		return f.getAbsolutePath();
 	}
 
-	public static String getDataTestMinimalDiagnoses4(List<Constraint> constraintsSetC, List<Element> decisionsVar) {
+	public static String getDataTestMinimalDiagnoses4(java.util.Set<Constraint> constraintsSetC, java.util.Set<Element> decisionsVar) {
 		File f = new File("testFiles" + File.separator + "minimalDiagnoses4.mzn");
 
 		Set<Integer> setOneTwoThreeFour = new RangeExpression(1, 4).toNamedConstant("OneTwoThreeFour");

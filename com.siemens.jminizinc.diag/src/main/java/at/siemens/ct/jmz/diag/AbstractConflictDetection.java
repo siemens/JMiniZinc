@@ -8,10 +8,9 @@ package at.siemens.ct.jmz.diag;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -26,7 +25,7 @@ public abstract class AbstractConflictDetection {
 
   public AbstractConflictDetection(String mznFullFileName, Collection<? extends Element> fixedModel)
       throws FileNotFoundException {
-    this.fixedModel = new HashSet<>();
+    this.fixedModel = new LinkedHashSet<>();
     this.fixedModel.addAll(fixedModel);
 
     if (mznFullFileName != null) {
@@ -49,10 +48,10 @@ public abstract class AbstractConflictDetection {
    * @return a conflict set if the input is inconsistent, else {@code null}
    * @throws DiagnosisException 
    */
-  public abstract List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException;
+  public abstract Set<Constraint> getMinConflictSet(Set<Constraint> constraintsSetC) throws DiagnosisException;
 
-	public static List<Constraint> appendSets(List<Constraint> CS1, List<Constraint> CS2) {
-		List<Constraint> reunion = new ArrayList<>(CS1);
+	public static Set<Constraint> appendSets(Set<Constraint> CS1, Set<Constraint> CS2) {
+		Set<Constraint> reunion = new LinkedHashSet<>(CS1);
 		if (CS2 == null)
 			return reunion;
 
@@ -64,8 +63,8 @@ public abstract class AbstractConflictDetection {
 		return reunion;
 	}
 
-	public static List<Constraint> diffSets(List<Constraint> ac, List<Constraint> c2) {
-		List<Constraint> diff = new ArrayList<Constraint>();
+	public static Set<Constraint> diffSets(Set<Constraint> ac, Set<Constraint> c2) {
+		Set<Constraint> diff = new LinkedHashSet<Constraint>();
 		for (Constraint constraint : ac) {
 			if (!c2.contains(constraint)) {
 				diff.add(constraint);

@@ -8,8 +8,8 @@ package at.siemens.ct.jmz.diag;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -26,8 +26,8 @@ public class ErrorSituations {
 	public void testWithSolveItemIncluded() {
 		boolean solveItemIncluded = false;
 		try {
-			List<Constraint> constraintsSetC = new ArrayList<Constraint>();
-			List<Element> decisionsVar = new ArrayList<Element>();
+			Set<Constraint> constraintsSetC = new LinkedHashSet<Constraint>();
+			Set<Element> decisionsVar = new LinkedHashSet<Element>();
 			String fileName = UtilsForTest.getTestDatasetWithSolveItemIncluded(constraintsSetC, decisionsVar);
 			FastDiag fastDiag = new FastDiag(fileName, constraintsSetC, ConflictDetectionAlgorithm.FastDiag, null);
 		    fastDiag.getPreferredDiagnosis(constraintsSetC, false);

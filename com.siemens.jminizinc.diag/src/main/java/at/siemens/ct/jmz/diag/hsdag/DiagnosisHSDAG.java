@@ -7,9 +7,10 @@
 package at.siemens.ct.jmz.diag.hsdag;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.diag.ConsistencyChecker;
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
@@ -23,20 +24,20 @@ public class DiagnosisHSDAG extends HSDAG {
 
 	private FastDiag fastDiag;
 
-  public DiagnosisHSDAG(String mznFullFileName, List<Constraint> userConstraints,
+  public DiagnosisHSDAG(String mznFullFileName, Set<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
           throws FileNotFoundException {
     this(mznFullFileName, Collections.emptySet(), userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
-  public DiagnosisHSDAG(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+  public DiagnosisHSDAG(Collection<? extends Element> fixedModel, Set<Constraint> userConstraints,
       DiagnoseProgressCallback progressCallback, ConflictDetectionAlgorithm conflictDetectionAlgorithm)
           throws FileNotFoundException {
     this(null, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
   }
 
   public DiagnosisHSDAG(String mznFullFileName, Collection<? extends Element> fixedModel,
-      List<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
+      Set<Constraint> userConstraints, DiagnoseProgressCallback progressCallback,
       ConflictDetectionAlgorithm conflictDetectionAlgorithm) throws FileNotFoundException {
     super(mznFullFileName, fixedModel, userConstraints, progressCallback, conflictDetectionAlgorithm);
     fastDiag = new FastDiag(mznFullFileName, fixedModel, userConstraints, conflictDetectionAlgorithm, progressCallback);
@@ -65,14 +66,14 @@ public class DiagnosisHSDAG extends HSDAG {
 
 		// get first diagnosis
 		if (algorithmtype == ConflictDetectionAlgorithm.FastDiag) {
-			List<Constraint> diagnoseFound = fastDiag.getPreferredDiagnosis(this.userConstraints, true);
+			Set<Constraint> diagnoseFound = fastDiag.getPreferredDiagnosis(this.userConstraints, true);
 			DiagnosesCollection firstMinimalDiagnosis = new DiagnosesCollection();
 			firstMinimalDiagnosis.add(diagnoseFound);
 			progressCallback.diagnosisFound(diagnoseFound);
 			return firstMinimalDiagnosis;
 		}
 
-		List<Constraint> diagnoseFound = fastDiag.getPreferredDiagnosis(this.userConstraints, false);
+		Set<Constraint> diagnoseFound = fastDiag.getPreferredDiagnosis(this.userConstraints, false);
 		if (!diagnoseFound.isEmpty()) {
 
 			if (progressCallback != null) {
@@ -105,8 +106,8 @@ public class DiagnosisHSDAG extends HSDAG {
 	@Override
   protected void buildDiagnosesTree(TreeNode root, DiagnosesCollection diagnoses) throws DiagnosisException {
 		TreeNode treeNode;
-		List<Constraint> difference;
-		List<Constraint> diagnosisFromWhichConstraintsMustBeDeleted = root.getData();
+		Set<Constraint> difference;
+		Set<Constraint> diagnosisFromWhichConstraintsMustBeDeleted = root.getData();
 		for (Constraint constraint : diagnosisFromWhichConstraintsMustBeDeleted) {
 
 			difference = removeConstraintFromList(root.getInitialConstraintsSet(), constraint);
@@ -114,18 +115,18 @@ public class DiagnosisHSDAG extends HSDAG {
 				displayNodeConstraint(root, constraint);
 			}
 
-			List<Constraint> preferredDiagnosis = fastDiag.getPreferredDiagnosis(difference, false);
+			Set<Constraint> preferredDiagnosis = fastDiag.getPreferredDiagnosis(difference, false);
 
 			if (preferredDiagnosis.isEmpty()) {
 				treeNode = new TreeNode(null, null, null);
 				root.addChild(constraint, treeNode);
 			} else {
-				List<Constraint> diagnosis = preferredDiagnosis;
-				Collections.reverse(diagnosis);
+				Set<Constraint> diagnosis = preferredDiagnosis;
+				Collections.reverse(new ArrayList<>(diagnosis));
 
 				DiagnosisMetadata diagnosisMetadata = diagnoses.Contains(diagnosis);
 				if (diagnosisMetadata == DiagnosisMetadata.Min) {
-					Collections.reverse(diagnosis);
+					Collections.reverse(new ArrayList<>(diagnosis));
 					diagnoses.add(diagnosis);
 				}
 				if (progressCallback != null)

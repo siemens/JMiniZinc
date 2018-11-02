@@ -10,7 +10,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -29,16 +31,16 @@ public class QuickXPlain extends AbstractConflictDetection {
 	}
 
 	@Override
-  public List<Constraint> getMinConflictSet(List<Constraint> constraintsSetC) throws DiagnosisException {
+  public Set<Constraint> getMinConflictSet(Set<Constraint> constraintsSetC) throws DiagnosisException {
     if (consistencyChecker.isConsistent(constraintsSetC, fixedModel)) {
       return null; // no conflict
     }
 
     if (constraintsSetC.isEmpty()) {
-      return Collections.emptyList();
+      return Collections.emptySet();
 		}
 
-    List<Constraint> fixedConstraints = new ArrayList<>();
+    Set<Constraint> fixedConstraints = new LinkedHashSet<>();
     fixedModel.stream().filter(e -> e instanceof Constraint).map(e -> (Constraint) e)
         .forEach(fixedConstraints::add);
 
@@ -57,13 +59,13 @@ public class QuickXPlain extends AbstractConflictDetection {
    * @return a minimal conflict set
    * @throws DiagnosisException 
    */
-  private List<Constraint> quickXPlain(List<Constraint> D, List<Constraint> C, List<Constraint> B)
+  private Set<Constraint> quickXPlain(Set<Constraint> D, Set<Constraint> C, Set<Constraint> B)
       throws DiagnosisException {
 
 		if (!D.isEmpty()) {
       boolean isConsistent = consistencyChecker.isConsistent(B, fixedModel);
 			if (!isConsistent) {
-				return Collections.emptyList();
+				return Collections.emptySet();
 			}
 		}
 
@@ -74,10 +76,12 @@ public class QuickXPlain extends AbstractConflictDetection {
 		}
 
 		int k = q / 2;
-		List<Constraint> C1 = C.subList(0, k);
-		List<Constraint> C2 = C.subList(k, q);
-		List<Constraint> CS1 = quickXPlain(C2, C1, appendSets(B, C2));
-		List<Constraint> CS2 = quickXPlain(CS1, C2, appendSets(B, CS1));
+		List<Constraint> firstSubList = new ArrayList<>(C).subList(0, k);
+		List<Constraint> secondSubList = new ArrayList<>(C).subList(k, q);
+		Set<Constraint> C1 = new LinkedHashSet<Constraint>(firstSubList);
+		Set<Constraint> C2 = new LinkedHashSet<Constraint>(secondSubList);
+		Set<Constraint> CS1 = quickXPlain(C2, C1, appendSets(B, C2));
+		Set<Constraint> CS2 = quickXPlain(CS1, C2, appendSets(B, CS1));
 
     return appendSets(CS1, CS2);
 	}

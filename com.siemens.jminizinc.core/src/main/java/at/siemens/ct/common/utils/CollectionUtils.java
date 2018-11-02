@@ -8,7 +8,7 @@ package at.siemens.ct.common.utils;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -29,7 +29,7 @@ public class CollectionUtils {
    * @return the set of elements contained by both {@code c1} and {@code c2}.
    */
   public static <T> Set<T> intersection(Collection<? extends T> c1, Collection<? extends T> c2) {
-    Set<T> intersection = new HashSet<>(c1);
+    Set<T> intersection = new LinkedHashSet<>(c1);
     intersection.retainAll(c2);
     return intersection;
   }

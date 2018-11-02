@@ -9,7 +9,9 @@ package at.siemens.ct.jmz.diag.hsdag;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.diag.DiagnosisMetadata;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
@@ -17,23 +19,23 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 /**
  * This class stores all diagnoses for a configuration problem.
  */
-public class DiagnosesCollection extends ArrayList<List<Constraint>> {
+public class DiagnosesCollection extends LinkedHashSet<Set<Constraint>> {
 	private static final long serialVersionUID = 8940404145930730128L;
 
 	public DiagnosesCollection() {
 		super();
 	}
 
-	public DiagnosesCollection(Collection<? extends List<Constraint>> c) {
+	public DiagnosesCollection(Collection<? extends Set<Constraint>> c) {
 		super(c);
 	}
 
 	public DiagnosesCollection(int initialCapacity) {
-		super(initialCapacity);
+		super();
 	}
 
-	public DiagnosisMetadata Contains(List<Constraint> diagnose) {
-		for (List<Constraint> d : this) {
+	public DiagnosisMetadata Contains(Set<Constraint> diagnose) {
+		for (Set<Constraint> d : this) {
 			DiagnosisMetadata diagnoseMetadata = compareDiagnose(diagnose, d);
 			if (diagnoseMetadata != DiagnosisMetadata.Min)
 				return diagnoseMetadata;
@@ -41,7 +43,7 @@ public class DiagnosesCollection extends ArrayList<List<Constraint>> {
 		return DiagnosisMetadata.Min;
 	}
 
-	private DiagnosisMetadata compareDiagnose(List<Constraint> newDiagnose, List<Constraint> existingDiagnose) {
+	private DiagnosisMetadata compareDiagnose(Set<Constraint> newDiagnose, Set<Constraint> existingDiagnose) {
 		for (Constraint c : existingDiagnose) {
 			if (!newDiagnose.contains(c))
 				return DiagnosisMetadata.Min;
@@ -55,7 +57,7 @@ public class DiagnosesCollection extends ArrayList<List<Constraint>> {
 	public java.lang.String toString() {
 		List<String> lines = new ArrayList<String>();
 
-		for (List<Constraint> diagnose : this) {
+		for (Set<Constraint> diagnose : new ArrayList<>(this)) {
 
 			List<String> constraints = new ArrayList<String>();
 			for (Constraint c : diagnose) {

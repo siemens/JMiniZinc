@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +34,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 public abstract class Executor implements IExecutor {
 
   private static final Set<Process> ACTIVE_PROCESSES = Collections
-      .synchronizedSet(new HashSet<Process>());
+      .synchronizedSet(new LinkedHashSet<Process>());
 
   private String identifier;
   private IModelWriter modelWriter;

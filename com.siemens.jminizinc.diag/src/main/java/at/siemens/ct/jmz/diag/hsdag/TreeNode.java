@@ -6,7 +6,7 @@
  */
 package at.siemens.ct.jmz.diag.hsdag;
 
-import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
@@ -18,9 +18,9 @@ public class TreeNode {
 	/**
 	 *  List with constraints for minimal conflict set. Can be null.
 	 */
-	private List<Constraint> data;
+	private Set<Constraint> data;
 	
-	private List<Constraint> initialConstraintsSet;
+	private Set<Constraint> initialConstraintsSet;
 		
 	/**
 	 *  parent node	
@@ -34,7 +34,7 @@ public class TreeNode {
 
 	public String name; 
 	
-	public TreeNode(List<Constraint> data, List<Constraint> initialConstraintsSet, String name) {
+	public TreeNode(Set<Constraint> data, Set<Constraint> initialConstraintsSet, String name) {
 		super();
 		this.data = data;		
 		this.initialConstraintsSet = initialConstraintsSet;
@@ -57,7 +57,7 @@ public class TreeNode {
 		return this.parent;
 	}
 	
-	public List<Constraint> getData() {
+	public Set<Constraint> getData() {
 		return this.data;
 	}
 		
@@ -96,7 +96,7 @@ public class TreeNode {
 		return constraint;  
 	}
 
-	public List<Constraint> getInitialConstraintsSet() {
+	public Set<Constraint> getInitialConstraintsSet() {
 		return initialConstraintsSet;
 	}	
 }

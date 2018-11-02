@@ -9,6 +9,7 @@ package at.siemens.ct.jmz.diag;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
@@ -55,12 +56,12 @@ public class ConsistencyChecker {
    * @return {@code true} if the given set is consistent with background KB
    * @throws DiagnosisException
    */
-  public boolean isConsistent(List<Constraint> constraintsSet, Collection<? extends Element> fixedModel)
+  public boolean isConsistent(Set<Constraint> constraintsSet, Collection<? extends Element> fixedModel)
       throws DiagnosisException {
 		initialization();
 		modelBuilder.reset();
 
-    modelBuilder.add(fixedModel);
+		modelBuilder.add(fixedModel);
 		modelBuilder.add(constraintsSet);
 
 		String res = callExecutor();
@@ -68,7 +69,7 @@ public class ConsistencyChecker {
 		return (isSolverResultConsistent(res));
 	}
 
-  public boolean isConsistent(List<Constraint> constraintsSet, List<Element> decisionVariables)
+  public boolean isConsistent(Set<Constraint> constraintsSet, List<Element> decisionVariables)
       throws DiagnosisException {
 		initialization();
 		modelBuilder.reset();

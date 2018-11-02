@@ -11,8 +11,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.elements.Element;
@@ -23,8 +24,8 @@ import at.siemens.ct.jmz.elements.include.IncludeItem;
  * @author Copyright Siemens AG, 2016-2017
  */
 public class FastDiag {
-	private List<Constraint> userRequirements;
-  private Collection<Element> fixedModel;
+	private Set<Constraint> userRequirements;
+	private Collection<Element> fixedModel;
 	private ConsistencyChecker consistencyChecker;
 	private DiagnoseProgressCallback progressCalback;
 	private Boolean displayfastDiagSteps;
@@ -45,7 +46,7 @@ public class FastDiag {
    *            The callback for displaying messages on GUI
    * @throws FileNotFoundException
    */
-	public FastDiag(String mznFullFileName, List<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
+	public FastDiag(String mznFullFileName, Set<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
 			DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
     this(mznFullFileName, Collections.emptySet(), userConstraints, algorithm, progressCallback);
   }
@@ -53,15 +54,15 @@ public class FastDiag {
   /**
    * Prepares FastDiag for diagnosing {@code userConstraints}, where {@code fixedModel} (can be empty) is regarded as fixed (i.e. the knowledge base).
    */
-  public FastDiag(Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+  public FastDiag(Collection<? extends Element> fixedModel, Set<Constraint> userConstraints,
       ConflictDetectionAlgorithm algorithm, DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
     this(null, fixedModel, userConstraints, algorithm, progressCallback);
   }
 
-  public FastDiag(String mznFullFileName, Collection<? extends Element> fixedModel, List<Constraint> userConstraints,
+  public FastDiag(String mznFullFileName, Collection<? extends Element> fixedModel, Set<Constraint> userConstraints,
       ConflictDetectionAlgorithm algorithm, DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
     this(userConstraints, algorithm, progressCallback);
-    this.fixedModel = new HashSet<>();
+    this.fixedModel = new LinkedHashSet<>();
     this.fixedModel.addAll(fixedModel);
 
     if (mznFullFileName != null) {
@@ -73,7 +74,7 @@ public class FastDiag {
     }
 	}
 
-  private FastDiag(List<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
+  private FastDiag(Set<Constraint> userConstraints, ConflictDetectionAlgorithm algorithm,
       DiagnoseProgressCallback progressCallback) throws FileNotFoundException {
     consistencyChecker = new ConsistencyChecker();
     this.userRequirements = userConstraints;
@@ -92,7 +93,7 @@ public class FastDiag {
    * @return a diagnose
    * @throws DiagnosisException 
    */
-	private List<Constraint> fd(List<Constraint> D, List<Constraint> C, List<Constraint> AC, int level, int indent,
+	private Set<Constraint> fd(Set<Constraint> D, Set<Constraint> C, Set<Constraint> AC, int level, int indent,
       int innerIndex) throws DiagnosisException {
 
 		this.level = level;
@@ -133,7 +134,7 @@ public class FastDiag {
 
 				}
 
-				return Collections.emptyList();
+				return Collections.emptySet();
 
 			}
 
@@ -159,12 +160,14 @@ public class FastDiag {
         }
 			}
 
-			return new ArrayList<Constraint>(C);
+			return new LinkedHashSet<Constraint>(C);
 		}
 
 		int k = q / 2;
-		List<Constraint> C1 = C.subList(0, k);
-		List<Constraint> C2 = C.subList(k, q);
+		List<Constraint> firstSubList = new ArrayList<>(C).subList(0, k);
+		List<Constraint> secondSubList = new ArrayList<>(C).subList(k, q);
+		Set<Constraint> C1 = new LinkedHashSet<>(firstSubList);
+		Set<Constraint> C2 = new LinkedHashSet<>(secondSubList);
 		if (displayfastDiagSteps) {
 			if (progressCalback != null) {
 				String displayConstraintListC1 = progressCalback.displayConstraintList(C1);
@@ -179,11 +182,11 @@ public class FastDiag {
 			}
 		}
 
-		List<Constraint> ACWithoutC2 = AbstractConflictDetection.diffSets(AC, C2);
-		List<Constraint> D1 = fd(C2, C1, ACWithoutC2, this.level + 1, indent + 1, 1);
+		Set<Constraint> ACWithoutC2 = AbstractConflictDetection.diffSets(AC, C2);
+		Set<Constraint> D1 = fd(C2, C1, ACWithoutC2, this.level + 1, indent + 1, 1);
 
-		List<Constraint> ACWithoutD1 = AbstractConflictDetection.diffSets(AC, D1);
-		List<Constraint> D2 = fd(D1, C2, ACWithoutD1, this.level + 1, indent + 1, 2);
+		Set<Constraint> ACWithoutD1 = AbstractConflictDetection.diffSets(AC, D1);
+		Set<Constraint> D2 = fd(D1, C2, ACWithoutD1, this.level + 1, indent + 1, 2);
 
 		if (displayfastDiagSteps && progressCalback != null) {
 			stepNumber = outdent(indent, level, stepNumber);
@@ -249,7 +252,7 @@ public class FastDiag {
    * @return a preferred diagnosis.
    * @throws DiagnosisException 
    */
-  public List<Constraint> getPreferredDiagnosis(List<Constraint> constraintsSetC, Boolean displayFastDiagSteps)
+  public Set<Constraint> getPreferredDiagnosis(Set<Constraint> constraintsSetC, Boolean displayFastDiagSteps)
       throws DiagnosisException {
 
 		this.displayfastDiagSteps = displayFastDiagSteps;
@@ -258,7 +261,7 @@ public class FastDiag {
 				progressCalback.displayMessage("C set is empty" + LINE_SEPARATOR);
 			}
 
-			return Collections.emptyList();
+			return Collections.emptySet();
 		}
 
     if (consistencyChecker.isConsistent(userRequirements, fixedModel)) {
@@ -269,9 +272,9 @@ public class FastDiag {
               displayConstraintListUserRequirements.trim()));
         }
 			}
-			return Collections.emptyList();
+			return Collections.emptySet();
 		}
-		List<Constraint> ACWithoutC = AbstractConflictDetection.diffSets(userRequirements, constraintsSetC);
+		Set<Constraint> ACWithoutC = AbstractConflictDetection.diffSets(userRequirements, constraintsSetC);
 
     Boolean searchForDiagnosis = consistencyChecker.isConsistent(ACWithoutC, fixedModel);
 
@@ -287,11 +290,11 @@ public class FastDiag {
         }
 			}
 
-			return Collections.emptyList();
+			return Collections.emptySet();
 		}
 
-		return fd(Collections.emptyList(), Collections.unmodifiableList(constraintsSetC),
-				Collections.unmodifiableList(userRequirements), 0, 0, 0);
+		return fd(Collections.emptySet(), Collections.unmodifiableSet(constraintsSetC),
+				Collections.unmodifiableSet(userRequirements), 0, 0, 0);
 
 	}
 

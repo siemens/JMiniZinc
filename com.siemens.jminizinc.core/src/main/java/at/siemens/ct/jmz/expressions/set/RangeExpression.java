@@ -86,7 +86,7 @@ public class RangeExpression implements IntegerSetExpression {
 	 * @return a reference to the created set.
 	 */
 	public static RangeExpression deriveRange(Collection<Integer> possibleValues) {
-		Collection<Integer> possibleValuesExceptNull = new HashSet<>(possibleValues);
+		Collection<Integer> possibleValuesExceptNull = new LinkedHashSet<>(possibleValues);
 		possibleValuesExceptNull.remove(null);
 		if (possibleValuesExceptNull.isEmpty()) {
 			throw new IllegalArgumentException("Collection of possible values is empty.");

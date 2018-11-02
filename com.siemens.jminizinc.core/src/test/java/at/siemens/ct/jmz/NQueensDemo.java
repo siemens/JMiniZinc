@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -90,7 +90,7 @@ public class NQueensDemo {
 	}
 
 	private boolean allDifferent(Integer[] integers) {
-		Set<Integer> set = new HashSet<>();
+		Set<Integer> set = new LinkedHashSet<>();
 		set.addAll(Arrays.asList(integers));
 		return set.size() == integers.length;
 	}

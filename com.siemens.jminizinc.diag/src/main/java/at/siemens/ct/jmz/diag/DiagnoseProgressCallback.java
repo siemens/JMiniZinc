@@ -7,6 +7,7 @@
 package at.siemens.ct.jmz.diag;
 
 import java.util.List;
+import java.util.Set;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 
@@ -18,25 +19,25 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public interface DiagnoseProgressCallback {
 	
-	void displayInputSet(List<Constraint> inputSet, String nodeIndex);
+	void displayInputSet(Set<Constraint> inputSet, String nodeIndex);
 	
-	String displayConstraintList(List<Constraint> constraintList);
+	String displayConstraintList(Set<Constraint> constraintList);
 
-	void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet, String nodeIndex);
+	void minConflictSet(Set<Constraint> minConflictSet, Set<Constraint> inputConflictSet, String nodeIndex);
 
 	void constraintSelected(Constraint constraint, String constraintIndex);
 
 	void displayMessage(String message);
 
-	void ignoredDiagnosis(List<Constraint> diagnosis, DiagnosisMetadata diagnosisMetadata);
+	void ignoredDiagnosis(Set<Constraint> diagnosis, DiagnosisMetadata diagnosisMetadata);
 
-	void displayPartOfDiagnosis(List<Constraint> diagnosis, List<Constraint> inputConflictSet, String nodeIndex,
+	void displayPartOfDiagnosis(Set<Constraint> diagnosis, Set<Constraint> inputConflictSet, String nodeIndex,
       String indent);
 
-	void displayPreferredDiagnosis(List<Constraint> diagnosis, List<Constraint> inputConflictSet);
+	void displayPreferredDiagnosis(Set<Constraint> diagnosis, Set<Constraint> inputConflictSet);
 	
-	void diagnosisFound(List<Constraint> diagnosis, List<Constraint> inputConflictSet, String nodeIndex);
+	void diagnosisFound(Set<Constraint> diagnosis, Set<Constraint> inputConflictSet, String nodeIndex);
 
-	void diagnosisFound(List<Constraint> diagnosis);
+	void diagnosisFound(Set<Constraint> diagnosis);
 
 }

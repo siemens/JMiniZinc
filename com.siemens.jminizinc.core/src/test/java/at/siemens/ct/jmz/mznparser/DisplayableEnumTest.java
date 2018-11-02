@@ -1,16 +1,17 @@
 package at.siemens.ct.jmz.mznparser;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import at.siemens.ct.jmz.elements.constraints.Constraint;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import at.siemens.ct.jmz.elements.constraints.Constraint;
 
 public class DisplayableEnumTest {
 
@@ -18,7 +19,7 @@ public class DisplayableEnumTest {
 
   @Before
   public void setUp() {
-    Set<String> set = new HashSet<>();
+    Set<String> set = new LinkedHashSet<>();
     Collections.addAll(set, "first", "second");
     defaultEnum = new DisplayableEnum("test_enum", set);
   }

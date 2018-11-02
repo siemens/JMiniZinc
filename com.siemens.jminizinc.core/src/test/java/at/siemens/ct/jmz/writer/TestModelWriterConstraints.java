@@ -6,7 +6,7 @@
  */
 package at.siemens.ct.jmz.writer;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class TestModelWriterConstraints {
     String arrayName = "a";
     Set<Integer> setRange = new RangeExpression(1, 3).toNamedConstant(setRangeName);
 		IntegerArray arrayVar = IntegerArray.createVariable(arrayName, setRange);
-    java.util.Set<Integer> allowedValues = new HashSet<>();
+    java.util.Set<Integer> allowedValues = new LinkedHashSet<>();
     allowedValues.add(1);
     allowedValues.add(3);
 		IntegerExpressionInSet intExpressionInSet = new IntegerExpressionInSet(arrayVar.access(1),
