@@ -83,8 +83,8 @@ public class ModelWriter implements IModelWriter {
   public void toOutputStream(OutputStream outputStream) {
     PrintWriter writer = new PrintWriter(outputStream);
     for (Element element : allElements().collect(Collectors.toList())) {
-		writer.println(element.declare());
-	}
+      writer.println(element.declare());
+    }
     writer.flush();
   }
 
