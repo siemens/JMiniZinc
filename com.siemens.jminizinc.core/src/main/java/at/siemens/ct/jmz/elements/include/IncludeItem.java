@@ -59,16 +59,16 @@ public class IncludeItem implements Element {
   }
 
   /**
-   * Includes the resource with the given name, which must be found either in the current working directory
+   * Includes the resource with the given name, which must be found either in the current working directory,
+   * on the classpath (to be loaded by {@link ClassLoader#getResource(String)}),
    * or in the directory in which the JAR being executed resides (if JMiniZinc is executed as a JAR).
    * @param resourceName the name of the resource to include, which can also be a relative path
    * @throws URISyntaxException, IOException
    */
   public static IncludeItem resource(String resourceName) throws URISyntaxException, IOException {
-    Path workingDirectory = null;
+    Path workingDirectory = Paths.get(".").toAbsolutePath().getParent();
     Path relativePath = Paths.get(resourceName);
     if (!relativePath.toFile().exists()) {
-      workingDirectory = Paths.get(".").toAbsolutePath().getParent();
       URI uri = Thread.currentThread().getContextClassLoader().getResource(resourceName).toURI();
       if ("jar".equals(uri.getScheme())) {
         JarURLConnection connection = (JarURLConnection) uri.toURL().openConnection();
