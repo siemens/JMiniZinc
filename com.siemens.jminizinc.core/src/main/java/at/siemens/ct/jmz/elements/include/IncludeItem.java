@@ -7,6 +7,8 @@
 package at.siemens.ct.jmz.elements.include;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -31,7 +33,7 @@ public class IncludeItem implements Element {
    *          the name of the file (without suffix .mzn)
    */
   public static IncludeItem standard(String fileName) {
-	return new IncludeItem(fileName);
+    return new IncludeItem(fileName);
   }
 
   private IncludeItem(String fileName) {
@@ -48,27 +50,34 @@ public class IncludeItem implements Element {
    *          the name of the file (without suffix .mzn)
    */
   public static IncludeItem file(Path directory, String fileName) {
-	  return new IncludeItem(directory, fileName);
+    return new IncludeItem(directory, fileName);
   }
-  
+
   private IncludeItem(Path directory, String fileName) {
     this.directory = directory;
     this.fileName = removeSuffix(fileName);
   }
-  
+
   /**
-   * Includes the resource with the given name (which will be loaded using {@link ClassLoader#getResource(String)}).
-   * @param resourceName
-   * @throws URISyntaxException 
+   * Includes the resource with the given name, which must be found either in the current working directory
+   * or in the directory in which the JAR being executed resides (if JMiniZinc is executed as a JAR).
+   * @param resourceName the name of the resource to include, which can also be a relative path
+   * @throws URISyntaxException, IOException
    */
-  public static IncludeItem resource(String resourceName) throws URISyntaxException {
-	Path relativePath = Paths.get(resourceName);
+  public static IncludeItem resource(String resourceName) throws URISyntaxException, IOException {
+    Path workingDirectory = null;
+    Path relativePath = Paths.get(resourceName);
     if (!relativePath.toFile().exists()) {
-        Path workingDirectory = Paths.get(".").toAbsolutePath().getParent();
-        URI uri = Thread.currentThread().getContextClassLoader().getResource(resourceName).toURI();
+      workingDirectory = Paths.get(".").toAbsolutePath().getParent();
+      URI uri = Thread.currentThread().getContextClassLoader().getResource(resourceName).toURI();
+      if ("jar".equals(uri.getScheme())) {
+        JarURLConnection connection = (JarURLConnection) uri.toURL().openConnection();
+        workingDirectory = new File(connection.getJarFileURL().toURI()).toPath().getParent();
+      } else {
         relativePath = workingDirectory.relativize(Paths.get(uri));
+      }
     }
-	return new IncludeItem(relativePath.toString().replace('\\', '/'));
+    return new IncludeItem(workingDirectory, relativePath.toString().replace('\\', '/'));
   }
 
   public IncludeItem(File file) {
