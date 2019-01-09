@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016-2017, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at
@@ -25,7 +25,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -49,7 +51,7 @@ public class VariableDialog {
 	private List<Displayable> decisionVariables;
 	private ArrayList<DecisionVariableGUI> mapWithControls;
 	private static File mznFile;
-  private List<Constraint> userConstraints;
+	private Set<Constraint> userConstraints;
 
 	private TextArea textLog;
 	private Button generateSolution;
@@ -67,7 +69,7 @@ public class VariableDialog {
     MiniZincCP mznCp = new MiniZincCP(mznFile);
 		decisionVariables = mznCp.getElementsFromFile();
 		mapWithControls = new ArrayList<>();
-		userConstraints = new ArrayList<>();
+		userConstraints = new LinkedHashSet<>();
 		controlPanel = new Panel();
 
 		prepareGUI();
@@ -222,9 +224,9 @@ public class VariableDialog {
 		controlPanel.add(scrollPane);
 	}
 
-  private List<Constraint> getAllValuesFromTheInterface() {
+	private Set<Constraint> getAllValuesFromTheInterface() {
 
-		ArrayList<Constraint> userConstraints = new ArrayList<Constraint>();
+		Set<Constraint> userConstraints = new LinkedHashSet<>();
 
 		for (Displayable dv : decisionVariables) {
 
@@ -264,7 +266,7 @@ public class VariableDialog {
 			return null;
 		}
 
-		List<DecisionVariableGUI> controls = new ArrayList<DecisionVariableGUI>();
+		List<DecisionVariableGUI> controls = new ArrayList<>();
 
 		for (DecisionVariableGUI decisionVariableGUI : mapWithControls) {
 

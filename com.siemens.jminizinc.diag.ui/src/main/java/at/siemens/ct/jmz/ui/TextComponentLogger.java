@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016-2017
+ * Copyright Siemens AG, 2016-2017, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -11,9 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Set;
 
 import at.siemens.ct.jmz.diag.DiagnoseProgressCallback;
 import at.siemens.ct.jmz.diag.DiagnosisMetadata;
@@ -26,16 +24,16 @@ import at.siemens.ct.jmz.elements.constraints.Constraint;
  */
 public class TextComponentLogger implements DiagnoseProgressCallback {
 	private final TextArea target;
-	private List<Constraint> userConstraints;
+	private Set<Constraint> userConstraints;
 	private final String LINE_SEPARATOR = System.lineSeparator();
 
-	public TextComponentLogger(TextArea target, List<Constraint> userConstraints) {
+	public TextComponentLogger(TextArea target, Set<Constraint> userConstraints) {
 		this.target = target;
 		this.userConstraints = userConstraints;
 	}
 
 	@Override
-	public void diagnosisFound(List<Constraint> diagnose) {
+	public void diagnosisFound(Set<Constraint> diagnose) {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (!diagnose.isEmpty()) {
 			stringBuilder.append("Minimal diagnosis found: ").append(displayConstraintList(diagnose)).append(LINE_SEPARATOR);
@@ -44,14 +42,14 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 
 	}
 
-	public void displayInputSet(List<Constraint> inputSet, String nodeIndex) {
+	public void displayInputSet(Set<Constraint> inputSet, String nodeIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(nodeIndex).append("Check: ").append(displayConstraintList(inputSet));
 		target.append(stringBuilder.toString());
 	}
 
 	@Override
-	public void minConflictSet(List<Constraint> minConflictSet, List<Constraint> inputConflictSet, String nodeIndex) {
+	public void minConflictSet(Set<Constraint> minConflictSet, Set<Constraint> inputConflictSet, String nodeIndex) {
 		StringBuilder stringBuilder = new StringBuilder();
 		displayInputSet(inputConflictSet, nodeIndex);
 		if (minConflictSet == null || minConflictSet.isEmpty()) {
@@ -79,7 +77,7 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void ignoredDiagnosis(List<Constraint> diagnose, DiagnosisMetadata diagnoseMetadata) {
+	public void ignoredDiagnosis(Set<Constraint> diagnose, DiagnosisMetadata diagnoseMetadata) {
 		String result = "";
 		switch (diagnoseMetadata) {
 		case AlreadyExists:
@@ -93,18 +91,13 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 
 	}
 
-	public String displayConstraintList(List<Constraint> constraintList) {
+	public String displayConstraintList(Set<Constraint> constraintList) {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (constraintList.isEmpty()) {
 			stringBuilder.append("{ }");
 		} else {
-			SortedMap<Integer, Constraint> sortedConstraints = new TreeMap<Integer, Constraint>();
-			for (Constraint c : constraintList) {
-				sortedConstraints.put(userConstraints.indexOf(c), c);
-			}
-
 			stringBuilder.append("{ ");
-			for (Constraint c : sortedConstraints.values()) {
+			for (Constraint c : constraintList) {
 				stringBuilder.append(c.getConstraintName()).append(", ");
 			}
 
@@ -148,9 +141,8 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-  public void displayPartOfDiagnosis(List<Constraint> diagnose, List<Constraint> inputConflictSet, String message,
+	public void displayPartOfDiagnosis(Set<Constraint> diagnose, Set<Constraint> inputConflictSet, String message,
       String indent) {
-		// TODO Auto-generated method stub
 		StringBuilder stringBuilder = new StringBuilder();
 		displayInputSet(inputConflictSet, message);
 		if (!indent.isEmpty())
@@ -170,7 +162,7 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void displayPreferredDiagnosis(List<Constraint> diagnose, List<Constraint> inputSet) {
+	public void displayPreferredDiagnosis(Set<Constraint> diagnose, Set<Constraint> inputSet) {
 		StringBuilder stringBuilder = new StringBuilder();
 		displayInputSet(inputSet, "");
 		if (diagnose.isEmpty()) {
@@ -185,8 +177,7 @@ public class TextComponentLogger implements DiagnoseProgressCallback {
 	}
 
 	@Override
-	public void diagnosisFound(List<Constraint> diagnosis, List<Constraint> inputConflictSet, String message) {
-		// TODO Auto-generated method stub
+	public void diagnosisFound(Set<Constraint> diagnosis, Set<Constraint> inputConflictSet, String message) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(message);
 		if (!inputConflictSet.isEmpty()) {
