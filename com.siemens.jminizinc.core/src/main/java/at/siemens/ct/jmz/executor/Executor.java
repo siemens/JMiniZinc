@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -29,7 +29,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 /**
  * Runs a MiniZinc process and communicates with it.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public abstract class Executor implements IExecutor {
 
@@ -37,7 +37,6 @@ public abstract class Executor implements IExecutor {
       .synchronizedSet(new LinkedHashSet<Process>());
 
   private String identifier;
-  private IModelWriter modelWriter;
   private Long timeoutMs;
   private Stack<Process> runningProcesses = new Stack<>();
   private Map<Process, Long> startTimes = new HashMap<>();
@@ -46,13 +45,12 @@ public abstract class Executor implements IExecutor {
   private String lastSolverErrors;
   private int lastExitCode;
 
-  protected Executor(String identifier, IModelWriter modelWriter) {
+  protected Executor(String identifier) {
     this.identifier = identifier;
-    this.modelWriter = modelWriter;
   }
 
   @Override
-  public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
+  public void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionalOptions) throws IOException {
     this.timeoutMs = timeoutMs;
   }
 
@@ -61,11 +59,13 @@ public abstract class Executor implements IExecutor {
    * {@code timeoutMs - 1000} milliseconds.
    * 
    * @param executable
+   * @param modelWriter
    * @param timeoutMs
    * @return the started {@link Process}.
    * @throws IOException
    */
-  protected Process startProcess(Executable executable, Long timeoutMs, String... additionalOptions)
+  protected Process startProcess(Executable executable, IModelWriter modelWriter, Long timeoutMs,
+      String... additionalOptions)
       throws IOException {
     this.timeoutMs = timeoutMs;
     Long voluntaryTimeoutMs = NumberUtils.Opt.minus(timeoutMs, 1000L);
@@ -75,7 +75,7 @@ public abstract class Executor implements IExecutor {
     return startProcess(executable.getName(), options);
   }
 
-  protected File modelToTempFile() throws IOException {
+  protected File modelToTempFile(IModelWriter modelWriter) throws IOException {
     return modelWriter.toTempFile();
   }
 

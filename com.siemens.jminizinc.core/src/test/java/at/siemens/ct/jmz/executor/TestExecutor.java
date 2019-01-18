@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -26,13 +26,13 @@ import at.siemens.ct.jmz.writer.ModelWriter;
 /**
  * Tests {@link Executor}
  *
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public class TestExecutor {
 
   private IModelBuilder modelBuilder = new ModelBuilder();
   private IModelWriter modelWriter = new ModelWriter(modelBuilder);
-  private IExecutor executor = new PipedMiniZincExecutor("test", modelWriter);
+  private IExecutor executor = new PipedMiniZincExecutor("test");
 
   @Before
   public void setUp() {
@@ -45,7 +45,7 @@ public class TestExecutor {
     Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
     IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
-    executor.startProcess();
+    executor.startProcess(modelWriter);
     Assert.assertTrue(Executor.isRunning());
     executor.waitForSolution();
     Assert.assertFalse(Executor.isRunning());
@@ -64,7 +64,7 @@ public class TestExecutor {
     Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
     IntegerVariable i = new IntegerVariable("i", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, i);
-    executor.startProcess();
+    executor.startProcess(modelWriter);
     Assert.assertTrue(Executor.isRunning());
     executor.waitForSolution();
     Assert.assertFalse(Executor.isRunning());
@@ -77,7 +77,7 @@ public class TestExecutor {
     Set<Integer> setOneTwoThree = new RangeExpression(1, 3).toNamedConstant("OneTwoThree");
     IntegerArray a = IntegerArray.createVariable("a", setOneTwoThree);
     modelBuilder.add(setOneTwoThree, a);
-    executor.startProcess();
+    executor.startProcess(modelWriter);
     Assert.assertTrue(Executor.isRunning());
     executor.waitForSolution();
     Assert.assertFalse(Executor.isRunning());

@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -18,23 +18,26 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  * implementation should be preferred over {@link MiniZincExecutor} if a clean exit behaviour in case of interrupts is
  * required.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public class PipedMiniZincExecutor extends Executor {
 
   private static final FlatZincSolver FLATZINC_SOLVER = FlatZincSolver.GECODE;
 
   private File fznFile;
+  private IModelWriter modelWriter;
 
-  public PipedMiniZincExecutor(String identifier, IModelWriter modelWriter) {
-    super(identifier, modelWriter);
+  public PipedMiniZincExecutor(String identifier) {
+    super(identifier);
   }
 
   @Override
-  public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
-    super.startProcess(timeoutMs, additionalOptions);
-    fznFile = TemporaryFiles.createFZN();
-    startProcess(new MznToFznExecutable(modelToTempFile(), fznFile, FLATZINC_SOLVER), timeoutMs, additionalOptions);
+  public void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionalOptions) throws IOException {
+    super.startProcess(modelWriter, timeoutMs, additionalOptions);
+    this.fznFile = TemporaryFiles.createFZN();
+    this.modelWriter = modelWriter;
+    startProcess(new MznToFznExecutable(modelToTempFile(modelWriter), fznFile, FLATZINC_SOLVER), modelWriter, timeoutMs,
+        additionalOptions);
   }
 
   @Override
@@ -46,7 +49,7 @@ public class PipedMiniZincExecutor extends Executor {
 
     if (getLastExitCode() == EXIT_CODE_SUCCESS) {
       // execute and wait for solver:
-      startProcess(new FlatZincSolverExecutable(fznFile, FLATZINC_SOLVER), remainingTime());
+      startProcess(new FlatZincSolverExecutable(fznFile, FLATZINC_SOLVER), modelWriter, remainingTime());
       elapsedTime += super.waitForSolution();
     }
 

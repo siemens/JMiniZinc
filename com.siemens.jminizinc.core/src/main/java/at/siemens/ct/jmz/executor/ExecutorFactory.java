@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,12 +9,10 @@ package at.siemens.ct.jmz.executor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import at.siemens.ct.jmz.writer.IModelWriter;
-
 /**
  * A factory for {@link Executor}s
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  *
  * @param <E>
  *          the type of Executors produced by this factory
@@ -27,10 +25,10 @@ public class ExecutorFactory<E extends Executor> {
     this.executorClass = executorClass;
   }
 
-  public E createExecutor(String identifier, IModelWriter modelWriter) {
+  public E createExecutor(String identifier) {
     try {
-      Constructor<E> constructor = executorClass.getConstructor(String.class, IModelWriter.class);
-      return constructor.newInstance(identifier, modelWriter);
+      Constructor<E> constructor = executorClass.getConstructor(String.class);
+      return constructor.newInstance(identifier);
     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException e) {
       throw new IllegalStateException(e);

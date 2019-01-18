@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -15,17 +15,17 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  * disadvantage of this is that we cannot kill grandchild processes, so this executor cannot guarantee that all
  * processes are terminated when it is interrupted.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public class MiniZincExecutor extends Executor {
 
-  public MiniZincExecutor(String identifier, IModelWriter modelWriter) {
-    super(identifier, modelWriter);
+  public MiniZincExecutor(String identifier) {
+    super(identifier);
   }
 
   @Override
-  public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
-    startProcess(new MiniZincExecutable(modelToTempFile()), timeoutMs, additionalOptions);
+  public void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionalOptions) throws IOException {
+    startProcess(new MiniZincExecutable(modelToTempFile(modelWriter)), modelWriter, timeoutMs, additionalOptions);
   }
 
 }

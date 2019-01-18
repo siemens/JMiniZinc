@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -8,8 +8,10 @@ package at.siemens.ct.jmz.executor;
 
 import java.io.IOException;
 
+import at.siemens.ct.jmz.writer.IModelWriter;
+
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public interface IExecutor {
 
@@ -18,8 +20,8 @@ public interface IExecutor {
   /**
    * Calls {@link #startProcess(Long)} without a time limit.
    */
-  default void startProcess(String... additionaloptions) throws IOException {
-    startProcess(null,additionaloptions);
+  default void startProcess(IModelWriter modelWriter, String... additionaloptions) throws IOException {
+    startProcess(modelWriter, null, additionaloptions);
   }
 
   /**
@@ -28,6 +30,8 @@ public interface IExecutor {
    * underlying solver supports it, it will additionally be asked to voluntarily terminate 1 second before that. Note
    * that child processes spawned by the underlying solver cannot be killed.
    * 
+   * @param modelWriter
+   *          the model to solve
    * @param timeoutMs
    *          a time limit in milliseconds.
    * @param additionaloptions
@@ -35,7 +39,7 @@ public interface IExecutor {
    * @throws IOException
    *           if a process executable cannot be found.
    */
-  void startProcess(Long timeoutMs,String... additionaloptions) throws IOException;  
+  void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionaloptions) throws IOException;
   
   /**
    * Waits until the running process returns with a solution.

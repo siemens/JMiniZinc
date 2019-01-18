@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,11 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import at.siemens.ct.jmz.executor.IExecutor;
+import at.siemens.ct.jmz.writer.IModelWriter;
 
 /**
  * Tests {@link MiniZincOutputParser}.
  * 
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public class TestOutputParser {
 
@@ -99,7 +100,7 @@ public class TestOutputParser {
     }
 
     @Override
-    public void startProcess(Long timeoutMs, String... additionalOptions) throws IOException {
+    public void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionalOptions) throws IOException {
       this.startTime = System.currentTimeMillis();
     }
 

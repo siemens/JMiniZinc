@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2018
+ * Copyright Siemens AG, 2018-2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -79,8 +79,8 @@ public class NQueensDemo {
 		ModelWriter writer = new ModelWriter(model);
 		writer.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
 
-		Executor executor = new PipedMiniZincExecutor("executor", writer);
-		executor.startProcess(1000L);
+    Executor executor = new PipedMiniZincExecutor("executor");
+    executor.startProcess(writer, 1000L);
 		executor.waitForSolution();
 
 		Integer[] result = q.parseResults(executor.getLastSolverOutput());
