@@ -10,6 +10,7 @@ import static at.siemens.ct.jmz.expressions.bool.RelationalOperator.NEQ;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -18,10 +19,13 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 import at.siemens.ct.jmz.executor.Executor;
+import at.siemens.ct.jmz.executor.MiniZincExecutor;
 import at.siemens.ct.jmz.executor.PipedMiniZincExecutor;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.array.IntegerArrayAccessExpression;
@@ -39,18 +43,32 @@ import at.siemens.ct.jmz.writer.ModelWriter;
 @RunWith(Parameterized.class)
 public class NQueensDemo {
 
-	private int n;
+  @Parameter(0)
+  public Executor executor;
 
-	@Parameterized.Parameters
-	public static Collection<Integer> n() {
-		return Arrays.asList(4, 8, 10);
-	}
+  @Parameter(1)
+  public int n;
 
-	public NQueensDemo(int n) {
-		this.n = n;
-	}
+  @Parameters(name = "{0}/{1}")
+  public static Collection<Object[]> parameters() {
+    Collection<Executor> executors = Arrays.asList(new PipedMiniZincExecutor("PipedMiniZincExecutor"),
+        new MiniZincExecutor("MiniZincExecutor"));
+    Collection<Integer> ns = Arrays.asList(4, 8, 10);
 
-	@Test
+    Collection<Object[]> factories = new ArrayList<>();
+
+    for (Executor executor : executors) {
+      for (int n : ns) {
+        factories.add(new Object[] {
+            executor, n
+        });
+      }
+    }
+
+    return factories;
+  }
+
+  @Test
 	public void nQueens() throws InterruptedException, IOException {
 		RangeExpression range = new RangeExpression(1, n);
 		IntegerArray q = IntegerArray.createVariable("q", range, range); // queen in column i is in row q[i]
@@ -79,8 +97,7 @@ public class NQueensDemo {
 		ModelWriter writer = new ModelWriter(model);
 		writer.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
 
-    Executor executor = new PipedMiniZincExecutor("executor");
-    executor.startProcess(writer, 1000L);
+    executor.startProcess(writer, 2000L);
 		executor.waitForSolution();
 
 		Integer[] result = q.parseResults(executor.getLastSolverOutput());
