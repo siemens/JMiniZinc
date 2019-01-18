@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016-2017
+ * Copyright Siemens AG, 2016-2017, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -23,7 +23,7 @@ import at.siemens.ct.jmz.expressions.set.SetExpression;
  * Represents a MiniZinc array.
  * Depending on the {@link TypeInst} contained within an instance of this class, the array can either be variable or constant.
  * 
- * @author Copyright Siemens AG, 2016-2017
+ * @author Copyright Siemens AG, 2016-2017, 2019
  *
  * @param <T> The primitive type of the elements in this array (e.g. {@link Integer})
  * @param <V> The data type of the values in this array (e.g. {@link Integer} or {@link java.util.Set}{@code <Integer>})
@@ -74,7 +74,7 @@ public abstract class Array<T, V> extends TypeInst<T, V[]> implements ArrayExpre
 	public Pattern getPattern() {
     String elementPattern = innerTypeInst.getPattern().pattern();
 		return Pattern.compile(
-				"array(\\d)d\\((\\d+..\\d+, )+\\[((" + elementPattern + ", )*" + elementPattern + ")\\]\\)");
+        "array(\\d)d\\((\\d+..\\d+\\s*,\\s*)+\\[((" + elementPattern + ", )*" + elementPattern + ")\\]\\)");
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public abstract class Array<T, V> extends TypeInst<T, V[]> implements ArrayExpre
   public abstract Array<T, V> substitute(String name, Object value);
 
 	public static <T, V> Array<T, V> singleton(Expression<T> element) {
-		return new SingletonArray<T, V>(element);
+		return new SingletonArray<>(element);
 	}
 
 	private static class SingletonArray<T, V> extends Array<T, V> {
@@ -192,7 +192,7 @@ public abstract class Array<T, V> extends TypeInst<T, V[]> implements ArrayExpre
 
     @Override
     public SingletonArray<T, V> substitute(String name, Object value) {
-      return new SingletonArray<T, V>(element.substitute(name, value));
+      return new SingletonArray<>(element.substitute(name, value));
     }
 
 	}
