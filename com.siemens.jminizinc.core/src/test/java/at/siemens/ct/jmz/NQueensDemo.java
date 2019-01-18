@@ -25,7 +25,9 @@ import org.junit.runners.Parameterized.Parameters;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 import at.siemens.ct.jmz.executor.Executor;
+import at.siemens.ct.jmz.executor.FlatZincSolver;
 import at.siemens.ct.jmz.executor.MiniZincExecutor;
+import at.siemens.ct.jmz.executor.MiniZincSolver;
 import at.siemens.ct.jmz.executor.PipedMiniZincExecutor;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.array.IntegerArrayAccessExpression;
@@ -51,8 +53,13 @@ public class NQueensDemo {
 
   @Parameters(name = "{0}/{1}")
   public static Collection<Object[]> parameters() {
-    Collection<Executor> executors = Arrays.asList(new PipedMiniZincExecutor("PipedMiniZincExecutor"),
-        new MiniZincExecutor("MiniZincExecutor"));
+    Collection<Executor> executors = new ArrayList<>();
+    for (MiniZincSolver solver : MiniZincSolver.values()) {
+      executors.add(new MiniZincExecutor(solver.name(), solver));
+    }
+    for (FlatZincSolver solver : FlatZincSolver.values()) {
+      executors.add(new PipedMiniZincExecutor(solver.name(), solver));
+    }
     Collection<Integer> ns = Arrays.asList(4, 8, 10);
 
     Collection<Object[]> factories = new ArrayList<>();
@@ -97,8 +104,9 @@ public class NQueensDemo {
 		ModelWriter writer = new ModelWriter(model);
 		writer.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
 
-    executor.startProcess(writer, 2000L);
+	    executor.startProcess(writer);
 		executor.waitForSolution();
+	    System.err.println(executor.getLastSolverErrors());
 
 		Integer[] result = q.parseResults(executor.getLastSolverOutput());
 		System.out.println(Arrays.toString(result));

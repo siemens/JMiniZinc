@@ -22,8 +22,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class PipedMiniZincExecutor extends Executor {
 
-  private static final FlatZincSolver FLATZINC_SOLVER = FlatZincSolver.GECODE;
-
+  private FlatZincSolver solver = FlatZincSolver.GECODE;
   private File fznFile;
   private IModelWriter modelWriter;
 
@@ -31,12 +30,17 @@ public class PipedMiniZincExecutor extends Executor {
     super(identifier);
   }
 
+  public PipedMiniZincExecutor(String identifier, FlatZincSolver solver) {
+    super(identifier);
+    this.solver = solver;
+  }
+
   @Override
   public void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionalOptions) throws IOException {
     super.startProcess(modelWriter, timeoutMs, additionalOptions);
     this.fznFile = TemporaryFiles.createFZN();
     this.modelWriter = modelWriter;
-    startProcess(new MznToFznExecutable(modelToTempFile(modelWriter), fznFile, FLATZINC_SOLVER), modelWriter, timeoutMs,
+    startProcess(new MznToFznExecutable(modelToTempFile(modelWriter), fznFile, solver), modelWriter, timeoutMs,
         additionalOptions);
   }
 
@@ -49,7 +53,7 @@ public class PipedMiniZincExecutor extends Executor {
 
     if (getLastExitCode() == EXIT_CODE_SUCCESS) {
       // execute and wait for solver:
-      startProcess(new FlatZincSolverExecutable(fznFile, FLATZINC_SOLVER), modelWriter, remainingTime());
+      startProcess(new FlatZincSolverExecutable(fznFile, solver), modelWriter, remainingTime());
       elapsedTime += super.waitForSolution();
     }
 

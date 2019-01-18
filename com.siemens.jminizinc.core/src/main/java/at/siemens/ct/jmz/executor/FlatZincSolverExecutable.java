@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author Copyright Siemens AG, 2016
+ * @author Copyright Siemens AG, 2016, 2019
  */
 public class FlatZincSolverExecutable implements Executable {
 
@@ -35,7 +35,7 @@ public class FlatZincSolverExecutable implements Executable {
     List<String> options = new ArrayList<>();
 
     if (timeoutMs != null) {
-      options.add("-time");
+      options.add(flatZincSolver.getTimeOutFlag());
       options.add(String.valueOf(timeoutMs));
     }
 

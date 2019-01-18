@@ -36,7 +36,7 @@ public abstract class Executor implements IExecutor {
   private static final Set<Process> ACTIVE_PROCESSES = Collections
       .synchronizedSet(new LinkedHashSet<Process>());
 
-  private String identifier;
+  protected String identifier;
   private Long timeoutMs;
   private Stack<Process> runningProcesses = new Stack<>();
   private Map<Process, Long> startTimes = new HashMap<>();
@@ -195,6 +195,11 @@ public abstract class Executor implements IExecutor {
       }
     }
     return false;
+  }
+
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName() + "(" + identifier + ")";
   }
 
 }

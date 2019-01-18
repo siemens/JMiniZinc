@@ -19,13 +19,21 @@ import at.siemens.ct.jmz.writer.IModelWriter;
  */
 public class MiniZincExecutor extends Executor {
 
+  private MiniZincSolver solver = MiniZincSolver.GECODE;
+
   public MiniZincExecutor(String identifier) {
     super(identifier);
   }
 
+  public MiniZincExecutor(String identifier, MiniZincSolver solver) {
+    super(identifier);
+    this.solver = solver;
+  }
+
   @Override
   public void startProcess(IModelWriter modelWriter, Long timeoutMs, String... additionalOptions) throws IOException {
-    startProcess(new MiniZincExecutable(modelToTempFile(modelWriter)), modelWriter, timeoutMs, additionalOptions);
+    startProcess(new MiniZincExecutable(solver, modelToTempFile(modelWriter)), modelWriter, timeoutMs,
+        additionalOptions);
   }
 
 }
