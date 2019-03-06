@@ -10,24 +10,22 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Enables the choice between different MiniZinc solvers (like Gecode, G12, ...)
+ * Enables the choice between different MiniZinc solvers (like Chuffed, Gecode, ...)
  * 
  * @author Copyright Siemens AG, 2019
  */
 public enum MiniZincSolver {
 
-  GECODE("minizinc"),
-  G12_fd("minizinc", "-G", "g12_fd"),
-  G12_lazyfd("minizinc", "-G", "g12_lazyfd", "-b", "lazyfd"),
-  G12_MIP("minizinc", "-G", "linear", "-b", "mip"),
-  CBC("mzn-cbc", "-G", "linear");
+  CHUFFED("chuffed"),
+  GECODE("gecode"),
+  OSICBC("osicbc");
   
   private String executableName;
   private String[] options;
 
-  private MiniZincSolver(String executableName, String... options) {
-    this.executableName = executableName;
-    this.options = options;
+  private MiniZincSolver(String solverName) {
+    this.executableName = "minizinc";
+    this.options = new String[] { "--solver", solverName };
   }
 
   public String getExecutableName() {
