@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016-2017
+ * Copyright Siemens AG, 2016-2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -22,7 +22,7 @@ import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
 
 /**
- * @author Copyright Siemens AG, 2016-2017
+ * @author Copyright Siemens AG, 2016-2019
  */
 public class ConsistencyChecker {
 
@@ -36,7 +36,7 @@ public class ConsistencyChecker {
 		modelBuilder = new ModelBuilder();
 		modelWriter = new ModelWriter(modelBuilder);
 		modelWriter.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
-		executor = new PipedMiniZincExecutor("consistencyChecker", modelWriter);
+		executor = new PipedMiniZincExecutor("consistencyChecker");
 	}
 
   public boolean isConsistent(Collection<? extends Element> fixedElements) throws DiagnosisException {
@@ -86,7 +86,7 @@ public class ConsistencyChecker {
 
   private String callExecutor() throws DiagnosisException {
     try {
-      executor.startProcess();
+      executor.startProcess(modelWriter);
       executor.waitForSolution();
     } catch (IOException e) {
       throw new DiagnosisException("Solver could not be started", e);
