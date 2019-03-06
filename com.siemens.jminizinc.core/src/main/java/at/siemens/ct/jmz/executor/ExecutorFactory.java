@@ -25,10 +25,20 @@ public class ExecutorFactory<E extends Executor> {
     this.executorClass = executorClass;
   }
 
-  public E createExecutor(String identifier) {
+  public E createExecutor(String identifier, MiniZincSolver miniZincSolver) {
     try {
-      Constructor<E> constructor = executorClass.getConstructor(String.class);
-      return constructor.newInstance(identifier);
+      Constructor<E> constructor = executorClass.getConstructor(String.class, MiniZincSolver.class);
+      return constructor.newInstance(identifier, miniZincSolver);
+    } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+        | IllegalArgumentException | InvocationTargetException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  public E createExecutor(String identifier, FlatZincSolver flatZincSolver) {
+    try {
+      Constructor<E> constructor = executorClass.getConstructor(String.class, FlatZincSolver.class);
+      return constructor.newInstance(identifier, flatZincSolver);
     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException e) {
       throw new IllegalStateException(e);
