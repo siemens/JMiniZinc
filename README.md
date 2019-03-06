@@ -25,7 +25,7 @@ Artifacts generated will be placed in the `target/` folders in the subprojects. 
 
 ## Usage
 
-You should be able to figure out quickly how to use JMiniZinc by looking at our [JUnit tests](/com.siemens.jminizinc.core/src/test/java/at/siemens/ct/jmz).
+You should be able to figure out quickly how to use JMiniZinc by looking at our [JUnit tests](/com.siemens.jminizinc.core/src/test/java/at/siemens/ct/jmz), especially [NQueensDemo](https://github.com/siemens/JMiniZinc/blob/master/com.siemens.jminizinc.core/src/test/java/at/siemens/ct/jmz/NQueensDemo.java).
 First you construct a MiniZinc model by adding [`Variable`](/com.siemens.jminizinc.core/src/main/java/at/siemens/ct/jmz/elements/Variable.java)s, [`Constraint`](/com.siemens.jminizinc.core/src/main/java/at/siemens/ct/jmz/elements/constraints/Constraint.java)s etc. to a [`ModelBuilder`](/com.siemens.jminizinc.core/src/main/java/at/siemens/ct/jmz/IModelBuilder.java),
 Then you add additional syntactical elements (e.g. a solving strategy) to a [`ModelWriter`](/com.siemens.jminizinc.core/src/main/java/at/siemens/ct/jmz/writer/IModelWriter.java)
 and let the resulting model be solved by an [`Executor`](/com.siemens.jminizinc.core/src/main/java/at/siemens/ct/jmz/executor/IExecutor.java).
