@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.siemens</groupId>
 		<artifactId>jminizinc</artifactId>
-		<version>1.5</version>
+		<version>1.5.1</version>
 		<relativePath>../com.siemens.jminizinc</relativePath>
 	</parent>
 
@@ -13,7 +13,7 @@
 	<groupId>com.siemens.jminizinc</groupId>
 	<artifactId>core</artifactId>
 
-	<name>JMiniZinc</name>
+	<name>JMiniZinc Core</name>
 	<description>JMiniZinc is a Java interface to the constraint modeling language MiniZinc. It provides an API to generate MiniZinc models, to start MiniZinc compilers and solvers (which are not part of JMiniZinc), and to parse the output of solvers.</description>
 	<url>https://github.com/siemens/JMiniZinc</url>
 	<inceptionYear>2016</inceptionYear>

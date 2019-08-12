@@ -16,6 +16,7 @@ import java.util.List;
  */
 public enum MiniZincSolver {
 
+  DEFAULT(null),
   CHUFFED("chuffed"),
   GECODE("gecode"),
   OSICBC("osicbc");
@@ -23,9 +24,9 @@ public enum MiniZincSolver {
   private String executableName;
   private String[] options;
 
-  private MiniZincSolver(String solverName) {
+  MiniZincSolver(String solverName) {
     this.executableName = "minizinc";
-    this.options = new String[] { "--solver", solverName };
+    this.options = solverName == null ? new String[] { } : new String[] { "--solver", solverName };
   }
 
   public String getExecutableName() {
@@ -33,7 +34,7 @@ public enum MiniZincSolver {
   }
 
   public List<String> getOptions() {
-    return Arrays.<String> asList(options);
+    return Arrays.asList(options);
   }
 
 }
