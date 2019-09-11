@@ -1,5 +1,5 @@
 /**
- * Copyright Siemens AG, 2016
+ * Copyright Siemens AG, 2016, 2019
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -20,7 +20,7 @@ public class MiniZincOutputParser {
 
   private final IExecutor executor;
 
-  public MiniZincOutputParser(IExecutor executor) {
+  MiniZincOutputParser(IExecutor executor) {
     this.executor = executor;
   }
 
@@ -33,7 +33,7 @@ public class MiniZincOutputParser {
    * 
    * @return the entire string that has been written by the solver to stdout.
    */
-  public String getAllOutput() {
+  private String getAllOutput() {
     return executor.getLastSolverOutput();
   }
 
@@ -52,13 +52,13 @@ public class MiniZincOutputParser {
    * @return the part of the solver output that is found between the last and the second-to-last
    *         {@link #SOLUTION_SEPARATOR}.
    */
-  public String getLastSolution() {
+  String getLastSolution() {
     return extractLastSolution(SOLUTION_SEPARATOR, SOLUTION_SEPARATOR);
   }
 
   private String extractLastSolution(String sepBefore, String sepAfter) {
     String allOutput = getAllOutput();
-    return StringUtils.removePostfixAndPrefix(allOutput, sepBefore, sepAfter);
+    return allOutput == null ? null : StringUtils.removePostfixAndPrefix(allOutput, sepBefore, sepAfter);
   }
 
 }
