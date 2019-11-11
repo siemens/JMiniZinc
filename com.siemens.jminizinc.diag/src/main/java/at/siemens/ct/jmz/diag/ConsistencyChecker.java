@@ -89,7 +89,7 @@ public class ConsistencyChecker {
       executor.startProcess(modelWriter);
       executor.waitForSolution();
     } catch (IOException e) {
-      throw new DiagnosisException("Solver could not be started", e);
+      throw new DiagnosisException("Solver could not be started. " + e.getMessage(), e);
     } catch (InterruptedException e) {
     }
 
