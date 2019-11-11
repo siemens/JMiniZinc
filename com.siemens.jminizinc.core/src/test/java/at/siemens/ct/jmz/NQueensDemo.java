@@ -6,29 +6,11 @@
  */
 package at.siemens.ct.jmz;
 
-import static at.siemens.ct.jmz.expressions.bool.RelationalOperator.NEQ;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
-
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 import at.siemens.ct.jmz.executor.Executor;
-import at.siemens.ct.jmz.executor.FlatZincSolver;
 import at.siemens.ct.jmz.executor.MiniZincExecutor;
 import at.siemens.ct.jmz.executor.MiniZincSolver;
-import at.siemens.ct.jmz.executor.PipedMiniZincExecutor;
 import at.siemens.ct.jmz.expressions.array.IntegerArray;
 import at.siemens.ct.jmz.expressions.array.IntegerArrayAccessExpression;
 import at.siemens.ct.jmz.expressions.bool.Forall;
@@ -38,6 +20,17 @@ import at.siemens.ct.jmz.expressions.comprehension.IteratorExpression;
 import at.siemens.ct.jmz.expressions.integer.ArithmeticOperation;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.writer.ModelWriter;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
+
+import java.io.IOException;
+import java.util.*;
+
+import static at.siemens.ct.jmz.expressions.bool.RelationalOperator.NEQ;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Contains a full-blown example to solve the n-queens problem with JMiniZinc.
@@ -56,9 +49,6 @@ public class NQueensDemo {
     Collection<Executor> executors = new ArrayList<>();
     for (MiniZincSolver solver : MiniZincSolver.values()) {
       executors.add(new MiniZincExecutor(solver.name(), solver));
-    }
-    for (FlatZincSolver solver : FlatZincSolver.values()) {
-      executors.add(new PipedMiniZincExecutor(solver.name(), solver));
     }
     Collection<Integer> ns = Arrays.asList(4, 8, 10);
 

@@ -6,20 +6,23 @@
  */
 package at.siemens.ct.jmz.executor;
 
-import java.io.File;
-import java.io.IOException;
-
 import at.siemens.ct.jmz.files.TemporaryFiles;
 import at.siemens.ct.jmz.writer.IModelWriter;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Executes <i>mzn2fzn</i> and <i>fzn-gecode</i> separately. This has the advantage over {@link MiniZincExecutor} that
  * the executor has control over both processes and can kill them if it is interrupted. Because of this, this
  * implementation should be preferred over {@link MiniZincExecutor} if a clean exit behaviour in case of interrupts is
  * required.
+ *
+ * @deprecated because in the latest releases of MiniZinc IDE, mzn2fzn is not shipped as a separate executable anymore.
  * 
  * @author Copyright Siemens AG, 2016, 2019
  */
+@Deprecated
 public class PipedMiniZincExecutor extends Executor {
 
   private FlatZincSolver solver = FlatZincSolver.GECODE;

@@ -6,13 +6,6 @@
  */
 package at.siemens.ct.jmz.executor;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.Set;
@@ -22,6 +15,12 @@ import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Tests {@link Executor}
@@ -32,7 +31,7 @@ public class TestExecutor {
 
   private IModelBuilder modelBuilder = new ModelBuilder();
   private IModelWriter modelWriter = new ModelWriter(modelBuilder);
-  private IExecutor executor = new PipedMiniZincExecutor("test");
+  private IExecutor executor = new MiniZincExecutor("test");
 
   @Before
   public void setUp() {

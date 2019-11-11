@@ -6,20 +6,20 @@
  */
 package at.siemens.ct.jmz.diag;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
 import at.siemens.ct.jmz.IModelBuilder;
 import at.siemens.ct.jmz.ModelBuilder;
 import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.elements.solving.SolvingStrategy;
 import at.siemens.ct.jmz.executor.IExecutor;
-import at.siemens.ct.jmz.executor.PipedMiniZincExecutor;
+import at.siemens.ct.jmz.executor.MiniZincExecutor;
 import at.siemens.ct.jmz.writer.IModelWriter;
 import at.siemens.ct.jmz.writer.ModelWriter;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Copyright Siemens AG, 2016-2019
@@ -36,7 +36,7 @@ public class ConsistencyChecker {
 		modelBuilder = new ModelBuilder();
 		modelWriter = new ModelWriter(modelBuilder);
 		modelWriter.setSolvingStrategy(SolvingStrategy.SOLVE_SATISFY);
-		executor = new PipedMiniZincExecutor("consistencyChecker");
+		executor = new MiniZincExecutor("consistencyChecker");
 	}
 
   public boolean isConsistent(Collection<? extends Element> fixedElements) throws DiagnosisException {
