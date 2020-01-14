@@ -144,9 +144,10 @@ public class VariableDialog {
 		calculateOptions = new Button("Calculate valid options...");
 		algorithmChosing.add(calculateOptions);
 
-		generateSolution.addActionListener(e -> {
+		calculateOptions.addActionListener(e -> {
+			System.out.println("Calculating valid options...");
+
 			//TODO
-			System.out.println("Calculating valid options... (TODO)");
 		});
 
 		textLog = new TextArea();
