@@ -7,11 +7,19 @@
  */
 package at.siemens.ct.jmz.ui;
 
+import at.siemens.ct.jmz.diag.ConsistencyChecker;
+import at.siemens.ct.jmz.diag.DiagnosisException;
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.DiagnosisHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
+import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
+import at.siemens.ct.jmz.mznparser.ComponentType;
 import at.siemens.ct.jmz.mznparser.Displayable;
 import at.siemens.ct.jmz.mznparser.InfoGUI;
 import at.siemens.ct.jmz.mznparser.MiniZincCP;
@@ -147,7 +155,62 @@ public class VariableDialog {
 		calculateOptions.addActionListener(e -> {
 			System.out.println("Calculating valid options...");
 
-			//TODO
+			Set<Constraint> baseConstraints = getAllValuesFromTheInterface();
+			ConsistencyChecker checker = new ConsistencyChecker();
+			List<Element> model = new ArrayList<>();
+			model.add(new IncludeItem(mznFile));
+
+			for (DecisionVariableGUI control : mapWithControls) {
+				if (control.getComponentType() != ComponentType.CHOICE) continue;
+				List<String> possibleValues = control.getPossibleValues();
+
+				for (String possibleValue : possibleValues) {
+					Set<Constraint> extendedConstraints = new HashSet<>(baseConstraints);
+					extendedConstraints.removeIf(constraint -> {
+						if (!(constraint.getExpression() instanceof RelationalOperation)) {
+							return false;
+						}
+						RelationalOperation<?> casted = (RelationalOperation<?>) constraint.getExpression();
+						String expressionVarExpr = casted.getLeft().use();
+						return expressionVarExpr.equals(control.getLabel().getText());
+					});
+
+					if (possibleValue.equals("Undefined")) continue;
+
+					RelationalOperation<Object> expr = new RelationalOperation<>(new Expression<Object>() {
+						@Override
+						public String use() {
+							return control.getLabel().getText();
+						}
+
+						@Override
+						public Expression<Object> substitute(String name, Object value) {
+							throw new UnsupportedOperationException();
+						}
+					},
+						RelationalOperator.EQ, new Expression<Object>() {
+						@Override
+						public String use() {
+							return possibleValue;
+						}
+
+						@Override
+						public Expression<Object> substitute(String name, Object value) {
+							throw new UnsupportedOperationException();
+						}
+					});
+
+					Constraint constraint = new Constraint("validityCheck",
+						String.format("%s = %s", control.getLabel().getText(), possibleValue), expr);
+					extendedConstraints.add(constraint);
+
+					try {
+						control.setValueValidity(possibleValue, checker.isConsistent(extendedConstraints, (Collection<? extends Element>) model));
+					} catch (DiagnosisException ex) {
+						throw new RuntimeException(ex);
+					}
+				}
+			}
 		});
 
 		textLog = new TextArea();

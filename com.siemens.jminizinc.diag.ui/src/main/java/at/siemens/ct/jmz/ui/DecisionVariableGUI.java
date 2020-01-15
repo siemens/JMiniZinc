@@ -126,11 +126,23 @@ public class DecisionVariableGUI implements Comparable<DecisionVariableGUI> {
 		return variableName;
 	}
 
+	public List<String> getPossibleValues() {
+		return possibleValues;
+	}
+
+	public ComponentType getComponentType() {
+		return componentType;
+	}
+
+	private String removeInvalidFromValue(String value) {
+		return value.replace(" (invalid)", "");
+	}
+
 	public String getVariableValue() {
 		if (componentType == ComponentType.CHOICE)
-			return ((Choice) this.component).getSelectedItem();
+			return removeInvalidFromValue(((Choice) this.component).getSelectedItem());
 		else
-			return ((TextField) this.component).getText();
+			return removeInvalidFromValue(((TextField) this.component).getText());
 	}
 
 	@Override
