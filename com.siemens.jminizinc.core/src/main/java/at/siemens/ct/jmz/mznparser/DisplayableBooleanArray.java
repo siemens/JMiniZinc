@@ -6,9 +6,6 @@
  */
 package at.siemens.ct.jmz.mznparser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.array.BooleanArray;
 import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
@@ -18,6 +15,9 @@ import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
 import at.siemens.ct.jmz.expressions.integer.IntegerConstant;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DisplayableBooleanArray implements Displayable {
 
@@ -35,33 +35,31 @@ public class DisplayableBooleanArray implements Displayable {
 
 		String[] booleanArrayValues = value.split(",");
 		SetExpression<Integer> type = this.boolArray.getRange().get(0);
-		
-		if(!(type instanceof RangeExpression))
-		{
-      throw new UnsupportedOperationException(
-          String.format("This type of variable: %s cannot be used as index for array", type.use()));
+
+		if (!(type instanceof RangeExpression)) {
+			throw new UnsupportedOperationException(
+				String.format("This type of variable: %s cannot be used as index for array", type.use()));
 		}
-		
+
 		RangeExpression arrayIndexRange = (RangeExpression) type;
 		IntegerConstant startIndex = (IntegerConstant) arrayIndexRange.getLb();
 		Integer startIndexInteger = startIndex.getValue();
 
+		Integer index = startIndexInteger;
 		for (int i = 0; i < booleanArrayValues.length; i++) {
 
-			Integer index = startIndexInteger;
 			if (!booleanArrayValues[i].equals("Undefined")) {
 
 				Boolean variablevalue = Boolean.parseBoolean(booleanArrayValues[i]);
 				BooleanExpression booleanExpression = new RelationalOperation<>(this.boolArray.access(index),
-						RelationalOperator.EQ, new BooleanConstant(variablevalue));
+					RelationalOperator.EQ, new BooleanConstant(variablevalue));
 
 				constraint = new Constraint("userDefined",
-						String.format("%s = %s", this.getInfo().get(i).getLabelCaption(), variablevalue), booleanExpression);
+					String.format("%s = %s", this.getInfo().get(i).getLabelCaption(), variablevalue), booleanExpression);
 				constraints.add(constraint);
 			}
 			
 			index++;
-
 		}
 
 		return constraints;
@@ -78,10 +76,10 @@ public class DisplayableBooleanArray implements Displayable {
 		List<String> values = new ArrayList<>();
 		values.add("true");
 		values.add("false");
-		values.add("Undefided");
+		values.add("Undefined");
 		String arrayName = boolArray.getName();
 		indices = DisplayableIntegerVariable.generateListFromRangeExpression(arrayIndexRange.getLb(),
-				arrayIndexRange.getUb());
+			arrayIndexRange.getUb());
 		for (String index : indices) {
 
 			String variableName = String.format("%s[%s]", arrayName, index);
