@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.*;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+
 public class VariableDialog {
 
 	private List<Displayable> decisionVariables;
@@ -91,13 +93,13 @@ public class VariableDialog {
 				mznFile = new File(mznpath);
 				if (!mznFile.exists()) {
 					JOptionPane.showMessageDialog(null, String.format("The file \"%s\" does not exist!", args[0]),
-						"Error", JOptionPane.ERROR_MESSAGE);
+						"Error", ERROR_MESSAGE);
 					return;
 				}
 				new VariableDialog(mznFile);
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "An error occured", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "An error occured", ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 
@@ -153,64 +155,14 @@ public class VariableDialog {
 		algorithmChosing.add(calculateOptions);
 
 		calculateOptions.addActionListener(e -> {
-			System.out.println("Calculating valid options...");
-
-			Set<Constraint> baseConstraints = getAllValuesFromTheInterface();
-			ConsistencyChecker checker = new ConsistencyChecker();
-			List<Element> model = new ArrayList<>();
-			model.add(new IncludeItem(mznFile));
-
-			for (DecisionVariableGUI control : mapWithControls) {
-				if (control.getComponentType() != ComponentType.CHOICE) continue;
-				List<String> possibleValues = control.getPossibleValues();
-
-				for (String possibleValue : possibleValues) {
-					Set<Constraint> extendedConstraints = new HashSet<>(baseConstraints);
-					extendedConstraints.removeIf(constraint -> {
-						if (!(constraint.getExpression() instanceof RelationalOperation)) {
-							return false;
-						}
-						RelationalOperation<?> casted = (RelationalOperation<?>) constraint.getExpression();
-						String expressionVarExpr = casted.getLeft().use();
-						return expressionVarExpr.equals(control.getLabel().getText());
-					});
-
-					if (possibleValue.equals("Undefined")) continue;
-
-					RelationalOperation<Object> expr = new RelationalOperation<>(new Expression<Object>() {
-						@Override
-						public String use() {
-							return control.getLabel().getText();
-						}
-
-						@Override
-						public Expression<Object> substitute(String name, Object value) {
-							throw new UnsupportedOperationException();
-						}
-					},
-						RelationalOperator.EQ, new Expression<Object>() {
-						@Override
-						public String use() {
-							return possibleValue;
-						}
-
-						@Override
-						public Expression<Object> substitute(String name, Object value) {
-							throw new UnsupportedOperationException();
-						}
-					});
-
-					Constraint constraint = new Constraint("validityCheck",
-						String.format("%s = %s", control.getLabel().getText(), possibleValue), expr);
-					extendedConstraints.add(constraint);
-
-					try {
-						control.setValueValidity(possibleValue, checker.isConsistent(extendedConstraints, (Collection<? extends Element>) model));
-					} catch (DiagnosisException ex) {
-						throw new RuntimeException(ex);
-					}
-				}
+			calculateOptions.setEnabled(false);
+			try {
+				generateValidOptions();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(mainFrame, "An error occurred: " + ex.getClass().getSimpleName() + " - " + ex.getMessage(), "Error occured", ERROR_MESSAGE);
 			}
+			calculateOptions.setEnabled(true);
 		});
 
 		textLog = new TextArea();
@@ -221,6 +173,67 @@ public class VariableDialog {
 		panel.add(textLog);
 
 		controlPanel.add(panel);
+	}
+
+	private void generateValidOptions() {
+		System.out.println("Calculating valid options...");
+
+		Set<Constraint> baseConstraints = getAllValuesFromTheInterface();
+		ConsistencyChecker checker = new ConsistencyChecker();
+		List<Element> model = new ArrayList<>();
+		model.add(new IncludeItem(mznFile.getAbsoluteFile()));
+
+		for (DecisionVariableGUI control : mapWithControls) {
+			if (control.getComponentType() != ComponentType.CHOICE) continue;
+			List<String> possibleValues = control.getPossibleValues();
+
+			for (String possibleValue : possibleValues) {
+				Set<Constraint> extendedConstraints = new HashSet<>(baseConstraints);
+				extendedConstraints.removeIf(constraint -> {
+					if (!(constraint.getExpression() instanceof RelationalOperation)) {
+						return false;
+					}
+					RelationalOperation<?> casted = (RelationalOperation<?>) constraint.getExpression();
+					String expressionVarExpr = casted.getLeft().use();
+					return expressionVarExpr.equals(control.getLabel().getText());
+				});
+
+				if (possibleValue.equals("Undefined")) continue;
+
+				RelationalOperation<Object> expr = new RelationalOperation<>(new Expression<Object>() {
+					@Override
+					public String use() {
+						return control.getLabel().getText();
+					}
+
+					@Override
+					public Expression<Object> substitute(String name, Object value) {
+						throw new UnsupportedOperationException();
+					}
+				},
+					RelationalOperator.EQ, new Expression<Object>() {
+					@Override
+					public String use() {
+						return possibleValue;
+					}
+
+					@Override
+					public Expression<Object> substitute(String name, Object value) {
+						throw new UnsupportedOperationException();
+					}
+				});
+
+				Constraint constraint = new Constraint("validityCheck",
+					String.format("%s = %s", control.getLabel().getText(), possibleValue), expr);
+				extendedConstraints.add(constraint);
+
+				try {
+					control.setValueValidity(possibleValue, checker.isConsistent(extendedConstraints, (Collection<? extends Element>) model));
+				} catch (DiagnosisException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
+		}
 	}
 
 	private void displayDecisionVariables() {
@@ -362,7 +375,7 @@ public class VariableDialog {
 		} catch (Exception ex) {
 
 			JOptionPane.showMessageDialog(controlPanel, String.format("An error occured! %s", ex.getMessage()), "Error",
-				JOptionPane.ERROR_MESSAGE);
+				ERROR_MESSAGE);
 
 			ex.printStackTrace();
 		}

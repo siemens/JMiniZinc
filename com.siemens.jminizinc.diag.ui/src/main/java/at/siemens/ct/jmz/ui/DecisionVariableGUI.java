@@ -31,7 +31,7 @@ public class DecisionVariableGUI implements Comparable<DecisionVariableGUI> {
 	private String variableName;
 	private ComponentType componentType;
 
-	private final Dimension COMPONENT_DIMENSION = new Dimension(87, 20);
+	private final Dimension COMPONENT_DIMENSION = new Dimension(160, 20);
 	private final Dimension LABEL_DIMENSION = new Dimension(70, 20);
 
 	public DecisionVariableGUI(InfoGUI variableInformations) {
