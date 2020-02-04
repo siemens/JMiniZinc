@@ -1,25 +1,20 @@
-/**
- * Copyright Siemens AG, 2016
- * 
+/*
+ * Copyright Siemens AG, 2016, 2020
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.jmz.mznparser;
 
+import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.expressions.bool.*;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import at.siemens.ct.jmz.elements.constraints.Constraint;
-import at.siemens.ct.jmz.expressions.bool.BooleanConstant;
-import at.siemens.ct.jmz.expressions.bool.BooleanExpression;
-import at.siemens.ct.jmz.expressions.bool.BooleanVariable;
-import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
-import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
-
 public class DisplayableBooleanVariable extends BooleanVariable implements Displayable {
 
-	private static final String UNDEFINED = "Undefined";
 	private static final String TRUE = "true";
 	private static final String FALSE = "false";
 
@@ -37,7 +32,7 @@ public class DisplayableBooleanVariable extends BooleanVariable implements Displ
 
 	@Override
 	public List<Constraint> createConstraint(String value) {
-		if (!value.isEmpty() && !value.equals(UNDEFINED)) {
+		if (!value.isEmpty() && !value.equals(VALUE_UNDEFINED)) {
 			boolean variableValue = this.parseValue(value);
 			BooleanExpression booleanExpression = new RelationalOperation<>(this, RelationalOperator.EQ,
 					new BooleanConstant(variableValue));
@@ -52,7 +47,7 @@ public class DisplayableBooleanVariable extends BooleanVariable implements Displ
 	@Override
 	public List<InfoGUI> getInfo() {
 		return Collections.singletonList(new InfoGUI(getName(), getName(),
-      ComponentType.CHOICE, Arrays.asList(TRUE, FALSE, UNDEFINED)));
+      ComponentType.CHOICE, Arrays.asList(TRUE, FALSE, VALUE_UNDEFINED)));
 	}
 
 }

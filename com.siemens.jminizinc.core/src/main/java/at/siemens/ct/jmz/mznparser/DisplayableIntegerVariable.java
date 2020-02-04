@@ -1,14 +1,10 @@
-/**
- * Copyright Siemens AG, 2016-2017
+/*
+ * Copyright Siemens AG, 2016-2017, 2020
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.jmz.mznparser;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import at.siemens.ct.jmz.elements.constraints.Constraint;
 import at.siemens.ct.jmz.expressions.Expression;
@@ -20,6 +16,10 @@ import at.siemens.ct.jmz.expressions.integer.IntegerExpression;
 import at.siemens.ct.jmz.expressions.integer.IntegerVariable;
 import at.siemens.ct.jmz.expressions.set.RangeExpression;
 import at.siemens.ct.jmz.expressions.set.SetExpression;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class DisplayableIntegerVariable extends IntegerVariable implements Displayable {
 
@@ -38,7 +38,7 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 	@Override
   public List<Constraint> createConstraint(String value) {
 
-		if (value.equals("Undefined") || value.isEmpty())
+		if (value.equals(VALUE_UNDEFINED) || value.isEmpty())
 			return null;
 
 		if (!MiniZincElementFactory.isNumeric(value))
@@ -69,7 +69,7 @@ public class DisplayableIntegerVariable extends IntegerVariable implements Displ
 		if (type instanceof RangeExpression) {
 			variableRange = (RangeExpression) type;
 			possibleValues = generateListFromRangeExpression(variableRange.getLb(), variableRange.getUb());
-			possibleValues.add(0,"Undefined");
+			possibleValues.add(0,VALUE_UNDEFINED);
 			info = new InfoGUI(variableName, variableName, ComponentType.CHOICE, possibleValues);
 		} else {
 			possibleValues = Collections.emptyList();

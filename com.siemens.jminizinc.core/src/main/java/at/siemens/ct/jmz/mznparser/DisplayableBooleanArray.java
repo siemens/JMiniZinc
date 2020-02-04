@@ -1,5 +1,5 @@
-/**
- * Copyright Siemens AG, 2016-2017
+/*
+ * Copyright Siemens AG, 2016-2017, 2020
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -48,7 +48,7 @@ public class DisplayableBooleanArray implements Displayable {
 		Integer index = startIndexInteger;
 		for (int i = 0; i < booleanArrayValues.length; i++) {
 
-			if (!booleanArrayValues[i].equals("Undefined")) {
+			if (!booleanArrayValues[i].equals(VALUE_UNDEFINED)) {
 
 				Boolean variablevalue = Boolean.parseBoolean(booleanArrayValues[i]);
 				BooleanExpression booleanExpression = new RelationalOperation<>(this.boolArray.access(index),
@@ -76,7 +76,7 @@ public class DisplayableBooleanArray implements Displayable {
 		List<String> values = new ArrayList<>();
 		values.add("true");
 		values.add("false");
-		values.add("Undefined");
+		values.add(VALUE_UNDEFINED);
 		String arrayName = boolArray.getName();
 		indices = DisplayableIntegerVariable.generateListFromRangeExpression(arrayIndexRange.getLb(),
 			arrayIndexRange.getUb());

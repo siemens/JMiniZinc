@@ -199,7 +199,7 @@ public class VariableDialog {
 					return expressionVarExpr.equals(control.getLabel().getText());
 				});
 
-				if (possibleValue.equals("Undefined")) continue;
+				if (possibleValue.equals(Displayable.VALUE_UNDEFINED)) continue;
 
 				RelationalOperation<Object> expr = new RelationalOperation<>(new Expression<Object>() {
 					@Override

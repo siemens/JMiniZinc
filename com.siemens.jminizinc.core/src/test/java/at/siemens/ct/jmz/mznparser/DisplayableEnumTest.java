@@ -1,17 +1,22 @@
+/*
+ * Copyright Siemens AG, 2017-2020
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package at.siemens.ct.jmz.mznparser;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import at.siemens.ct.jmz.elements.constraints.Constraint;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import at.siemens.ct.jmz.elements.constraints.Constraint;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DisplayableEnumTest {
 
@@ -26,7 +31,7 @@ public class DisplayableEnumTest {
 
   @Test
   public void createConstraint_setUndefined_returnsNull() {
-    assertNull(defaultEnum.createConstraint("Undefined"));
+    assertNull(defaultEnum.createConstraint(Displayable.VALUE_UNDEFINED));
   }
 
   @Test(expected = IllegalArgumentException.class)
