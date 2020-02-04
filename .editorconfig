@@ -5,6 +5,6 @@ root = true
 
 # Java style
 [*.java]
-indent_style = space
+indent_style = tab
 indent_size = 2
 charset = utf-8

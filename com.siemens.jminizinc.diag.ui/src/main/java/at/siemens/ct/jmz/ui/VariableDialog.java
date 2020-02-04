@@ -1,50 +1,42 @@
-/**
+/*
  * Copyright Siemens AG, 2016-2017, 2019
- * 
+ * <p>
  * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file, You can obtain one at
  * http://mozilla.org/MPL/2.0/.
  */
 package at.siemens.ct.jmz.ui;
 
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.ScrollPane;
-import java.awt.TextArea;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
-import javax.swing.JOptionPane;
-
+import at.siemens.ct.jmz.diag.ConsistencyChecker;
+import at.siemens.ct.jmz.diag.DiagnosisException;
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionAlgorithm;
 import at.siemens.ct.jmz.diag.hsdag.ConflictDetectionHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.DiagnosisHSDAG;
 import at.siemens.ct.jmz.diag.hsdag.HSDAG;
+import at.siemens.ct.jmz.elements.Element;
 import at.siemens.ct.jmz.elements.constraints.Constraint;
+import at.siemens.ct.jmz.elements.include.IncludeItem;
+import at.siemens.ct.jmz.expressions.Expression;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperation;
+import at.siemens.ct.jmz.expressions.bool.RelationalOperator;
+import at.siemens.ct.jmz.mznparser.ComponentType;
 import at.siemens.ct.jmz.mznparser.Displayable;
 import at.siemens.ct.jmz.mznparser.InfoGUI;
 import at.siemens.ct.jmz.mznparser.MiniZincCP;
+
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.*;
+
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class VariableDialog {
 
@@ -55,18 +47,19 @@ public class VariableDialog {
 
 	private TextArea textLog;
 	private Button generateSolution;
+	private Button calculateOptions;
 	private Frame mainFrame;
 	private Panel controlPanel;
 	private Choice algorithmType;
 
-  private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
+	private final String SCD_HSDAG = "Simple Conflict Detection - HSDAG";
 	private final String QUICKXPLAIN_HSDAG = "QuickXPlain - HSDAG";
 	private final String FAST_DIAG_ALL = "FastDiag - all minimal diagnoses";
 	private final String FAST_DIAG = "FastDiag - first minimal diagnosis";
 
-  public VariableDialog(File mznFile) throws IOException {
+	public VariableDialog(File mznFile) throws IOException {
 		VariableDialog.mznFile = mznFile;
-    MiniZincCP mznCp = new MiniZincCP(mznFile);
+		MiniZincCP mznCp = new MiniZincCP(mznFile);
 		decisionVariables = mznCp.getElementsFromFile();
 		mapWithControls = new ArrayList<>();
 		userConstraints = new LinkedHashSet<>();
@@ -92,23 +85,21 @@ public class VariableDialog {
 			if (args.length > 0) {
 				mznpath = args[0];
 			} else {
-        FileChooserDialog fcd = new FileChooserDialog();
+				FileChooserDialog fcd = new FileChooserDialog();
 				mznpath = fcd.getFile();
 			}
 
-			if (!mznpath.isEmpty())
-
-			{
+			if (!mznpath.isEmpty()) {
 				mznFile = new File(mznpath);
 				if (!mznFile.exists()) {
 					JOptionPane.showMessageDialog(null, String.format("The file \"%s\" does not exist!", args[0]),
-							"Error", JOptionPane.ERROR_MESSAGE);
+						"Error", ERROR_MESSAGE);
 					return;
 				}
 				new VariableDialog(mznFile);
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "An error occured", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "An error occured", ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 
@@ -154,16 +145,24 @@ public class VariableDialog {
 		algorithmChosing.setAlignmentX(Box.RIGHT_ALIGNMENT);
 		panel.add(algorithmChosing);
 
-		generateSolution.addActionListener(new ActionListener() {
+		generateSolution.addActionListener(e -> {
+			generateSolution.setEnabled(false);
+			generateSolution();
+			generateSolution.setEnabled(true);
+		});
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				generateSolution.setEnabled(false);
-				generateSolution();
-				generateSolution.setEnabled(true);
+		calculateOptions = new Button("Calculate valid options...");
+		algorithmChosing.add(calculateOptions);
 
+		calculateOptions.addActionListener(e -> {
+			calculateOptions.setEnabled(false);
+			try {
+				generateValidOptions();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(mainFrame, "An error occurred: " + ex.getClass().getSimpleName() + " - " + ex.getMessage(), "Error occured", ERROR_MESSAGE);
 			}
-
+			calculateOptions.setEnabled(true);
 		});
 
 		textLog = new TextArea();
@@ -176,11 +175,72 @@ public class VariableDialog {
 		controlPanel.add(panel);
 	}
 
+	private void generateValidOptions() {
+		System.out.println("Calculating valid options...");
+
+		Set<Constraint> baseConstraints = getAllValuesFromTheInterface();
+		ConsistencyChecker checker = new ConsistencyChecker();
+		List<Element> model = new ArrayList<>();
+		model.add(new IncludeItem(mznFile.getAbsoluteFile()));
+
+		for (DecisionVariableGUI control : mapWithControls) {
+			if (control.getComponentType() != ComponentType.CHOICE) continue;
+			List<String> possibleValues = control.getPossibleValues();
+
+			for (String possibleValue : possibleValues) {
+				Set<Constraint> extendedConstraints = new HashSet<>(baseConstraints);
+				extendedConstraints.removeIf(constraint -> {
+					if (!(constraint.getExpression() instanceof RelationalOperation)) {
+						return false;
+					}
+					RelationalOperation<?> casted = (RelationalOperation<?>) constraint.getExpression();
+					String expressionVarExpr = casted.getLeft().use();
+					return expressionVarExpr.equals(control.getLabel().getText());
+				});
+
+				if (possibleValue.equals("Undefined")) continue;
+
+				RelationalOperation<Object> expr = new RelationalOperation<>(new Expression<Object>() {
+					@Override
+					public String use() {
+						return control.getLabel().getText();
+					}
+
+					@Override
+					public Expression<Object> substitute(String name, Object value) {
+						throw new UnsupportedOperationException();
+					}
+				},
+					RelationalOperator.EQ, new Expression<Object>() {
+					@Override
+					public String use() {
+						return possibleValue;
+					}
+
+					@Override
+					public Expression<Object> substitute(String name, Object value) {
+						throw new UnsupportedOperationException();
+					}
+				});
+
+				Constraint constraint = new Constraint("validityCheck",
+					String.format("%s = %s", control.getLabel().getText(), possibleValue), expr);
+				extendedConstraints.add(constraint);
+
+				try {
+					control.setValueValidity(possibleValue, checker.isConsistent(extendedConstraints, (Collection<? extends Element>) model));
+				} catch (DiagnosisException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
+		}
+	}
+
 	private void displayDecisionVariables() {
 
 		Panel dvPanel = new Panel();
 
-    ScrollPane scrollPane = new ScrollPane();
+		ScrollPane scrollPane = new ScrollPane();
 
 		GroupLayout dvlayout = new GroupLayout(dvPanel);
 		dvlayout.setAutoCreateGaps(true);
@@ -196,9 +256,9 @@ public class VariableDialog {
 			for (InfoGUI infoGUI : infos) {
 				DecisionVariableGUI dvGui1 = new DecisionVariableGUI(infoGUI);
 				groupForElementsInLine.addGroup((dvlayout.createSequentialGroup().addComponent(dvGui1.getLabel())
-						.addComponent(dvGui1.getComponent())));
+					.addComponent(dvGui1.getComponent())));
 				groupForElementsInColumns.addGroup((dvlayout.createParallelGroup(Alignment.CENTER)
-						.addComponent(dvGui1.getLabel()).addComponent(dvGui1.getComponent())));
+					.addComponent(dvGui1.getLabel()).addComponent(dvGui1.getComponent())));
 				mapWithControls.add(dvGui1);
 			}
 
@@ -212,7 +272,7 @@ public class VariableDialog {
 		Collections.sort(mapWithControls);
 
 		Dimension scrollPaneDimension = new Dimension(dvPanel.getPreferredSize().width + 30,
-				dvPanel.getPreferredSize().height + 35);
+			dvPanel.getPreferredSize().height + 35);
 
 		scrollPane.setPreferredSize(new Dimension(250, 700));
 
@@ -232,14 +292,15 @@ public class VariableDialog {
 
 			List<DecisionVariableGUI> controls = getVariableControls(dv.getName());
 
-			String values = getControlsValues(controls);
+			if (controls != null) {
+				String values = getControlsValues(controls);
 
-			List<Constraint> constraints = dv.createConstraint(values);
+				List<Constraint> constraints = dv.createConstraint(values);
 
-			if (constraints != null) {
-				userConstraints.addAll(constraints);
+				if (constraints != null) {
+					userConstraints.addAll(constraints);
+				}
 			}
-
 		}
 
 		return userConstraints;
@@ -287,34 +348,34 @@ public class VariableDialog {
 			userConstraints = getAllValuesFromTheInterface();
 			String selectedAlgorithm = algorithmType.getSelectedItem();
 			HSDAG hsdag;
-      TextComponentLogger logger = new TextComponentLogger(textLog, userConstraints);
+			TextComponentLogger logger = new TextComponentLogger(textLog, userConstraints);
 			logger.displayStartMessage(mznFile);
 			switch (selectedAlgorithm) {
-			case SCD_HSDAG:
-				hsdag = new ConflictDetectionHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+				case SCD_HSDAG:
+					hsdag = new ConflictDetectionHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
 						ConflictDetectionAlgorithm.SimpleConflictDetection);
-				hsdag.diagnose();
-				break;
-			case QUICKXPLAIN_HSDAG:
-				hsdag = new ConflictDetectionHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+					hsdag.diagnose();
+					break;
+				case QUICKXPLAIN_HSDAG:
+					hsdag = new ConflictDetectionHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
 						ConflictDetectionAlgorithm.QuickXPlain);
-				hsdag.diagnose();
-				break;
-			case FAST_DIAG_ALL:
-				hsdag = new DiagnosisHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+					hsdag.diagnose();
+					break;
+				case FAST_DIAG_ALL:
+					hsdag = new DiagnosisHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
 						ConflictDetectionAlgorithm.FastDiagAll);
-				hsdag.diagnose();
-				break;
-			case FAST_DIAG:
-				hsdag = new DiagnosisHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
+					hsdag.diagnose();
+					break;
+				case FAST_DIAG:
+					hsdag = new DiagnosisHSDAG(mznFile.getAbsolutePath(), userConstraints, logger,
 						ConflictDetectionAlgorithm.FastDiag);
-				hsdag.diagnose();
+					hsdag.diagnose();
 			}
 
 		} catch (Exception ex) {
 
 			JOptionPane.showMessageDialog(controlPanel, String.format("An error occured! %s", ex.getMessage()), "Error",
-					JOptionPane.ERROR_MESSAGE);
+				ERROR_MESSAGE);
 
 			ex.printStackTrace();
 		}
